@@ -1,0 +1,1540 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.api.event_dispatcher API documentation</title>
+<meta name="description" content="Core interface for components that dispatch events to the library." />
+<meta property="og:title" content="hikari.api.event_dispatcher module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.api.event_dispatcher">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.api -- Interfaces for components that make up Hikari applications …" href="index.html"
+class='dotted'>api</a></li>
+<li class="breadcrumb-item active"><a href="#">event_dispatcher</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Core interface for components that dispatch events to the library.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="#hikari.api.event_dispatcher.EventDispatcher"
+class='sidebar-nav-pill'>EventDispatcher</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="dispatch -- Dispatch an event …" href="#hikari.api.event_dispatcher.EventDispatcher.dispatch"
+class='sidebar-nav-pill'>dispatch</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="get_listeners -- Get the listeners for a given event type, if there are any …" href="#hikari.api.event_dispatcher.EventDispatcher.get_listeners"
+class='sidebar-nav-pill'>get_listeners</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="listen -- Generate a decorator to subscribe a callback to an event type …" href="#hikari.api.event_dispatcher.EventDispatcher.listen"
+class='sidebar-nav-pill'>listen</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="subscribe -- Subscribe a given callback to a given event type …" href="#hikari.api.event_dispatcher.EventDispatcher.subscribe"
+class='sidebar-nav-pill'>subscribe</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="unsubscribe -- Unsubscribe a given callback from a given event type, if present …" href="#hikari.api.event_dispatcher.EventDispatcher.unsubscribe"
+class='sidebar-nav-pill'>unsubscribe</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="wait_for -- Wait for a given event to occur once, then return the event …" href="#hikari.api.event_dispatcher.EventDispatcher.wait_for"
+class='sidebar-nav-pill'>wait_for</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L0-L315" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Core interface for components that dispatch events to the library.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;EventDispatcher&#34;,
+]
+
+import abc
+import asyncio
+import typing
+
+if typing.TYPE_CHECKING:
+    from hikari.events import base_events
+
+    EventT_co = typing.TypeVar(&#34;EventT_co&#34;, bound=base_events.Event, covariant=True)
+    EventT_inv = typing.TypeVar(&#34;EventT_inv&#34;, bound=base_events.Event)
+    PredicateT = typing.Callable[[EventT_co], typing.Union[bool, typing.Coroutine[typing.Any, typing.Any, bool]]]
+    AsyncCallbackT = typing.Callable[[EventT_inv], typing.Coroutine[typing.Any, typing.Any, None]]
+
+
+class EventDispatcher(abc.ABC):
+    &#34;&#34;&#34;Base interface for event dispatcher implementations.
+
+    This is a consumer of a `hikari.events.base.Event` object, and is
+    expected to invoke one or more corresponding event listeners where
+    appropriate.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @abc.abstractmethod
+    def dispatch(self, event: EventT_inv) -&gt; asyncio.Future[typing.Any]:
+        &#34;&#34;&#34;Dispatch an event.
+
+        Parameters
+        ----------
+        event : hikari.events.base.Event
+            The event to dispatch.
+
+        Example
+        -------
+        We can dispatch custom events by first defining a class that
+        derives from `hikari.events.base.Event`.
+
+        ```py
+        import attr
+
+        from hikari.traits import RESTAware
+        from hikari.events.base_events import Event
+        from hikari.models.users import User
+        from hikari.utilities.snowflake import Snowflake
+
+        @attr.s()
+        class EveryoneMentionedEvent(Event):
+            app: RESTAware = attr.ib()
+
+            author: User = attr.ib()
+            &#39;&#39;&#39;The user who mentioned everyone.&#39;&#39;&#39;
+
+            content: str = attr.ib()
+            &#39;&#39;&#39;The message that was sent.&#39;&#39;&#39;
+
+            message_id: Snowflake = attr.ib()
+            &#39;&#39;&#39;The message ID.&#39;&#39;&#39;
+
+            channel_id: Snowflake = attr.ib()
+            &#39;&#39;&#39;The channel ID.&#39;&#39;&#39;
+        ```
+
+        We can then dispatch our event as we see fit.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        @bot.listen(MessageCreateEvent)
+        async def on_message(event):
+            if &#34;@everyone&#34; in event.content or &#34;@here&#34; in event.content:
+                event = EveryoneMentionedEvent(
+                    author=event.author,
+                    content=event.content,
+                    message_id=event.id,
+                    channel_id=event.channel_id,
+                )
+
+                bot.dispatch(event)
+        ```
+
+        This event can be listened to elsewhere by subscribing to it with
+        `IEventDispatcherBase.subscribe`.
+
+        ```py
+        @bot.listen(EveryoneMentionedEvent)
+        async def on_everyone_mentioned(event):
+            print(event.user, &#34;just pinged everyone in&#34;, event.channel_id)
+        ```
+
+        Returns
+        -------
+        asyncio.Future[typing.Any]
+            A future that can be optionally awaited. If awaited, the future
+            will complete once all corresponding event listeners have been
+            invoked. If not awaited, this will schedule the dispatch of the
+            events in the background for later.
+
+        See Also
+        --------
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    # Yes, this is not generic. The reason for this is MyPy complains about
+    # using ABCs that are not concrete in generic types passed to functions.
+    # For the sake of UX, I will check this at runtime instead and let the
+    # user use a static type checker.
+    @abc.abstractmethod
+    def subscribe(
+        self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]
+    ) -&gt; AsyncCallbackT[typing.Any]:
+        &#34;&#34;&#34;Subscribe a given callback to a given event type.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to listen for. This will also listen for any
+            subclasses of the given type.
+            `T` must be a subclass of `hikari.events.base.Event`.
+        callback
+            Must be a coroutine function to invoke. This should
+            consume an instance of the given event, or an instance of a valid
+            subclass if one exists. Any result is discarded.
+
+        Example
+        -------
+        The following demonstrates subscribing a callback to message creation
+        events.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        async def on_message(event):
+            ...
+
+        bot.subscribe(MessageCreateEvent, on_message)
+        ```
+
+        Returns
+        -------
+        typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]
+            The event callback that was passed in.
+
+        See Also
+        --------
+        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    # Yes, this is not generic. The reason for this is MyPy complains about
+    # using ABCs that are not concrete in generic types passed to functions.
+    # For the sake of UX, I will check this at runtime instead and let the
+    # user use a static type checker.
+    @abc.abstractmethod
+    def unsubscribe(self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]) -&gt; None:
+        &#34;&#34;&#34;Unsubscribe a given callback from a given event type, if present.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to unsubscribe from. This must be the same exact
+            type as was originally subscribed with to be removed correctly.
+            `T` must derive from `hikari.events.base.Event`.
+        callback
+            The callback to unsubscribe.
+
+        Example
+        -------
+        The following demonstrates unsubscribing a callback from a message
+        creation event.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        async def on_message(event):
+            ...
+
+        bot.unsubscribe(MessageCreateEvent, on_message)
+        ```
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def get_listeners(
+        self, event_type: typing.Type[EventT_co], *, polymorphic: bool = True,
+    ) -&gt; typing.Collection[AsyncCallbackT[EventT_co]]:
+        &#34;&#34;&#34;Get the listeners for a given event type, if there are any.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to look for.
+            `T` must be a subclass of `hikari.events.base.Event`.
+        polymorphic : builtins.bool
+            If `builtins.True`, this will return `builtins.True` if a subclass
+            of the given event type has a listener registered. If
+            `builtins.False`, then only listeners for this class specifically
+            are returned. The default is `builtins.True`.
+
+        Returns
+        -------
+        typing.Collection[typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]]
+            A copy of the collection of listeners for the event. Will return
+            an empty collection if nothing is registered.
+
+            `T` must be a subclass of `hikari.events.base.Event`.
+
+        See Also
+        --------
+        Has listener: `hikari.api.event_dispatcher.IEventDispatcherBase.has_listener`
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def listen(
+        self, event_type: typing.Optional[typing.Type[EventT_co]] = None,
+    ) -&gt; typing.Callable[[AsyncCallbackT[EventT_co]], AsyncCallbackT[EventT_co]]:
+        &#34;&#34;&#34;Generate a decorator to subscribe a callback to an event type.
+
+        This is a second-order decorator.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T] or builtins.None
+            The event type to subscribe to. The implementation may allow this
+            to be undefined. If this is the case, the event type will be inferred
+            instead from the type hints on the function signature.
+
+            `T` must be a subclass of `hikari.events.base.Event`.
+
+        Returns
+        -------
+        typing.Callable[[T], T]
+            A decorator for a coroutine function that passes it to
+            `IEventDispatcherBase.subscribe` before returning the function
+            reference.
+
+        See Also
+        --------
+        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Unsubscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def wait_for(
+        self,
+        event_type: typing.Type[EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        predicate: typing.Optional[PredicateT[EventT_co]] = None,
+    ) -&gt; EventT_co:
+        &#34;&#34;&#34;Wait for a given event to occur once, then return the event.
+
+        Parameters
+        ----------
+        event_type : typing.Type[hikari.events.base.Event]
+            The event type to listen for. This will listen for subclasses of
+            this type additionally.
+        predicate
+            A function or coroutine taking the event as the single parameter.
+            This should return `builtins.True` if the event is one you want to
+            return, or `builtins.False` if the event should not be returned.
+            If left as `None` (the default), then the first matching event type
+            that the bot receives (or any subtype) will be the one returned.
+        timeout : builtins.float or builtins.int or builtins.None
+            The amount of time to wait before raising an `asyncio.TimeoutError`
+            and giving up instead. This is measured in seconds. If
+            `builtins.None`, then no timeout will be waited for (no timeout can
+            result in &#34;leaking&#34; of coroutines that never complete if called in
+            an uncontrolled way, so is not recommended).
+
+        Returns
+        -------
+        hikari.events.base.Event
+            The event that was provided.
+
+        Raises
+        ------
+        asyncio.TimeoutError
+            If the timeout is not `builtins.None` and is reached before an
+            event is received that the predicate returns `builtins.True` for.
+
+        See Also
+        --------
+        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+        &#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EventDispatcher: ...</code></pre>
+<p>Base interface for event dispatcher implementations.</p>
+<p>This is a consumer of a <code><a href='../events/index.html'>hikari.events.base.Event</a></code> object, and is
+expected to invoke one or more corresponding event listeners where
+appropriate.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L42-L316" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EventDispatcher(abc.ABC):
+    &#34;&#34;&#34;Base interface for event dispatcher implementations.
+
+    This is a consumer of a `hikari.events.base.Event` object, and is
+    expected to invoke one or more corresponding event listeners where
+    appropriate.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @abc.abstractmethod
+    def dispatch(self, event: EventT_inv) -&gt; asyncio.Future[typing.Any]:
+        &#34;&#34;&#34;Dispatch an event.
+
+        Parameters
+        ----------
+        event : hikari.events.base.Event
+            The event to dispatch.
+
+        Example
+        -------
+        We can dispatch custom events by first defining a class that
+        derives from `hikari.events.base.Event`.
+
+        ```py
+        import attr
+
+        from hikari.traits import RESTAware
+        from hikari.events.base_events import Event
+        from hikari.models.users import User
+        from hikari.utilities.snowflake import Snowflake
+
+        @attr.s()
+        class EveryoneMentionedEvent(Event):
+            app: RESTAware = attr.ib()
+
+            author: User = attr.ib()
+            &#39;&#39;&#39;The user who mentioned everyone.&#39;&#39;&#39;
+
+            content: str = attr.ib()
+            &#39;&#39;&#39;The message that was sent.&#39;&#39;&#39;
+
+            message_id: Snowflake = attr.ib()
+            &#39;&#39;&#39;The message ID.&#39;&#39;&#39;
+
+            channel_id: Snowflake = attr.ib()
+            &#39;&#39;&#39;The channel ID.&#39;&#39;&#39;
+        ```
+
+        We can then dispatch our event as we see fit.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        @bot.listen(MessageCreateEvent)
+        async def on_message(event):
+            if &#34;@everyone&#34; in event.content or &#34;@here&#34; in event.content:
+                event = EveryoneMentionedEvent(
+                    author=event.author,
+                    content=event.content,
+                    message_id=event.id,
+                    channel_id=event.channel_id,
+                )
+
+                bot.dispatch(event)
+        ```
+
+        This event can be listened to elsewhere by subscribing to it with
+        `IEventDispatcherBase.subscribe`.
+
+        ```py
+        @bot.listen(EveryoneMentionedEvent)
+        async def on_everyone_mentioned(event):
+            print(event.user, &#34;just pinged everyone in&#34;, event.channel_id)
+        ```
+
+        Returns
+        -------
+        asyncio.Future[typing.Any]
+            A future that can be optionally awaited. If awaited, the future
+            will complete once all corresponding event listeners have been
+            invoked. If not awaited, this will schedule the dispatch of the
+            events in the background for later.
+
+        See Also
+        --------
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    # Yes, this is not generic. The reason for this is MyPy complains about
+    # using ABCs that are not concrete in generic types passed to functions.
+    # For the sake of UX, I will check this at runtime instead and let the
+    # user use a static type checker.
+    @abc.abstractmethod
+    def subscribe(
+        self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]
+    ) -&gt; AsyncCallbackT[typing.Any]:
+        &#34;&#34;&#34;Subscribe a given callback to a given event type.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to listen for. This will also listen for any
+            subclasses of the given type.
+            `T` must be a subclass of `hikari.events.base.Event`.
+        callback
+            Must be a coroutine function to invoke. This should
+            consume an instance of the given event, or an instance of a valid
+            subclass if one exists. Any result is discarded.
+
+        Example
+        -------
+        The following demonstrates subscribing a callback to message creation
+        events.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        async def on_message(event):
+            ...
+
+        bot.subscribe(MessageCreateEvent, on_message)
+        ```
+
+        Returns
+        -------
+        typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]
+            The event callback that was passed in.
+
+        See Also
+        --------
+        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    # Yes, this is not generic. The reason for this is MyPy complains about
+    # using ABCs that are not concrete in generic types passed to functions.
+    # For the sake of UX, I will check this at runtime instead and let the
+    # user use a static type checker.
+    @abc.abstractmethod
+    def unsubscribe(self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]) -&gt; None:
+        &#34;&#34;&#34;Unsubscribe a given callback from a given event type, if present.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to unsubscribe from. This must be the same exact
+            type as was originally subscribed with to be removed correctly.
+            `T` must derive from `hikari.events.base.Event`.
+        callback
+            The callback to unsubscribe.
+
+        Example
+        -------
+        The following demonstrates unsubscribing a callback from a message
+        creation event.
+
+        ```py
+        from hikari.events.messages import MessageCreateEvent
+
+        async def on_message(event):
+            ...
+
+        bot.unsubscribe(MessageCreateEvent, on_message)
+        ```
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def get_listeners(
+        self, event_type: typing.Type[EventT_co], *, polymorphic: bool = True,
+    ) -&gt; typing.Collection[AsyncCallbackT[EventT_co]]:
+        &#34;&#34;&#34;Get the listeners for a given event type, if there are any.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T]
+            The event type to look for.
+            `T` must be a subclass of `hikari.events.base.Event`.
+        polymorphic : builtins.bool
+            If `builtins.True`, this will return `builtins.True` if a subclass
+            of the given event type has a listener registered. If
+            `builtins.False`, then only listeners for this class specifically
+            are returned. The default is `builtins.True`.
+
+        Returns
+        -------
+        typing.Collection[typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]]
+            A copy of the collection of listeners for the event. Will return
+            an empty collection if nothing is registered.
+
+            `T` must be a subclass of `hikari.events.base.Event`.
+
+        See Also
+        --------
+        Has listener: `hikari.api.event_dispatcher.IEventDispatcherBase.has_listener`
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def listen(
+        self, event_type: typing.Optional[typing.Type[EventT_co]] = None,
+    ) -&gt; typing.Callable[[AsyncCallbackT[EventT_co]], AsyncCallbackT[EventT_co]]:
+        &#34;&#34;&#34;Generate a decorator to subscribe a callback to an event type.
+
+        This is a second-order decorator.
+
+        Parameters
+        ----------
+        event_type : typing.Type[T] or builtins.None
+            The event type to subscribe to. The implementation may allow this
+            to be undefined. If this is the case, the event type will be inferred
+            instead from the type hints on the function signature.
+
+            `T` must be a subclass of `hikari.events.base.Event`.
+
+        Returns
+        -------
+        typing.Callable[[T], T]
+            A decorator for a coroutine function that passes it to
+            `IEventDispatcherBase.subscribe` before returning the function
+            reference.
+
+        See Also
+        --------
+        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Unsubscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe`
+        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def wait_for(
+        self,
+        event_type: typing.Type[EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        predicate: typing.Optional[PredicateT[EventT_co]] = None,
+    ) -&gt; EventT_co:
+        &#34;&#34;&#34;Wait for a given event to occur once, then return the event.
+
+        Parameters
+        ----------
+        event_type : typing.Type[hikari.events.base.Event]
+            The event type to listen for. This will listen for subclasses of
+            this type additionally.
+        predicate
+            A function or coroutine taking the event as the single parameter.
+            This should return `builtins.True` if the event is one you want to
+            return, or `builtins.False` if the event should not be returned.
+            If left as `None` (the default), then the first matching event type
+            that the bot receives (or any subtype) will be the one returned.
+        timeout : builtins.float or builtins.int or builtins.None
+            The amount of time to wait before raising an `asyncio.TimeoutError`
+            and giving up instead. This is measured in seconds. If
+            `builtins.None`, then no timeout will be waited for (no timeout can
+            result in &#34;leaking&#34; of coroutines that never complete if called in
+            an uncontrolled way, so is not recommended).
+
+        Returns
+        -------
+        hikari.events.base.Event
+            The event that was provided.
+
+        Raises
+        ------
+        asyncio.TimeoutError
+            If the timeout is not `builtins.None` and is reached before an
+            event is received that the predicate returns `builtins.True` for.
+
+        See Also
+        --------
+        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+        &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="../impl/bot.html#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><p>Implementation of an auto-sharded single-instance bot application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventManagerBase -- Provides functionality to consume and dispatch events …" href="../impl/event_manager_base.html#hikari.impl.event_manager_base.EventManagerBase"
+class='dotted'>EventManagerBase</a></dt>
+<dd class="nested"><p>Provides functionality to consume and dispatch events …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.dispatch" class="hljs python"><abbr title='A standard Python function.'>def</abbr> dispatch(
+    event: EventT_inv,
+) -> <a href='https://docs.python.org/3/library/asyncio-future.html#asyncio.Future'>Future</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]: ...</code></pre>
+</dt>
+<dd>
+<p>Dispatch an event.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event</code></strong> :&ensp;<code><a href='../events/index.html'>hikari.events.base.Event</a></code></dt>
+<dd>The event to dispatch.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>We can dispatch custom events by first defining a class that
+derives from <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+<pre><code class="py">import attr
+
+from hikari.traits import RESTAware
+from hikari.events.base_events import Event
+from hikari.models.users import User
+from hikari.utilities.snowflake import Snowflake
+
+@attr.s()
+class EveryoneMentionedEvent(Event):
+    app: RESTAware = attr.ib()
+
+    author: User = attr.ib()
+    '''The user who mentioned everyone.'''
+
+    content: str = attr.ib()
+    '''The message that was sent.'''
+
+    message_id: Snowflake = attr.ib()
+    '''The message ID.'''
+
+    channel_id: Snowflake = attr.ib()
+    '''The channel ID.'''
+</code></pre>
+<p>We can then dispatch our event as we see fit.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+@bot.listen(MessageCreateEvent)
+async def on_message(event):
+    if &quot;@everyone&quot; in event.content or &quot;@here&quot; in event.content:
+        event = EveryoneMentionedEvent(
+            author=event.author,
+            content=event.content,
+            message_id=event.id,
+            channel_id=event.channel_id,
+        )
+
+        bot.dispatch(event)
+</code></pre>
+<p>This event can be listened to elsewhere by subscribing to it with
+<code>IEventDispatcherBase.subscribe</code>.</p>
+<pre><code class="py">@bot.listen(EveryoneMentionedEvent)
+async def on_everyone_mentioned(event):
+    print(event.user, &quot;just pinged everyone in&quot;, event.channel_id)
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/asyncio-future.html#asyncio.Future'>Future</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]</code></dt>
+<dd>A future that can be optionally awaited. If awaited, the future
+will complete once all corresponding event listeners have been
+invoked. If not awaited, this will schedule the dispatch of the
+events in the background for later.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L52-L130" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def dispatch(self, event: EventT_inv) -&gt; asyncio.Future[typing.Any]:
+    &#34;&#34;&#34;Dispatch an event.
+
+    Parameters
+    ----------
+    event : hikari.events.base.Event
+        The event to dispatch.
+
+    Example
+    -------
+    We can dispatch custom events by first defining a class that
+    derives from `hikari.events.base.Event`.
+
+    ```py
+    import attr
+
+    from hikari.traits import RESTAware
+    from hikari.events.base_events import Event
+    from hikari.models.users import User
+    from hikari.utilities.snowflake import Snowflake
+
+    @attr.s()
+    class EveryoneMentionedEvent(Event):
+        app: RESTAware = attr.ib()
+
+        author: User = attr.ib()
+        &#39;&#39;&#39;The user who mentioned everyone.&#39;&#39;&#39;
+
+        content: str = attr.ib()
+        &#39;&#39;&#39;The message that was sent.&#39;&#39;&#39;
+
+        message_id: Snowflake = attr.ib()
+        &#39;&#39;&#39;The message ID.&#39;&#39;&#39;
+
+        channel_id: Snowflake = attr.ib()
+        &#39;&#39;&#39;The channel ID.&#39;&#39;&#39;
+    ```
+
+    We can then dispatch our event as we see fit.
+
+    ```py
+    from hikari.events.messages import MessageCreateEvent
+
+    @bot.listen(MessageCreateEvent)
+    async def on_message(event):
+        if &#34;@everyone&#34; in event.content or &#34;@here&#34; in event.content:
+            event = EveryoneMentionedEvent(
+                author=event.author,
+                content=event.content,
+                message_id=event.id,
+                channel_id=event.channel_id,
+            )
+
+            bot.dispatch(event)
+    ```
+
+    This event can be listened to elsewhere by subscribing to it with
+    `IEventDispatcherBase.subscribe`.
+
+    ```py
+    @bot.listen(EveryoneMentionedEvent)
+    async def on_everyone_mentioned(event):
+        print(event.user, &#34;just pinged everyone in&#34;, event.channel_id)
+    ```
+
+    Returns
+    -------
+    asyncio.Future[typing.Any]
+        A future that can be optionally awaited. If awaited, the future
+        will complete once all corresponding event listeners have been
+        invoked. If not awaited, this will schedule the dispatch of the
+        events in the background for later.
+
+    See Also
+    --------
+    Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+    Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.get_listeners" class="hljs python"><abbr title='A standard Python function.'>def</abbr> get_listeners(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[EventT_co],
+    *,
+    polymorphic: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = True,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[AsyncCallbackT[EventT_co]]: ...</code></pre>
+</dt>
+<dd>
+<p>Get the listeners for a given event type, if there are any.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to look for.
+<code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>polymorphic</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, this will return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if a subclass
+of the given event type has a listener registered. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then only listeners for this class specifically
+are returned. The default is <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Collection[typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]]</code></dt>
+<dd>
+<p>A copy of the collection of listeners for the event. Will return
+an empty collection if nothing is registered.</p>
+<p><code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<p><code>Has listener: </code>hikari.api.event_dispatcher.IEventDispatcherBase.has_listener``</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L210-L238" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def get_listeners(
+    self, event_type: typing.Type[EventT_co], *, polymorphic: bool = True,
+) -&gt; typing.Collection[AsyncCallbackT[EventT_co]]:
+    &#34;&#34;&#34;Get the listeners for a given event type, if there are any.
+
+    Parameters
+    ----------
+    event_type : typing.Type[T]
+        The event type to look for.
+        `T` must be a subclass of `hikari.events.base.Event`.
+    polymorphic : builtins.bool
+        If `builtins.True`, this will return `builtins.True` if a subclass
+        of the given event type has a listener registered. If
+        `builtins.False`, then only listeners for this class specifically
+        are returned. The default is `builtins.True`.
+
+    Returns
+    -------
+    typing.Collection[typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]]
+        A copy of the collection of listeners for the event. Will return
+        an empty collection if nothing is registered.
+
+        `T` must be a subclass of `hikari.events.base.Event`.
+
+    See Also
+    --------
+    Has listener: `hikari.api.event_dispatcher.IEventDispatcherBase.has_listener`
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.listen" class="hljs python"><abbr title='A standard Python function.'>def</abbr> listen(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[EventT_co]] = None,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Callable'>Callable</a>[[AsyncCallbackT[EventT_co]], AsyncCallbackT[EventT_co]]: ...</code></pre>
+</dt>
+<dd>
+<p>Generate a decorator to subscribe a callback to an event type.</p>
+<p>This is a second-order decorator.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The event type to subscribe to. The implementation may allow this
+to be undefined. If this is the case, the event type will be inferred
+instead from the type hints on the function signature.</p>
+<p><code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Callable'>Callable</a>[[T], T]</code></dt>
+<dd>A decorator for a coroutine function that passes it to
+<code>IEventDispatcherBase.subscribe</code> before returning the function
+reference.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Dispatch</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.dispatch</a></code></dd>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code></dd>
+<dt><code>Unsubscribe</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L240-L270" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def listen(
+    self, event_type: typing.Optional[typing.Type[EventT_co]] = None,
+) -&gt; typing.Callable[[AsyncCallbackT[EventT_co]], AsyncCallbackT[EventT_co]]:
+    &#34;&#34;&#34;Generate a decorator to subscribe a callback to an event type.
+
+    This is a second-order decorator.
+
+    Parameters
+    ----------
+    event_type : typing.Type[T] or builtins.None
+        The event type to subscribe to. The implementation may allow this
+        to be undefined. If this is the case, the event type will be inferred
+        instead from the type hints on the function signature.
+
+        `T` must be a subclass of `hikari.events.base.Event`.
+
+    Returns
+    -------
+    typing.Callable[[T], T]
+        A decorator for a coroutine function that passes it to
+        `IEventDispatcherBase.subscribe` before returning the function
+        reference.
+
+    See Also
+    --------
+    Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+    Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+    Unsubscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe`
+    Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.subscribe" class="hljs python"><abbr title='A standard Python function.'>def</abbr> subscribe(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+    callback: AsyncCallbackT[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+) -> AsyncCallbackT[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]: ...</code></pre>
+</dt>
+<dd>
+<p>Subscribe a given callback to a given event type.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to listen for. This will also listen for any
+subclasses of the given type.
+<code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>callback</code></strong></dt>
+<dd>Must be a coroutine function to invoke. This should
+consume an instance of the given event, or an instance of a valid
+subclass if one exists. Any result is discarded.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>The following demonstrates subscribing a callback to message creation
+events.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+async def on_message(event):
+    ...
+
+bot.subscribe(MessageCreateEvent, on_message)
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]</code></dt>
+<dd>The event callback that was passed in.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Listen</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.listen</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L136-L176" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def subscribe(
+    self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]
+) -&gt; AsyncCallbackT[typing.Any]:
+    &#34;&#34;&#34;Subscribe a given callback to a given event type.
+
+    Parameters
+    ----------
+    event_type : typing.Type[T]
+        The event type to listen for. This will also listen for any
+        subclasses of the given type.
+        `T` must be a subclass of `hikari.events.base.Event`.
+    callback
+        Must be a coroutine function to invoke. This should
+        consume an instance of the given event, or an instance of a valid
+        subclass if one exists. Any result is discarded.
+
+    Example
+    -------
+    The following demonstrates subscribing a callback to message creation
+    events.
+
+    ```py
+    from hikari.events.messages import MessageCreateEvent
+
+    async def on_message(event):
+        ...
+
+    bot.subscribe(MessageCreateEvent, on_message)
+    ```
+
+    Returns
+    -------
+    typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]
+        The event callback that was passed in.
+
+    See Also
+    --------
+    Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+    Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.unsubscribe" class="hljs python"><abbr title='A standard Python function.'>def</abbr> unsubscribe(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+    callback: AsyncCallbackT[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+) -> <a href='https://docs.python.org/3/library/constants.html#None'>None</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Unsubscribe a given callback from a given event type, if present.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to unsubscribe from. This must be the same exact
+type as was originally subscribed with to be removed correctly.
+<code>T</code> must derive from <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>callback</code></strong></dt>
+<dd>The callback to unsubscribe.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>The following demonstrates unsubscribing a callback from a message
+creation event.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+async def on_message(event):
+    ...
+
+bot.unsubscribe(MessageCreateEvent, on_message)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L182-L208" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def unsubscribe(self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]) -&gt; None:
+    &#34;&#34;&#34;Unsubscribe a given callback from a given event type, if present.
+
+    Parameters
+    ----------
+    event_type : typing.Type[T]
+        The event type to unsubscribe from. This must be the same exact
+        type as was originally subscribed with to be removed correctly.
+        `T` must derive from `hikari.events.base.Event`.
+    callback
+        The callback to unsubscribe.
+
+    Example
+    -------
+    The following demonstrates unsubscribing a callback from a message
+    creation event.
+
+    ```py
+    from hikari.events.messages import MessageCreateEvent
+
+    async def on_message(event):
+        ...
+
+    bot.unsubscribe(MessageCreateEvent, on_message)
+    ```
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.event_dispatcher.EventDispatcher.wait_for" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> wait_for(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[EventT_co],
+    /,
+    timeout: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/constants.html#None'>None</a>],
+    predicate: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[PredicateT[EventT_co]] = None,
+) -> EventT_co: ...</code></pre>
+</dt>
+<dd>
+<p>Wait for a given event to occur once, then return the event.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[<a href='../events/index.html'>hikari.events.base.Event</a>]</code></dt>
+<dd>The event type to listen for. This will listen for subclasses of
+this type additionally.</dd>
+<dt><strong><code>predicate</code></strong></dt>
+<dd>A function or coroutine taking the event as the single parameter.
+This should return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if the event is one you want to
+return, or <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> if the event should not be returned.
+If left as <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> (the default), then the first matching event type
+that the bot receives (or any subtype) will be the one returned.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code> or <code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The amount of time to wait before raising an <code><a href='https://docs.python.org/3/library/asyncio-exceptions.html#asyncio.TimeoutError'>TimeoutError</a></code>
+and giving up instead. This is measured in seconds. If
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then no timeout will be waited for (no timeout can
+result in "leaking" of coroutines that never complete if called in
+an uncontrolled way, so is not recommended).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/index.html'>hikari.events.base.Event</a></code></dt>
+<dd>The event that was provided.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/asyncio-exceptions.html#asyncio.TimeoutError'>TimeoutError</a></code></dt>
+<dd>If the timeout is not <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> and is reached before an
+event is received that the predicate returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> for.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Listen</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.listen</a></code></dd>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code></dd>
+<dt><code>Dispatch</code></dt>
+<dd><code><a href='#hikari.api.event_dispatcher'>hikari.api.event_dispatcher.IEventDispatcherBase.dispatch</a></code></dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/event_dispatcher.py#L272-L316" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def wait_for(
+    self,
+    event_type: typing.Type[EventT_co],
+    /,
+    timeout: typing.Union[float, int, None],
+    predicate: typing.Optional[PredicateT[EventT_co]] = None,
+) -&gt; EventT_co:
+    &#34;&#34;&#34;Wait for a given event to occur once, then return the event.
+
+    Parameters
+    ----------
+    event_type : typing.Type[hikari.events.base.Event]
+        The event type to listen for. This will listen for subclasses of
+        this type additionally.
+    predicate
+        A function or coroutine taking the event as the single parameter.
+        This should return `builtins.True` if the event is one you want to
+        return, or `builtins.False` if the event should not be returned.
+        If left as `None` (the default), then the first matching event type
+        that the bot receives (or any subtype) will be the one returned.
+    timeout : builtins.float or builtins.int or builtins.None
+        The amount of time to wait before raising an `asyncio.TimeoutError`
+        and giving up instead. This is measured in seconds. If
+        `builtins.None`, then no timeout will be waited for (no timeout can
+        result in &#34;leaking&#34; of coroutines that never complete if called in
+        an uncontrolled way, so is not recommended).
+
+    Returns
+    -------
+    hikari.events.base.Event
+        The event that was provided.
+
+    Raises
+    ------
+    asyncio.TimeoutError
+        If the timeout is not `builtins.None` and is reached before an
+        event is received that the predicate returns `builtins.True` for.
+
+    See Also
+    --------
+    Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
+    Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
+    Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

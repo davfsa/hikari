@@ -1,0 +1,2758 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.events API documentation</title>
+<meta name="description" content="Events that can be fired by Hikari's gateway implementation." />
+<meta property="og:title" content="hikari.events module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.events">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item active"><a href="#">events</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Events that can be fired by Hikari's gateway implementation.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.base_events -- Base types and functions for events in Hikari." href="base_events.html"
+class='sidebar-nav-pill'>base_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.channel_events -- Events that fire when channels are modified …" href="channel_events.html"
+class='sidebar-nav-pill'>channel_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.guild_events -- Events that fire when something occurs within a guild." href="guild_events.html"
+class='sidebar-nav-pill'>guild_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.lifetime_events -- Events that are bound to the lifetime of an application …" href="lifetime_events.html"
+class='sidebar-nav-pill'>lifetime_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.member_events -- Events concerning manipulation of members within guilds." href="member_events.html"
+class='sidebar-nav-pill'>member_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.message_events -- Events that fire if messages are sent/updated/deleted." href="message_events.html"
+class='sidebar-nav-pill'>message_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.reaction_events -- Events that fire if messages are reacted to." href="reaction_events.html"
+class='sidebar-nav-pill'>reaction_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.role_events -- Events pertaining to manipulation of roles within guilds." href="role_events.html"
+class='sidebar-nav-pill'>role_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.shard_events -- Events relating to specific shards connecting and disconnecting." href="shard_events.html"
+class='sidebar-nav-pill'>shard_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.typing_events -- Events fired when users begin typing in channels." href="typing_events.html"
+class='sidebar-nav-pill'>typing_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.user_events -- Events fired when the account user is updated." href="user_events.html"
+class='sidebar-nav-pill'>user_events</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.voice_events -- Events that fire when voice state changes." href="voice_events.html"
+class='sidebar-nav-pill'>voice_events</a></li>
+</ul>
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="guild_events.html#hikari.events.guild_events.BanCreateEvent"
+class='sidebar-nav-pill'>BanCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="guild_events.html#hikari.events.guild_events.BanDeleteEvent"
+class='sidebar-nav-pill'>BanDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="guild_events.html#hikari.events.guild_events.BanEvent"
+class='sidebar-nav-pill'>BanEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelCreateEvent -- Base event for any channel being created …" href="channel_events.html#hikari.events.channel_events.ChannelCreateEvent"
+class='sidebar-nav-pill'>ChannelCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelDeleteEvent -- Base event for any channel being deleted …" href="channel_events.html#hikari.events.channel_events.ChannelDeleteEvent"
+class='sidebar-nav-pill'>ChannelDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelEvent -- Event base for any channel-bound event in guilds or private messages …" href="channel_events.html#hikari.events.channel_events.ChannelEvent"
+class='sidebar-nav-pill'>ChannelEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelUpdateEvent -- Base event for any channel being updated …" href="channel_events.html#hikari.events.channel_events.ChannelUpdateEvent"
+class='sidebar-nav-pill'>ChannelUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="guild_events.html#hikari.events.guild_events.EmojisUpdateEvent"
+class='sidebar-nav-pill'>EmojisUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='sidebar-nav-pill'>Event</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ExceptionEvent -- Event that is raised when another event handler raises an `Exception` …" href="base_events.html#hikari.events.base_events.ExceptionEvent"
+class='sidebar-nav-pill'>ExceptionEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="guild_events.html#hikari.events.guild_events.GuildAvailableEvent"
+class='sidebar-nav-pill'>GuildAvailableEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelCreateEvent -- Event fired when a guild channel is created …" href="channel_events.html#hikari.events.channel_events.GuildChannelCreateEvent"
+class='sidebar-nav-pill'>GuildChannelCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelDeleteEvent -- Event fired when a guild channel is deleted …" href="channel_events.html#hikari.events.channel_events.GuildChannelDeleteEvent"
+class='sidebar-nav-pill'>GuildChannelDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelEvent -- Event base for any channel-bound event in guilds …" href="channel_events.html#hikari.events.channel_events.GuildChannelEvent"
+class='sidebar-nav-pill'>GuildChannelEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelUpdateEvent -- Event fired when a guild channel is edited …" href="channel_events.html#hikari.events.channel_events.GuildChannelUpdateEvent"
+class='sidebar-nav-pill'>GuildChannelUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="guild_events.html#hikari.events.guild_events.GuildLeaveEvent"
+class='sidebar-nav-pill'>GuildLeaveEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageBulkDeleteEvent"
+class='sidebar-nav-pill'>GuildMessageBulkDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageCreateEvent -- Event triggered when a message is sent to a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageCreateEvent"
+class='sidebar-nav-pill'>GuildMessageCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageDeleteEvent -- Event triggered when a message is deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageDeleteEvent"
+class='sidebar-nav-pill'>GuildMessageDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageEvent -- Event base for any message-bound event in guild messages …" href="message_events.html#hikari.events.message_events.GuildMessageEvent"
+class='sidebar-nav-pill'>GuildMessageEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageUpdateEvent -- Event triggered when a message is updated in a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageUpdateEvent"
+class='sidebar-nav-pill'>GuildMessageUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildPinsUpdateEvent -- Event fired when a message is pinned/unpinned in a guild channel …" href="channel_events.html#hikari.events.channel_events.GuildPinsUpdateEvent"
+class='sidebar-nav-pill'>GuildPinsUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionAddEvent"
+class='sidebar-nav-pill'>GuildReactionAddEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteAllEvent -- Event fired when all of a guild message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteAllEvent"
+class='sidebar-nav-pill'>GuildReactionDeleteAllEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a guild message's reactions …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEmojiEvent"
+class='sidebar-nav-pill'>GuildReactionDeleteEmojiEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteEvent -- Event fired when a reaction is removed from a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEvent"
+class='sidebar-nav-pill'>GuildReactionDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionEvent -- Event base for any reaction-bound event in guild messages …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionEvent"
+class='sidebar-nav-pill'>GuildReactionEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.GuildTypingEvent"
+class='sidebar-nav-pill'>GuildTypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="guild_events.html#hikari.events.guild_events.GuildUnavailableEvent"
+class='sidebar-nav-pill'>GuildUnavailableEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="guild_events.html#hikari.events.guild_events.GuildUpdateEvent"
+class='sidebar-nav-pill'>GuildUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="guild_events.html#hikari.events.guild_events.GuildVisibilityEvent"
+class='sidebar-nav-pill'>GuildVisibilityEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="guild_events.html#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='sidebar-nav-pill'>IntegrationsUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteCreateEvent -- Event fired when an invite is created in a channel …" href="channel_events.html#hikari.events.channel_events.InviteCreateEvent"
+class='sidebar-nav-pill'>InviteCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteDeleteEvent -- Event fired when an invite is deleted from a channel …" href="channel_events.html#hikari.events.channel_events.InviteDeleteEvent"
+class='sidebar-nav-pill'>InviteDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="guild_events.html#hikari.events.guild_events.MemberChunkEvent"
+class='sidebar-nav-pill'>MemberChunkEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberCreateEvent -- Event that is fired when a member joins a guild …" href="member_events.html#hikari.events.member_events.MemberCreateEvent"
+class='sidebar-nav-pill'>MemberCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDeleteEvent -- Event fired when a member is kicked from or leaves a guild …" href="member_events.html#hikari.events.member_events.MemberDeleteEvent"
+class='sidebar-nav-pill'>MemberDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberEvent -- Event base for any events that concern guild members …" href="member_events.html#hikari.events.member_events.MemberEvent"
+class='sidebar-nav-pill'>MemberEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberUpdateEvent -- Event that is fired when a member is updated in a guild …" href="member_events.html#hikari.events.member_events.MemberUpdateEvent"
+class='sidebar-nav-pill'>MemberUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a channel …" href="message_events.html#hikari.events.message_events.MessageBulkDeleteEvent"
+class='sidebar-nav-pill'>MessageBulkDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageCreateEvent -- Event base for any message creation event …" href="message_events.html#hikari.events.message_events.MessageCreateEvent"
+class='sidebar-nav-pill'>MessageCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEvent -- Event base for any message delete event …" href="message_events.html#hikari.events.message_events.MessageDeleteEvent"
+class='sidebar-nav-pill'>MessageDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageEvent -- Event base for any event that concerns a single message …" href="message_events.html#hikari.events.message_events.MessageEvent"
+class='sidebar-nav-pill'>MessageEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageUpdateEvent -- Event base for any message update event …" href="message_events.html#hikari.events.message_events.MessageUpdateEvent"
+class='sidebar-nav-pill'>MessageUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagesEvent -- Event base for any message-bound event …" href="message_events.html#hikari.events.message_events.MessagesEvent"
+class='sidebar-nav-pill'>MessagesEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUserUpdateEvent -- Event fired when the account user is updated." href="user_events.html#hikari.events.user_events.OwnUserUpdateEvent"
+class='sidebar-nav-pill'>OwnUserUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PinsUpdateEvent -- Base event fired when a message is pinned/unpinned in a channel." href="channel_events.html#hikari.events.channel_events.PinsUpdateEvent"
+class='sidebar-nav-pill'>PinsUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="guild_events.html#hikari.events.guild_events.PresenceUpdateEvent"
+class='sidebar-nav-pill'>PresenceUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelCreateEvent -- Event fired when a private channel is created …" href="channel_events.html#hikari.events.channel_events.PrivateChannelCreateEvent"
+class='sidebar-nav-pill'>PrivateChannelCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelDeleteEvent -- Event fired when a private channel is deleted …" href="channel_events.html#hikari.events.channel_events.PrivateChannelDeleteEvent"
+class='sidebar-nav-pill'>PrivateChannelDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelEvent -- Event base for any channel-bound event in private messages." href="channel_events.html#hikari.events.channel_events.PrivateChannelEvent"
+class='sidebar-nav-pill'>PrivateChannelEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelUpdateEvent -- Event fired when a private channel is edited …" href="channel_events.html#hikari.events.channel_events.PrivateChannelUpdateEvent"
+class='sidebar-nav-pill'>PrivateChannelUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageCreateEvent -- Event triggered when a message is sent to a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageCreateEvent"
+class='sidebar-nav-pill'>PrivateMessageCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageDeleteEvent -- Event triggered when a message is deleted from a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageDeleteEvent"
+class='sidebar-nav-pill'>PrivateMessageDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageEvent -- Event base for any message-bound event in private messages …" href="message_events.html#hikari.events.message_events.PrivateMessageEvent"
+class='sidebar-nav-pill'>PrivateMessageEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageUpdateEvent -- Event triggered when a message is updated in a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageUpdateEvent"
+class='sidebar-nav-pill'>PrivateMessageUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivatePinsUpdateEvent -- Event fired when a message is pinned/unpinned in a private channel." href="channel_events.html#hikari.events.channel_events.PrivatePinsUpdateEvent"
+class='sidebar-nav-pill'>PrivatePinsUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionAddEvent"
+class='sidebar-nav-pill'>PrivateReactionAddEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteAllEvent -- Event fired when all of a private message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteAllEvent"
+class='sidebar-nav-pill'>PrivateReactionDeleteAllEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a private message's reactions …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEmojiEvent"
+class='sidebar-nav-pill'>PrivateReactionDeleteEmojiEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteEvent -- Event fired when a reaction is removed from a private message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEvent"
+class='sidebar-nav-pill'>PrivateReactionDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionEvent -- Event base for any reaction-bound event in private messages …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionEvent"
+class='sidebar-nav-pill'>PrivateReactionEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.PrivateTypingEvent"
+class='sidebar-nav-pill'>PrivateTypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionAddEvent -- Event base for any reaction that is added to a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionAddEvent"
+class='sidebar-nav-pill'>ReactionAddEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteAllEvent -- Event base fired when all reactions are removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteAllEvent"
+class='sidebar-nav-pill'>ReactionDeleteAllEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteEmojiEvent -- Event base fired when all reactions are removed for one emoji …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEmojiEvent"
+class='sidebar-nav-pill'>ReactionDeleteEmojiEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteEvent -- Event base for any single reaction that is removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEvent"
+class='sidebar-nav-pill'>ReactionDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionEvent -- Event base for any message reaction event …" href="reaction_events.html#hikari.events.reaction_events.ReactionEvent"
+class='sidebar-nav-pill'>ReactionEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleCreateEvent -- Event fired when a role is created …" href="role_events.html#hikari.events.role_events.RoleCreateEvent"
+class='sidebar-nav-pill'>RoleCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleDeleteEvent -- Event fired when a role is deleted …" href="role_events.html#hikari.events.role_events.RoleDeleteEvent"
+class='sidebar-nav-pill'>RoleDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleEvent -- Event base for any event that involves guild roles …" href="role_events.html#hikari.events.role_events.RoleEvent"
+class='sidebar-nav-pill'>RoleEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleUpdateEvent -- Event fired when a role is updated …" href="role_events.html#hikari.events.role_events.RoleUpdateEvent"
+class='sidebar-nav-pill'>RoleUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="shard_events.html#hikari.events.shard_events.ShardConnectedEvent"
+class='sidebar-nav-pill'>ShardConnectedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="shard_events.html#hikari.events.shard_events.ShardDisconnectedEvent"
+class='sidebar-nav-pill'>ShardDisconnectedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='sidebar-nav-pill'>ShardEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="shard_events.html#hikari.events.shard_events.ShardReadyEvent"
+class='sidebar-nav-pill'>ShardReadyEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="shard_events.html#hikari.events.shard_events.ShardResumedEvent"
+class='sidebar-nav-pill'>ShardResumedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="shard_events.html#hikari.events.shard_events.ShardStateEvent"
+class='sidebar-nav-pill'>ShardStateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StartedEvent -- Event that is triggered after the application has started …" href="lifetime_events.html#hikari.events.lifetime_events.StartedEvent"
+class='sidebar-nav-pill'>StartedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StartingEvent -- Event that is triggered before the application connects to discord …" href="lifetime_events.html#hikari.events.lifetime_events.StartingEvent"
+class='sidebar-nav-pill'>StartingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StoppedEvent -- Event that is triggered once the application has disconnected …" href="lifetime_events.html#hikari.events.lifetime_events.StoppedEvent"
+class='sidebar-nav-pill'>StoppedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StoppingEvent -- Event that is triggered as soon as the application is requested to close …" href="lifetime_events.html#hikari.events.lifetime_events.StoppingEvent"
+class='sidebar-nav-pill'>StoppingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="typing_events.html#hikari.events.typing_events.TypingEvent"
+class='sidebar-nav-pill'>TypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceEvent -- Base for any voice-related event." href="voice_events.html#hikari.events.voice_events.VoiceEvent"
+class='sidebar-nav-pill'>VoiceEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceServerUpdateEvent -- Event fired when a voice server is changed …" href="voice_events.html#hikari.events.voice_events.VoiceServerUpdateEvent"
+class='sidebar-nav-pill'>VoiceServerUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceStateUpdateEvent -- Event fired when a user changes their voice state …" href="voice_events.html#hikari.events.voice_events.VoiceStateUpdateEvent"
+class='sidebar-nav-pill'>VoiceStateUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="WebhookUpdateEvent -- Event fired when a webhook is created/updated/deleted in a channel …" href="channel_events.html#hikari.events.channel_events.WebhookUpdateEvent"
+class='sidebar-nav-pill'>WebhookUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/__init__.py#L0-L65" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Events that can be fired by Hikari&#39;s gateway implementation.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+import typing
+
+from hikari.events import channel_events
+from hikari.events import guild_events
+from hikari.events import lifetime_events
+from hikari.events import member_events
+from hikari.events import message_events
+from hikari.events import reaction_events
+from hikari.events import role_events
+from hikari.events import shard_events
+from hikari.events import typing_events
+from hikari.events import user_events
+from hikari.events import voice_events
+from hikari.events.base_events import Event
+from hikari.events.base_events import ExceptionEvent
+from hikari.events.channel_events import *
+from hikari.events.guild_events import *
+from hikari.events.lifetime_events import *
+from hikari.events.member_events import *
+from hikari.events.message_events import *
+from hikari.events.reaction_events import *
+from hikari.events.role_events import *
+from hikari.events.shard_events import *
+from hikari.events.typing_events import *
+from hikari.events.user_events import *
+from hikari.events.voice_events import *
+
+__all__: typing.List[str] = (
+    [&#34;Event&#34;, &#34;ExceptionEvent&#34;]
+    + channel_events.__all__
+    + guild_events.__all__
+    + lifetime_events.__all__
+    + member_events.__all__
+    + message_events.__all__
+    + reaction_events.__all__
+    + role_events.__all__
+    + shard_events.__all__
+    + typing_events.__all__
+    + user_events.__all__
+    + voice_events.__all__
+)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="child-modules-heading">Child Modules</h2>
+<section class="definition">
+<dl classes="no-nest root">
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.base_events -- Base types and functions for events in Hikari." href="base_events.html" id="hikari.events.base_events" class='dotted'>base_events</a></dt>
+<dd><p>Base types and functions for events in Hikari.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.channel_events -- Events that fire when channels are modified …" href="channel_events.html" id="hikari.events.channel_events" class='dotted'>channel_events</a></dt>
+<dd><p>Events that fire when channels are modified …</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.guild_events -- Events that fire when something occurs within a guild." href="guild_events.html" id="hikari.events.guild_events" class='dotted'>guild_events</a></dt>
+<dd><p>Events that fire when something occurs within a guild.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.lifetime_events -- Events that are bound to the lifetime of an application …" href="lifetime_events.html" id="hikari.events.lifetime_events" class='dotted'>lifetime_events</a></dt>
+<dd><p>Events that are bound to the lifetime of an application …</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.member_events -- Events concerning manipulation of members within guilds." href="member_events.html" id="hikari.events.member_events" class='dotted'>member_events</a></dt>
+<dd><p>Events concerning manipulation of members within guilds.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.message_events -- Events that fire if messages are sent/updated/deleted." href="message_events.html" id="hikari.events.message_events" class='dotted'>message_events</a></dt>
+<dd><p>Events that fire if messages are sent/updated/deleted.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.reaction_events -- Events that fire if messages are reacted to." href="reaction_events.html" id="hikari.events.reaction_events" class='dotted'>reaction_events</a></dt>
+<dd><p>Events that fire if messages are reacted to.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.role_events -- Events pertaining to manipulation of roles within guilds." href="role_events.html" id="hikari.events.role_events" class='dotted'>role_events</a></dt>
+<dd><p>Events pertaining to manipulation of roles within guilds.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.shard_events -- Events relating to specific shards connecting and disconnecting." href="shard_events.html" id="hikari.events.shard_events" class='dotted'>shard_events</a></dt>
+<dd><p>Events relating to specific shards connecting and disconnecting.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.typing_events -- Events fired when users begin typing in channels." href="typing_events.html" id="hikari.events.typing_events" class='dotted'>typing_events</a></dt>
+<dd><p>Events fired when users begin typing in channels.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.user_events -- Events fired when the account user is updated." href="user_events.html" id="hikari.events.user_events" class='dotted'>user_events</a></dt>
+<dd><p>Events fired when the account user is updated.</p></dd>
+<dt><small class='text-muted'><em><abbr title='A standard Python module.'>module</abbr></em></small> <a title="hikari.events.voice_events -- Events that fire when voice state changes." href="voice_events.html" id="hikari.events.voice_events" class='dotted'>voice_events</a></dt>
+<dd><p>Events that fire when voice state changes.</p></dd>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4 id="hikari.events.BanCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="guild_events.html#hikari.events.guild_events.BanCreateEvent"
+class='dotted'>BanCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.BanCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    user: users.User,
+): ...</code></pre>
+</details>
+<p>Event that is fired when a user is banned from a guild …</p>
+<strong>This class is defined explicitly at <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="guild_events.html#hikari.events.guild_events.BanCreateEvent"
+class='dotted'>hikari.events.guild_events.BanCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.BanDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="guild_events.html#hikari.events.guild_events.BanDeleteEvent"
+class='dotted'>BanDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.BanDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    user: users.User,
+): ...</code></pre>
+</details>
+<p>Event that is fired when a user is unbanned from a guild …</p>
+<strong>This class is defined explicitly at <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="guild_events.html#hikari.events.guild_events.BanDeleteEvent"
+class='dotted'>hikari.events.guild_events.BanDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.BanEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="guild_events.html#hikari.events.guild_events.BanEvent"
+class='dotted'>BanEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.BanEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanEvent: ...</code></pre>
+</details>
+<p>Event base for any guild ban or unban …</p>
+<strong>This class is defined explicitly at <a title="BanEvent -- Event base for any guild ban or unban …" href="guild_events.html#hikari.events.guild_events.BanEvent"
+class='dotted'>hikari.events.guild_events.BanEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ChannelCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelCreateEvent -- Base event for any channel being created …" href="channel_events.html#hikari.events.channel_events.ChannelCreateEvent"
+class='dotted'>ChannelCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ChannelCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChannelCreateEvent: ...</code></pre>
+</details>
+<p>Base event for any channel being created …</p>
+<strong>This class is defined explicitly at <a title="ChannelCreateEvent -- Base event for any channel being created …" href="channel_events.html#hikari.events.channel_events.ChannelCreateEvent"
+class='dotted'>hikari.events.channel_events.ChannelCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ChannelDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelDeleteEvent -- Base event for any channel being deleted …" href="channel_events.html#hikari.events.channel_events.ChannelDeleteEvent"
+class='dotted'>ChannelDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ChannelDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChannelDeleteEvent: ...</code></pre>
+</details>
+<p>Base event for any channel being deleted …</p>
+<strong>This class is defined explicitly at <a title="ChannelDeleteEvent -- Base event for any channel being deleted …" href="channel_events.html#hikari.events.channel_events.ChannelDeleteEvent"
+class='dotted'>hikari.events.channel_events.ChannelDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ChannelEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelEvent -- Event base for any channel-bound event in guilds or private messages …" href="channel_events.html#hikari.events.channel_events.ChannelEvent"
+class='dotted'>ChannelEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ChannelEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChannelEvent: ...</code></pre>
+</details>
+<p>Event base for any channel-bound event in guilds or private messages …</p>
+<strong>This class is defined explicitly at <a title="ChannelEvent -- Event base for any channel-bound event in guilds or private messages …" href="channel_events.html#hikari.events.channel_events.ChannelEvent"
+class='dotted'>hikari.events.channel_events.ChannelEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ChannelUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelUpdateEvent -- Base event for any channel being updated …" href="channel_events.html#hikari.events.channel_events.ChannelUpdateEvent"
+class='dotted'>ChannelUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ChannelUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChannelUpdateEvent: ...</code></pre>
+</details>
+<p>Base event for any channel being updated …</p>
+<strong>This class is defined explicitly at <a title="ChannelUpdateEvent -- Base event for any channel being updated …" href="channel_events.html#hikari.events.channel_events.ChannelUpdateEvent"
+class='dotted'>hikari.events.channel_events.ChannelUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.EmojisUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="guild_events.html#hikari.events.guild_events.EmojisUpdateEvent"
+class='dotted'>EmojisUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.EmojisUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EmojisUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[emojis_.KnownCustomEmoji],
+): ...</code></pre>
+</details>
+<p>Event that is fired when the emojis in a guild are updated …</p>
+<strong>This class is defined explicitly at <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="guild_events.html#hikari.events.guild_events.EmojisUpdateEvent"
+class='dotted'>hikari.events.guild_events.EmojisUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.Event"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.Event" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Event: ...</code></pre>
+</details>
+<p>Base event type that all Hikari events should subclass.</p>
+<strong>This class is defined explicitly at <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>hikari.events.base_events.Event</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ExceptionEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ExceptionEvent -- Event that is raised when another event handler raises an `Exception` …" href="base_events.html#hikari.events.base_events.ExceptionEvent"
+class='dotted'>ExceptionEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ExceptionEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ExceptionEvent (
+    *args,
+    **kwds,
+): ...</code></pre>
+</details>
+<p>Event that is raised when another event handler raises an <code><a href='https://docs.python.org/3/library/exceptions.html#Exception'>Exception</a></code> …</p>
+<strong>This class is defined explicitly at <a title="ExceptionEvent -- Event that is raised when another event handler raises an `Exception` …" href="base_events.html#hikari.events.base_events.ExceptionEvent"
+class='dotted'>hikari.events.base_events.ExceptionEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildAvailableEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="guild_events.html#hikari.events.guild_events.GuildAvailableEvent"
+class='dotted'>GuildAvailableEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildAvailableEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildAvailableEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild: guilds.GatewayGuild,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, emojis_.KnownCustomEmoji],
+    roles: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, guilds.Role],
+    channels: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, channels_.GuildChannel],
+    members: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, guilds.Member],
+    presences: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, presences_.MemberPresence],
+    voice_states: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, voices.VoiceState],
+): ...</code></pre>
+</details>
+<p>Event fired when a guild becomes available …</p>
+<strong>This class is defined explicitly at <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="guild_events.html#hikari.events.guild_events.GuildAvailableEvent"
+class='dotted'>hikari.events.guild_events.GuildAvailableEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildChannelCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelCreateEvent -- Event fired when a guild channel is created …" href="channel_events.html#hikari.events.channel_events.GuildChannelCreateEvent"
+class='dotted'>GuildChannelCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildChannelCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildChannelCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.GuildChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a guild channel is created …</p>
+<strong>This class is defined explicitly at <a title="GuildChannelCreateEvent -- Event fired when a guild channel is created …" href="channel_events.html#hikari.events.channel_events.GuildChannelCreateEvent"
+class='dotted'>hikari.events.channel_events.GuildChannelCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildChannelDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelDeleteEvent -- Event fired when a guild channel is deleted …" href="channel_events.html#hikari.events.channel_events.GuildChannelDeleteEvent"
+class='dotted'>GuildChannelDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildChannelDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildChannelDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.GuildChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a guild channel is deleted …</p>
+<strong>This class is defined explicitly at <a title="GuildChannelDeleteEvent -- Event fired when a guild channel is deleted …" href="channel_events.html#hikari.events.channel_events.GuildChannelDeleteEvent"
+class='dotted'>hikari.events.channel_events.GuildChannelDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildChannelEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelEvent -- Event base for any channel-bound event in guilds …" href="channel_events.html#hikari.events.channel_events.GuildChannelEvent"
+class='dotted'>GuildChannelEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildChannelEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildChannelEvent: ...</code></pre>
+</details>
+<p>Event base for any channel-bound event in guilds …</p>
+<strong>This class is defined explicitly at <a title="GuildChannelEvent -- Event base for any channel-bound event in guilds …" href="channel_events.html#hikari.events.channel_events.GuildChannelEvent"
+class='dotted'>hikari.events.channel_events.GuildChannelEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildChannelUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildChannelUpdateEvent -- Event fired when a guild channel is edited …" href="channel_events.html#hikari.events.channel_events.GuildChannelUpdateEvent"
+class='dotted'>GuildChannelUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildChannelUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildChannelUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.GuildChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a guild channel is edited …</p>
+<strong>This class is defined explicitly at <a title="GuildChannelUpdateEvent -- Event fired when a guild channel is edited …" href="channel_events.html#hikari.events.channel_events.GuildChannelUpdateEvent"
+class='dotted'>hikari.events.channel_events.GuildChannelUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildLeaveEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="guild_events.html#hikari.events.guild_events.GuildLeaveEvent"
+class='dotted'>GuildLeaveEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildLeaveEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildLeaveEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when the bot is banned/kicked/leaves a guild …</p>
+<strong>This class is defined explicitly at <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="guild_events.html#hikari.events.guild_events.GuildLeaveEvent"
+class='dotted'>hikari.events.guild_events.GuildLeaveEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildMessageBulkDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageBulkDeleteEvent"
+class='dotted'>GuildMessageBulkDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildMessageBulkDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildMessageBulkDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    guild_id: snowflake.Snowflake,
+    message_ids: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[snowflake.Snowflake],
+): ...</code></pre>
+</details>
+<p>Event triggered when messages are bulk-deleted from a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildMessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageBulkDeleteEvent"
+class='dotted'>hikari.events.message_events.GuildMessageBulkDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildMessageCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageCreateEvent -- Event triggered when a message is sent to a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageCreateEvent"
+class='dotted'>GuildMessageCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildMessageCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildMessageCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.Message,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is sent to a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildMessageCreateEvent -- Event triggered when a message is sent to a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageCreateEvent"
+class='dotted'>hikari.events.message_events.GuildMessageCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildMessageDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageDeleteEvent -- Event triggered when a message is deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageDeleteEvent"
+class='dotted'>GuildMessageDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildMessageDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildMessageDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.PartialMessage,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is deleted from a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildMessageDeleteEvent -- Event triggered when a message is deleted from a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageDeleteEvent"
+class='dotted'>hikari.events.message_events.GuildMessageDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildMessageEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageEvent -- Event base for any message-bound event in guild messages …" href="message_events.html#hikari.events.message_events.GuildMessageEvent"
+class='dotted'>GuildMessageEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildMessageEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildMessageEvent: ...</code></pre>
+</details>
+<p>Event base for any message-bound event in guild messages …</p>
+<strong>This class is defined explicitly at <a title="GuildMessageEvent -- Event base for any message-bound event in guild messages …" href="message_events.html#hikari.events.message_events.GuildMessageEvent"
+class='dotted'>hikari.events.message_events.GuildMessageEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildMessageUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildMessageUpdateEvent -- Event triggered when a message is updated in a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageUpdateEvent"
+class='dotted'>GuildMessageUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildMessageUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildMessageUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.PartialMessage,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is updated in a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildMessageUpdateEvent -- Event triggered when a message is updated in a guild channel …" href="message_events.html#hikari.events.message_events.GuildMessageUpdateEvent"
+class='dotted'>hikari.events.message_events.GuildMessageUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildPinsUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildPinsUpdateEvent -- Event fired when a message is pinned/unpinned in a guild channel …" href="channel_events.html#hikari.events.channel_events.GuildPinsUpdateEvent"
+class='dotted'>GuildPinsUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildPinsUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildPinsUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    guild_id: snowflake.Snowflake,
+    last_pin_timestamp: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>],
+): ...</code></pre>
+</details>
+<p>Event fired when a message is pinned/unpinned in a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildPinsUpdateEvent -- Event fired when a message is pinned/unpinned in a guild channel …" href="channel_events.html#hikari.events.channel_events.GuildPinsUpdateEvent"
+class='dotted'>hikari.events.channel_events.GuildPinsUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildReactionAddEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionAddEvent"
+class='dotted'>GuildReactionAddEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildReactionAddEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildReactionAddEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    member: guilds.Member,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when a reaction is added to a guild message …</p>
+<strong>This class is defined explicitly at <a title="GuildReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionAddEvent"
+class='dotted'>hikari.events.reaction_events.GuildReactionAddEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildReactionDeleteAllEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteAllEvent -- Event fired when all of a guild message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteAllEvent"
+class='dotted'>GuildReactionDeleteAllEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildReactionDeleteAllEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildReactionDeleteAllEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when all of a guild message's reactions are removed …</p>
+<strong>This class is defined explicitly at <a title="GuildReactionDeleteAllEvent -- Event fired when all of a guild message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteAllEvent"
+class='dotted'>hikari.events.reaction_events.GuildReactionDeleteAllEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildReactionDeleteEmojiEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a guild message's reactions …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEmojiEvent"
+class='dotted'>GuildReactionDeleteEmojiEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildReactionDeleteEmojiEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildReactionDeleteEmojiEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when an emoji is removed from a guild message's reactions …</p>
+<strong>This class is defined explicitly at <a title="GuildReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a guild message's reactions …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEmojiEvent"
+class='dotted'>hikari.events.reaction_events.GuildReactionDeleteEmojiEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildReactionDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionDeleteEvent -- Event fired when a reaction is removed from a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEvent"
+class='dotted'>GuildReactionDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildReactionDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildReactionDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    user_id: snowflake.Snowflake,
+    guild_id: snowflake.Snowflake,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when a reaction is removed from a guild message …</p>
+<strong>This class is defined explicitly at <a title="GuildReactionDeleteEvent -- Event fired when a reaction is removed from a guild message …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionDeleteEvent"
+class='dotted'>hikari.events.reaction_events.GuildReactionDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildReactionEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildReactionEvent -- Event base for any reaction-bound event in guild messages …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionEvent"
+class='dotted'>GuildReactionEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildReactionEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildReactionEvent: ...</code></pre>
+</details>
+<p>Event base for any reaction-bound event in guild messages …</p>
+<strong>This class is defined explicitly at <a title="GuildReactionEvent -- Event base for any reaction-bound event in guild messages …" href="reaction_events.html#hikari.events.reaction_events.GuildReactionEvent"
+class='dotted'>hikari.events.reaction_events.GuildReactionEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildTypingEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.GuildTypingEvent"
+class='dotted'>GuildTypingEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildTypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildTypingEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    user_id: snowflake.Snowflake,
+    timestamp: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+    guild_id: snowflake.Snowflake,
+    member: guilds.Member,
+): ...</code></pre>
+</details>
+<p>Event fired when a user starts typing in a guild channel …</p>
+<strong>This class is defined explicitly at <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.GuildTypingEvent"
+class='dotted'>hikari.events.typing_events.GuildTypingEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildUnavailableEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="guild_events.html#hikari.events.guild_events.GuildUnavailableEvent"
+class='dotted'>GuildUnavailableEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildUnavailableEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildUnavailableEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when a guild becomes unavailable because of an outage …</p>
+<strong>This class is defined explicitly at <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="guild_events.html#hikari.events.guild_events.GuildUnavailableEvent"
+class='dotted'>hikari.events.guild_events.GuildUnavailableEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="guild_events.html#hikari.events.guild_events.GuildUpdateEvent"
+class='dotted'>GuildUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild: guilds.GatewayGuild,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, emojis_.KnownCustomEmoji],
+    roles: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, guilds.Role],
+): ...</code></pre>
+</details>
+<p>Event fired when an existing guild is updated …</p>
+<strong>This class is defined explicitly at <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="guild_events.html#hikari.events.guild_events.GuildUpdateEvent"
+class='dotted'>hikari.events.guild_events.GuildUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.GuildVisibilityEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="guild_events.html#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.GuildVisibilityEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildVisibilityEvent: ...</code></pre>
+</details>
+<p>Event base for any event that changes the visibility of a guild …</p>
+<strong>This class is defined explicitly at <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="guild_events.html#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>hikari.events.guild_events.GuildVisibilityEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.IntegrationsUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="guild_events.html#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='dotted'>IntegrationsUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.IntegrationsUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> IntegrationsUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event that is fired when the integrations in a guild are changed …</p>
+<strong>This class is defined explicitly at <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="guild_events.html#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='dotted'>hikari.events.guild_events.IntegrationsUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.InviteCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteCreateEvent -- Event fired when an invite is created in a channel …" href="channel_events.html#hikari.events.channel_events.InviteCreateEvent"
+class='dotted'>InviteCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.InviteCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> InviteCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    invite: invites.InviteWithMetadata,
+): ...</code></pre>
+</details>
+<p>Event fired when an invite is created in a channel …</p>
+<strong>This class is defined explicitly at <a title="InviteCreateEvent -- Event fired when an invite is created in a channel …" href="channel_events.html#hikari.events.channel_events.InviteCreateEvent"
+class='dotted'>hikari.events.channel_events.InviteCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.InviteDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteDeleteEvent -- Event fired when an invite is deleted from a channel …" href="channel_events.html#hikari.events.channel_events.InviteDeleteEvent"
+class='dotted'>InviteDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.InviteDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> InviteDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    guild_id: snowflake.Snowflake,
+    code: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+</details>
+<p>Event fired when an invite is deleted from a channel …</p>
+<strong>This class is defined explicitly at <a title="InviteDeleteEvent -- Event fired when an invite is deleted from a channel …" href="channel_events.html#hikari.events.channel_events.InviteDeleteEvent"
+class='dotted'>hikari.events.channel_events.InviteDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MemberChunkEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="guild_events.html#hikari.events.guild_events.MemberChunkEvent"
+class='dotted'>MemberChunkEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MemberChunkEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberChunkEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    members: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, guilds.Member],
+    index: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    not_found: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[snowflake.Snowflake],
+    presences: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[snowflake.Snowflake, presences_.MemberPresence],
+    nonce: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+</details>
+<p>Used to represent the response to Guild Request Members.</p>
+<strong>This class is defined explicitly at <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="guild_events.html#hikari.events.guild_events.MemberChunkEvent"
+class='dotted'>hikari.events.guild_events.MemberChunkEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MemberCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberCreateEvent -- Event that is fired when a member joins a guild …" href="member_events.html#hikari.events.member_events.MemberCreateEvent"
+class='dotted'>MemberCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MemberCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    member: guilds.Member,
+): ...</code></pre>
+</details>
+<p>Event that is fired when a member joins a guild …</p>
+<strong>This class is defined explicitly at <a title="MemberCreateEvent -- Event that is fired when a member joins a guild …" href="member_events.html#hikari.events.member_events.MemberCreateEvent"
+class='dotted'>hikari.events.member_events.MemberCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MemberDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDeleteEvent -- Event fired when a member is kicked from or leaves a guild …" href="member_events.html#hikari.events.member_events.MemberDeleteEvent"
+class='dotted'>MemberDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MemberDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    user: users.User,
+): ...</code></pre>
+</details>
+<p>Event fired when a member is kicked from or leaves a guild …</p>
+<strong>This class is defined explicitly at <a title="MemberDeleteEvent -- Event fired when a member is kicked from or leaves a guild …" href="member_events.html#hikari.events.member_events.MemberDeleteEvent"
+class='dotted'>hikari.events.member_events.MemberDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MemberEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberEvent -- Event base for any events that concern guild members …" href="member_events.html#hikari.events.member_events.MemberEvent"
+class='dotted'>MemberEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MemberEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberEvent: ...</code></pre>
+</details>
+<p>Event base for any events that concern guild members …</p>
+<strong>This class is defined explicitly at <a title="MemberEvent -- Event base for any events that concern guild members …" href="member_events.html#hikari.events.member_events.MemberEvent"
+class='dotted'>hikari.events.member_events.MemberEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MemberUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberUpdateEvent -- Event that is fired when a member is updated in a guild …" href="member_events.html#hikari.events.member_events.MemberUpdateEvent"
+class='dotted'>MemberUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MemberUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    member: guilds.Member,
+): ...</code></pre>
+</details>
+<p>Event that is fired when a member is updated in a guild …</p>
+<strong>This class is defined explicitly at <a title="MemberUpdateEvent -- Event that is fired when a member is updated in a guild …" href="member_events.html#hikari.events.member_events.MemberUpdateEvent"
+class='dotted'>hikari.events.member_events.MemberUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessageBulkDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a channel …" href="message_events.html#hikari.events.message_events.MessageBulkDeleteEvent"
+class='dotted'>MessageBulkDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessageBulkDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageBulkDeleteEvent: ...</code></pre>
+</details>
+<p>Event triggered when messages are bulk-deleted from a channel …</p>
+<strong>This class is defined explicitly at <a title="MessageBulkDeleteEvent -- Event triggered when messages are bulk-deleted from a channel …" href="message_events.html#hikari.events.message_events.MessageBulkDeleteEvent"
+class='dotted'>hikari.events.message_events.MessageBulkDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessageCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageCreateEvent -- Event base for any message creation event …" href="message_events.html#hikari.events.message_events.MessageCreateEvent"
+class='dotted'>MessageCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessageCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageCreateEvent: ...</code></pre>
+</details>
+<p>Event base for any message creation event …</p>
+<strong>This class is defined explicitly at <a title="MessageCreateEvent -- Event base for any message creation event …" href="message_events.html#hikari.events.message_events.MessageCreateEvent"
+class='dotted'>hikari.events.message_events.MessageCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessageDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEvent -- Event base for any message delete event …" href="message_events.html#hikari.events.message_events.MessageDeleteEvent"
+class='dotted'>MessageDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessageDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageDeleteEvent: ...</code></pre>
+</details>
+<p>Event base for any message delete event …</p>
+<strong>This class is defined explicitly at <a title="MessageDeleteEvent -- Event base for any message delete event …" href="message_events.html#hikari.events.message_events.MessageDeleteEvent"
+class='dotted'>hikari.events.message_events.MessageDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessageEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageEvent -- Event base for any event that concerns a single message …" href="message_events.html#hikari.events.message_events.MessageEvent"
+class='dotted'>MessageEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessageEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageEvent: ...</code></pre>
+</details>
+<p>Event base for any event that concerns a single message …</p>
+<strong>This class is defined explicitly at <a title="MessageEvent -- Event base for any event that concerns a single message …" href="message_events.html#hikari.events.message_events.MessageEvent"
+class='dotted'>hikari.events.message_events.MessageEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessageUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageUpdateEvent -- Event base for any message update event …" href="message_events.html#hikari.events.message_events.MessageUpdateEvent"
+class='dotted'>MessageUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessageUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageUpdateEvent: ...</code></pre>
+</details>
+<p>Event base for any message update event …</p>
+<strong>This class is defined explicitly at <a title="MessageUpdateEvent -- Event base for any message update event …" href="message_events.html#hikari.events.message_events.MessageUpdateEvent"
+class='dotted'>hikari.events.message_events.MessageUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.MessagesEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagesEvent -- Event base for any message-bound event …" href="message_events.html#hikari.events.message_events.MessagesEvent"
+class='dotted'>MessagesEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.MessagesEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessagesEvent: ...</code></pre>
+</details>
+<p>Event base for any message-bound event …</p>
+<strong>This class is defined explicitly at <a title="MessagesEvent -- Event base for any message-bound event …" href="message_events.html#hikari.events.message_events.MessagesEvent"
+class='dotted'>hikari.events.message_events.MessagesEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.OwnUserUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUserUpdateEvent -- Event fired when the account user is updated." href="user_events.html#hikari.events.user_events.OwnUserUpdateEvent"
+class='dotted'>OwnUserUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.OwnUserUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> OwnUserUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    user: users.OwnUser,
+): ...</code></pre>
+</details>
+<p>Event fired when the account user is updated.</p>
+<strong>This class is defined explicitly at <a title="OwnUserUpdateEvent -- Event fired when the account user is updated." href="user_events.html#hikari.events.user_events.OwnUserUpdateEvent"
+class='dotted'>hikari.events.user_events.OwnUserUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PinsUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PinsUpdateEvent -- Base event fired when a message is pinned/unpinned in a channel." href="channel_events.html#hikari.events.channel_events.PinsUpdateEvent"
+class='dotted'>PinsUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PinsUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PinsUpdateEvent: ...</code></pre>
+</details>
+<p>Base event fired when a message is pinned/unpinned in a channel.</p>
+<strong>This class is defined explicitly at <a title="PinsUpdateEvent -- Base event fired when a message is pinned/unpinned in a channel." href="channel_events.html#hikari.events.channel_events.PinsUpdateEvent"
+class='dotted'>hikari.events.channel_events.PinsUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PresenceUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="guild_events.html#hikari.events.guild_events.PresenceUpdateEvent"
+class='dotted'>PresenceUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PresenceUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PresenceUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    presence: presences_.MemberPresence,
+    user: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[users.PartialUser],
+): ...</code></pre>
+</details>
+<p>Event fired when a user in a guild updates their presence in a guild …</p>
+<strong>This class is defined explicitly at <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="guild_events.html#hikari.events.guild_events.PresenceUpdateEvent"
+class='dotted'>hikari.events.guild_events.PresenceUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateChannelCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelCreateEvent -- Event fired when a private channel is created …" href="channel_events.html#hikari.events.channel_events.PrivateChannelCreateEvent"
+class='dotted'>PrivateChannelCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateChannelCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateChannelCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.PrivateChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a private channel is created …</p>
+<strong>This class is defined explicitly at <a title="PrivateChannelCreateEvent -- Event fired when a private channel is created …" href="channel_events.html#hikari.events.channel_events.PrivateChannelCreateEvent"
+class='dotted'>hikari.events.channel_events.PrivateChannelCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateChannelDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelDeleteEvent -- Event fired when a private channel is deleted …" href="channel_events.html#hikari.events.channel_events.PrivateChannelDeleteEvent"
+class='dotted'>PrivateChannelDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateChannelDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateChannelDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.PrivateChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a private channel is deleted …</p>
+<strong>This class is defined explicitly at <a title="PrivateChannelDeleteEvent -- Event fired when a private channel is deleted …" href="channel_events.html#hikari.events.channel_events.PrivateChannelDeleteEvent"
+class='dotted'>hikari.events.channel_events.PrivateChannelDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateChannelEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelEvent -- Event base for any channel-bound event in private messages." href="channel_events.html#hikari.events.channel_events.PrivateChannelEvent"
+class='dotted'>PrivateChannelEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateChannelEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateChannelEvent: ...</code></pre>
+</details>
+<p>Event base for any channel-bound event in private messages.</p>
+<strong>This class is defined explicitly at <a title="PrivateChannelEvent -- Event base for any channel-bound event in private messages." href="channel_events.html#hikari.events.channel_events.PrivateChannelEvent"
+class='dotted'>hikari.events.channel_events.PrivateChannelEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateChannelUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateChannelUpdateEvent -- Event fired when a private channel is edited …" href="channel_events.html#hikari.events.channel_events.PrivateChannelUpdateEvent"
+class='dotted'>PrivateChannelUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateChannelUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateChannelUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel: channels.PrivateChannel,
+): ...</code></pre>
+</details>
+<p>Event fired when a private channel is edited …</p>
+<strong>This class is defined explicitly at <a title="PrivateChannelUpdateEvent -- Event fired when a private channel is edited …" href="channel_events.html#hikari.events.channel_events.PrivateChannelUpdateEvent"
+class='dotted'>hikari.events.channel_events.PrivateChannelUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateMessageCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageCreateEvent -- Event triggered when a message is sent to a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageCreateEvent"
+class='dotted'>PrivateMessageCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateMessageCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateMessageCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.Message,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is sent to a private channel …</p>
+<strong>This class is defined explicitly at <a title="PrivateMessageCreateEvent -- Event triggered when a message is sent to a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageCreateEvent"
+class='dotted'>hikari.events.message_events.PrivateMessageCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateMessageDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageDeleteEvent -- Event triggered when a message is deleted from a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageDeleteEvent"
+class='dotted'>PrivateMessageDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateMessageDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateMessageDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.PartialMessage,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is deleted from a private channel …</p>
+<strong>This class is defined explicitly at <a title="PrivateMessageDeleteEvent -- Event triggered when a message is deleted from a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageDeleteEvent"
+class='dotted'>hikari.events.message_events.PrivateMessageDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateMessageEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageEvent -- Event base for any message-bound event in private messages …" href="message_events.html#hikari.events.message_events.PrivateMessageEvent"
+class='dotted'>PrivateMessageEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateMessageEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateMessageEvent: ...</code></pre>
+</details>
+<p>Event base for any message-bound event in private messages …</p>
+<strong>This class is defined explicitly at <a title="PrivateMessageEvent -- Event base for any message-bound event in private messages …" href="message_events.html#hikari.events.message_events.PrivateMessageEvent"
+class='dotted'>hikari.events.message_events.PrivateMessageEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateMessageUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateMessageUpdateEvent -- Event triggered when a message is updated in a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageUpdateEvent"
+class='dotted'>PrivateMessageUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateMessageUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateMessageUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    message: messages.PartialMessage,
+): ...</code></pre>
+</details>
+<p>Event triggered when a message is updated in a private channel …</p>
+<strong>This class is defined explicitly at <a title="PrivateMessageUpdateEvent -- Event triggered when a message is updated in a private channel …" href="message_events.html#hikari.events.message_events.PrivateMessageUpdateEvent"
+class='dotted'>hikari.events.message_events.PrivateMessageUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivatePinsUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivatePinsUpdateEvent -- Event fired when a message is pinned/unpinned in a private channel." href="channel_events.html#hikari.events.channel_events.PrivatePinsUpdateEvent"
+class='dotted'>PrivatePinsUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivatePinsUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivatePinsUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    last_pin_timestamp: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>],
+): ...</code></pre>
+</details>
+<p>Event fired when a message is pinned/unpinned in a private channel.</p>
+<strong>This class is defined explicitly at <a title="PrivatePinsUpdateEvent -- Event fired when a message is pinned/unpinned in a private channel." href="channel_events.html#hikari.events.channel_events.PrivatePinsUpdateEvent"
+class='dotted'>hikari.events.channel_events.PrivatePinsUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateReactionAddEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionAddEvent"
+class='dotted'>PrivateReactionAddEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateReactionAddEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateReactionAddEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    user_id: snowflake.Snowflake,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when a reaction is added to a guild message …</p>
+<strong>This class is defined explicitly at <a title="PrivateReactionAddEvent -- Event fired when a reaction is added to a guild message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionAddEvent"
+class='dotted'>hikari.events.reaction_events.PrivateReactionAddEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateReactionDeleteAllEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteAllEvent -- Event fired when all of a private message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteAllEvent"
+class='dotted'>PrivateReactionDeleteAllEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateReactionDeleteAllEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateReactionDeleteAllEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when all of a private message's reactions are removed …</p>
+<strong>This class is defined explicitly at <a title="PrivateReactionDeleteAllEvent -- Event fired when all of a private message's reactions are removed …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteAllEvent"
+class='dotted'>hikari.events.reaction_events.PrivateReactionDeleteAllEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateReactionDeleteEmojiEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a private message's reactions …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEmojiEvent"
+class='dotted'>PrivateReactionDeleteEmojiEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateReactionDeleteEmojiEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateReactionDeleteEmojiEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when an emoji is removed from a private message's reactions …</p>
+<strong>This class is defined explicitly at <a title="PrivateReactionDeleteEmojiEvent -- Event fired when an emoji is removed from a private message's reactions …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEmojiEvent"
+class='dotted'>hikari.events.reaction_events.PrivateReactionDeleteEmojiEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateReactionDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionDeleteEvent -- Event fired when a reaction is removed from a private message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEvent"
+class='dotted'>PrivateReactionDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateReactionDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateReactionDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    user_id: snowflake.Snowflake,
+    channel_id: snowflake.Snowflake,
+    message_id: snowflake.Snowflake,
+    emoji: emojis.Emoji,
+): ...</code></pre>
+</details>
+<p>Event fired when a reaction is removed from a private message …</p>
+<strong>This class is defined explicitly at <a title="PrivateReactionDeleteEvent -- Event fired when a reaction is removed from a private message …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionDeleteEvent"
+class='dotted'>hikari.events.reaction_events.PrivateReactionDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateReactionEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateReactionEvent -- Event base for any reaction-bound event in private messages …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionEvent"
+class='dotted'>PrivateReactionEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateReactionEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateReactionEvent: ...</code></pre>
+</details>
+<p>Event base for any reaction-bound event in private messages …</p>
+<strong>This class is defined explicitly at <a title="PrivateReactionEvent -- Event base for any reaction-bound event in private messages …" href="reaction_events.html#hikari.events.reaction_events.PrivateReactionEvent"
+class='dotted'>hikari.events.reaction_events.PrivateReactionEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.PrivateTypingEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.PrivateTypingEvent"
+class='dotted'>PrivateTypingEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.PrivateTypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateTypingEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    user_id: snowflake.Snowflake,
+    timestamp: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+): ...</code></pre>
+</details>
+<p>Event fired when a user starts typing in a guild channel …</p>
+<strong>This class is defined explicitly at <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="typing_events.html#hikari.events.typing_events.PrivateTypingEvent"
+class='dotted'>hikari.events.typing_events.PrivateTypingEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ReactionAddEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionAddEvent -- Event base for any reaction that is added to a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionAddEvent"
+class='dotted'>ReactionAddEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ReactionAddEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ReactionAddEvent: ...</code></pre>
+</details>
+<p>Event base for any reaction that is added to a message …</p>
+<strong>This class is defined explicitly at <a title="ReactionAddEvent -- Event base for any reaction that is added to a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionAddEvent"
+class='dotted'>hikari.events.reaction_events.ReactionAddEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ReactionDeleteAllEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteAllEvent -- Event base fired when all reactions are removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteAllEvent"
+class='dotted'>ReactionDeleteAllEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ReactionDeleteAllEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ReactionDeleteAllEvent: ...</code></pre>
+</details>
+<p>Event base fired when all reactions are removed from a message …</p>
+<strong>This class is defined explicitly at <a title="ReactionDeleteAllEvent -- Event base fired when all reactions are removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteAllEvent"
+class='dotted'>hikari.events.reaction_events.ReactionDeleteAllEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ReactionDeleteEmojiEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteEmojiEvent -- Event base fired when all reactions are removed for one emoji …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEmojiEvent"
+class='dotted'>ReactionDeleteEmojiEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ReactionDeleteEmojiEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ReactionDeleteEmojiEvent: ...</code></pre>
+</details>
+<p>Event base fired when all reactions are removed for one emoji …</p>
+<strong>This class is defined explicitly at <a title="ReactionDeleteEmojiEvent -- Event base fired when all reactions are removed for one emoji …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEmojiEvent"
+class='dotted'>hikari.events.reaction_events.ReactionDeleteEmojiEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ReactionDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionDeleteEvent -- Event base for any single reaction that is removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEvent"
+class='dotted'>ReactionDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ReactionDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ReactionDeleteEvent: ...</code></pre>
+</details>
+<p>Event base for any single reaction that is removed from a message …</p>
+<strong>This class is defined explicitly at <a title="ReactionDeleteEvent -- Event base for any single reaction that is removed from a message …" href="reaction_events.html#hikari.events.reaction_events.ReactionDeleteEvent"
+class='dotted'>hikari.events.reaction_events.ReactionDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ReactionEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionEvent -- Event base for any message reaction event …" href="reaction_events.html#hikari.events.reaction_events.ReactionEvent"
+class='dotted'>ReactionEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ReactionEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ReactionEvent: ...</code></pre>
+</details>
+<p>Event base for any message reaction event …</p>
+<strong>This class is defined explicitly at <a title="ReactionEvent -- Event base for any message reaction event …" href="reaction_events.html#hikari.events.reaction_events.ReactionEvent"
+class='dotted'>hikari.events.reaction_events.ReactionEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.RoleCreateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleCreateEvent -- Event fired when a role is created …" href="role_events.html#hikari.events.role_events.RoleCreateEvent"
+class='dotted'>RoleCreateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.RoleCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RoleCreateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    role: guilds.Role,
+): ...</code></pre>
+</details>
+<p>Event fired when a role is created …</p>
+<strong>This class is defined explicitly at <a title="RoleCreateEvent -- Event fired when a role is created …" href="role_events.html#hikari.events.role_events.RoleCreateEvent"
+class='dotted'>hikari.events.role_events.RoleCreateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.RoleDeleteEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleDeleteEvent -- Event fired when a role is deleted …" href="role_events.html#hikari.events.role_events.RoleDeleteEvent"
+class='dotted'>RoleDeleteEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.RoleDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RoleDeleteEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    role_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when a role is deleted …</p>
+<strong>This class is defined explicitly at <a title="RoleDeleteEvent -- Event fired when a role is deleted …" href="role_events.html#hikari.events.role_events.RoleDeleteEvent"
+class='dotted'>hikari.events.role_events.RoleDeleteEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.RoleEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleEvent -- Event base for any event that involves guild roles …" href="role_events.html#hikari.events.role_events.RoleEvent"
+class='dotted'>RoleEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.RoleEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RoleEvent: ...</code></pre>
+</details>
+<p>Event base for any event that involves guild roles …</p>
+<strong>This class is defined explicitly at <a title="RoleEvent -- Event base for any event that involves guild roles …" href="role_events.html#hikari.events.role_events.RoleEvent"
+class='dotted'>hikari.events.role_events.RoleEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.RoleUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleUpdateEvent -- Event fired when a role is updated …" href="role_events.html#hikari.events.role_events.RoleUpdateEvent"
+class='dotted'>RoleUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.RoleUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RoleUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    role: guilds.Role,
+): ...</code></pre>
+</details>
+<p>Event fired when a role is updated …</p>
+<strong>This class is defined explicitly at <a title="RoleUpdateEvent -- Event fired when a role is updated …" href="role_events.html#hikari.events.role_events.RoleUpdateEvent"
+class='dotted'>hikari.events.role_events.RoleUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardConnectedEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="shard_events.html#hikari.events.shard_events.ShardConnectedEvent"
+class='dotted'>ShardConnectedEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardConnectedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardConnectedEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+): ...</code></pre>
+</details>
+<p>Event fired when a shard connects.</p>
+<strong>This class is defined explicitly at <a title="ShardConnectedEvent -- Event fired when a shard connects." href="shard_events.html#hikari.events.shard_events.ShardConnectedEvent"
+class='dotted'>hikari.events.shard_events.ShardConnectedEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardDisconnectedEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="shard_events.html#hikari.events.shard_events.ShardDisconnectedEvent"
+class='dotted'>ShardDisconnectedEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardDisconnectedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardDisconnectedEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+): ...</code></pre>
+</details>
+<p>Event fired when a shard disconnects.</p>
+<strong>This class is defined explicitly at <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="shard_events.html#hikari.events.shard_events.ShardDisconnectedEvent"
+class='dotted'>hikari.events.shard_events.ShardDisconnectedEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardEvent: ...</code></pre>
+</details>
+<p>Base class for any event that was shard-specific.</p>
+<strong>This class is defined explicitly at <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>hikari.events.shard_events.ShardEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardReadyEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="shard_events.html#hikari.events.shard_events.ShardReadyEvent"
+class='dotted'>ShardReadyEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardReadyEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardReadyEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    actual_gateway_version: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    session_id: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    my_user: users.OwnUser,
+    unavailable_guilds: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[snowflake.Snowflake],
+): ...</code></pre>
+</details>
+<p>Event fired when a shard declares it is ready.</p>
+<strong>This class is defined explicitly at <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="shard_events.html#hikari.events.shard_events.ShardReadyEvent"
+class='dotted'>hikari.events.shard_events.ShardReadyEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardResumedEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="shard_events.html#hikari.events.shard_events.ShardResumedEvent"
+class='dotted'>ShardResumedEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardResumedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardResumedEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+): ...</code></pre>
+</details>
+<p>Event fired when a shard resumes an existing session.</p>
+<strong>This class is defined explicitly at <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="shard_events.html#hikari.events.shard_events.ShardResumedEvent"
+class='dotted'>hikari.events.shard_events.ShardResumedEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.ShardStateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="shard_events.html#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.ShardStateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardStateEvent: ...</code></pre>
+</details>
+<p>Base class for any event concerning the state/connectivity of a shard …</p>
+<strong>This class is defined explicitly at <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="shard_events.html#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>hikari.events.shard_events.ShardStateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.StartedEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StartedEvent -- Event that is triggered after the application has started …" href="lifetime_events.html#hikari.events.lifetime_events.StartedEvent"
+class='dotted'>StartedEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.StartedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> StartedEvent (
+    *,
+    app: traits.RESTAware,
+): ...</code></pre>
+</details>
+<p>Event that is triggered after the application has started …</p>
+<strong>This class is defined explicitly at <a title="StartedEvent -- Event that is triggered after the application has started …" href="lifetime_events.html#hikari.events.lifetime_events.StartedEvent"
+class='dotted'>hikari.events.lifetime_events.StartedEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.StartingEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StartingEvent -- Event that is triggered before the application connects to discord …" href="lifetime_events.html#hikari.events.lifetime_events.StartingEvent"
+class='dotted'>StartingEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.StartingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> StartingEvent (
+    *,
+    app: traits.RESTAware,
+): ...</code></pre>
+</details>
+<p>Event that is triggered before the application connects to discord …</p>
+<strong>This class is defined explicitly at <a title="StartingEvent -- Event that is triggered before the application connects to discord …" href="lifetime_events.html#hikari.events.lifetime_events.StartingEvent"
+class='dotted'>hikari.events.lifetime_events.StartingEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.StoppedEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StoppedEvent -- Event that is triggered once the application has disconnected …" href="lifetime_events.html#hikari.events.lifetime_events.StoppedEvent"
+class='dotted'>StoppedEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.StoppedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> StoppedEvent (
+    *,
+    app: traits.RESTAware,
+): ...</code></pre>
+</details>
+<p>Event that is triggered once the application has disconnected …</p>
+<strong>This class is defined explicitly at <a title="StoppedEvent -- Event that is triggered once the application has disconnected …" href="lifetime_events.html#hikari.events.lifetime_events.StoppedEvent"
+class='dotted'>hikari.events.lifetime_events.StoppedEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.StoppingEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="StoppingEvent -- Event that is triggered as soon as the application is requested to close …" href="lifetime_events.html#hikari.events.lifetime_events.StoppingEvent"
+class='dotted'>StoppingEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.StoppingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> StoppingEvent (
+    *,
+    app: traits.RESTAware,
+): ...</code></pre>
+</details>
+<p>Event that is triggered as soon as the application is requested to close …</p>
+<strong>This class is defined explicitly at <a title="StoppingEvent -- Event that is triggered as soon as the application is requested to close …" href="lifetime_events.html#hikari.events.lifetime_events.StoppingEvent"
+class='dotted'>hikari.events.lifetime_events.StoppingEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.TypingEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="typing_events.html#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.TypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> TypingEvent: ...</code></pre>
+</details>
+<p>Base event fired when a user begins typing in a channel …</p>
+<strong>This class is defined explicitly at <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="typing_events.html#hikari.events.typing_events.TypingEvent"
+class='dotted'>hikari.events.typing_events.TypingEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.VoiceEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceEvent -- Base for any voice-related event." href="voice_events.html#hikari.events.voice_events.VoiceEvent"
+class='dotted'>VoiceEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.VoiceEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceEvent: ...</code></pre>
+</details>
+<p>Base for any voice-related event.</p>
+<strong>This class is defined explicitly at <a title="VoiceEvent -- Base for any voice-related event." href="voice_events.html#hikari.events.voice_events.VoiceEvent"
+class='dotted'>hikari.events.voice_events.VoiceEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.VoiceServerUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceServerUpdateEvent -- Event fired when a voice server is changed …" href="voice_events.html#hikari.events.voice_events.VoiceServerUpdateEvent"
+class='dotted'>VoiceServerUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.VoiceServerUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceServerUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    guild_id: snowflake.Snowflake,
+    token: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    raw_endpoint: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+</details>
+<p>Event fired when a voice server is changed …</p>
+<strong>This class is defined explicitly at <a title="VoiceServerUpdateEvent -- Event fired when a voice server is changed …" href="voice_events.html#hikari.events.voice_events.VoiceServerUpdateEvent"
+class='dotted'>hikari.events.voice_events.VoiceServerUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.VoiceStateUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceStateUpdateEvent -- Event fired when a user changes their voice state …" href="voice_events.html#hikari.events.voice_events.VoiceStateUpdateEvent"
+class='dotted'>VoiceStateUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.VoiceStateUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceStateUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    state: voices.VoiceState,
+): ...</code></pre>
+</details>
+<p>Event fired when a user changes their voice state …</p>
+<strong>This class is defined explicitly at <a title="VoiceStateUpdateEvent -- Event fired when a user changes their voice state …" href="voice_events.html#hikari.events.voice_events.VoiceStateUpdateEvent"
+class='dotted'>hikari.events.voice_events.VoiceStateUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+<dt>
+<h4 id="hikari.events.WebhookUpdateEvent"><small class='text-muted'>reference to </small><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="WebhookUpdateEvent -- Event fired when a webhook is created/updated/deleted in a channel …" href="channel_events.html#hikari.events.channel_events.WebhookUpdateEvent"
+class='dotted'>WebhookUpdateEvent</a></h4>
+</dt>
+<dd>
+<details>
+<summary>
+<span>Expand signature</span>
+</summary>
+<pre><code id="hikari.events.WebhookUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> WebhookUpdateEvent (
+    *,
+    app: traits.RESTAware,
+    shard: gateway_shard.GatewayShard,
+    channel_id: snowflake.Snowflake,
+    guild_id: snowflake.Snowflake,
+): ...</code></pre>
+</details>
+<p>Event fired when a webhook is created/updated/deleted in a channel …</p>
+<strong>This class is defined explicitly at <a title="WebhookUpdateEvent -- Event fired when a webhook is created/updated/deleted in a channel …" href="channel_events.html#hikari.events.channel_events.WebhookUpdateEvent"
+class='dotted'>hikari.events.channel_events.WebhookUpdateEvent</a>. Visit that link to view the full documentation!</strong>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

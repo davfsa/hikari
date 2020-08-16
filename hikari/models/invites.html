@@ -1,0 +1,1736 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.invites API documentation</title>
+<meta name="description" content="Application and entities that are used to describe invites on Discord." />
+<meta property="og:title" content="hikari.models.invites module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.invites">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">invites</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe invites on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="Inviteish -- Type hint for an invite, vanity URL, or invite code …" href="#hikari.models.invites.Inviteish"
+class='sidebar-nav-pill'>Inviteish</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Invite -- Represents an invite that's used to add users to a guild or group dm." href="#hikari.models.invites.Invite"
+class='sidebar-nav-pill'>Invite</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.Invite.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_member_count -- The approximate amount of members in this invite's guild …" href="#hikari.models.invites.Invite.approximate_member_count"
+class='sidebar-nav-pill'>approximate_member_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_presence_count -- The approximate amount of include_presences in this invite's guild …" href="#hikari.models.invites.Invite.approximate_presence_count"
+class='sidebar-nav-pill'>approximate_presence_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel -- The partial object of the channel this invite targets …" href="#hikari.models.invites.Invite.channel"
+class='sidebar-nav-pill'>channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this invite targets." href="#hikari.models.invites.Invite.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.Invite.code"
+class='sidebar-nav-pill'>code</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The partial object of the guild this invite belongs to …" href="#hikari.models.invites.Invite.guild"
+class='sidebar-nav-pill'>guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this invite belongs to …" href="#hikari.models.invites.Invite.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="inviter -- The object of the user who created this invite." href="#hikari.models.invites.Invite.inviter"
+class='sidebar-nav-pill'>inviter</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user -- The object of the user who this invite targets, if set." href="#hikari.models.invites.Invite.target_user"
+class='sidebar-nav-pill'>target_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user_type -- The type of user target this invite is, if applicable." href="#hikari.models.invites.Invite.target_user_type"
+class='sidebar-nav-pill'>target_user_type</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteGuild -- Represents the partial data of a guild that is attached to invites." href="#hikari.models.invites.InviteGuild"
+class='sidebar-nav-pill'>InviteGuild</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="guilds.html#hikari.models.invites.InviteGuild.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="banner -- Banner for the guild, if set." href="#hikari.models.invites.InviteGuild.banner"
+class='sidebar-nav-pill'>banner</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="banner_hash -- The hash for the guild's banner …" href="#hikari.models.invites.InviteGuild.banner_hash"
+class='sidebar-nav-pill'>banner_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="description -- The guild's description …" href="#hikari.models.invites.InviteGuild.description"
+class='sidebar-nav-pill'>description</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="features -- A list of the features in this guild." href="guilds.html#hikari.models.invites.InviteGuild.features"
+class='sidebar-nav-pill'>features</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_banner -- Generate the guild's banner image, if set …" href="#hikari.models.invites.InviteGuild.format_banner"
+class='sidebar-nav-pill'>format_banner</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_icon -- Generate the guild's icon, if set …" href="guilds.html#hikari.models.guilds.PartialGuild.format_icon"
+class='sidebar-nav-pill'>format_icon</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_splash -- Generate the guild's splash image, if set …" href="#hikari.models.invites.InviteGuild.format_splash"
+class='sidebar-nav-pill'>format_splash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon_hash -- The hash for the guild icon, if there is one." href="guilds.html#hikari.models.invites.InviteGuild.icon_hash"
+class='sidebar-nav-pill'>icon_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon_url -- Icon for the guild, if set; otherwise `builtins.None`." href="guilds.html#hikari.models.guilds.PartialGuild.icon_url"
+class='sidebar-nav-pill'>icon_url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="guilds.html#hikari.models.invites.InviteGuild.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the guild." href="guilds.html#hikari.models.invites.InviteGuild.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_id -- Return the ID of the shard this guild is served by …" href="guilds.html#hikari.models.guilds.PartialGuild.shard_id"
+class='sidebar-nav-pill'>shard_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="splash_hash -- The hash of the splash for the guild, if there is one." href="#hikari.models.invites.InviteGuild.splash_hash"
+class='sidebar-nav-pill'>splash_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="splash_url -- Splash for the guild, if set." href="#hikari.models.invites.InviteGuild.splash_url"
+class='sidebar-nav-pill'>splash_url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="vanity_url_code -- The vanity URL code for the guild's vanity URL …" href="#hikari.models.invites.InviteGuild.vanity_url_code"
+class='sidebar-nav-pill'>vanity_url_code</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verification_level -- The verification level required for a user to participate in this guild." href="#hikari.models.invites.InviteGuild.verification_level"
+class='sidebar-nav-pill'>verification_level</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteWithMetadata -- Extends the base `Invite` object with metadata …" href="#hikari.models.invites.InviteWithMetadata"
+class='sidebar-nav-pill'>InviteWithMetadata</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.InviteWithMetadata.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_member_count -- The approximate amount of members in this invite's guild …" href="#hikari.models.invites.InviteWithMetadata.approximate_member_count"
+class='sidebar-nav-pill'>approximate_member_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_presence_count -- The approximate amount of include_presences in this invite's guild …" href="#hikari.models.invites.InviteWithMetadata.approximate_presence_count"
+class='sidebar-nav-pill'>approximate_presence_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel -- The partial object of the channel this invite targets …" href="#hikari.models.invites.InviteWithMetadata.channel"
+class='sidebar-nav-pill'>channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this invite targets." href="#hikari.models.invites.InviteWithMetadata.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.InviteWithMetadata.code"
+class='sidebar-nav-pill'>code</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When this invite was created." href="#hikari.models.invites.InviteWithMetadata.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="expires_at -- When this invite should expire, if `InviteWithMetadata.max_age` is set …" href="#hikari.models.invites.InviteWithMetadata.expires_at"
+class='sidebar-nav-pill'>expires_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The partial object of the guild this invite belongs to …" href="#hikari.models.invites.InviteWithMetadata.guild"
+class='sidebar-nav-pill'>guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this invite belongs to …" href="#hikari.models.invites.InviteWithMetadata.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="inviter -- The object of the user who created this invite." href="#hikari.models.invites.InviteWithMetadata.inviter"
+class='sidebar-nav-pill'>inviter</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_temporary -- Whether this invite grants temporary membership." href="#hikari.models.invites.InviteWithMetadata.is_temporary"
+class='sidebar-nav-pill'>is_temporary</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_age -- The timedelta of how long this invite will be valid for …" href="#hikari.models.invites.InviteWithMetadata.max_age"
+class='sidebar-nav-pill'>max_age</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_uses -- The limit for how many times this invite can be used before it expires …" href="#hikari.models.invites.InviteWithMetadata.max_uses"
+class='sidebar-nav-pill'>max_uses</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user -- The object of the user who this invite targets, if set." href="#hikari.models.invites.InviteWithMetadata.target_user"
+class='sidebar-nav-pill'>target_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user_type -- The type of user target this invite is, if applicable." href="#hikari.models.invites.InviteWithMetadata.target_user_type"
+class='sidebar-nav-pill'>target_user_type</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uses -- The amount of times this invite has been used." href="#hikari.models.invites.InviteWithMetadata.uses"
+class='sidebar-nav-pill'>uses</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="TargetUserType -- The reason a invite targets a user." href="#hikari.models.invites.TargetUserType"
+class='sidebar-nav-pill'>TargetUserType</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAM -- This invite is targeting a "Go Live" stream." href="#hikari.models.invites.TargetUserType.STREAM"
+class='sidebar-nav-pill'>STREAM</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VanityURL -- A special case invite object, that represents a guild's vanity url." href="#hikari.models.invites.VanityURL"
+class='sidebar-nav-pill'>VanityURL</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.VanityURL.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.VanityURL.code"
+class='sidebar-nav-pill'>code</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uses -- The amount of times this invite has been used." href="#hikari.models.invites.VanityURL.uses"
+class='sidebar-nav-pill'>uses</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L0-L311" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe invites on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;TargetUserType&#34;,
+    &#34;VanityURL&#34;,
+    &#34;InviteGuild&#34;,
+    &#34;Invite&#34;,
+    &#34;InviteWithMetadata&#34;,
+    &#34;Inviteish&#34;,
+]
+
+import abc
+import enum
+import typing
+
+import attr
+
+from hikari.models import guilds
+from hikari.utilities import attr_extensions
+from hikari.utilities import constants
+from hikari.utilities import files
+from hikari.utilities import routes
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    import datetime
+
+    from hikari import traits
+    from hikari.models import channels
+    from hikari.models import users
+
+
+@enum.unique
+@typing.final
+class TargetUserType(enum.IntEnum):
+    &#34;&#34;&#34;The reason a invite targets a user.&#34;&#34;&#34;
+
+    STREAM = 1
+    &#34;&#34;&#34;This invite is targeting a &#34;Go Live&#34; stream.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+class InviteCode(abc.ABC):
+    &#34;&#34;&#34;A representation of a guild/channel invite.&#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    @abc.abstractmethod
+    def code(self) -&gt; str:
+        &#34;&#34;&#34;Return the code for this invite.
+
+        Returns
+        -------
+        builtins.str
+            The invite code that can be appended to a URL.
+        &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class VanityURL(InviteCode):
+    &#34;&#34;&#34;A special case invite object, that represents a guild&#39;s vanity url.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    code: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The code for this invite.&#34;&#34;&#34;
+
+    uses: int = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The amount of times this invite has been used.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;https://discord.gg/{self.code}&#34;
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class InviteGuild(guilds.PartialGuild):
+    &#34;&#34;&#34;Represents the partial data of a guild that is attached to invites.&#34;&#34;&#34;
+
+    splash_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The hash of the splash for the guild, if there is one.&#34;&#34;&#34;
+
+    banner_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The hash for the guild&#39;s banner.
+
+    This is only present if `hikari.models.guilds.GuildFeature.BANNER` is in the
+    `features` for this guild. For all other purposes, it is `builtins.None`.
+    &#34;&#34;&#34;
+
+    description: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The guild&#39;s description.
+
+    This is only present if certain `features` are set in this guild.
+    Otherwise, this will always be `builtins.None`. For all other purposes, it is `builtins.None`.
+    &#34;&#34;&#34;
+
+    verification_level: guilds.GuildVerificationLevel = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The verification level required for a user to participate in this guild.&#34;&#34;&#34;
+
+    vanity_url_code: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The vanity URL code for the guild&#39;s vanity URL.
+
+    This is only present if `hikari.models.guilds.GuildFeature.VANITY_URL` is in the
+    `features` for this guild. If not, this will always be `builtins.None`.
+    &#34;&#34;&#34;
+
+    @property
+    def splash_url(self) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Splash for the guild, if set.&#34;&#34;&#34;
+        return self.format_splash()
+
+    def format_splash(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the guild&#39;s splash image, if set.
+
+        Parameters
+        ----------
+        format_ : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg` and `webp`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL to the splash, or `builtins.None` if not set.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.splash_hash is None:
+            return None
+
+        return routes.CDN_GUILD_SPLASH.compile_to_file(
+            constants.CDN_URL, guild_id=self.id, hash=self.splash_hash, size=size, file_format=format_,
+        )
+
+    @property
+    def banner(self) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Banner for the guild, if set.&#34;&#34;&#34;
+        return self.format_banner()
+
+    def format_banner(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the guild&#39;s banner image, if set.
+
+        Parameters
+        ----------
+        format_ : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg` and `webp`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL of the banner, or `builtins.None` if no banner is set.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.banner_hash is None:
+            return None
+
+        return routes.CDN_GUILD_BANNER.compile_to_file(
+            constants.CDN_URL, guild_id=self.id, hash=self.banner_hash, size=size, file_format=format_,
+        )
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class Invite(InviteCode):
+    &#34;&#34;&#34;Represents an invite that&#39;s used to add users to a guild or group dm.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    code: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The code for this invite.&#34;&#34;&#34;
+
+    guild: typing.Optional[InviteGuild] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The partial object of the guild this invite belongs to.
+
+    Will be `builtins.None` for group DM invites and when attached to a gateway event;
+    for invites received over the gateway you should refer to `Invite.guild_id`.
+    &#34;&#34;&#34;
+
+    guild_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the guild this invite belongs to.
+
+    Will be `builtins.None` for group DM invites.
+    &#34;&#34;&#34;
+
+    channel: typing.Optional[channels.PartialChannel] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The partial object of the channel this invite targets.
+
+    Will be `builtins.None` for invite objects that are attached to gateway events,
+    in which case you should refer to `Invite.channel_id`.
+    &#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the channel this invite targets.&#34;&#34;&#34;
+
+    inviter: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The object of the user who created this invite.&#34;&#34;&#34;
+
+    target_user: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The object of the user who this invite targets, if set.&#34;&#34;&#34;
+
+    target_user_type: typing.Optional[TargetUserType] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The type of user target this invite is, if applicable.&#34;&#34;&#34;
+
+    approximate_presence_count: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The approximate amount of include_presences in this invite&#39;s guild.
+
+    This is only present when `with_counts` is passed as `builtins.True` to the GET
+    Invites endpoint.
+    &#34;&#34;&#34;
+
+    approximate_member_count: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The approximate amount of members in this invite&#39;s guild.
+
+    This is only present when `with_counts` is passed as `builtins.True` to the GET
+    Invites endpoint.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;https://discord.gg/{self.code}&#34;
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class InviteWithMetadata(Invite):
+    &#34;&#34;&#34;Extends the base `Invite` object with metadata.
+
+    The metadata is only returned when getting an invite with
+    guild permissions, rather than it&#39;s code.
+    &#34;&#34;&#34;
+
+    uses: int = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The amount of times this invite has been used.&#34;&#34;&#34;
+
+    max_uses: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The limit for how many times this invite can be used before it expires.
+
+    If set to `builtins.None` then this is unlimited.
+    &#34;&#34;&#34;
+
+    # TODO: can we use a non-None value to represent infinity here somehow, or
+    # make a timedelta that is infinite for comparisons?
+    max_age: typing.Optional[datetime.timedelta] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The timedelta of how long this invite will be valid for.
+
+    If set to `builtins.None` then this is unlimited.
+    &#34;&#34;&#34;
+
+    is_temporary: bool = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether this invite grants temporary membership.&#34;&#34;&#34;
+
+    created_at: datetime.datetime = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;When this invite was created.&#34;&#34;&#34;
+
+    @property
+    def expires_at(self) -&gt; typing.Optional[datetime.datetime]:
+        &#34;&#34;&#34;When this invite should expire, if `InviteWithMetadata.max_age` is set.
+
+        If this invite doesn&#39;t have a set expiry then this will be `builtins.None`.
+        &#34;&#34;&#34;
+        if self.max_age is not None:
+            return self.created_at + self.max_age
+        return None
+
+
+# TODO: converter to remove discord.gg part to allow URLs here too.
+Inviteish = typing.Union[str, InviteCode]
+&#34;&#34;&#34;Type hint for an invite, vanity URL, or invite code.
+
+This must be a representation of an invite that is a `builtins.str` containing
+the invite code, an `Invite`/`InviteWithMetadata`, or a `VanityURL` instance.
+&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="Inviteish -- Type hint for an invite, vanity URL, or invite code …" href="#hikari.models.invites.Inviteish" id="hikari.models.invites.Inviteish" class='dotted'>Inviteish</a> = typing.Union[str, hikari.models.invites.InviteCode]</code></pre>
+</dt>
+<dd><p>Type hint for an invite, vanity URL, or invite code.</p>
+<p>This must be a representation of an invite that is a <code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> containing
+the invite code, an <code><a href='#hikari.models.invites.Invite'>Invite</a></code>/<code><a href='#hikari.models.invites.InviteWithMetadata'>InviteWithMetadata</a></code>, or a <code><a href='#hikari.models.invites.VanityURL'>VanityURL</a></code> instance.</p></dd>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Invite -- Represents an invite that's used to add users to a guild or group dm." href="#hikari.models.invites.Invite"
+class='dotted'>Invite</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.invites.Invite" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Invite (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    code: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    guild: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.invites.InviteGuild'>InviteGuild</a>],
+    guild_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    channel: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='channels.html#hikari.models.channels.PartialChannel'>channels.PartialChannel</a>],
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    inviter: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='users.html#hikari.models.users.User'>users.User</a>],
+    target_user: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='users.html#hikari.models.users.User'>users.User</a>],
+    target_user_type: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.invites.TargetUserType'>TargetUserType</a>],
+    approximate_presence_count: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    approximate_member_count: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+): ...</code></pre>
+<p>Represents an invite that's used to add users to a guild or group dm.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L205-L261" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Invite(InviteCode):
+    &#34;&#34;&#34;Represents an invite that&#39;s used to add users to a guild or group dm.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    code: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The code for this invite.&#34;&#34;&#34;
+
+    guild: typing.Optional[InviteGuild] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The partial object of the guild this invite belongs to.
+
+    Will be `builtins.None` for group DM invites and when attached to a gateway event;
+    for invites received over the gateway you should refer to `Invite.guild_id`.
+    &#34;&#34;&#34;
+
+    guild_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the guild this invite belongs to.
+
+    Will be `builtins.None` for group DM invites.
+    &#34;&#34;&#34;
+
+    channel: typing.Optional[channels.PartialChannel] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The partial object of the channel this invite targets.
+
+    Will be `builtins.None` for invite objects that are attached to gateway events,
+    in which case you should refer to `Invite.channel_id`.
+    &#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the channel this invite targets.&#34;&#34;&#34;
+
+    inviter: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The object of the user who created this invite.&#34;&#34;&#34;
+
+    target_user: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The object of the user who this invite targets, if set.&#34;&#34;&#34;
+
+    target_user_type: typing.Optional[TargetUserType] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The type of user target this invite is, if applicable.&#34;&#34;&#34;
+
+    approximate_presence_count: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The approximate amount of include_presences in this invite&#39;s guild.
+
+    This is only present when `with_counts` is passed as `builtins.True` to the GET
+    Invites endpoint.
+    &#34;&#34;&#34;
+
+    approximate_member_count: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The approximate amount of members in this invite&#39;s guild.
+
+    This is only present when `with_counts` is passed as `builtins.True` to the GET
+    Invites endpoint.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;https://discord.gg/{self.code}&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteWithMetadata -- Extends the base `Invite` object with metadata …" href="#hikari.models.invites.InviteWithMetadata"
+class='dotted'>InviteWithMetadata</a></dt>
+<dd class="nested"><p>Extends the base <code><a href='#hikari.models.invites.Invite'>Invite</a></code> object with metadata …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Invite -- Represents an invite that's used to add users to a guild or group dm." href="#hikari.models.invites.Invite"
+class='dotted'>Invite</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.models.invites.InviteCode</dt>
+<dd class="nested"><p>A representation of a guild/channel invite.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.Invite.app" id="hikari.models.invites.Invite.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_member_count -- The approximate amount of members in this invite's guild …" href="#hikari.models.invites.Invite.approximate_member_count" id="hikari.models.invites.Invite.approximate_member_count" class='dotted'>approximate_member_count</a> : typing.Optional[int]</code></pre>
+</dt>
+<dd><p>The approximate amount of members in this invite's guild.</p>
+<p>This is only present when <code>with_counts</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> to the GET
+Invites endpoint.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_presence_count -- The approximate amount of include_presences in this invite's guild …" href="#hikari.models.invites.Invite.approximate_presence_count" id="hikari.models.invites.Invite.approximate_presence_count" class='dotted'>approximate_presence_count</a> : typing.Optional[int]</code></pre>
+</dt>
+<dd><p>The approximate amount of include_presences in this invite's guild.</p>
+<p>This is only present when <code>with_counts</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> to the GET
+Invites endpoint.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel -- The partial object of the channel this invite targets …" href="#hikari.models.invites.Invite.channel" id="hikari.models.invites.Invite.channel" class='dotted'>channel</a> : typing.Optional[channels.PartialChannel]</code></pre>
+</dt>
+<dd><p>The partial object of the channel this invite targets.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for invite objects that are attached to gateway events,
+in which case you should refer to <code><a href='#hikari.models.invites.Invite.channel_id'>channel_id</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this invite targets." href="#hikari.models.invites.Invite.channel_id" id="hikari.models.invites.Invite.channel_id" class='dotted'>channel_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the channel this invite targets.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.Invite.code" id="hikari.models.invites.Invite.code" class='dotted'>code</a> : str</code></pre>
+</dt>
+<dd><p>The code for this invite.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The partial object of the guild this invite belongs to …" href="#hikari.models.invites.Invite.guild" id="hikari.models.invites.Invite.guild" class='dotted'>guild</a> : typing.Optional[InviteGuild]</code></pre>
+</dt>
+<dd><p>The partial object of the guild this invite belongs to.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for group DM invites and when attached to a gateway event;
+for invites received over the gateway you should refer to <code><a href='#hikari.models.invites.Invite.guild_id'>guild_id</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this invite belongs to …" href="#hikari.models.invites.Invite.guild_id" id="hikari.models.invites.Invite.guild_id" class='dotted'>guild_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the guild this invite belongs to.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for group DM invites.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="inviter -- The object of the user who created this invite." href="#hikari.models.invites.Invite.inviter" id="hikari.models.invites.Invite.inviter" class='dotted'>inviter</a> : typing.Optional[users.User]</code></pre>
+</dt>
+<dd><p>The object of the user who created this invite.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user -- The object of the user who this invite targets, if set." href="#hikari.models.invites.Invite.target_user" id="hikari.models.invites.Invite.target_user" class='dotted'>target_user</a> : typing.Optional[users.User]</code></pre>
+</dt>
+<dd><p>The object of the user who this invite targets, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user_type -- The type of user target this invite is, if applicable." href="#hikari.models.invites.Invite.target_user_type" id="hikari.models.invites.Invite.target_user_type" class='dotted'>target_user_type</a> : typing.Optional[TargetUserType]</code></pre>
+</dt>
+<dd><p>The type of user target this invite is, if applicable.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteGuild -- Represents the partial data of a guild that is attached to invites." href="#hikari.models.invites.InviteGuild"
+class='dotted'>InviteGuild</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.invites.InviteGuild" class="hljs python"><abbr title='A standard Python type.'>class</abbr> InviteGuild (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    icon_hash: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    features: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[GuildFeatureish],
+    splash_hash: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    banner_hash: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    description: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    verification_level: <a href='guilds.html#hikari.models.guilds.GuildVerificationLevel'>guilds.GuildVerificationLevel</a>,
+    vanity_url_code: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Represents the partial data of a guild that is attached to invites.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L104-L200" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class InviteGuild(guilds.PartialGuild):
+    &#34;&#34;&#34;Represents the partial data of a guild that is attached to invites.&#34;&#34;&#34;
+
+    splash_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The hash of the splash for the guild, if there is one.&#34;&#34;&#34;
+
+    banner_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The hash for the guild&#39;s banner.
+
+    This is only present if `hikari.models.guilds.GuildFeature.BANNER` is in the
+    `features` for this guild. For all other purposes, it is `builtins.None`.
+    &#34;&#34;&#34;
+
+    description: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The guild&#39;s description.
+
+    This is only present if certain `features` are set in this guild.
+    Otherwise, this will always be `builtins.None`. For all other purposes, it is `builtins.None`.
+    &#34;&#34;&#34;
+
+    verification_level: guilds.GuildVerificationLevel = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The verification level required for a user to participate in this guild.&#34;&#34;&#34;
+
+    vanity_url_code: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The vanity URL code for the guild&#39;s vanity URL.
+
+    This is only present if `hikari.models.guilds.GuildFeature.VANITY_URL` is in the
+    `features` for this guild. If not, this will always be `builtins.None`.
+    &#34;&#34;&#34;
+
+    @property
+    def splash_url(self) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Splash for the guild, if set.&#34;&#34;&#34;
+        return self.format_splash()
+
+    def format_splash(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the guild&#39;s splash image, if set.
+
+        Parameters
+        ----------
+        format_ : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg` and `webp`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL to the splash, or `builtins.None` if not set.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.splash_hash is None:
+            return None
+
+        return routes.CDN_GUILD_SPLASH.compile_to_file(
+            constants.CDN_URL, guild_id=self.id, hash=self.splash_hash, size=size, file_format=format_,
+        )
+
+    @property
+    def banner(self) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Banner for the guild, if set.&#34;&#34;&#34;
+        return self.format_banner()
+
+    def format_banner(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the guild&#39;s banner image, if set.
+
+        Parameters
+        ----------
+        format_ : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg` and `webp`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL of the banner, or `builtins.None` if no banner is set.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.banner_hash is None:
+            return None
+
+        return routes.CDN_GUILD_BANNER.compile_to_file(
+            constants.CDN_URL, guild_id=self.id, hash=self.banner_hash, size=size, file_format=format_,
+        )</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteGuild -- Represents the partial data of a guild that is attached to invites." href="#hikari.models.invites.InviteGuild"
+class='dotted'>InviteGuild</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialGuild -- Base object for any partial guild objects." href="guilds.html#hikari.models.guilds.PartialGuild"
+class='dotted'>PartialGuild</a></dt>
+<dd class="nested"><p>Base object for any partial guild objects.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.invites.InviteGuild.format_banner" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_banner(
+    *,
+    format_: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = 'png',
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p>Generate the guild's banner image, if set.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format_</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The format to use for this URL, defaults to <code>png</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code> and <code>webp</code>.</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL of the banner, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no banner is set.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two or not between 16 and 4096.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L173-L200" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def format_banner(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+    &#34;&#34;&#34;Generate the guild&#39;s banner image, if set.
+
+    Parameters
+    ----------
+    format_ : builtins.str
+        The format to use for this URL, defaults to `png`.
+        Supports `png`, `jpeg`, `jpg` and `webp`.
+    size : builtins.int
+        The size to set for the URL, defaults to `4096`.
+        Can be any power of two between 16 and 4096.
+
+    Returns
+    -------
+    hikari.utilities.files.URL or builtins.None
+        The URL of the banner, or `builtins.None` if no banner is set.
+
+    Raises
+    ------
+    builtins.ValueError
+        If `size` is not a power of two or not between 16 and 4096.
+    &#34;&#34;&#34;
+    if self.banner_hash is None:
+        return None
+
+    return routes.CDN_GUILD_BANNER.compile_to_file(
+        constants.CDN_URL, guild_id=self.id, hash=self.banner_hash, size=size, file_format=format_,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.invites.InviteGuild.format_icon" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_icon(
+    *,
+    format_: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="PartialGuild -- Base object for any partial guild objects." href="guilds.html#hikari.models.guilds.PartialGuild"
+class='dotted'>PartialGuild</a></code>.<code><a title="format_icon -- Generate the guild's icon, if set …" href="guilds.html#hikari.models.guilds.PartialGuild.format_icon"
+class='dotted'>format_icon</a></code>
+</p>
+<p>Generate the guild's icon, if set.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format_</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The format to use for this URL, defaults to <code>png</code> or <code>gif</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>webp</code> and <code>gif</code> (when
+animated).</p>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then the correct default format is determined
+based on whether the icon is animated or not.</p>
+</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL to the resource, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no icon is set.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two or not between 16 and 4096.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.invites.InviteGuild.format_splash" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_splash(
+    *,
+    format_: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = 'png',
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p>Generate the guild's splash image, if set.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format_</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The format to use for this URL, defaults to <code>png</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code> and <code>webp</code>.</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL to the splash, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if not set.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two or not between 16 and 4096.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L139-L166" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def format_splash(self, *, format_: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files.URL]:
+    &#34;&#34;&#34;Generate the guild&#39;s splash image, if set.
+
+    Parameters
+    ----------
+    format_ : builtins.str
+        The format to use for this URL, defaults to `png`.
+        Supports `png`, `jpeg`, `jpg` and `webp`.
+    size : builtins.int
+        The size to set for the URL, defaults to `4096`.
+        Can be any power of two between 16 and 4096.
+
+    Returns
+    -------
+    hikari.utilities.files.URL or builtins.None
+        The URL to the splash, or `builtins.None` if not set.
+
+    Raises
+    ------
+    builtins.ValueError
+        If `size` is not a power of two or not between 16 and 4096.
+    &#34;&#34;&#34;
+    if self.splash_hash is None:
+        return None
+
+    return routes.CDN_GUILD_SPLASH.compile_to_file(
+        constants.CDN_URL, guild_id=self.id, hash=self.splash_hash, size=size, file_format=format_,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="guilds.html#hikari.models.invites.InviteGuild.app" id="hikari.models.invites.InviteGuild.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="banner -- Banner for the guild, if set." href="#hikari.models.invites.InviteGuild.banner" id="hikari.models.invites.InviteGuild.banner" class='dotted'>banner</a> : Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]</code></pre>
+</dt>
+<dd><p>Banner for the guild, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="banner_hash -- The hash for the guild's banner …" href="#hikari.models.invites.InviteGuild.banner_hash" id="hikari.models.invites.InviteGuild.banner_hash" class='dotted'>banner_hash</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The hash for the guild's banner.</p>
+<p>This is only present if <code><a href='guilds.html#hikari.models.guilds.GuildFeature.BANNER'>BANNER</a></code> is in the
+<code><a href='https://docs.python.org/3/library/msilib.html#features'>features</a></code> for this guild. For all other purposes, it is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.invites.InviteGuild.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="description -- The guild's description …" href="#hikari.models.invites.InviteGuild.description" id="hikari.models.invites.InviteGuild.description" class='dotted'>description</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The guild's description.</p>
+<p>This is only present if certain <code><a href='https://docs.python.org/3/library/msilib.html#features'>features</a></code> are set in this guild.
+Otherwise, this will always be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>. For all other purposes, it is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="features -- A list of the features in this guild." href="guilds.html#hikari.models.invites.InviteGuild.features" id="hikari.models.invites.InviteGuild.features" class='dotted'>features</a> : typing.Sequence[GuildFeatureish]</code></pre>
+</dt>
+<dd><p>A list of the features in this guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon_hash -- The hash for the guild icon, if there is one." href="guilds.html#hikari.models.invites.InviteGuild.icon_hash" id="hikari.models.invites.InviteGuild.icon_hash" class='dotted'>icon_hash</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The hash for the guild icon, if there is one.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon_url -- Icon for the guild, if set; otherwise `builtins.None`." href="guilds.html#hikari.models.guilds.PartialGuild.icon_url" id="hikari.models.invites.InviteGuild.icon_url" class='dotted'>icon_url</a> : Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]</code></pre>
+</dt>
+<dd><p>Icon for the guild, if set; otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="guilds.html#hikari.models.invites.InviteGuild.id" id="hikari.models.invites.InviteGuild.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the guild." href="guilds.html#hikari.models.invites.InviteGuild.name" id="hikari.models.invites.InviteGuild.name" class='dotted'>name</a> : str</code></pre>
+</dt>
+<dd><p>The name of the guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_id -- Return the ID of the shard this guild is served by …" href="guilds.html#hikari.models.guilds.PartialGuild.shard_id" id="hikari.models.invites.InviteGuild.shard_id" class='dotted'>shard_id</a> : Union[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, None]</code></pre>
+</dt>
+<dd><p>Return the ID of the shard this guild is served by.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the application does not have a gateway
+connection.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="splash_hash -- The hash of the splash for the guild, if there is one." href="#hikari.models.invites.InviteGuild.splash_hash" id="hikari.models.invites.InviteGuild.splash_hash" class='dotted'>splash_hash</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The hash of the splash for the guild, if there is one.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="splash_url -- Splash for the guild, if set." href="#hikari.models.invites.InviteGuild.splash_url" id="hikari.models.invites.InviteGuild.splash_url" class='dotted'>splash_url</a> : Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]</code></pre>
+</dt>
+<dd><p>Splash for the guild, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="vanity_url_code -- The vanity URL code for the guild's vanity URL …" href="#hikari.models.invites.InviteGuild.vanity_url_code" id="hikari.models.invites.InviteGuild.vanity_url_code" class='dotted'>vanity_url_code</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The vanity URL code for the guild's vanity URL.</p>
+<p>This is only present if <code><a href='guilds.html#hikari.models.guilds.GuildFeature.VANITY_URL'>VANITY_URL</a></code> is in the
+<code><a href='https://docs.python.org/3/library/msilib.html#features'>features</a></code> for this guild. If not, this will always be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verification_level -- The verification level required for a user to participate in this guild." href="#hikari.models.invites.InviteGuild.verification_level" id="hikari.models.invites.InviteGuild.verification_level" class='dotted'>verification_level</a> : guilds.GuildVerificationLevel</code></pre>
+</dt>
+<dd><p>The verification level required for a user to participate in this guild.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteWithMetadata -- Extends the base `Invite` object with metadata …" href="#hikari.models.invites.InviteWithMetadata"
+class='dotted'>InviteWithMetadata</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.invites.InviteWithMetadata" class="hljs python"><abbr title='A standard Python type.'>class</abbr> InviteWithMetadata (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    code: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    guild: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.invites.InviteGuild'>InviteGuild</a>],
+    guild_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    channel: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='channels.html#hikari.models.channels.PartialChannel'>channels.PartialChannel</a>],
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    inviter: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='users.html#hikari.models.users.User'>users.User</a>],
+    target_user: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='users.html#hikari.models.users.User'>users.User</a>],
+    target_user_type: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.invites.TargetUserType'>TargetUserType</a>],
+    approximate_presence_count: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    approximate_member_count: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    uses: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    max_uses: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    max_age: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.timedelta'>datetime.timedelta</a>],
+    is_temporary: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    created_at: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+): ...</code></pre>
+<p>Extends the base <code><a href='#hikari.models.invites.Invite'>Invite</a></code> object with metadata.</p>
+<p>The metadata is only returned when getting an invite with
+guild permissions, rather than it's code.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L265-L303" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class InviteWithMetadata(Invite):
+    &#34;&#34;&#34;Extends the base `Invite` object with metadata.
+
+    The metadata is only returned when getting an invite with
+    guild permissions, rather than it&#39;s code.
+    &#34;&#34;&#34;
+
+    uses: int = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The amount of times this invite has been used.&#34;&#34;&#34;
+
+    max_uses: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The limit for how many times this invite can be used before it expires.
+
+    If set to `builtins.None` then this is unlimited.
+    &#34;&#34;&#34;
+
+    # TODO: can we use a non-None value to represent infinity here somehow, or
+    # make a timedelta that is infinite for comparisons?
+    max_age: typing.Optional[datetime.timedelta] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The timedelta of how long this invite will be valid for.
+
+    If set to `builtins.None` then this is unlimited.
+    &#34;&#34;&#34;
+
+    is_temporary: bool = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether this invite grants temporary membership.&#34;&#34;&#34;
+
+    created_at: datetime.datetime = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;When this invite was created.&#34;&#34;&#34;
+
+    @property
+    def expires_at(self) -&gt; typing.Optional[datetime.datetime]:
+        &#34;&#34;&#34;When this invite should expire, if `InviteWithMetadata.max_age` is set.
+
+        If this invite doesn&#39;t have a set expiry then this will be `builtins.None`.
+        &#34;&#34;&#34;
+        if self.max_age is not None:
+            return self.created_at + self.max_age
+        return None</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InviteWithMetadata -- Extends the base `Invite` object with metadata …" href="#hikari.models.invites.InviteWithMetadata"
+class='dotted'>InviteWithMetadata</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Invite -- Represents an invite that's used to add users to a guild or group dm." href="#hikari.models.invites.Invite"
+class='dotted'>Invite</a></dt>
+<dd class="nested"><p>Represents an invite that's used to add users to a guild or group dm.</p></dd>
+<dt class="nested">hikari.models.invites.InviteCode</dt>
+<dd class="nested"><p>A representation of a guild/channel invite.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.InviteWithMetadata.app" id="hikari.models.invites.InviteWithMetadata.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_member_count -- The approximate amount of members in this invite's guild …" href="#hikari.models.invites.InviteWithMetadata.approximate_member_count" id="hikari.models.invites.InviteWithMetadata.approximate_member_count" class='dotted'>approximate_member_count</a> : typing.Optional[int]</code></pre>
+</dt>
+<dd><p>The approximate amount of members in this invite's guild.</p>
+<p>This is only present when <code>with_counts</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> to the GET
+Invites endpoint.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="approximate_presence_count -- The approximate amount of include_presences in this invite's guild …" href="#hikari.models.invites.InviteWithMetadata.approximate_presence_count" id="hikari.models.invites.InviteWithMetadata.approximate_presence_count" class='dotted'>approximate_presence_count</a> : typing.Optional[int]</code></pre>
+</dt>
+<dd><p>The approximate amount of include_presences in this invite's guild.</p>
+<p>This is only present when <code>with_counts</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> to the GET
+Invites endpoint.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel -- The partial object of the channel this invite targets …" href="#hikari.models.invites.InviteWithMetadata.channel" id="hikari.models.invites.InviteWithMetadata.channel" class='dotted'>channel</a> : typing.Optional[channels.PartialChannel]</code></pre>
+</dt>
+<dd><p>The partial object of the channel this invite targets.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for invite objects that are attached to gateway events,
+in which case you should refer to <code><a href='#hikari.models.invites.Invite.channel_id'>channel_id</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this invite targets." href="#hikari.models.invites.InviteWithMetadata.channel_id" id="hikari.models.invites.InviteWithMetadata.channel_id" class='dotted'>channel_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the channel this invite targets.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.InviteWithMetadata.code" id="hikari.models.invites.InviteWithMetadata.code" class='dotted'>code</a> : str</code></pre>
+</dt>
+<dd><p>The code for this invite.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When this invite was created." href="#hikari.models.invites.InviteWithMetadata.created_at" id="hikari.models.invites.InviteWithMetadata.created_at" class='dotted'>created_at</a> : datetime.datetime</code></pre>
+</dt>
+<dd><p>When this invite was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="expires_at -- When this invite should expire, if `InviteWithMetadata.max_age` is set …" href="#hikari.models.invites.InviteWithMetadata.expires_at" id="hikari.models.invites.InviteWithMetadata.expires_at" class='dotted'>expires_at</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>]</code></pre>
+</dt>
+<dd><p>When this invite should expire, if <code><a href='#hikari.models.invites.InviteWithMetadata.max_age'>max_age</a></code> is set.</p>
+<p>If this invite doesn't have a set expiry then this will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The partial object of the guild this invite belongs to …" href="#hikari.models.invites.InviteWithMetadata.guild" id="hikari.models.invites.InviteWithMetadata.guild" class='dotted'>guild</a> : typing.Optional[InviteGuild]</code></pre>
+</dt>
+<dd><p>The partial object of the guild this invite belongs to.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for group DM invites and when attached to a gateway event;
+for invites received over the gateway you should refer to <code><a href='#hikari.models.invites.Invite.guild_id'>guild_id</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this invite belongs to …" href="#hikari.models.invites.InviteWithMetadata.guild_id" id="hikari.models.invites.InviteWithMetadata.guild_id" class='dotted'>guild_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the guild this invite belongs to.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for group DM invites.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="inviter -- The object of the user who created this invite." href="#hikari.models.invites.InviteWithMetadata.inviter" id="hikari.models.invites.InviteWithMetadata.inviter" class='dotted'>inviter</a> : typing.Optional[users.User]</code></pre>
+</dt>
+<dd><p>The object of the user who created this invite.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_temporary -- Whether this invite grants temporary membership." href="#hikari.models.invites.InviteWithMetadata.is_temporary" id="hikari.models.invites.InviteWithMetadata.is_temporary" class='dotted'>is_temporary</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this invite grants temporary membership.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_age -- The timedelta of how long this invite will be valid for …" href="#hikari.models.invites.InviteWithMetadata.max_age" id="hikari.models.invites.InviteWithMetadata.max_age" class='dotted'>max_age</a> : typing.Optional[datetime.timedelta]</code></pre>
+</dt>
+<dd><p>The timedelta of how long this invite will be valid for.</p>
+<p>If set to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> then this is unlimited.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_uses -- The limit for how many times this invite can be used before it expires …" href="#hikari.models.invites.InviteWithMetadata.max_uses" id="hikari.models.invites.InviteWithMetadata.max_uses" class='dotted'>max_uses</a> : typing.Optional[int]</code></pre>
+</dt>
+<dd><p>The limit for how many times this invite can be used before it expires.</p>
+<p>If set to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> then this is unlimited.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user -- The object of the user who this invite targets, if set." href="#hikari.models.invites.InviteWithMetadata.target_user" id="hikari.models.invites.InviteWithMetadata.target_user" class='dotted'>target_user</a> : typing.Optional[users.User]</code></pre>
+</dt>
+<dd><p>The object of the user who this invite targets, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_user_type -- The type of user target this invite is, if applicable." href="#hikari.models.invites.InviteWithMetadata.target_user_type" id="hikari.models.invites.InviteWithMetadata.target_user_type" class='dotted'>target_user_type</a> : typing.Optional[TargetUserType]</code></pre>
+</dt>
+<dd><p>The type of user target this invite is, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uses -- The amount of times this invite has been used." href="#hikari.models.invites.InviteWithMetadata.uses" id="hikari.models.invites.InviteWithMetadata.uses" class='dotted'>uses</a> : int</code></pre>
+</dt>
+<dd><p>The amount of times this invite has been used.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="TargetUserType -- The reason a invite targets a user." href="#hikari.models.invites.TargetUserType"
+class='dotted'>TargetUserType</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.invites.TargetUserType" class="hljs python"><abbr title='A standard Python type.'>class</abbr> TargetUserType (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The reason a invite targets a user.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L58-L65" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class TargetUserType(enum.IntEnum):
+    &#34;&#34;&#34;The reason a invite targets a user.&#34;&#34;&#34;
+
+    STREAM = 1
+    &#34;&#34;&#34;This invite is targeting a &#34;Go Live&#34; stream.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="TargetUserType -- The reason a invite targets a user." href="#hikari.models.invites.TargetUserType"
+class='dotted'>TargetUserType</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAM -- This invite is targeting a "Go Live" stream." href="#hikari.models.invites.TargetUserType.STREAM" id="hikari.models.invites.TargetUserType.STREAM" class='dotted'>STREAM</a> = STREAM</code></pre>
+</dt>
+<dd><p>This invite is targeting a "Go Live" stream.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VanityURL -- A special case invite object, that represents a guild's vanity url." href="#hikari.models.invites.VanityURL"
+class='dotted'>VanityURL</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.invites.VanityURL" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VanityURL (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    code: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    uses: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+): ...</code></pre>
+<p>A special case invite object, that represents a guild's vanity url.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/invites.py#L87-L100" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VanityURL(InviteCode):
+    &#34;&#34;&#34;A special case invite object, that represents a guild&#39;s vanity url.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    code: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The code for this invite.&#34;&#34;&#34;
+
+    uses: int = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The amount of times this invite has been used.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;https://discord.gg/{self.code}&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VanityURL -- A special case invite object, that represents a guild's vanity url." href="#hikari.models.invites.VanityURL"
+class='dotted'>VanityURL</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.models.invites.InviteCode</dt>
+<dd class="nested"><p>A representation of a guild/channel invite.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.invites.VanityURL.app" id="hikari.models.invites.VanityURL.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- The code for this invite." href="#hikari.models.invites.VanityURL.code" id="hikari.models.invites.VanityURL.code" class='dotted'>code</a> : str</code></pre>
+</dt>
+<dd><p>The code for this invite.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uses -- The amount of times this invite has been used." href="#hikari.models.invites.VanityURL.uses" id="hikari.models.invites.VanityURL.uses" class='dotted'>uses</a> : int</code></pre>
+</dt>
+<dd><p>The amount of times this invite has been used.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,2555 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.audit_logs API documentation</title>
+<meta name="description" content="Application and entities that are used to describe audit logs on Discord." />
+<meta property="og:title" content="hikari.models.audit_logs module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.audit_logs">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">audit_logs</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe audit logs on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLog -- Represents a guilds audit log." href="#hikari.models.audit_logs.AuditLog"
+class='sidebar-nav-pill'>AuditLog</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entries -- A sequence of the audit log's entries." href="#hikari.models.audit_logs.AuditLog.entries"
+class='sidebar-nav-pill'>entries</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="integrations -- A mapping of the partial objects of integrations found in this audit log." href="#hikari.models.audit_logs.AuditLog.integrations"
+class='sidebar-nav-pill'>integrations</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="users -- A mapping of the objects of users found in this audit log." href="#hikari.models.audit_logs.AuditLog.users"
+class='sidebar-nav-pill'>users</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="webhooks -- A mapping of the objects of webhooks found in this audit log." href="#hikari.models.audit_logs.AuditLog.webhooks"
+class='sidebar-nav-pill'>webhooks</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLogChange -- Represents a change made to an audit log entry's target entity." href="#hikari.models.audit_logs.AuditLogChange"
+class='sidebar-nav-pill'>AuditLogChange</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="key -- The name of the audit log change's key." href="#hikari.models.audit_logs.AuditLogChange.key"
+class='sidebar-nav-pill'>key</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="new_value -- The new value of the key, if something was added or changed." href="#hikari.models.audit_logs.AuditLogChange.new_value"
+class='sidebar-nav-pill'>new_value</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="old_value -- The old value of the key, if something was removed or changed." href="#hikari.models.audit_logs.AuditLogChange.old_value"
+class='sidebar-nav-pill'>old_value</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogChangeKey -- Commonly known and documented keys for audit log change objects …" href="#hikari.models.audit_logs.AuditLogChangeKey"
+class='sidebar-nav-pill'>AuditLogChangeKey</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADD_ROLE_TO_MEMBER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ADD_ROLE_TO_MEMBER"
+class='sidebar-nav-pill'>ADD_ROLE_TO_MEMBER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AFK_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AFK_CHANNEL_ID"
+class='sidebar-nav-pill'>AFK_CHANNEL_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AFK_TIMEOUT -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AFK_TIMEOUT"
+class='sidebar-nav-pill'>AFK_TIMEOUT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALLOW -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ALLOW"
+class='sidebar-nav-pill'>ALLOW</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="APPLICATION_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.APPLICATION_ID"
+class='sidebar-nav-pill'>APPLICATION_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AVATAR_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AVATAR_HASH"
+class='sidebar-nav-pill'>AVATAR_HASH</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BITRATE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.BITRATE"
+class='sidebar-nav-pill'>BITRATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.CHANNEL_ID"
+class='sidebar-nav-pill'>CHANNEL_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="COLOR -- " href="#hikari.models.audit_logs.AuditLogChangeKey.COLOR"
+class='sidebar-nav-pill'>COLOR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEAF -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DEAF"
+class='sidebar-nav-pill'>DEAF</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEFAULT_MESSAGE_NOTIFICATIONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DEFAULT_MESSAGE_NOTIFICATIONS"
+class='sidebar-nav-pill'>DEFAULT_MESSAGE_NOTIFICATIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DENY -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DENY"
+class='sidebar-nav-pill'>DENY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ENABLE_EMOTICONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ENABLE_EMOTICONS"
+class='sidebar-nav-pill'>ENABLE_EMOTICONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPIRE_BEHAVIOR -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_BEHAVIOR"
+class='sidebar-nav-pill'>EXPIRE_BEHAVIOR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPIRE_GRACE_PERIOD -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_GRACE_PERIOD"
+class='sidebar-nav-pill'>EXPIRE_GRACE_PERIOD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPLICIT_CONTENT_FILTER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPLICIT_CONTENT_FILTER"
+class='sidebar-nav-pill'>EXPLICIT_CONTENT_FILTER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOIST -- " href="#hikari.models.audit_logs.AuditLogChangeKey.HOIST"
+class='sidebar-nav-pill'>HOIST</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ICON_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ICON_HASH"
+class='sidebar-nav-pill'>ICON_HASH</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ID"
+class='sidebar-nav-pill'>ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITER_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.INVITER_ID"
+class='sidebar-nav-pill'>INVITER_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_CODE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.INVITE_CODE"
+class='sidebar-nav-pill'>INVITE_CODE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MAX_AGE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MAX_AGE"
+class='sidebar-nav-pill'>MAX_AGE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MAX_USES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MAX_USES"
+class='sidebar-nav-pill'>MAX_USES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MENTIONABLE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MENTIONABLE"
+class='sidebar-nav-pill'>MENTIONABLE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MFA_LEVEL -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MFA_LEVEL"
+class='sidebar-nav-pill'>MFA_LEVEL</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MUTE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MUTE"
+class='sidebar-nav-pill'>MUTE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NAME -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NAME"
+class='sidebar-nav-pill'>NAME</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NICK -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NICK"
+class='sidebar-nav-pill'>NICK</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NSFW -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NSFW"
+class='sidebar-nav-pill'>NSFW</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="OWNER_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.OWNER_ID"
+class='sidebar-nav-pill'>OWNER_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PERMISSIONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PERMISSIONS"
+class='sidebar-nav-pill'>PERMISSIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PERMISSION_OVERWRITES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PERMISSION_OVERWRITES"
+class='sidebar-nav-pill'>PERMISSION_OVERWRITES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="POSITION -- " href="#hikari.models.audit_logs.AuditLogChangeKey.POSITION"
+class='sidebar-nav-pill'>POSITION</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRUNE_DELETE_DAYS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PRUNE_DELETE_DAYS"
+class='sidebar-nav-pill'>PRUNE_DELETE_DAYS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="RATE_LIMIT_PER_USER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.RATE_LIMIT_PER_USER"
+class='sidebar-nav-pill'>RATE_LIMIT_PER_USER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="REGION -- " href="#hikari.models.audit_logs.AuditLogChangeKey.REGION"
+class='sidebar-nav-pill'>REGION</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="REMOVE_ROLE_FROM_MEMBER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.REMOVE_ROLE_FROM_MEMBER"
+class='sidebar-nav-pill'>REMOVE_ROLE_FROM_MEMBER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPLASH_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.SPLASH_HASH"
+class='sidebar-nav-pill'>SPLASH_HASH</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYSTEM_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.SYSTEM_CHANNEL_ID"
+class='sidebar-nav-pill'>SYSTEM_CHANNEL_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TEMPORARY -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TEMPORARY"
+class='sidebar-nav-pill'>TEMPORARY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TOPIC -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TOPIC"
+class='sidebar-nav-pill'>TOPIC</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TYPE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TYPE"
+class='sidebar-nav-pill'>TYPE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.USES"
+class='sidebar-nav-pill'>USES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VANITY_URL_CODE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.VANITY_URL_CODE"
+class='sidebar-nav-pill'>VANITY_URL_CODE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFICATION_LEVEL -- " href="#hikari.models.audit_logs.AuditLogChangeKey.VERIFICATION_LEVEL"
+class='sidebar-nav-pill'>VERIFICATION_LEVEL</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WIDGET_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.WIDGET_CHANNEL_ID"
+class='sidebar-nav-pill'>WIDGET_CHANNEL_ID</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WIDGET_ENABLED -- " href="#hikari.models.audit_logs.AuditLogChangeKey.WIDGET_ENABLED"
+class='sidebar-nav-pill'>WIDGET_ENABLED</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLogEntry -- Represents an entry in a guild's audit log." href="#hikari.models.audit_logs.AuditLogEntry"
+class='sidebar-nav-pill'>AuditLogEntry</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="action_type -- The type of action this entry represents." href="#hikari.models.audit_logs.AuditLogEntry.action_type"
+class='sidebar-nav-pill'>action_type</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.audit_logs.AuditLogEntry.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="changes -- A sequence of the changes made to `AuditLogEntry.target_id`." href="#hikari.models.audit_logs.AuditLogEntry.changes"
+class='sidebar-nav-pill'>changes</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.audit_logs.AuditLogEntry.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="options -- Extra information about this entry. Only be provided for certain `event_type`." href="#hikari.models.audit_logs.AuditLogEntry.options"
+class='sidebar-nav-pill'>options</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The reason for this change, if set (between 0-512 characters)." href="#hikari.models.audit_logs.AuditLogEntry.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_id -- The ID of the entity affected by this change, if applicable." href="#hikari.models.audit_logs.AuditLogEntry.target_id"
+class='sidebar-nav-pill'>target_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user who made this change." href="#hikari.models.audit_logs.AuditLogEntry.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogEventType -- The type of event that occurred." href="#hikari.models.audit_logs.AuditLogEventType"
+class='sidebar-nav-pill'>AuditLogEventType</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BOT_ADD -- " href="#hikari.models.audit_logs.AuditLogEventType.BOT_ADD"
+class='sidebar-nav-pill'>BOT_ADD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_CREATE"
+class='sidebar-nav-pill'>CHANNEL_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_DELETE"
+class='sidebar-nav-pill'>CHANNEL_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_CREATE"
+class='sidebar-nav-pill'>CHANNEL_OVERWRITE_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_DELETE"
+class='sidebar-nav-pill'>CHANNEL_OVERWRITE_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_UPDATE"
+class='sidebar-nav-pill'>CHANNEL_OVERWRITE_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_UPDATE"
+class='sidebar-nav-pill'>CHANNEL_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_CREATE"
+class='sidebar-nav-pill'>EMOJI_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_DELETE"
+class='sidebar-nav-pill'>EMOJI_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_UPDATE"
+class='sidebar-nav-pill'>EMOJI_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.GUILD_UPDATE"
+class='sidebar-nav-pill'>GUILD_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_CREATE"
+class='sidebar-nav-pill'>INTEGRATION_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_DELETE"
+class='sidebar-nav-pill'>INTEGRATION_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_UPDATE"
+class='sidebar-nav-pill'>INTEGRATION_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_CREATE"
+class='sidebar-nav-pill'>INVITE_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_DELETE"
+class='sidebar-nav-pill'>INVITE_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_UPDATE"
+class='sidebar-nav-pill'>INVITE_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_BAN_ADD -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_ADD"
+class='sidebar-nav-pill'>MEMBER_BAN_ADD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_BAN_REMOVE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_REMOVE"
+class='sidebar-nav-pill'>MEMBER_BAN_REMOVE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_DISCONNECT -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_DISCONNECT"
+class='sidebar-nav-pill'>MEMBER_DISCONNECT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_KICK -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_KICK"
+class='sidebar-nav-pill'>MEMBER_KICK</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_MOVE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_MOVE"
+class='sidebar-nav-pill'>MEMBER_MOVE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_PRUNE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_PRUNE"
+class='sidebar-nav-pill'>MEMBER_PRUNE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_ROLE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_ROLE_UPDATE"
+class='sidebar-nav-pill'>MEMBER_ROLE_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_UPDATE"
+class='sidebar-nav-pill'>MEMBER_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_BULK_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_BULK_DELETE"
+class='sidebar-nav-pill'>MESSAGE_BULK_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_DELETE"
+class='sidebar-nav-pill'>MESSAGE_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_PIN -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_PIN"
+class='sidebar-nav-pill'>MESSAGE_PIN</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_UNPIN -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_UNPIN"
+class='sidebar-nav-pill'>MESSAGE_UNPIN</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_CREATE"
+class='sidebar-nav-pill'>ROLE_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_DELETE"
+class='sidebar-nav-pill'>ROLE_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_UPDATE"
+class='sidebar-nav-pill'>ROLE_UPDATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_CREATE"
+class='sidebar-nav-pill'>WEBHOOK_CREATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_DELETE"
+class='sidebar-nav-pill'>WEBHOOK_DELETE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_UPDATE"
+class='sidebar-nav-pill'>WEBHOOK_UPDATE</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='sidebar-nav-pill'>BaseAuditLogEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelOverwriteEntryInfo -- Represents the extra information for overwrite related audit log entries …" href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo"
+class='sidebar-nav-pill'>ChannelOverwriteEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_name -- The name of the role this overwrite targets, if it targets a role." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.role_name"
+class='sidebar-nav-pill'>role_name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The type of entity this overwrite targets." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.type"
+class='sidebar-nav-pill'>type</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDisconnectEntryInfo -- Extra information for the voice chat member disconnect entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo"
+class='sidebar-nav-pill'>MemberDisconnectEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo.count"
+class='sidebar-nav-pill'>count</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberMoveEntryInfo -- Extra information for the voice chat based member move entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo"
+class='sidebar-nav-pill'>MemberMoveEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo.count"
+class='sidebar-nav-pill'>count</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPruneEntryInfo -- Extra information attached to guild prune log entries." href="#hikari.models.audit_logs.MemberPruneEntryInfo"
+class='sidebar-nav-pill'>MemberPruneEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="delete_member_days -- The timedelta of how many days members were pruned for inactivity based on." href="#hikari.models.audit_logs.MemberPruneEntryInfo.delete_member_days"
+class='sidebar-nav-pill'>delete_member_days</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members_removed -- The number of members who were removed by this prune." href="#hikari.models.audit_logs.MemberPruneEntryInfo.members_removed"
+class='sidebar-nav-pill'>members_removed</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEntryInfo -- Extra information for the message bulk delete audit entry." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo"
+class='sidebar-nav-pill'>MessageBulkDeleteEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of messages that were deleted." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo.count"
+class='sidebar-nav-pill'>count</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEntryInfo -- Extra information attached to the message delete audit entry." href="#hikari.models.audit_logs.MessageDeleteEntryInfo"
+class='sidebar-nav-pill'>MessageDeleteEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The guild text based channel where these message(s) were deleted." href="#hikari.models.audit_logs.MessageDeleteEntryInfo.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of messages that were deleted." href="#hikari.models.audit_logs.MessageDeleteEntryInfo.count"
+class='sidebar-nav-pill'>count</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagePinEntryInfo -- The extra information for message pin related audit log entries …" href="#hikari.models.audit_logs.MessagePinEntryInfo"
+class='sidebar-nav-pill'>MessagePinEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the text based channel where a pinned message is being targeted." href="#hikari.models.audit_logs.MessagePinEntryInfo.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message_id -- The ID of the message that's being pinned or unpinned." href="#hikari.models.audit_logs.MessagePinEntryInfo.message_id"
+class='sidebar-nav-pill'>message_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnrecognisedAuditLogEntryInfo -- Audit log entry options that haven't been implemented in the library …" href="#hikari.models.audit_logs.UnrecognisedAuditLogEntryInfo"
+class='sidebar-nav-pill'>UnrecognisedAuditLogEntryInfo</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L0-L363" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe audit logs on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;AuditLog&#34;,
+    &#34;AuditLogChange&#34;,
+    &#34;AuditLogChangeKey&#34;,
+    &#34;AuditLogEntry&#34;,
+    &#34;AuditLogEventType&#34;,
+    &#34;BaseAuditLogEntryInfo&#34;,
+    &#34;ChannelOverwriteEntryInfo&#34;,
+    &#34;MemberDisconnectEntryInfo&#34;,
+    &#34;MemberMoveEntryInfo&#34;,
+    &#34;MemberPruneEntryInfo&#34;,
+    &#34;MessageBulkDeleteEntryInfo&#34;,
+    &#34;MessageDeleteEntryInfo&#34;,
+    &#34;MessagePinEntryInfo&#34;,
+    &#34;UnrecognisedAuditLogEntryInfo&#34;,
+]
+
+import abc
+import datetime
+import enum
+import itertools
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.models import channels
+    from hikari.models import guilds
+    from hikari.models import users as users_
+    from hikari.models import webhooks as webhooks_
+
+
+@typing.final
+class AuditLogChangeKey(str, enum.Enum):
+    &#34;&#34;&#34;Commonly known and documented keys for audit log change objects.
+
+    Others may exist. These should be expected to default to the raw string
+    Discord provided us. These are defined for documentation purposes and
+    can be treated as regular strings for all other purposes.
+    &#34;&#34;&#34;
+
+    NAME = &#34;name&#34;
+    ICON_HASH = &#34;icon_hash&#34;
+    SPLASH_HASH = &#34;splash_hash&#34;
+    OWNER_ID = &#34;owner_id&#34;
+    REGION = &#34;region&#34;
+    AFK_CHANNEL_ID = &#34;afk_channel_id&#34;
+    AFK_TIMEOUT = &#34;afk_timeout&#34;
+    MFA_LEVEL = &#34;mfa_level&#34;
+    VERIFICATION_LEVEL = &#34;verification&#34;
+    EXPLICIT_CONTENT_FILTER = &#34;explicit_content_filter&#34;
+    DEFAULT_MESSAGE_NOTIFICATIONS = &#34;notifications&#34;
+    VANITY_URL_CODE = &#34;vanity_url_code&#34;
+    PRUNE_DELETE_DAYS = &#34;prune_delete_days&#34;
+    WIDGET_ENABLED = &#34;widget_enabled&#34;
+    WIDGET_CHANNEL_ID = &#34;widget_channel_id&#34;
+    POSITION = &#34;position&#34;
+    TOPIC = &#34;topic&#34;
+    BITRATE = &#34;bitrate&#34;
+    PERMISSION_OVERWRITES = &#34;permission_overwrites&#34;
+    NSFW = &#34;nsfw&#34;
+    APPLICATION_ID = &#34;application_id&#34;
+    PERMISSIONS = &#34;permissions&#34;
+    COLOR = &#34;color&#34;
+    HOIST = &#34;hoist&#34;
+    MENTIONABLE = &#34;mentionable&#34;
+    ALLOW = &#34;allow&#34;
+    DENY = &#34;deny&#34;
+    INVITE_CODE = &#34;code&#34;
+    CHANNEL_ID = &#34;channel&#34;
+    INVITER_ID = &#34;inviter_id&#34;
+    MAX_USES = &#34;max_uses&#34;
+    USES = &#34;uses&#34;
+    MAX_AGE = &#34;max_age&#34;
+    TEMPORARY = &#34;temporary&#34;
+    DEAF = &#34;deaf&#34;
+    MUTE = &#34;mute&#34;
+    NICK = &#34;nick&#34;
+    AVATAR_HASH = &#34;avatar_hash&#34;
+    ID = &#34;id&#34;
+    TYPE = &#34;type&#34;
+    ENABLE_EMOTICONS = &#34;enable_emoticons&#34;
+    EXPIRE_BEHAVIOR = &#34;expire_behavior&#34;
+    EXPIRE_GRACE_PERIOD = &#34;expire_grace_period&#34;
+    RATE_LIMIT_PER_USER = &#34;rate_limit_per_user&#34;
+    SYSTEM_CHANNEL_ID = &#34;system_channel_id&#34;
+
+    # Who needs consistency?
+    ADD_ROLE_TO_MEMBER = &#34;$add&#34;
+    REMOVE_ROLE_FROM_MEMBER = &#34;$remove&#34;
+
+    COLOUR = COLOR
+    &#34;&#34;&#34;Alias for &#34;COLOR&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+    __repr__ = __str__
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class AuditLogChange:
+    &#34;&#34;&#34;Represents a change made to an audit log entry&#39;s target entity.&#34;&#34;&#34;
+
+    new_value: typing.Optional[typing.Any] = attr.ib(repr=True)
+    &#34;&#34;&#34;The new value of the key, if something was added or changed.&#34;&#34;&#34;
+
+    old_value: typing.Optional[typing.Any] = attr.ib(repr=True)
+    &#34;&#34;&#34;The old value of the key, if something was removed or changed.&#34;&#34;&#34;
+
+    key: typing.Union[AuditLogChangeKey, str] = attr.ib(repr=True)
+    &#34;&#34;&#34;The name of the audit log change&#39;s key.&#34;&#34;&#34;
+
+
+@enum.unique
+@typing.final
+class AuditLogEventType(enum.IntEnum):
+    &#34;&#34;&#34;The type of event that occurred.&#34;&#34;&#34;
+
+    GUILD_UPDATE = 1
+    CHANNEL_CREATE = 10
+    CHANNEL_UPDATE = 11
+    CHANNEL_DELETE = 12
+    CHANNEL_OVERWRITE_CREATE = 13
+    CHANNEL_OVERWRITE_UPDATE = 14
+    CHANNEL_OVERWRITE_DELETE = 15
+    MEMBER_KICK = 20
+    MEMBER_PRUNE = 21
+    MEMBER_BAN_ADD = 22
+    MEMBER_BAN_REMOVE = 23
+    MEMBER_UPDATE = 24
+    MEMBER_ROLE_UPDATE = 25
+    MEMBER_MOVE = 26
+    MEMBER_DISCONNECT = 27
+    BOT_ADD = 28
+    ROLE_CREATE = 30
+    ROLE_UPDATE = 31
+    ROLE_DELETE = 32
+    INVITE_CREATE = 40
+    INVITE_UPDATE = 41
+    INVITE_DELETE = 42
+    WEBHOOK_CREATE = 50
+    WEBHOOK_UPDATE = 51
+    WEBHOOK_DELETE = 52
+    EMOJI_CREATE = 60
+    EMOJI_UPDATE = 61
+    EMOJI_DELETE = 62
+    MESSAGE_DELETE = 72
+    MESSAGE_BULK_DELETE = 73
+    MESSAGE_PIN = 74
+    MESSAGE_UNPIN = 75
+    INTEGRATION_CREATE = 80
+    INTEGRATION_UPDATE = 81
+    INTEGRATION_DELETE = 82
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class BaseAuditLogEntryInfo(abc.ABC):
+    &#34;&#34;&#34;A base object that all audit log entry info objects will inherit from.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflake.Unique):
+    &#34;&#34;&#34;Represents the extra information for overwrite related audit log entries.
+
+    Will be attached to the overwrite create, update and delete audit log
+    entries.
+    &#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    type: channels.PermissionOverwriteType = attr.ib(repr=True)
+    &#34;&#34;&#34;The type of entity this overwrite targets.&#34;&#34;&#34;
+
+    role_name: typing.Optional[str] = attr.ib(repr=True)
+    &#34;&#34;&#34;The name of the role this overwrite targets, if it targets a role.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MessagePinEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;The extra information for message pin related audit log entries.
+
+    Will be attached to the message pin and message unpin audit log entries.
+    &#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The ID of the text based channel where a pinned message is being targeted.&#34;&#34;&#34;
+
+    message_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The ID of the message that&#39;s being pinned or unpinned.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MemberPruneEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information attached to guild prune log entries.&#34;&#34;&#34;
+
+    delete_member_days: datetime.timedelta = attr.ib(repr=True)
+    &#34;&#34;&#34;The timedelta of how many days members were pruned for inactivity based on.&#34;&#34;&#34;
+
+    members_removed: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The number of members who were removed by this prune.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MessageBulkDeleteEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information for the message bulk delete audit entry.&#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of messages that were deleted.&#34;&#34;&#34;
+
+
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
+    &#34;&#34;&#34;Extra information attached to the message delete audit entry.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The guild text based channel where these message(s) were deleted.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MemberDisconnectEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information for the voice chat member disconnect entry.&#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of members who were disconnected from voice in this entry.&#34;&#34;&#34;
+
+
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
+    &#34;&#34;&#34;Extra information for the voice chat based member move entry.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of members who were disconnected from voice in this entry.&#34;&#34;&#34;
+
+
+class UnrecognisedAuditLogEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Audit log entry options that haven&#39;t been implemented in the library.
+
+    The attributes on this object are undocumented and dynamic.
+
+    Example
+    -------
+        &gt;&gt;&gt; entry_info.foobar.baz
+
+    !!! note
+        This model has no slots and will have arbitrary undocumented attributes
+        (in it&#39;s `__dict__` based on the received payload).
+    &#34;&#34;&#34;
+
+    def __init__(self, payload: typing.Mapping[str, str]) -&gt; None:
+        self.__dict__.update(payload)
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class AuditLogEntry(snowflake.Unique):
+    &#34;&#34;&#34;Represents an entry in a guild&#39;s audit log.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    target_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the entity affected by this change, if applicable.&#34;&#34;&#34;
+
+    changes: typing.Sequence[AuditLogChange] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;A sequence of the changes made to `AuditLogEntry.target_id`.&#34;&#34;&#34;
+
+    user_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the user who made this change.&#34;&#34;&#34;
+
+    action_type: typing.Union[AuditLogEventType, int] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The type of action this entry represents.&#34;&#34;&#34;
+
+    options: typing.Optional[BaseAuditLogEntryInfo] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Extra information about this entry. Only be provided for certain `event_type`.&#34;&#34;&#34;
+
+    reason: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The reason for this change, if set (between 0-512 characters).&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, repr=False, slots=True, weakref_slot=False)
+class AuditLog(typing.Sequence[AuditLogEntry]):
+    &#34;&#34;&#34;Represents a guilds audit log.&#34;&#34;&#34;
+
+    entries: typing.Mapping[snowflake.Snowflake, AuditLogEntry] = attr.ib(repr=False)
+    &#34;&#34;&#34;A sequence of the audit log&#39;s entries.&#34;&#34;&#34;
+
+    integrations: typing.Mapping[snowflake.Snowflake, guilds.PartialIntegration] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the partial objects of integrations found in this audit log.&#34;&#34;&#34;
+
+    users: typing.Mapping[snowflake.Snowflake, users_.User] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the objects of users found in this audit log.&#34;&#34;&#34;
+
+    webhooks: typing.Mapping[snowflake.Snowflake, webhooks_.Webhook] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the objects of webhooks found in this audit log.&#34;&#34;&#34;
+
+    @typing.overload
+    def __getitem__(self, index: int, /) -&gt; AuditLogEntry:
+        ...
+
+    @typing.overload
+    def __getitem__(self, slice_: slice, /) -&gt; typing.Sequence[AuditLogEntry]:
+        ...
+
+    def __getitem__(
+        self, index_or_slice: typing.Union[int, slice], /
+    ) -&gt; typing.Union[AuditLogEntry, typing.Sequence[AuditLogEntry]]:
+        if isinstance(index_or_slice, slice):
+            return tuple(
+                itertools.islice(self.entries.values(), index_or_slice.start, index_or_slice.stop, index_or_slice.step)
+            )
+        elif isinstance(index_or_slice, int):
+            return next(iter(itertools.islice(self.entries.values(), index_or_slice, None)))
+        else:
+            raise TypeError(f&#34;sequence indices must be integers or slices, not {type(index_or_slice).__name__}&#34;)
+
+    def __iter__(self) -&gt; typing.Iterator[AuditLogEntry]:
+        return iter(self.entries.values())
+
+    def __len__(self) -&gt; int:
+        return len(self.entries)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLog -- Represents a guilds audit log." href="#hikari.models.audit_logs.AuditLog"
+class='dotted'>AuditLog</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.AuditLog" class="hljs python"><abbr title='A standard Python type.'>class</abbr> AuditLog (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Represents a guilds audit log.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L325-L364" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class AuditLog(typing.Sequence[AuditLogEntry]):
+    &#34;&#34;&#34;Represents a guilds audit log.&#34;&#34;&#34;
+
+    entries: typing.Mapping[snowflake.Snowflake, AuditLogEntry] = attr.ib(repr=False)
+    &#34;&#34;&#34;A sequence of the audit log&#39;s entries.&#34;&#34;&#34;
+
+    integrations: typing.Mapping[snowflake.Snowflake, guilds.PartialIntegration] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the partial objects of integrations found in this audit log.&#34;&#34;&#34;
+
+    users: typing.Mapping[snowflake.Snowflake, users_.User] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the objects of users found in this audit log.&#34;&#34;&#34;
+
+    webhooks: typing.Mapping[snowflake.Snowflake, webhooks_.Webhook] = attr.ib(repr=False)
+    &#34;&#34;&#34;A mapping of the objects of webhooks found in this audit log.&#34;&#34;&#34;
+
+    @typing.overload
+    def __getitem__(self, index: int, /) -&gt; AuditLogEntry:
+        ...
+
+    @typing.overload
+    def __getitem__(self, slice_: slice, /) -&gt; typing.Sequence[AuditLogEntry]:
+        ...
+
+    def __getitem__(
+        self, index_or_slice: typing.Union[int, slice], /
+    ) -&gt; typing.Union[AuditLogEntry, typing.Sequence[AuditLogEntry]]:
+        if isinstance(index_or_slice, slice):
+            return tuple(
+                itertools.islice(self.entries.values(), index_or_slice.start, index_or_slice.stop, index_or_slice.step)
+            )
+        elif isinstance(index_or_slice, int):
+            return next(iter(itertools.islice(self.entries.values(), index_or_slice, None)))
+        else:
+            raise TypeError(f&#34;sequence indices must be integers or slices, not {type(index_or_slice).__name__}&#34;)
+
+    def __iter__(self) -&gt; typing.Iterator[AuditLogEntry]:
+        return iter(self.entries.values())
+
+    def __len__(self) -&gt; int:
+        return len(self.entries)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLog -- Represents a guilds audit log." href="#hikari.models.audit_logs.AuditLog"
+class='dotted'>AuditLog</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Sequence -- All the operations on a read-only sequence …" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence"
+class='dotted'>collections.abc.Sequence</a></dt>
+<dd class="nested"><p>All the operations on a read-only sequence …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Reversible -- " href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Reversible"
+class='dotted'>collections.abc.Reversible</a></dt>
+<dd class="nested"></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Collection -- " href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Collection"
+class='dotted'>collections.abc.Collection</a></dt>
+<dd class="nested"></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Sized -- " href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized"
+class='dotted'>collections.abc.Sized</a></dt>
+<dd class="nested"></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Iterable -- " href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable"
+class='dotted'>collections.abc.Iterable</a></dt>
+<dd class="nested"></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="collections.abc.Container -- " href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Container"
+class='dotted'>collections.abc.Container</a></dt>
+<dd class="nested"></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entries -- A sequence of the audit log's entries." href="#hikari.models.audit_logs.AuditLog.entries" id="hikari.models.audit_logs.AuditLog.entries" class='dotted'>entries</a> : typing.Mapping[snowflake.Snowflake, AuditLogEntry]</code></pre>
+</dt>
+<dd><p>A sequence of the audit log's entries.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="integrations -- A mapping of the partial objects of integrations found in this audit log." href="#hikari.models.audit_logs.AuditLog.integrations" id="hikari.models.audit_logs.AuditLog.integrations" class='dotted'>integrations</a> : typing.Mapping[snowflake.Snowflake, guilds.PartialIntegration]</code></pre>
+</dt>
+<dd><p>A mapping of the partial objects of integrations found in this audit log.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="users -- A mapping of the objects of users found in this audit log." href="#hikari.models.audit_logs.AuditLog.users" id="hikari.models.audit_logs.AuditLog.users" class='dotted'>users</a> : typing.Mapping[snowflake.Snowflake, users_.User]</code></pre>
+</dt>
+<dd><p>A mapping of the objects of users found in this audit log.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="webhooks -- A mapping of the objects of webhooks found in this audit log." href="#hikari.models.audit_logs.AuditLog.webhooks" id="hikari.models.audit_logs.AuditLog.webhooks" class='dotted'>webhooks</a> : typing.Mapping[snowflake.Snowflake, webhooks_.Webhook]</code></pre>
+</dt>
+<dd><p>A mapping of the objects of webhooks found in this audit log.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLogChange -- Represents a change made to an audit log entry's target entity." href="#hikari.models.audit_logs.AuditLogChange"
+class='dotted'>AuditLogChange</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.AuditLogChange" class="hljs python"><abbr title='A standard Python type.'>class</abbr> AuditLogChange (
+    *,
+    new_value: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+    old_value: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>],
+    key: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='#hikari.models.audit_logs.AuditLogChangeKey'>AuditLogChangeKey</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Represents a change made to an audit log entry's target entity.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L132-L142" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class AuditLogChange:
+    &#34;&#34;&#34;Represents a change made to an audit log entry&#39;s target entity.&#34;&#34;&#34;
+
+    new_value: typing.Optional[typing.Any] = attr.ib(repr=True)
+    &#34;&#34;&#34;The new value of the key, if something was added or changed.&#34;&#34;&#34;
+
+    old_value: typing.Optional[typing.Any] = attr.ib(repr=True)
+    &#34;&#34;&#34;The old value of the key, if something was removed or changed.&#34;&#34;&#34;
+
+    key: typing.Union[AuditLogChangeKey, str] = attr.ib(repr=True)
+    &#34;&#34;&#34;The name of the audit log change&#39;s key.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="key -- The name of the audit log change's key." href="#hikari.models.audit_logs.AuditLogChange.key" id="hikari.models.audit_logs.AuditLogChange.key" class='dotted'>key</a> : Union[<a href='#hikari.models.audit_logs.AuditLogChangeKey'>AuditLogChangeKey</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></pre>
+</dt>
+<dd><p>The name of the audit log change's key.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="new_value -- The new value of the key, if something was added or changed." href="#hikari.models.audit_logs.AuditLogChange.new_value" id="hikari.models.audit_logs.AuditLogChange.new_value" class='dotted'>new_value</a> : Union[Any, None]</code></pre>
+</dt>
+<dd><p>The new value of the key, if something was added or changed.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="old_value -- The old value of the key, if something was removed or changed." href="#hikari.models.audit_logs.AuditLogChange.old_value" id="hikari.models.audit_logs.AuditLogChange.old_value" class='dotted'>old_value</a> : Union[Any, None]</code></pre>
+</dt>
+<dd><p>The old value of the key, if something was removed or changed.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogChangeKey -- Commonly known and documented keys for audit log change objects …" href="#hikari.models.audit_logs.AuditLogChangeKey"
+class='dotted'>AuditLogChangeKey</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.AuditLogChangeKey" class="hljs python"><abbr title='A standard Python type.'>class</abbr> AuditLogChangeKey (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Commonly known and documented keys for audit log change objects.</p>
+<p>Others may exist. These should be expected to default to the raw string
+Discord provided us. These are defined for documentation purposes and
+can be treated as regular strings for all other purposes.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L63-L127" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class AuditLogChangeKey(str, enum.Enum):
+    &#34;&#34;&#34;Commonly known and documented keys for audit log change objects.
+
+    Others may exist. These should be expected to default to the raw string
+    Discord provided us. These are defined for documentation purposes and
+    can be treated as regular strings for all other purposes.
+    &#34;&#34;&#34;
+
+    NAME = &#34;name&#34;
+    ICON_HASH = &#34;icon_hash&#34;
+    SPLASH_HASH = &#34;splash_hash&#34;
+    OWNER_ID = &#34;owner_id&#34;
+    REGION = &#34;region&#34;
+    AFK_CHANNEL_ID = &#34;afk_channel_id&#34;
+    AFK_TIMEOUT = &#34;afk_timeout&#34;
+    MFA_LEVEL = &#34;mfa_level&#34;
+    VERIFICATION_LEVEL = &#34;verification&#34;
+    EXPLICIT_CONTENT_FILTER = &#34;explicit_content_filter&#34;
+    DEFAULT_MESSAGE_NOTIFICATIONS = &#34;notifications&#34;
+    VANITY_URL_CODE = &#34;vanity_url_code&#34;
+    PRUNE_DELETE_DAYS = &#34;prune_delete_days&#34;
+    WIDGET_ENABLED = &#34;widget_enabled&#34;
+    WIDGET_CHANNEL_ID = &#34;widget_channel_id&#34;
+    POSITION = &#34;position&#34;
+    TOPIC = &#34;topic&#34;
+    BITRATE = &#34;bitrate&#34;
+    PERMISSION_OVERWRITES = &#34;permission_overwrites&#34;
+    NSFW = &#34;nsfw&#34;
+    APPLICATION_ID = &#34;application_id&#34;
+    PERMISSIONS = &#34;permissions&#34;
+    COLOR = &#34;color&#34;
+    HOIST = &#34;hoist&#34;
+    MENTIONABLE = &#34;mentionable&#34;
+    ALLOW = &#34;allow&#34;
+    DENY = &#34;deny&#34;
+    INVITE_CODE = &#34;code&#34;
+    CHANNEL_ID = &#34;channel&#34;
+    INVITER_ID = &#34;inviter_id&#34;
+    MAX_USES = &#34;max_uses&#34;
+    USES = &#34;uses&#34;
+    MAX_AGE = &#34;max_age&#34;
+    TEMPORARY = &#34;temporary&#34;
+    DEAF = &#34;deaf&#34;
+    MUTE = &#34;mute&#34;
+    NICK = &#34;nick&#34;
+    AVATAR_HASH = &#34;avatar_hash&#34;
+    ID = &#34;id&#34;
+    TYPE = &#34;type&#34;
+    ENABLE_EMOTICONS = &#34;enable_emoticons&#34;
+    EXPIRE_BEHAVIOR = &#34;expire_behavior&#34;
+    EXPIRE_GRACE_PERIOD = &#34;expire_grace_period&#34;
+    RATE_LIMIT_PER_USER = &#34;rate_limit_per_user&#34;
+    SYSTEM_CHANNEL_ID = &#34;system_channel_id&#34;
+
+    # Who needs consistency?
+    ADD_ROLE_TO_MEMBER = &#34;$add&#34;
+    REMOVE_ROLE_FROM_MEMBER = &#34;$remove&#34;
+
+    COLOUR = COLOR
+    &#34;&#34;&#34;Alias for &#34;COLOR&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+    __repr__ = __str__</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogChangeKey -- Commonly known and documented keys for audit log change objects …" href="#hikari.models.audit_logs.AuditLogChangeKey"
+class='dotted'>AuditLogChangeKey</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.str -- str(object='') -> str
+str(bytes_or_buffer[, encoding[, errors]]) -> str …" href="https://docs.python.org/3/library/stdtypes.html#str"
+class='dotted'>str</a></dt>
+<dd class="nested"><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADD_ROLE_TO_MEMBER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ADD_ROLE_TO_MEMBER" id="hikari.models.audit_logs.AuditLogChangeKey.ADD_ROLE_TO_MEMBER" class='dotted'>ADD_ROLE_TO_MEMBER</a> = ADD_ROLE_TO_MEMBER</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AFK_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AFK_CHANNEL_ID" id="hikari.models.audit_logs.AuditLogChangeKey.AFK_CHANNEL_ID" class='dotted'>AFK_CHANNEL_ID</a> = AFK_CHANNEL_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AFK_TIMEOUT -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AFK_TIMEOUT" id="hikari.models.audit_logs.AuditLogChangeKey.AFK_TIMEOUT" class='dotted'>AFK_TIMEOUT</a> = AFK_TIMEOUT</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALLOW -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ALLOW" id="hikari.models.audit_logs.AuditLogChangeKey.ALLOW" class='dotted'>ALLOW</a> = ALLOW</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="APPLICATION_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.APPLICATION_ID" id="hikari.models.audit_logs.AuditLogChangeKey.APPLICATION_ID" class='dotted'>APPLICATION_ID</a> = APPLICATION_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AVATAR_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.AVATAR_HASH" id="hikari.models.audit_logs.AuditLogChangeKey.AVATAR_HASH" class='dotted'>AVATAR_HASH</a> = AVATAR_HASH</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BITRATE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.BITRATE" id="hikari.models.audit_logs.AuditLogChangeKey.BITRATE" class='dotted'>BITRATE</a> = BITRATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.CHANNEL_ID" id="hikari.models.audit_logs.AuditLogChangeKey.CHANNEL_ID" class='dotted'>CHANNEL_ID</a> = CHANNEL_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="COLOR -- " href="#hikari.models.audit_logs.AuditLogChangeKey.COLOR" id="hikari.models.audit_logs.AuditLogChangeKey.COLOR" class='dotted'>COLOR</a> = COLOR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEAF -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DEAF" id="hikari.models.audit_logs.AuditLogChangeKey.DEAF" class='dotted'>DEAF</a> = DEAF</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEFAULT_MESSAGE_NOTIFICATIONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DEFAULT_MESSAGE_NOTIFICATIONS" id="hikari.models.audit_logs.AuditLogChangeKey.DEFAULT_MESSAGE_NOTIFICATIONS" class='dotted'>DEFAULT_MESSAGE_NOTIFICATIONS</a> = DEFAULT_MESSAGE_NOTIFICATIONS</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DENY -- " href="#hikari.models.audit_logs.AuditLogChangeKey.DENY" id="hikari.models.audit_logs.AuditLogChangeKey.DENY" class='dotted'>DENY</a> = DENY</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ENABLE_EMOTICONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ENABLE_EMOTICONS" id="hikari.models.audit_logs.AuditLogChangeKey.ENABLE_EMOTICONS" class='dotted'>ENABLE_EMOTICONS</a> = ENABLE_EMOTICONS</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPIRE_BEHAVIOR -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_BEHAVIOR" id="hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_BEHAVIOR" class='dotted'>EXPIRE_BEHAVIOR</a> = EXPIRE_BEHAVIOR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPIRE_GRACE_PERIOD -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_GRACE_PERIOD" id="hikari.models.audit_logs.AuditLogChangeKey.EXPIRE_GRACE_PERIOD" class='dotted'>EXPIRE_GRACE_PERIOD</a> = EXPIRE_GRACE_PERIOD</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EXPLICIT_CONTENT_FILTER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.EXPLICIT_CONTENT_FILTER" id="hikari.models.audit_logs.AuditLogChangeKey.EXPLICIT_CONTENT_FILTER" class='dotted'>EXPLICIT_CONTENT_FILTER</a> = EXPLICIT_CONTENT_FILTER</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOIST -- " href="#hikari.models.audit_logs.AuditLogChangeKey.HOIST" id="hikari.models.audit_logs.AuditLogChangeKey.HOIST" class='dotted'>HOIST</a> = HOIST</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ICON_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ICON_HASH" id="hikari.models.audit_logs.AuditLogChangeKey.ICON_HASH" class='dotted'>ICON_HASH</a> = ICON_HASH</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.ID" id="hikari.models.audit_logs.AuditLogChangeKey.ID" class='dotted'>ID</a> = ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITER_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.INVITER_ID" id="hikari.models.audit_logs.AuditLogChangeKey.INVITER_ID" class='dotted'>INVITER_ID</a> = INVITER_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_CODE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.INVITE_CODE" id="hikari.models.audit_logs.AuditLogChangeKey.INVITE_CODE" class='dotted'>INVITE_CODE</a> = INVITE_CODE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MAX_AGE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MAX_AGE" id="hikari.models.audit_logs.AuditLogChangeKey.MAX_AGE" class='dotted'>MAX_AGE</a> = MAX_AGE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MAX_USES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MAX_USES" id="hikari.models.audit_logs.AuditLogChangeKey.MAX_USES" class='dotted'>MAX_USES</a> = MAX_USES</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MENTIONABLE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MENTIONABLE" id="hikari.models.audit_logs.AuditLogChangeKey.MENTIONABLE" class='dotted'>MENTIONABLE</a> = MENTIONABLE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MFA_LEVEL -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MFA_LEVEL" id="hikari.models.audit_logs.AuditLogChangeKey.MFA_LEVEL" class='dotted'>MFA_LEVEL</a> = MFA_LEVEL</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MUTE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.MUTE" id="hikari.models.audit_logs.AuditLogChangeKey.MUTE" class='dotted'>MUTE</a> = MUTE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NAME -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NAME" id="hikari.models.audit_logs.AuditLogChangeKey.NAME" class='dotted'>NAME</a> = NAME</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NICK -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NICK" id="hikari.models.audit_logs.AuditLogChangeKey.NICK" class='dotted'>NICK</a> = NICK</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NSFW -- " href="#hikari.models.audit_logs.AuditLogChangeKey.NSFW" id="hikari.models.audit_logs.AuditLogChangeKey.NSFW" class='dotted'>NSFW</a> = NSFW</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="OWNER_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.OWNER_ID" id="hikari.models.audit_logs.AuditLogChangeKey.OWNER_ID" class='dotted'>OWNER_ID</a> = OWNER_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PERMISSIONS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PERMISSIONS" id="hikari.models.audit_logs.AuditLogChangeKey.PERMISSIONS" class='dotted'>PERMISSIONS</a> = PERMISSIONS</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PERMISSION_OVERWRITES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PERMISSION_OVERWRITES" id="hikari.models.audit_logs.AuditLogChangeKey.PERMISSION_OVERWRITES" class='dotted'>PERMISSION_OVERWRITES</a> = PERMISSION_OVERWRITES</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="POSITION -- " href="#hikari.models.audit_logs.AuditLogChangeKey.POSITION" id="hikari.models.audit_logs.AuditLogChangeKey.POSITION" class='dotted'>POSITION</a> = POSITION</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRUNE_DELETE_DAYS -- " href="#hikari.models.audit_logs.AuditLogChangeKey.PRUNE_DELETE_DAYS" id="hikari.models.audit_logs.AuditLogChangeKey.PRUNE_DELETE_DAYS" class='dotted'>PRUNE_DELETE_DAYS</a> = PRUNE_DELETE_DAYS</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="RATE_LIMIT_PER_USER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.RATE_LIMIT_PER_USER" id="hikari.models.audit_logs.AuditLogChangeKey.RATE_LIMIT_PER_USER" class='dotted'>RATE_LIMIT_PER_USER</a> = RATE_LIMIT_PER_USER</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="REGION -- " href="#hikari.models.audit_logs.AuditLogChangeKey.REGION" id="hikari.models.audit_logs.AuditLogChangeKey.REGION" class='dotted'>REGION</a> = REGION</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="REMOVE_ROLE_FROM_MEMBER -- " href="#hikari.models.audit_logs.AuditLogChangeKey.REMOVE_ROLE_FROM_MEMBER" id="hikari.models.audit_logs.AuditLogChangeKey.REMOVE_ROLE_FROM_MEMBER" class='dotted'>REMOVE_ROLE_FROM_MEMBER</a> = REMOVE_ROLE_FROM_MEMBER</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPLASH_HASH -- " href="#hikari.models.audit_logs.AuditLogChangeKey.SPLASH_HASH" id="hikari.models.audit_logs.AuditLogChangeKey.SPLASH_HASH" class='dotted'>SPLASH_HASH</a> = SPLASH_HASH</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYSTEM_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.SYSTEM_CHANNEL_ID" id="hikari.models.audit_logs.AuditLogChangeKey.SYSTEM_CHANNEL_ID" class='dotted'>SYSTEM_CHANNEL_ID</a> = SYSTEM_CHANNEL_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TEMPORARY -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TEMPORARY" id="hikari.models.audit_logs.AuditLogChangeKey.TEMPORARY" class='dotted'>TEMPORARY</a> = TEMPORARY</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TOPIC -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TOPIC" id="hikari.models.audit_logs.AuditLogChangeKey.TOPIC" class='dotted'>TOPIC</a> = TOPIC</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TYPE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.TYPE" id="hikari.models.audit_logs.AuditLogChangeKey.TYPE" class='dotted'>TYPE</a> = TYPE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USES -- " href="#hikari.models.audit_logs.AuditLogChangeKey.USES" id="hikari.models.audit_logs.AuditLogChangeKey.USES" class='dotted'>USES</a> = USES</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VANITY_URL_CODE -- " href="#hikari.models.audit_logs.AuditLogChangeKey.VANITY_URL_CODE" id="hikari.models.audit_logs.AuditLogChangeKey.VANITY_URL_CODE" class='dotted'>VANITY_URL_CODE</a> = VANITY_URL_CODE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFICATION_LEVEL -- " href="#hikari.models.audit_logs.AuditLogChangeKey.VERIFICATION_LEVEL" id="hikari.models.audit_logs.AuditLogChangeKey.VERIFICATION_LEVEL" class='dotted'>VERIFICATION_LEVEL</a> = VERIFICATION_LEVEL</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WIDGET_CHANNEL_ID -- " href="#hikari.models.audit_logs.AuditLogChangeKey.WIDGET_CHANNEL_ID" id="hikari.models.audit_logs.AuditLogChangeKey.WIDGET_CHANNEL_ID" class='dotted'>WIDGET_CHANNEL_ID</a> = WIDGET_CHANNEL_ID</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WIDGET_ENABLED -- " href="#hikari.models.audit_logs.AuditLogChangeKey.WIDGET_ENABLED" id="hikari.models.audit_logs.AuditLogChangeKey.WIDGET_ENABLED" class='dotted'>WIDGET_ENABLED</a> = WIDGET_ENABLED</code></pre>
+</dt>
+<dd></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLogEntry -- Represents an entry in a guild's audit log." href="#hikari.models.audit_logs.AuditLogEntry"
+class='dotted'>AuditLogEntry</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.AuditLogEntry" class="hljs python"><abbr title='A standard Python type.'>class</abbr> AuditLogEntry (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    target_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    changes: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.audit_logs.AuditLogChange'>AuditLogChange</a>],
+    user_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    action_type: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='#hikari.models.audit_logs.AuditLogEventType'>AuditLogEventType</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    options: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.audit_logs.BaseAuditLogEntryInfo'>BaseAuditLogEntryInfo</a>],
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Represents an entry in a guild's audit log.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L295-L320" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class AuditLogEntry(snowflake.Unique):
+    &#34;&#34;&#34;Represents an entry in a guild&#39;s audit log.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    target_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the entity affected by this change, if applicable.&#34;&#34;&#34;
+
+    changes: typing.Sequence[AuditLogChange] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;A sequence of the changes made to `AuditLogEntry.target_id`.&#34;&#34;&#34;
+
+    user_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the user who made this change.&#34;&#34;&#34;
+
+    action_type: typing.Union[AuditLogEventType, int] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The type of action this entry represents.&#34;&#34;&#34;
+
+    options: typing.Optional[BaseAuditLogEntryInfo] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Extra information about this entry. Only be provided for certain `event_type`.&#34;&#34;&#34;
+
+    reason: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The reason for this change, if set (between 0-512 characters).&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="AuditLogEntry -- Represents an entry in a guild's audit log." href="#hikari.models.audit_logs.AuditLogEntry"
+class='dotted'>AuditLogEntry</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="action_type -- The type of action this entry represents." href="#hikari.models.audit_logs.AuditLogEntry.action_type" id="hikari.models.audit_logs.AuditLogEntry.action_type" class='dotted'>action_type</a> : typing.Union[AuditLogEventType, int]</code></pre>
+</dt>
+<dd><p>The type of action this entry represents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.audit_logs.AuditLogEntry.app" id="hikari.models.audit_logs.AuditLogEntry.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="changes -- A sequence of the changes made to `AuditLogEntry.target_id`." href="#hikari.models.audit_logs.AuditLogEntry.changes" id="hikari.models.audit_logs.AuditLogEntry.changes" class='dotted'>changes</a> : typing.Sequence[AuditLogChange]</code></pre>
+</dt>
+<dd><p>A sequence of the changes made to <code><a href='#hikari.models.audit_logs.AuditLogEntry.target_id'>target_id</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.audit_logs.AuditLogEntry.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.audit_logs.AuditLogEntry.id" id="hikari.models.audit_logs.AuditLogEntry.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="options -- Extra information about this entry. Only be provided for certain `event_type`." href="#hikari.models.audit_logs.AuditLogEntry.options" id="hikari.models.audit_logs.AuditLogEntry.options" class='dotted'>options</a> : typing.Optional[BaseAuditLogEntryInfo]</code></pre>
+</dt>
+<dd><p>Extra information about this entry. Only be provided for certain <code>event_type</code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The reason for this change, if set (between 0-512 characters)." href="#hikari.models.audit_logs.AuditLogEntry.reason" id="hikari.models.audit_logs.AuditLogEntry.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The reason for this change, if set (between 0-512 characters).</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="target_id -- The ID of the entity affected by this change, if applicable." href="#hikari.models.audit_logs.AuditLogEntry.target_id" id="hikari.models.audit_logs.AuditLogEntry.target_id" class='dotted'>target_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the entity affected by this change, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user who made this change." href="#hikari.models.audit_logs.AuditLogEntry.user_id" id="hikari.models.audit_logs.AuditLogEntry.user_id" class='dotted'>user_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the user who made this change.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogEventType -- The type of event that occurred." href="#hikari.models.audit_logs.AuditLogEventType"
+class='dotted'>AuditLogEventType</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.AuditLogEventType" class="hljs python"><abbr title='A standard Python type.'>class</abbr> AuditLogEventType (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The type of event that occurred.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L147-L187" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class AuditLogEventType(enum.IntEnum):
+    &#34;&#34;&#34;The type of event that occurred.&#34;&#34;&#34;
+
+    GUILD_UPDATE = 1
+    CHANNEL_CREATE = 10
+    CHANNEL_UPDATE = 11
+    CHANNEL_DELETE = 12
+    CHANNEL_OVERWRITE_CREATE = 13
+    CHANNEL_OVERWRITE_UPDATE = 14
+    CHANNEL_OVERWRITE_DELETE = 15
+    MEMBER_KICK = 20
+    MEMBER_PRUNE = 21
+    MEMBER_BAN_ADD = 22
+    MEMBER_BAN_REMOVE = 23
+    MEMBER_UPDATE = 24
+    MEMBER_ROLE_UPDATE = 25
+    MEMBER_MOVE = 26
+    MEMBER_DISCONNECT = 27
+    BOT_ADD = 28
+    ROLE_CREATE = 30
+    ROLE_UPDATE = 31
+    ROLE_DELETE = 32
+    INVITE_CREATE = 40
+    INVITE_UPDATE = 41
+    INVITE_DELETE = 42
+    WEBHOOK_CREATE = 50
+    WEBHOOK_UPDATE = 51
+    WEBHOOK_DELETE = 52
+    EMOJI_CREATE = 60
+    EMOJI_UPDATE = 61
+    EMOJI_DELETE = 62
+    MESSAGE_DELETE = 72
+    MESSAGE_BULK_DELETE = 73
+    MESSAGE_PIN = 74
+    MESSAGE_UNPIN = 75
+    INTEGRATION_CREATE = 80
+    INTEGRATION_UPDATE = 81
+    INTEGRATION_DELETE = 82
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="AuditLogEventType -- The type of event that occurred." href="#hikari.models.audit_logs.AuditLogEventType"
+class='dotted'>AuditLogEventType</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BOT_ADD -- " href="#hikari.models.audit_logs.AuditLogEventType.BOT_ADD" id="hikari.models.audit_logs.AuditLogEventType.BOT_ADD" class='dotted'>BOT_ADD</a> = BOT_ADD</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_CREATE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_CREATE" class='dotted'>CHANNEL_CREATE</a> = CHANNEL_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_DELETE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_DELETE" class='dotted'>CHANNEL_DELETE</a> = CHANNEL_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_CREATE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_CREATE" class='dotted'>CHANNEL_OVERWRITE_CREATE</a> = CHANNEL_OVERWRITE_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_DELETE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_DELETE" class='dotted'>CHANNEL_OVERWRITE_DELETE</a> = CHANNEL_OVERWRITE_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_OVERWRITE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_OVERWRITE_UPDATE" class='dotted'>CHANNEL_OVERWRITE_UPDATE</a> = CHANNEL_OVERWRITE_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.CHANNEL_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.CHANNEL_UPDATE" class='dotted'>CHANNEL_UPDATE</a> = CHANNEL_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_CREATE" id="hikari.models.audit_logs.AuditLogEventType.EMOJI_CREATE" class='dotted'>EMOJI_CREATE</a> = EMOJI_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_DELETE" id="hikari.models.audit_logs.AuditLogEventType.EMOJI_DELETE" class='dotted'>EMOJI_DELETE</a> = EMOJI_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMOJI_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.EMOJI_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.EMOJI_UPDATE" class='dotted'>EMOJI_UPDATE</a> = EMOJI_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.GUILD_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.GUILD_UPDATE" class='dotted'>GUILD_UPDATE</a> = GUILD_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_CREATE" id="hikari.models.audit_logs.AuditLogEventType.INTEGRATION_CREATE" class='dotted'>INTEGRATION_CREATE</a> = INTEGRATION_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_DELETE" id="hikari.models.audit_logs.AuditLogEventType.INTEGRATION_DELETE" class='dotted'>INTEGRATION_DELETE</a> = INTEGRATION_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INTEGRATION_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INTEGRATION_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.INTEGRATION_UPDATE" class='dotted'>INTEGRATION_UPDATE</a> = INTEGRATION_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_CREATE" id="hikari.models.audit_logs.AuditLogEventType.INVITE_CREATE" class='dotted'>INVITE_CREATE</a> = INVITE_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_DELETE" id="hikari.models.audit_logs.AuditLogEventType.INVITE_DELETE" class='dotted'>INVITE_DELETE</a> = INVITE_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVITE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.INVITE_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.INVITE_UPDATE" class='dotted'>INVITE_UPDATE</a> = INVITE_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_BAN_ADD -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_ADD" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_ADD" class='dotted'>MEMBER_BAN_ADD</a> = MEMBER_BAN_ADD</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_BAN_REMOVE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_REMOVE" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_BAN_REMOVE" class='dotted'>MEMBER_BAN_REMOVE</a> = MEMBER_BAN_REMOVE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_DISCONNECT -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_DISCONNECT" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_DISCONNECT" class='dotted'>MEMBER_DISCONNECT</a> = MEMBER_DISCONNECT</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_KICK -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_KICK" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_KICK" class='dotted'>MEMBER_KICK</a> = MEMBER_KICK</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_MOVE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_MOVE" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_MOVE" class='dotted'>MEMBER_MOVE</a> = MEMBER_MOVE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_PRUNE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_PRUNE" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_PRUNE" class='dotted'>MEMBER_PRUNE</a> = MEMBER_PRUNE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_ROLE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_ROLE_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_ROLE_UPDATE" class='dotted'>MEMBER_ROLE_UPDATE</a> = MEMBER_ROLE_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MEMBER_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.MEMBER_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.MEMBER_UPDATE" class='dotted'>MEMBER_UPDATE</a> = MEMBER_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_BULK_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_BULK_DELETE" id="hikari.models.audit_logs.AuditLogEventType.MESSAGE_BULK_DELETE" class='dotted'>MESSAGE_BULK_DELETE</a> = MESSAGE_BULK_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_DELETE" id="hikari.models.audit_logs.AuditLogEventType.MESSAGE_DELETE" class='dotted'>MESSAGE_DELETE</a> = MESSAGE_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_PIN -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_PIN" id="hikari.models.audit_logs.AuditLogEventType.MESSAGE_PIN" class='dotted'>MESSAGE_PIN</a> = MESSAGE_PIN</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MESSAGE_UNPIN -- " href="#hikari.models.audit_logs.AuditLogEventType.MESSAGE_UNPIN" id="hikari.models.audit_logs.AuditLogEventType.MESSAGE_UNPIN" class='dotted'>MESSAGE_UNPIN</a> = MESSAGE_UNPIN</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_CREATE" id="hikari.models.audit_logs.AuditLogEventType.ROLE_CREATE" class='dotted'>ROLE_CREATE</a> = ROLE_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_DELETE" id="hikari.models.audit_logs.AuditLogEventType.ROLE_DELETE" class='dotted'>ROLE_DELETE</a> = ROLE_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ROLE_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.ROLE_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.ROLE_UPDATE" class='dotted'>ROLE_UPDATE</a> = ROLE_UPDATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_CREATE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_CREATE" id="hikari.models.audit_logs.AuditLogEventType.WEBHOOK_CREATE" class='dotted'>WEBHOOK_CREATE</a> = WEBHOOK_CREATE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_DELETE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_DELETE" id="hikari.models.audit_logs.AuditLogEventType.WEBHOOK_DELETE" class='dotted'>WEBHOOK_DELETE</a> = WEBHOOK_DELETE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WEBHOOK_UPDATE -- " href="#hikari.models.audit_logs.AuditLogEventType.WEBHOOK_UPDATE" id="hikari.models.audit_logs.AuditLogEventType.WEBHOOK_UPDATE" class='dotted'>WEBHOOK_UPDATE</a> = WEBHOOK_UPDATE</code></pre>
+</dt>
+<dd></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.BaseAuditLogEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BaseAuditLogEntryInfo: ...</code></pre>
+<p>A base object that all audit log entry info objects will inherit from.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L191-L192" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BaseAuditLogEntryInfo(abc.ABC):
+    &#34;&#34;&#34;A base object that all audit log entry info objects will inherit from.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelOverwriteEntryInfo -- Represents the extra information for overwrite related audit log entries …" href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo"
+class='dotted'>ChannelOverwriteEntryInfo</a></dt>
+<dd class="nested"><p>Represents the extra information for overwrite related audit log entries …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDisconnectEntryInfo -- Extra information for the voice chat member disconnect entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo"
+class='dotted'>MemberDisconnectEntryInfo</a></dt>
+<dd class="nested"><p>Extra information for the voice chat member disconnect entry.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPruneEntryInfo -- Extra information attached to guild prune log entries." href="#hikari.models.audit_logs.MemberPruneEntryInfo"
+class='dotted'>MemberPruneEntryInfo</a></dt>
+<dd class="nested"><p>Extra information attached to guild prune log entries.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEntryInfo -- Extra information for the message bulk delete audit entry." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo"
+class='dotted'>MessageBulkDeleteEntryInfo</a></dt>
+<dd class="nested"><p>Extra information for the message bulk delete audit entry.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagePinEntryInfo -- The extra information for message pin related audit log entries …" href="#hikari.models.audit_logs.MessagePinEntryInfo"
+class='dotted'>MessagePinEntryInfo</a></dt>
+<dd class="nested"><p>The extra information for message pin related audit log entries …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnrecognisedAuditLogEntryInfo -- Audit log entry options that haven't been implemented in the library …" href="#hikari.models.audit_logs.UnrecognisedAuditLogEntryInfo"
+class='dotted'>UnrecognisedAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>Audit log entry options that haven't been implemented in the library …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelOverwriteEntryInfo -- Represents the extra information for overwrite related audit log entries …" href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo"
+class='dotted'>ChannelOverwriteEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.ChannelOverwriteEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChannelOverwriteEntryInfo (
+    *,
+    id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    type: <a href='channels.html#hikari.models.channels.PermissionOverwriteType'>channels.PermissionOverwriteType</a>,
+    role_name: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Represents the extra information for overwrite related audit log entries.</p>
+<p>Will be attached to the overwrite create, update and delete audit log
+entries.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L197-L211" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflake.Unique):
+    &#34;&#34;&#34;Represents the extra information for overwrite related audit log entries.
+
+    Will be attached to the overwrite create, update and delete audit log
+    entries.
+    &#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    type: channels.PermissionOverwriteType = attr.ib(repr=True)
+    &#34;&#34;&#34;The type of entity this overwrite targets.&#34;&#34;&#34;
+
+    role_name: typing.Optional[str] = attr.ib(repr=True)
+    &#34;&#34;&#34;The name of the role this overwrite targets, if it targets a role.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelOverwriteEntryInfo -- Represents the extra information for overwrite related audit log entries …" href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo"
+class='dotted'>ChannelOverwriteEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.audit_logs.ChannelOverwriteEntryInfo.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.id" id="hikari.models.audit_logs.ChannelOverwriteEntryInfo.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_name -- The name of the role this overwrite targets, if it targets a role." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.role_name" id="hikari.models.audit_logs.ChannelOverwriteEntryInfo.role_name" class='dotted'>role_name</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The name of the role this overwrite targets, if it targets a role.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The type of entity this overwrite targets." href="#hikari.models.audit_logs.ChannelOverwriteEntryInfo.type" id="hikari.models.audit_logs.ChannelOverwriteEntryInfo.type" class='dotted'>type</a> : channels.PermissionOverwriteType</code></pre>
+</dt>
+<dd><p>The type of entity this overwrite targets.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDisconnectEntryInfo -- Extra information for the voice chat member disconnect entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo"
+class='dotted'>MemberDisconnectEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MemberDisconnectEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberDisconnectEntryInfo (
+    *,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+): ...</code></pre>
+<p>Extra information for the voice chat member disconnect entry.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L260-L264" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MemberDisconnectEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information for the voice chat member disconnect entry.&#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of members who were disconnected from voice in this entry.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberMoveEntryInfo -- Extra information for the voice chat based member move entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo"
+class='dotted'>MemberMoveEntryInfo</a></dt>
+<dd class="nested"><p>Extra information for the voice chat based member move entry.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDisconnectEntryInfo -- Extra information for the voice chat member disconnect entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo"
+class='dotted'>MemberDisconnectEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo.count" id="hikari.models.audit_logs.MemberDisconnectEntryInfo.count" class='dotted'>count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The amount of members who were disconnected from voice in this entry.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberMoveEntryInfo -- Extra information for the voice chat based member move entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo"
+class='dotted'>MemberMoveEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MemberMoveEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberMoveEntryInfo (
+    *,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>Extra information for the voice chat based member move entry.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L268-L272" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
+    &#34;&#34;&#34;Extra information for the voice chat based member move entry.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of members who were disconnected from voice in this entry.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberMoveEntryInfo -- Extra information for the voice chat based member move entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo"
+class='dotted'>MemberMoveEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberDisconnectEntryInfo -- Extra information for the voice chat member disconnect entry." href="#hikari.models.audit_logs.MemberDisconnectEntryInfo"
+class='dotted'>MemberDisconnectEntryInfo</a></dt>
+<dd class="nested"><p>Extra information for the voice chat member disconnect entry.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo.channel_id" id="hikari.models.audit_logs.MemberMoveEntryInfo.channel_id" class='dotted'>channel_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>The amount of members who were disconnected from voice in this entry.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of members who were disconnected from voice in this entry." href="#hikari.models.audit_logs.MemberMoveEntryInfo.count" id="hikari.models.audit_logs.MemberMoveEntryInfo.count" class='dotted'>count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The amount of members who were disconnected from voice in this entry.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPruneEntryInfo -- Extra information attached to guild prune log entries." href="#hikari.models.audit_logs.MemberPruneEntryInfo"
+class='dotted'>MemberPruneEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MemberPruneEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberPruneEntryInfo (
+    *,
+    delete_member_days: <a href='https://docs.python.org/3/library/datetime.html#datetime.timedelta'>datetime.timedelta</a>,
+    members_removed: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+): ...</code></pre>
+<p>Extra information attached to guild prune log entries.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L231-L238" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MemberPruneEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information attached to guild prune log entries.&#34;&#34;&#34;
+
+    delete_member_days: datetime.timedelta = attr.ib(repr=True)
+    &#34;&#34;&#34;The timedelta of how many days members were pruned for inactivity based on.&#34;&#34;&#34;
+
+    members_removed: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The number of members who were removed by this prune.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPruneEntryInfo -- Extra information attached to guild prune log entries." href="#hikari.models.audit_logs.MemberPruneEntryInfo"
+class='dotted'>MemberPruneEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="delete_member_days -- The timedelta of how many days members were pruned for inactivity based on." href="#hikari.models.audit_logs.MemberPruneEntryInfo.delete_member_days" id="hikari.models.audit_logs.MemberPruneEntryInfo.delete_member_days" class='dotted'>delete_member_days</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.timedelta'>datetime.timedelta</a></code></pre>
+</dt>
+<dd><p>The timedelta of how many days members were pruned for inactivity based on.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members_removed -- The number of members who were removed by this prune." href="#hikari.models.audit_logs.MemberPruneEntryInfo.members_removed" id="hikari.models.audit_logs.MemberPruneEntryInfo.members_removed" class='dotted'>members_removed</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The number of members who were removed by this prune.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEntryInfo -- Extra information for the message bulk delete audit entry." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo"
+class='dotted'>MessageBulkDeleteEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MessageBulkDeleteEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageBulkDeleteEntryInfo (
+    *,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+): ...</code></pre>
+<p>Extra information for the message bulk delete audit entry.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L243-L247" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MessageBulkDeleteEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Extra information for the message bulk delete audit entry.&#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;The amount of messages that were deleted.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEntryInfo -- Extra information attached to the message delete audit entry." href="#hikari.models.audit_logs.MessageDeleteEntryInfo"
+class='dotted'>MessageDeleteEntryInfo</a></dt>
+<dd class="nested"><p>Extra information attached to the message delete audit entry.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEntryInfo -- Extra information for the message bulk delete audit entry." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo"
+class='dotted'>MessageBulkDeleteEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of messages that were deleted." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo.count" id="hikari.models.audit_logs.MessageBulkDeleteEntryInfo.count" class='dotted'>count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The amount of messages that were deleted.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEntryInfo -- Extra information attached to the message delete audit entry." href="#hikari.models.audit_logs.MessageDeleteEntryInfo"
+class='dotted'>MessageDeleteEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MessageDeleteEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessageDeleteEntryInfo (
+    *,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>Extra information attached to the message delete audit entry.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L251-L255" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
+    &#34;&#34;&#34;Extra information attached to the message delete audit entry.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The guild text based channel where these message(s) were deleted.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageDeleteEntryInfo -- Extra information attached to the message delete audit entry." href="#hikari.models.audit_logs.MessageDeleteEntryInfo"
+class='dotted'>MessageDeleteEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessageBulkDeleteEntryInfo -- Extra information for the message bulk delete audit entry." href="#hikari.models.audit_logs.MessageBulkDeleteEntryInfo"
+class='dotted'>MessageBulkDeleteEntryInfo</a></dt>
+<dd class="nested"><p>Extra information for the message bulk delete audit entry.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The guild text based channel where these message(s) were deleted." href="#hikari.models.audit_logs.MessageDeleteEntryInfo.channel_id" id="hikari.models.audit_logs.MessageDeleteEntryInfo.channel_id" class='dotted'>channel_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>The guild text based channel where these message(s) were deleted.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- The amount of messages that were deleted." href="#hikari.models.audit_logs.MessageDeleteEntryInfo.count" id="hikari.models.audit_logs.MessageDeleteEntryInfo.count" class='dotted'>count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The amount of messages that were deleted.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagePinEntryInfo -- The extra information for message pin related audit log entries …" href="#hikari.models.audit_logs.MessagePinEntryInfo"
+class='dotted'>MessagePinEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.MessagePinEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MessagePinEntryInfo (
+    *,
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    message_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>The extra information for message pin related audit log entries.</p>
+<p>Will be attached to the message pin and message unpin audit log entries.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L216-L226" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MessagePinEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;The extra information for message pin related audit log entries.
+
+    Will be attached to the message pin and message unpin audit log entries.
+    &#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The ID of the text based channel where a pinned message is being targeted.&#34;&#34;&#34;
+
+    message_id: snowflake.Snowflake = attr.ib(repr=True)
+    &#34;&#34;&#34;The ID of the message that&#39;s being pinned or unpinned.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagePinEntryInfo -- The extra information for message pin related audit log entries …" href="#hikari.models.audit_logs.MessagePinEntryInfo"
+class='dotted'>MessagePinEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the text based channel where a pinned message is being targeted." href="#hikari.models.audit_logs.MessagePinEntryInfo.channel_id" id="hikari.models.audit_logs.MessagePinEntryInfo.channel_id" class='dotted'>channel_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>The ID of the text based channel where a pinned message is being targeted.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message_id -- The ID of the message that's being pinned or unpinned." href="#hikari.models.audit_logs.MessagePinEntryInfo.message_id" id="hikari.models.audit_logs.MessagePinEntryInfo.message_id" class='dotted'>message_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>The ID of the message that's being pinned or unpinned.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnrecognisedAuditLogEntryInfo -- Audit log entry options that haven't been implemented in the library …" href="#hikari.models.audit_logs.UnrecognisedAuditLogEntryInfo"
+class='dotted'>UnrecognisedAuditLogEntryInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.audit_logs.UnrecognisedAuditLogEntryInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> UnrecognisedAuditLogEntryInfo (
+    payload: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Audit log entry options that haven't been implemented in the library.</p>
+<p>The attributes on this object are undocumented and dynamic.</p>
+<h2 id="example">Example</h2>
+<pre><code>&gt;&gt;&gt; entry_info.foobar.baz
+</code></pre>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This model has no slots and will have arbitrary undocumented attributes
+(in it's <code>__dict__</code> based on the received payload).</p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/audit_logs.py#L275-L290" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class UnrecognisedAuditLogEntryInfo(BaseAuditLogEntryInfo):
+    &#34;&#34;&#34;Audit log entry options that haven&#39;t been implemented in the library.
+
+    The attributes on this object are undocumented and dynamic.
+
+    Example
+    -------
+        &gt;&gt;&gt; entry_info.foobar.baz
+
+    !!! note
+        This model has no slots and will have arbitrary undocumented attributes
+        (in it&#39;s `__dict__` based on the received payload).
+    &#34;&#34;&#34;
+
+    def __init__(self, payload: typing.Mapping[str, str]) -&gt; None:
+        self.__dict__.update(payload)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnrecognisedAuditLogEntryInfo -- Audit log entry options that haven't been implemented in the library …" href="#hikari.models.audit_logs.UnrecognisedAuditLogEntryInfo"
+class='dotted'>UnrecognisedAuditLogEntryInfo</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BaseAuditLogEntryInfo -- A base object that all audit log entry info objects will inherit from." href="#hikari.models.audit_logs.BaseAuditLogEntryInfo"
+class='dotted'>BaseAuditLogEntryInfo</a></dt>
+<dd class="nested"><p>A base object that all audit log entry info objects will inherit from.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

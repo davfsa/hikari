@@ -1,0 +1,529 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.utilities.undefined API documentation</title>
+<meta name="description" content="Singleton used throughout the library to denote values that are not present." />
+<meta property="og:title" content="hikari.utilities.undefined module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.utilities.undefined">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.utilities -- Package containing internal utilities used within this API." href="index.html"
+class='dotted'>utilities</a></li>
+<li class="breadcrumb-item active"><a href="#">undefined</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Singleton used throughout the library to denote values that are not present.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A variable that should be considered to be a constant value.'>const</abbr></em></small> <a title="UNDEFINED -- Undefined sentinel value …" href="#hikari.utilities.undefined.UNDEFINED"
+class='sidebar-nav-pill'>UNDEFINED</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="UndefinedNoneOr -- Type hint for a value that may be `undefined.UNDEFINED`, or `builtins.None` …" href="#hikari.utilities.undefined.UndefinedNoneOr"
+class='sidebar-nav-pill'>UndefinedNoneOr</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="UndefinedOr -- Type hint to mark a type as being semantically optional …" href="#hikari.utilities.undefined.UndefinedOr"
+class='sidebar-nav-pill'>UndefinedOr</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="count -- Count the number of items that are provided that are `UNDEFINED`." href="#hikari.utilities.undefined.count"
+class='sidebar-nav-pill'>count</a></li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/undefined.py#L0-L144" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Singleton used throughout the library to denote values that are not present.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;UNDEFINED&#34;,
+    &#34;count&#34;,
+    &#34;UndefinedOr&#34;,
+    &#34;UndefinedNoneOr&#34;,
+]
+
+import enum
+import typing
+
+SelfT = typing.TypeVar(&#34;SelfT&#34;)
+
+
+class _UndefinedSentinel:
+    __slots__: typing.Sequence[str] = ()
+
+    def __bool__(self) -&gt; bool:
+        return False
+
+    def __copy__(self: SelfT) -&gt; SelfT:
+        # This is meant to be a singleton
+        return self
+
+    def __deepcopy__(self: SelfT, memo: typing.MutableMapping[int, typing.Any]) -&gt; SelfT:
+        memo[id(self)] = self
+
+        # This is meant to be a singleton
+        return self
+
+    def __repr__(self) -&gt; str:
+        return &#34;UNDEFINED&#34;
+
+    def __str__(self) -&gt; str:
+        return &#34;UNDEFINED&#34;
+
+
+# Using an enum enables us to use typing.Literal. MyPy has a special case for
+# assuming that the number of instances of a specific enum is limited by design,
+# whereas using a constant value does not provide that. In short, this allows
+# MyPy to determine it can statically cast a value to a different type when
+# we do `is` and `is not` checks on values, which removes the need for casts.
+@typing.final
+class UndefinedType(_UndefinedSentinel, enum.Enum):
+    &#34;&#34;&#34;Wrapper type around the undefined value.
+
+    If you see this in a signature somewhere, it means you can pass a
+    value of `UNDEFINED` and it will be valid.
+
+    If you see this as the type of an attribute somewhere, it means that
+    the attribute may be `UNDEFINED` in some edge cases.
+
+    This exists to allow static type checkers to dereference this value
+    using `typing.Literal`, which aids in static type analysis by treating
+    this value as a true singleton. This can only be achieved by using
+    an `enum.Enum` of a single value to enforce this.
+
+    For all other purposes, you can treat this as the type of the
+    `UNDEFINED` sentinel in this module. You should generally not need to
+    use this, however.
+    &#34;&#34;&#34;
+
+    UNDEFINED_VALUE = _UndefinedSentinel()
+
+
+# Prevent making any more instances as much as possible.
+setattr(_UndefinedSentinel, &#34;__new__&#34;, lambda _: UNDEFINED)
+del _UndefinedSentinel
+
+
+# noinspection PyTypeChecker
+UNDEFINED: typing.Final[typing.Literal[UndefinedType.UNDEFINED_VALUE]] = UndefinedType.UNDEFINED_VALUE
+&#34;&#34;&#34;Undefined sentinel value.
+
+This will behave as a false value in conditions.
+&#34;&#34;&#34;
+
+
+T = typing.TypeVar(&#34;T&#34;, covariant=True)
+UndefinedOr = typing.Union[T, UndefinedType]
+&#34;&#34;&#34;Type hint to mark a type as being semantically optional.
+
+**NOTE THAT THIS IS NOT THE SAME AS `typing.Optional` BY DEFINITION**.
+
+If you see a type with this marker, it may be `UNDEFINED` or the value it wraps.
+For example, `UndefinedOr[float]` would mean the value could be a
+`builtins.float`, or the literal `UNDEFINED` value.
+
+On the other hand, `typing.Optional[float]` would mean the value could be
+a `builtins.float`, or the literal `builtins.None` value.
+
+The reason for using this is in some places, there is a semantic difference
+between specifying something as being `builtins.None`, i.e. &#34;no value&#34;, and
+having a default to specify that the value has just not been mentioned. The
+main example of this is in `edit` endpoints where the contents will only be
+changed if they are explicitly mentioned in the call. Editing a message content
+and setting it to `builtins.None` would be expected to clear the content,
+whereas setting it to `UNDEFINED` would be expected to leave the value as it
+is without changing it.
+
+Consider `UndefinedOr[T]` semantically equivalent to `undefined` versus
+`null` in JavaScript, or `Optional&lt;T&gt;` versus `null` in Java and C#.
+
+If in doubt, remember:
+
+- `UNDEFINED` means there is no value present.
+- `builtins.None` means the value is present and explicitly empty/null/void.
+&#34;&#34;&#34;
+
+UndefinedNoneOr = typing.Union[UndefinedOr[T], None]
+&#34;&#34;&#34;Type hint for a value that may be `undefined.UNDEFINED`, or `builtins.None`.
+
+`UndefinedNoneOr[T]` is simply an alias for
+`UndefinedOr[typing.Optional[T]]`, which would expand to
+`typing.Union[UndefinedType, T, None]`.
+&#34;&#34;&#34;
+
+
+def count(*items: typing.Any) -&gt; int:
+    &#34;&#34;&#34;Count the number of items that are provided that are `UNDEFINED`.&#34;&#34;&#34;
+    return sum(1 for item in items if item is UNDEFINED)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A variable that should be considered to be a constant value.'>const</abbr></em></small> <a title="UNDEFINED -- Undefined sentinel value …" href="#hikari.utilities.undefined.UNDEFINED" id="hikari.utilities.undefined.UNDEFINED" class='dotted'>UNDEFINED</a> : typing.Final[typing.Literal[UndefinedType.UNDEFINED_VALUE]]</code></pre>
+</dt>
+<dd><p>Undefined sentinel value.</p>
+<p>This will behave as a false value in conditions.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="UndefinedNoneOr -- Type hint for a value that may be `undefined.UNDEFINED`, or `builtins.None` …" href="#hikari.utilities.undefined.UndefinedNoneOr" id="hikari.utilities.undefined.UndefinedNoneOr" class='dotted'>UndefinedNoneOr</a> = typing.Union[+T, hikari.utilities.undefined.UndefinedType, NoneType]</code></pre>
+</dt>
+<dd><p>Type hint for a value that may be <code>undefined.UNDEFINED</code>, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p>
+<p><code><a href='#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[T]</code> is simply an alias for
+<code><a href='#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[T]]</code>, which would expand to
+<code><a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[UndefinedType, T, <a href='https://docs.python.org/3/library/constants.html#None'>None</a>]</code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="UndefinedOr -- Type hint to mark a type as being semantically optional …" href="#hikari.utilities.undefined.UndefinedOr" id="hikari.utilities.undefined.UndefinedOr" class='dotted'>UndefinedOr</a> = typing.Union[+T, hikari.utilities.undefined.UndefinedType]</code></pre>
+</dt>
+<dd><p>Type hint to mark a type as being semantically optional.</p>
+<p><strong>NOTE THAT THIS IS NOT THE SAME AS <code><a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a></code> BY DEFINITION</strong>.</p>
+<p>If you see a type with this marker, it may be <code><a href='#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> or the value it wraps.
+For example, <code><a href='#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code> would mean the value could be a
+<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code>, or the literal <code><a href='#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> value.</p>
+<p>On the other hand, <code><a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code> would mean the value could be
+a <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code>, or the literal <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> value.</p>
+<p>The reason for using this is in some places, there is a semantic difference
+between specifying something as being <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, i.e. "no value", and
+having a default to specify that the value has just not been mentioned. The
+main example of this is in <code>edit</code> endpoints where the contents will only be
+changed if they are explicitly mentioned in the call. Editing a message content
+and setting it to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> would be expected to clear the content,
+whereas setting it to <code><a href='#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> would be expected to leave the value as it
+is without changing it.</p>
+<p>Consider <code><a href='#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[T]</code> semantically equivalent to <code>undefined</code> versus
+<code>null</code> in JavaScript, or <code>Optional<T></code> versus <code>null</code> in Java and C#.</p>
+<p>If in doubt, remember:</p>
+<ul>
+<li><code><a href='#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> means there is no value present.</li>
+<li><code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> means the value is present and explicitly empty/null/void.</li>
+</ul></dd>
+</dl>
+</section>
+<h2 id="functions-heading">Functions</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code id="hikari.utilities.undefined.count" class="hljs python"><abbr title='A standard Python function.'>def</abbr> count(
+    *items: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+) -> <a href='https://docs.python.org/3/library/functions.html#int'>int</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Count the number of items that are provided that are <code><a href='#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/undefined.py#L143-L145" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def count(*items: typing.Any) -&gt; int:
+    &#34;&#34;&#34;Count the number of items that are provided that are `UNDEFINED`.&#34;&#34;&#34;
+    return sum(1 for item in items if item is UNDEFINED)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

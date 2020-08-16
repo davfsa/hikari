@@ -1,0 +1,1804 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.api.special_endpoints API documentation</title>
+<meta name="description" content="Special additional endpoints used by the REST API." />
+<meta property="og:title" content="hikari.api.special_endpoints module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.api.special_endpoints">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.api -- Interfaces for components that make up Hikari applications …" href="index.html"
+class='dotted'>api</a></li>
+<li class="breadcrumb-item active"><a href="#">special_endpoints</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Special additional endpoints used by the REST API.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildBuilder -- Result type of `hikari.api.rest.RESTClient.guild_builder` …" href="#hikari.api.special_endpoints.GuildBuilder"
+class='sidebar-nav-pill'>GuildBuilder</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="add_category -- Create a category channel …" href="#hikari.api.special_endpoints.GuildBuilder.add_category"
+class='sidebar-nav-pill'>add_category</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="add_role -- Create a role …" href="#hikari.api.special_endpoints.GuildBuilder.add_role"
+class='sidebar-nav-pill'>add_role</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="add_text_channel -- Create a text channel …" href="#hikari.api.special_endpoints.GuildBuilder.add_text_channel"
+class='sidebar-nav-pill'>add_text_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="add_voice_channel -- Create a voice channel …" href="#hikari.api.special_endpoints.GuildBuilder.add_voice_channel"
+class='sidebar-nav-pill'>add_voice_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="create -- Send the request to Discord to create the guild …" href="#hikari.api.special_endpoints.GuildBuilder.create"
+class='sidebar-nav-pill'>create</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_message_notifications -- Default message notification level that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.default_message_notifications"
+class='sidebar-nav-pill'>default_message_notifications</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="explicit_content_filter_level -- Explicit content filter level that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.explicit_content_filter_level"
+class='sidebar-nav-pill'>explicit_content_filter_level</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon -- Guild icon to use that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.icon"
+class='sidebar-nav-pill'>icon</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- Name of the guild to create …" href="#hikari.api.special_endpoints.GuildBuilder.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="region -- Guild voice channel region to use that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.region"
+class='sidebar-nav-pill'>region</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verification_level -- Verification level required to join the guild that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.verification_level"
+class='sidebar-nav-pill'>verification_level</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="TypingIndicator -- Result type of `hikari.api.rest.RESTClient.trigger_typing` …" href="#hikari.api.special_endpoints.TypingIndicator"
+class='sidebar-nav-pill'>TypingIndicator</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L0-L412" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Special additional endpoints used by the REST API.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;TypingIndicator&#34;, &#34;GuildBuilder&#34;]
+
+import abc
+import typing
+
+import attr
+
+from hikari.utilities import undefined
+
+if typing.TYPE_CHECKING:
+    import types
+
+    from hikari.models import channels
+    from hikari.models import colors
+    from hikari.models import guilds
+    from hikari.models import permissions as permissions_
+    from hikari.models import voices
+    from hikari.utilities import date
+    from hikari.utilities import files
+    from hikari.utilities import snowflake
+
+
+class TypingIndicator(abc.ABC):
+    &#34;&#34;&#34;Result type of `hikari.api.rest.RESTClient.trigger_typing`.
+
+    This is an object that can either be awaited like a coroutine to trigger
+    the typing indicator once, or an async context manager to keep triggering
+    the typing indicator repeatedly until the context finishes.
+
+    !!! note
+        This is a helper class that is used by `hikari.api.rest.RESTClient`.
+        You should only ever need to use instances of this class that are
+        produced by that API.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @abc.abstractmethod
+    def __await__(self) -&gt; typing.Generator[None, typing.Any, None]:
+        ...
+
+    @abc.abstractmethod
+    async def __aenter__(self) -&gt; None:
+        ...
+
+    @abc.abstractmethod
+    async def __aexit__(
+        self,
+        exception_type: typing.Type[BaseException],
+        exception: BaseException,
+        exception_traceback: types.TracebackType,
+    ) -&gt; None:
+        ...
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class GuildBuilder(abc.ABC):
+    &#34;&#34;&#34;Result type of `hikari.api.rest.RESTClient.guild_builder`.
+
+    This is used to create a guild in a tidy way using the HTTP API, since
+    the logic behind creating a guild on an API level is somewhat confusing
+    and detailed.
+
+    !!! note
+        This is a helper class that is used by `hikari.api.rest.RESTClient`.
+        You should only ever need to use instances of this class that are
+        produced by that API, thus, any details about the constructor are
+        omitted from the following examples for brevity.
+
+    Examples
+    --------
+    Creating an empty guild.
+
+    ```py
+    guild = await rest.guild_builder(&#34;My Server!&#34;).create()
+    ```
+
+    Creating a guild with an icon
+
+    ```py
+    from hikari.models.files import WebResourceStream
+
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+    guild_builder.icon = WebResourceStream(&#34;cat.png&#34;, &#34;http://...&#34;)
+    guild = await guild_builder.create()
+    ```
+
+    Adding roles to your guild.
+
+    ```py
+    from hikari.models.permissions import Permissions
+
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+
+    everyone_role_id = guild_builder.add_role(&#34;@everyone&#34;)
+    admin_role_id = guild_builder.add_role(&#34;Admins&#34;, permissions=Permissions.ADMINISTRATOR)
+
+    await guild_builder.create()
+    ```
+
+    !!! warning
+        The first role must always be the `@everyone` role.
+
+    !!! note
+        If you call `add_role`, the default roles provided by discord will
+        be created. This also applies to the `add_` functions for
+        text channels/voice channels/categories.
+
+    !!! note
+        Functions that return a `hikari.utilities.snowflake.Snowflake` do
+        **not** provide the final ID that the object will have once the
+        API call is made. The returned IDs are only able to be used to
+        re-reference particular objects while building the guild format.
+
+        This is provided to allow creation of channels within categories,
+        and to provide permission overwrites.
+
+    Adding a text channel to your guild.
+
+    ```py
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+
+    category_id = guild_builder.add_category(&#34;My safe place&#34;)
+    channel_id = guild_builder.add_text_channel(&#34;general&#34;, parent_id=category_id)
+
+    await guild_builder.create()
+    ```
+    &#34;&#34;&#34;
+
+    default_message_notifications: undefined.UndefinedOr[guilds.GuildMessageNotificationsLevel] = attr.ib(
+        default=undefined.UNDEFINED
+    )
+    &#34;&#34;&#34;Default message notification level that can be overwritten.
+
+    If not overridden, this will use the Discord default level.
+    &#34;&#34;&#34;
+
+    explicit_content_filter_level: undefined.UndefinedOr[guilds.GuildExplicitContentFilterLevel] = attr.ib(
+        default=undefined.UNDEFINED
+    )
+    &#34;&#34;&#34;Explicit content filter level that can be overwritten.
+
+    If not overridden, this will use the Discord default level.
+    &#34;&#34;&#34;
+
+    icon: undefined.UndefinedOr[files.Resourceish] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Guild icon to use that can be overwritten.
+
+    If not overridden, the guild will not have an icon.
+    &#34;&#34;&#34;
+
+    region: undefined.UndefinedOr[voices.VoiceRegionish] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Guild voice channel region to use that can be overwritten.
+
+    If not overridden, the guild will use the default voice region for Discord.
+    &#34;&#34;&#34;
+
+    verification_level: undefined.UndefinedOr[guilds.GuildVerificationLevel] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Verification level required to join the guild that can be overwritten.
+
+    If not overridden, the guild will use the default verification level for
+    Discord.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def name(self) -&gt; str:
+        &#34;&#34;&#34;Name of the guild to create.
+
+        Returns
+        -------
+        builtins.str
+            The guild name.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def create(self) -&gt; guilds.RESTGuild:
+        &#34;&#34;&#34;Send the request to Discord to create the guild.
+
+        The application user will be added to this guild as soon as it is
+        created. All IDs that were provided when building this guild will
+        become invalid and will be replaced with real IDs.
+
+        Returns
+        -------
+        hikari.models.guilds.RESTGuild
+            The created guild.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any values set in the guild builder are invalid.
+        hikari.errors.Unauthorized
+            If you are unauthorized to make the request (invalid/missing token).
+        hikari.errors.Forbidden
+            If you are already in 10 guilds.
+        hikari.errors.ServerHTTPErrorResponse
+            If an internal error occurs on Discord while handling the request.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def add_role(
+        self,
+        name: str,
+        /,
+        *,
+        color: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+        colour: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+        hoisted: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        mentionable: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        permissions: undefined.UndefinedOr[permissions_.Permissions] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a role.
+
+        !!! warning
+            The first role you create must always be the `@everyone` role.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The role name.
+        color : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+            The colour of the role to use. If unspecified, then the default
+            colour is used instead.
+        colour : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+            Alias for the `color` parameter for non-american users.
+        hoisted : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the role will show up in the user sidebar in a separate
+            category if it is the highest hoisted role. If `builtins.False`, or
+            unspecified, then this will not occur.
+        mentionable : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, then the role will be able to be mentioned.
+        permissions : hikari.utilities.undefined.UndefinedOr[hikari.models.permissions.Permissions]
+            The optional permissions to enforce on the role. If unspecified,
+            the default permissions for roles will be used.
+
+            !!! note
+                The default permissions are **NOT** the same as providing
+                zero permissions. To set no permissions, you should
+                pass `Permission(0)` explicitly.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the position to place the role in.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this role that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+
+        Raises
+        ------
+        builtins.ValueError
+            If you are defining the first role, but did not name it `@everyone`.
+        builtins.TypeError
+            If you specify both `color` and `colour` together or if you try to
+            specify `color`, `colour`, `hoisted`, `mentionable` or `position` for
+            the `@everyone` role.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def add_category(
+        self,
+        name: str,
+        /,
+        *,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a category channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+
+    @abc.abstractmethod
+    def add_text_channel(
+        self,
+        name: str,
+        /,
+        *,
+        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        topic: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        rate_limit_per_user: undefined.UndefinedOr[date.Intervalish] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+        nsfw: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a text channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+        nsfw : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the channel is marked as NSFW and only users
+            over 18 years of age should be given access.
+        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            If defined, should be a snowflake ID of a category channel
+            that was made with this builder. If provided, this channel will
+            become a child channel of that category.
+        topic : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the topic to set on the channel.
+        rate_limit_per_user : hikari.utilities.undefined.UndefinedOr[hikari.utilities.date.TimeSpan]
+            If specified, the time to wait between allowing consecutive messages
+            to be sent. If not specified, this will not be enabled.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+
+    @abc.abstractmethod
+    def add_voice_channel(
+        self,
+        name: str,
+        /,
+        *,
+        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        bitrate: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+        user_limit: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a voice channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            If defined, should be a snowflake ID of a category channel
+            that was made with this builder. If provided, this channel will
+            become a child channel of that category.
+        bitrate : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the bitrate to set on the channel.
+        user_limit : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the maximum number of users to allow in the voice
+            channel.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildBuilder -- Result type of `hikari.api.rest.RESTClient.guild_builder` …" href="#hikari.api.special_endpoints.GuildBuilder"
+class='dotted'>GuildBuilder</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildBuilder (
+    *,
+    default_message_notifications: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/guilds.html#hikari.models.guilds.GuildMessageNotificationsLevel'>guilds.GuildMessageNotificationsLevel</a>] = UNDEFINED,
+    explicit_content_filter_level: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/guilds.html#hikari.models.guilds.GuildExplicitContentFilterLevel'>guilds.GuildExplicitContentFilterLevel</a>] = UNDEFINED,
+    icon: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>files.Resourceish</a>] = UNDEFINED,
+    region: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/voices.html#hikari.models.voices.VoiceRegionish'>voices.VoiceRegionish</a>] = UNDEFINED,
+    verification_level: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/guilds.html#hikari.models.guilds.GuildVerificationLevel'>guilds.GuildVerificationLevel</a>] = UNDEFINED,
+): ...</code></pre>
+<p>Result type of <code><a href='rest.html#hikari.api.rest.RESTClient.guild_builder'>guild_builder</a></code>.</p>
+<p>This is used to create a guild in a tidy way using the HTTP API, since
+the logic behind creating a guild on an API level is somewhat confusing
+and detailed.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This is a helper class that is used by <code><a href='rest.html#hikari.api.rest.RESTClient'>RESTClient</a></code>.
+You should only ever need to use instances of this class that are
+produced by that API, thus, any details about the constructor are
+omitted from the following examples for brevity.</p>
+</div>
+<h2 id="examples">Examples</h2>
+<p>Creating an empty guild.</p>
+<pre><code class="py">guild = await rest.guild_builder(&quot;My Server!&quot;).create()
+</code></pre>
+<p>Creating a guild with an icon</p>
+<pre><code class="py">from hikari.models.files import WebResourceStream
+
+guild_builder = rest.guild_builder(&quot;My Server!&quot;)
+guild_builder.icon = WebResourceStream(&quot;cat.png&quot;, &quot;http://...&quot;)
+guild = await guild_builder.create()
+</code></pre>
+<p>Adding roles to your guild.</p>
+<pre><code class="py">from hikari.models.permissions import Permissions
+
+guild_builder = rest.guild_builder(&quot;My Server!&quot;)
+
+everyone_role_id = guild_builder.add_role(&quot;@everyone&quot;)
+admin_role_id = guild_builder.add_role(&quot;Admins&quot;, permissions=Permissions.ADMINISTRATOR)
+
+await guild_builder.create()
+</code></pre>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>The first role must always be the <code>@everyone</code> role.</p>
+</div>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>If you call <code>add_role</code>, the default roles provided by discord will
+be created. This also applies to the <code>add_</code> functions for
+text channels/voice channels/categories.</p>
+</div>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>Functions that return a <code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code> do
+<strong>not</strong> provide the final ID that the object will have once the
+API call is made. The returned IDs are only able to be used to
+re-reference particular objects while building the guild format.</p>
+<p>This is provided to allow creation of channels within categories,
+and to provide permission overwrites.</p>
+</div>
+<p>Adding a text channel to your guild.</p>
+<pre><code class="py">guild_builder = rest.guild_builder(&quot;My Server!&quot;)
+
+category_id = guild_builder.add_category(&quot;My safe place&quot;)
+channel_id = guild_builder.add_text_channel(&quot;general&quot;, parent_id=category_id)
+
+await guild_builder.create()
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L81-L413" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildBuilder(abc.ABC):
+    &#34;&#34;&#34;Result type of `hikari.api.rest.RESTClient.guild_builder`.
+
+    This is used to create a guild in a tidy way using the HTTP API, since
+    the logic behind creating a guild on an API level is somewhat confusing
+    and detailed.
+
+    !!! note
+        This is a helper class that is used by `hikari.api.rest.RESTClient`.
+        You should only ever need to use instances of this class that are
+        produced by that API, thus, any details about the constructor are
+        omitted from the following examples for brevity.
+
+    Examples
+    --------
+    Creating an empty guild.
+
+    ```py
+    guild = await rest.guild_builder(&#34;My Server!&#34;).create()
+    ```
+
+    Creating a guild with an icon
+
+    ```py
+    from hikari.models.files import WebResourceStream
+
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+    guild_builder.icon = WebResourceStream(&#34;cat.png&#34;, &#34;http://...&#34;)
+    guild = await guild_builder.create()
+    ```
+
+    Adding roles to your guild.
+
+    ```py
+    from hikari.models.permissions import Permissions
+
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+
+    everyone_role_id = guild_builder.add_role(&#34;@everyone&#34;)
+    admin_role_id = guild_builder.add_role(&#34;Admins&#34;, permissions=Permissions.ADMINISTRATOR)
+
+    await guild_builder.create()
+    ```
+
+    !!! warning
+        The first role must always be the `@everyone` role.
+
+    !!! note
+        If you call `add_role`, the default roles provided by discord will
+        be created. This also applies to the `add_` functions for
+        text channels/voice channels/categories.
+
+    !!! note
+        Functions that return a `hikari.utilities.snowflake.Snowflake` do
+        **not** provide the final ID that the object will have once the
+        API call is made. The returned IDs are only able to be used to
+        re-reference particular objects while building the guild format.
+
+        This is provided to allow creation of channels within categories,
+        and to provide permission overwrites.
+
+    Adding a text channel to your guild.
+
+    ```py
+    guild_builder = rest.guild_builder(&#34;My Server!&#34;)
+
+    category_id = guild_builder.add_category(&#34;My safe place&#34;)
+    channel_id = guild_builder.add_text_channel(&#34;general&#34;, parent_id=category_id)
+
+    await guild_builder.create()
+    ```
+    &#34;&#34;&#34;
+
+    default_message_notifications: undefined.UndefinedOr[guilds.GuildMessageNotificationsLevel] = attr.ib(
+        default=undefined.UNDEFINED
+    )
+    &#34;&#34;&#34;Default message notification level that can be overwritten.
+
+    If not overridden, this will use the Discord default level.
+    &#34;&#34;&#34;
+
+    explicit_content_filter_level: undefined.UndefinedOr[guilds.GuildExplicitContentFilterLevel] = attr.ib(
+        default=undefined.UNDEFINED
+    )
+    &#34;&#34;&#34;Explicit content filter level that can be overwritten.
+
+    If not overridden, this will use the Discord default level.
+    &#34;&#34;&#34;
+
+    icon: undefined.UndefinedOr[files.Resourceish] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Guild icon to use that can be overwritten.
+
+    If not overridden, the guild will not have an icon.
+    &#34;&#34;&#34;
+
+    region: undefined.UndefinedOr[voices.VoiceRegionish] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Guild voice channel region to use that can be overwritten.
+
+    If not overridden, the guild will use the default voice region for Discord.
+    &#34;&#34;&#34;
+
+    verification_level: undefined.UndefinedOr[guilds.GuildVerificationLevel] = attr.ib(default=undefined.UNDEFINED)
+    &#34;&#34;&#34;Verification level required to join the guild that can be overwritten.
+
+    If not overridden, the guild will use the default verification level for
+    Discord.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def name(self) -&gt; str:
+        &#34;&#34;&#34;Name of the guild to create.
+
+        Returns
+        -------
+        builtins.str
+            The guild name.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def create(self) -&gt; guilds.RESTGuild:
+        &#34;&#34;&#34;Send the request to Discord to create the guild.
+
+        The application user will be added to this guild as soon as it is
+        created. All IDs that were provided when building this guild will
+        become invalid and will be replaced with real IDs.
+
+        Returns
+        -------
+        hikari.models.guilds.RESTGuild
+            The created guild.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any values set in the guild builder are invalid.
+        hikari.errors.Unauthorized
+            If you are unauthorized to make the request (invalid/missing token).
+        hikari.errors.Forbidden
+            If you are already in 10 guilds.
+        hikari.errors.ServerHTTPErrorResponse
+            If an internal error occurs on Discord while handling the request.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def add_role(
+        self,
+        name: str,
+        /,
+        *,
+        color: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+        colour: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+        hoisted: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        mentionable: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        permissions: undefined.UndefinedOr[permissions_.Permissions] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a role.
+
+        !!! warning
+            The first role you create must always be the `@everyone` role.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The role name.
+        color : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+            The colour of the role to use. If unspecified, then the default
+            colour is used instead.
+        colour : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+            Alias for the `color` parameter for non-american users.
+        hoisted : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the role will show up in the user sidebar in a separate
+            category if it is the highest hoisted role. If `builtins.False`, or
+            unspecified, then this will not occur.
+        mentionable : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, then the role will be able to be mentioned.
+        permissions : hikari.utilities.undefined.UndefinedOr[hikari.models.permissions.Permissions]
+            The optional permissions to enforce on the role. If unspecified,
+            the default permissions for roles will be used.
+
+            !!! note
+                The default permissions are **NOT** the same as providing
+                zero permissions. To set no permissions, you should
+                pass `Permission(0)` explicitly.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the position to place the role in.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this role that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+
+        Raises
+        ------
+        builtins.ValueError
+            If you are defining the first role, but did not name it `@everyone`.
+        builtins.TypeError
+            If you specify both `color` and `colour` together or if you try to
+            specify `color`, `colour`, `hoisted`, `mentionable` or `position` for
+            the `@everyone` role.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def add_category(
+        self,
+        name: str,
+        /,
+        *,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a category channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+
+    @abc.abstractmethod
+    def add_text_channel(
+        self,
+        name: str,
+        /,
+        *,
+        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        topic: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        rate_limit_per_user: undefined.UndefinedOr[date.Intervalish] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+        nsfw: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a text channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+        nsfw : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the channel is marked as NSFW and only users
+            over 18 years of age should be given access.
+        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            If defined, should be a snowflake ID of a category channel
+            that was made with this builder. If provided, this channel will
+            become a child channel of that category.
+        topic : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the topic to set on the channel.
+        rate_limit_per_user : hikari.utilities.undefined.UndefinedOr[hikari.utilities.date.TimeSpan]
+            If specified, the time to wait between allowing consecutive messages
+            to be sent. If not specified, this will not be enabled.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+
+    @abc.abstractmethod
+    def add_voice_channel(
+        self,
+        name: str,
+        /,
+        *,
+        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        bitrate: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+        permission_overwrites: undefined.UndefinedOr[
+            typing.Collection[channels.PermissionOverwrite]
+        ] = undefined.UNDEFINED,
+        user_limit: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    ) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Create a voice channel.
+
+        Parameters
+        ----------
+        name : builtins.str
+            The name of the category.
+        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            The position to place the category in, if specified.
+        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+            If defined, a collection of one or more
+            `hikari.models.channels.PermissionOverwrite` objects.
+        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            If defined, should be a snowflake ID of a category channel
+            that was made with this builder. If provided, this channel will
+            become a child channel of that category.
+        bitrate : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the bitrate to set on the channel.
+        user_limit : hikari.utilities.undefined.UndefinedOr[builtins.int]
+            If specified, the maximum number of users to allow in the voice
+            channel.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The dummy ID for this channel that can be used temporarily to refer
+            to this object while designing the guild layout.
+
+            When the guild is created, this will be replaced with a different
+            ID.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildBuilder -- Result type of `hikari.api.rest.RESTClient.guild_builder` …" href="../impl/special_endpoints.html#hikari.impl.special_endpoints.GuildBuilder"
+class='dotted'>GuildBuilder</a></dt>
+<dd class="nested"><p>Result type of <code><a href='rest.html#hikari.api.rest.RESTClient.guild_builder'>guild_builder</a></code> …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildBuilder -- Result type of `hikari.api.rest.RESTClient.guild_builder` …" href="#hikari.api.special_endpoints.GuildBuilder"
+class='dotted'>GuildBuilder</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder.add_category" class="hljs python"><abbr title='A standard Python function.'>def</abbr> add_category(
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    /,
+    *,
+    position: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+    permission_overwrites: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>channels.PermissionOverwrite</a>]] = UNDEFINED,
+) -> <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a category channel.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The name of the category.</dd>
+<dt><strong><code>position</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>The position to place the category in, if specified.</dd>
+<dt><strong><code>permission_overwrites</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a>]]</code></dt>
+<dd>If defined, a collection of one or more
+<code><a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a></code> objects.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>
+<p>The dummy ID for this channel that can be used temporarily to refer
+to this object while designing the guild layout.</p>
+<p>When the guild is created, this will be replaced with a different
+ID.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L288-L319" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def add_category(
+    self,
+    name: str,
+    /,
+    *,
+    position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    permission_overwrites: undefined.UndefinedOr[
+        typing.Collection[channels.PermissionOverwrite]
+    ] = undefined.UNDEFINED,
+) -&gt; snowflake.Snowflake:
+    &#34;&#34;&#34;Create a category channel.
+
+    Parameters
+    ----------
+    name : builtins.str
+        The name of the category.
+    position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        The position to place the category in, if specified.
+    permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+        If defined, a collection of one or more
+        `hikari.models.channels.PermissionOverwrite` objects.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The dummy ID for this channel that can be used temporarily to refer
+        to this object while designing the guild layout.
+
+        When the guild is created, this will be replaced with a different
+        ID.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder.add_role" class="hljs python"><abbr title='A standard Python function.'>def</abbr> add_role(
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    /,
+    *,
+    color: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/colors.html#hikari.models.colors.Colorish'>colors.Colorish</a>] = UNDEFINED,
+    colour: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/colors.html#hikari.models.colors.Colorish'>colors.Colorish</a>] = UNDEFINED,
+    hoisted: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    mentionable: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    permissions: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/permissions.html#hikari.models.permissions.Permissions'>permissions_.Permissions</a>] = UNDEFINED,
+    position: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+) -> <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a role.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>The first role you create must always be the <code>@everyone</code> role.</p>
+</div>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The role name.</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/colors.html#hikari.models.colors.Colorish'>Colorish</a>]</code></dt>
+<dd>The colour of the role to use. If unspecified, then the default
+colour is used instead.</dd>
+<dt><strong><code>colour</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/colors.html#hikari.models.colors.Colorish'>Colorish</a>]</code></dt>
+<dd>Alias for the <code>color</code> parameter for non-american users.</dd>
+<dt><strong><code>hoisted</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the role will show up in the user sidebar in a separate
+category if it is the highest hoisted role. If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, or
+unspecified, then this will not occur.</dd>
+<dt><strong><code>mentionable</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the role will be able to be mentioned.</dd>
+<dt><strong><code>permissions</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/permissions.html#hikari.models.permissions.Permissions'>Permissions</a>]</code></dt>
+<dd>
+<p>The optional permissions to enforce on the role. If unspecified,
+the default permissions for roles will be used.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>The default permissions are <strong>NOT</strong> the same as providing
+zero permissions. To set no permissions, you should
+pass <code>Permission(0)</code> explicitly.</p>
+</div>
+</dd>
+<dt><strong><code>position</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>If specified, the position to place the role in.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>
+<p>The dummy ID for this role that can be used temporarily to refer
+to this object while designing the guild layout.</p>
+<p>When the guild is created, this will be replaced with a different
+ID.</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If you are defining the first role, but did not name it <code>@everyone</code>.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#TypeError'>TypeError</a></code></dt>
+<dd>If you specify both <code>color</code> and <code>colour</code> together or if you try to
+specify <code>color</code>, <code>colour</code>, <code>hoisted</code>, <code>mentionable</code> or <code>position</code> for
+the <code>@everyone</code> role.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L225-L286" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def add_role(
+    self,
+    name: str,
+    /,
+    *,
+    color: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+    colour: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
+    hoisted: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    mentionable: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    permissions: undefined.UndefinedOr[permissions_.Permissions] = undefined.UNDEFINED,
+    position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+) -&gt; snowflake.Snowflake:
+    &#34;&#34;&#34;Create a role.
+
+    !!! warning
+        The first role you create must always be the `@everyone` role.
+
+    Parameters
+    ----------
+    name : builtins.str
+        The role name.
+    color : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+        The colour of the role to use. If unspecified, then the default
+        colour is used instead.
+    colour : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
+        Alias for the `color` parameter for non-american users.
+    hoisted : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, the role will show up in the user sidebar in a separate
+        category if it is the highest hoisted role. If `builtins.False`, or
+        unspecified, then this will not occur.
+    mentionable : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, then the role will be able to be mentioned.
+    permissions : hikari.utilities.undefined.UndefinedOr[hikari.models.permissions.Permissions]
+        The optional permissions to enforce on the role. If unspecified,
+        the default permissions for roles will be used.
+
+        !!! note
+            The default permissions are **NOT** the same as providing
+            zero permissions. To set no permissions, you should
+            pass `Permission(0)` explicitly.
+    position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        If specified, the position to place the role in.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The dummy ID for this role that can be used temporarily to refer
+        to this object while designing the guild layout.
+
+        When the guild is created, this will be replaced with a different
+        ID.
+
+    Raises
+    ------
+    builtins.ValueError
+        If you are defining the first role, but did not name it `@everyone`.
+    builtins.TypeError
+        If you specify both `color` and `colour` together or if you try to
+        specify `color`, `colour`, `hoisted`, `mentionable` or `position` for
+        the `@everyone` role.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder.add_text_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> add_text_channel(
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    /,
+    *,
+    parent_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+    topic: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+    rate_limit_per_user: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/date.html#hikari.utilities.date.Intervalish'>date.Intervalish</a>] = UNDEFINED,
+    position: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+    permission_overwrites: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>channels.PermissionOverwrite</a>]] = UNDEFINED,
+    nsfw: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+) -> <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a text channel.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The name of the category.</dd>
+<dt><strong><code>position</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>The position to place the category in, if specified.</dd>
+<dt><strong><code>permission_overwrites</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a>]]</code></dt>
+<dd>If defined, a collection of one or more
+<code><a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a></code> objects.</dd>
+<dt><strong><code>nsfw</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the channel is marked as NSFW and only users
+over 18 years of age should be given access.</dd>
+<dt><strong><code>parent_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>If defined, should be a snowflake ID of a category channel
+that was made with this builder. If provided, this channel will
+become a child channel of that category.</dd>
+<dt><strong><code>topic</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the topic to set on the channel.</dd>
+<dt><strong><code>rate_limit_per_user</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/date.html'>hikari.utilities.date.TimeSpan</a>]</code></dt>
+<dd>If specified, the time to wait between allowing consecutive messages
+to be sent. If not specified, this will not be enabled.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>
+<p>The dummy ID for this channel that can be used temporarily to refer
+to this object while designing the guild layout.</p>
+<p>When the guild is created, this will be replaced with a different
+ID.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L321-L368" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def add_text_channel(
+    self,
+    name: str,
+    /,
+    *,
+    parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    topic: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    rate_limit_per_user: undefined.UndefinedOr[date.Intervalish] = undefined.UNDEFINED,
+    position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    permission_overwrites: undefined.UndefinedOr[
+        typing.Collection[channels.PermissionOverwrite]
+    ] = undefined.UNDEFINED,
+    nsfw: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+) -&gt; snowflake.Snowflake:
+    &#34;&#34;&#34;Create a text channel.
+
+    Parameters
+    ----------
+    name : builtins.str
+        The name of the category.
+    position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        The position to place the category in, if specified.
+    permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+        If defined, a collection of one or more
+        `hikari.models.channels.PermissionOverwrite` objects.
+    nsfw : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, the channel is marked as NSFW and only users
+        over 18 years of age should be given access.
+    parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        If defined, should be a snowflake ID of a category channel
+        that was made with this builder. If provided, this channel will
+        become a child channel of that category.
+    topic : hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the topic to set on the channel.
+    rate_limit_per_user : hikari.utilities.undefined.UndefinedOr[hikari.utilities.date.TimeSpan]
+        If specified, the time to wait between allowing consecutive messages
+        to be sent. If not specified, this will not be enabled.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The dummy ID for this channel that can be used temporarily to refer
+        to this object while designing the guild layout.
+
+        When the guild is created, this will be replaced with a different
+        ID.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder.add_voice_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> add_voice_channel(
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    /,
+    *,
+    parent_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+    bitrate: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+    position: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+    permission_overwrites: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>channels.PermissionOverwrite</a>]] = UNDEFINED,
+    user_limit: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>] = UNDEFINED,
+) -> <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a voice channel.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The name of the category.</dd>
+<dt><strong><code>position</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>The position to place the category in, if specified.</dd>
+<dt><strong><code>permission_overwrites</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a>]]</code></dt>
+<dd>If defined, a collection of one or more
+<code><a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a></code> objects.</dd>
+<dt><strong><code>parent_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>If defined, should be a snowflake ID of a category channel
+that was made with this builder. If provided, this channel will
+become a child channel of that category.</dd>
+<dt><strong><code>bitrate</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>If specified, the bitrate to set on the channel.</dd>
+<dt><strong><code>user_limit</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></dt>
+<dd>If specified, the maximum number of users to allow in the voice
+channel.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>
+<p>The dummy ID for this channel that can be used temporarily to refer
+to this object while designing the guild layout.</p>
+<p>When the guild is created, this will be replaced with a different
+ID.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L370-L413" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def add_voice_channel(
+    self,
+    name: str,
+    /,
+    *,
+    parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    bitrate: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+    permission_overwrites: undefined.UndefinedOr[
+        typing.Collection[channels.PermissionOverwrite]
+    ] = undefined.UNDEFINED,
+    user_limit: undefined.UndefinedOr[int] = undefined.UNDEFINED,
+) -&gt; snowflake.Snowflake:
+    &#34;&#34;&#34;Create a voice channel.
+
+    Parameters
+    ----------
+    name : builtins.str
+        The name of the category.
+    position : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        The position to place the category in, if specified.
+    permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
+        If defined, a collection of one or more
+        `hikari.models.channels.PermissionOverwrite` objects.
+    parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        If defined, should be a snowflake ID of a category channel
+        that was made with this builder. If provided, this channel will
+        become a child channel of that category.
+    bitrate : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        If specified, the bitrate to set on the channel.
+    user_limit : hikari.utilities.undefined.UndefinedOr[builtins.int]
+        If specified, the maximum number of users to allow in the voice
+        channel.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The dummy ID for this channel that can be used temporarily to refer
+        to this object while designing the guild layout.
+
+        When the guild is created, this will be replaced with a different
+        ID.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.special_endpoints.GuildBuilder.create" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> create() -> <a href='../models/guilds.html#hikari.models.guilds.RESTGuild'>guilds.RESTGuild</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Send the request to Discord to create the guild.</p>
+<p>The application user will be added to this guild as soon as it is
+created. All IDs that were provided when building this guild will
+become invalid and will be replaced with real IDs.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.RESTGuild'>RESTGuild</a></code></dt>
+<dd>The created guild.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If any values set in the guild builder are invalid.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If you are unauthorized to make the request (invalid/missing token).</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If you are already in 10 guilds.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ServerHTTPErrorResponse</a></code></dt>
+<dd>If an internal error occurs on Discord while handling the request.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L200-L223" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def create(self) -&gt; guilds.RESTGuild:
+    &#34;&#34;&#34;Send the request to Discord to create the guild.
+
+    The application user will be added to this guild as soon as it is
+    created. All IDs that were provided when building this guild will
+    become invalid and will be replaced with real IDs.
+
+    Returns
+    -------
+    hikari.models.guilds.RESTGuild
+        The created guild.
+
+    Raises
+    ------
+    hikari.errors.BadRequest
+        If any values set in the guild builder are invalid.
+    hikari.errors.Unauthorized
+        If you are unauthorized to make the request (invalid/missing token).
+    hikari.errors.Forbidden
+        If you are already in 10 guilds.
+    hikari.errors.ServerHTTPErrorResponse
+        If an internal error occurs on Discord while handling the request.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_message_notifications -- Default message notification level that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.default_message_notifications" id="hikari.api.special_endpoints.GuildBuilder.default_message_notifications" class='dotted'>default_message_notifications</a> : undefined.UndefinedOr[guilds.GuildMessageNotificationsLevel]</code></pre>
+</dt>
+<dd><p>Default message notification level that can be overwritten.</p>
+<p>If not overridden, this will use the Discord default level.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="explicit_content_filter_level -- Explicit content filter level that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.explicit_content_filter_level" id="hikari.api.special_endpoints.GuildBuilder.explicit_content_filter_level" class='dotted'>explicit_content_filter_level</a> : undefined.UndefinedOr[guilds.GuildExplicitContentFilterLevel]</code></pre>
+</dt>
+<dd><p>Explicit content filter level that can be overwritten.</p>
+<p>If not overridden, this will use the Discord default level.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="icon -- Guild icon to use that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.icon" id="hikari.api.special_endpoints.GuildBuilder.icon" class='dotted'>icon</a> : undefined.UndefinedOr[files.Resourceish]</code></pre>
+</dt>
+<dd><p>Guild icon to use that can be overwritten.</p>
+<p>If not overridden, the guild will not have an icon.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- Name of the guild to create …" href="#hikari.api.special_endpoints.GuildBuilder.name" id="hikari.api.special_endpoints.GuildBuilder.name" class='dotted'>name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Name of the guild to create.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The guild name.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="region -- Guild voice channel region to use that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.region" id="hikari.api.special_endpoints.GuildBuilder.region" class='dotted'>region</a> : undefined.UndefinedOr[voices.VoiceRegionish]</code></pre>
+</dt>
+<dd><p>Guild voice channel region to use that can be overwritten.</p>
+<p>If not overridden, the guild will use the default voice region for Discord.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verification_level -- Verification level required to join the guild that can be overwritten …" href="#hikari.api.special_endpoints.GuildBuilder.verification_level" id="hikari.api.special_endpoints.GuildBuilder.verification_level" class='dotted'>verification_level</a> : undefined.UndefinedOr[guilds.GuildVerificationLevel]</code></pre>
+</dt>
+<dd><p>Verification level required to join the guild that can be overwritten.</p>
+<p>If not overridden, the guild will use the default verification level for
+Discord.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="TypingIndicator -- Result type of `hikari.api.rest.RESTClient.trigger_typing` …" href="#hikari.api.special_endpoints.TypingIndicator"
+class='dotted'>TypingIndicator</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.special_endpoints.TypingIndicator" class="hljs python"><abbr title='A standard Python type.'>class</abbr> TypingIndicator: ...</code></pre>
+<p>Result type of <code><a href='rest.html#hikari.api.rest.RESTClient.trigger_typing'>trigger_typing</a></code>.</p>
+<p>This is an object that can either be awaited like a coroutine to trigger
+the typing indicator once, or an async context manager to keep triggering
+the typing indicator repeatedly until the context finishes.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This is a helper class that is used by <code><a href='rest.html#hikari.api.rest.RESTClient'>RESTClient</a></code>.
+You should only ever need to use instances of this class that are
+produced by that API.</p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/special_endpoints.py#L47-L77" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class TypingIndicator(abc.ABC):
+    &#34;&#34;&#34;Result type of `hikari.api.rest.RESTClient.trigger_typing`.
+
+    This is an object that can either be awaited like a coroutine to trigger
+    the typing indicator once, or an async context manager to keep triggering
+    the typing indicator repeatedly until the context finishes.
+
+    !!! note
+        This is a helper class that is used by `hikari.api.rest.RESTClient`.
+        You should only ever need to use instances of this class that are
+        produced by that API.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @abc.abstractmethod
+    def __await__(self) -&gt; typing.Generator[None, typing.Any, None]:
+        ...
+
+    @abc.abstractmethod
+    async def __aenter__(self) -&gt; None:
+        ...
+
+    @abc.abstractmethod
+    async def __aexit__(
+        self,
+        exception_type: typing.Type[BaseException],
+        exception: BaseException,
+        exception_traceback: types.TracebackType,
+    ) -&gt; None:
+        ...</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="TypingIndicator -- Result type of `hikari.api.rest.RESTClient.trigger_typing` …" href="../impl/special_endpoints.html#hikari.impl.special_endpoints.TypingIndicator"
+class='dotted'>TypingIndicator</a></dt>
+<dd class="nested"><p>Result type of <code><a href='rest.html#hikari.api.rest.RESTClient.trigger_typing'>trigger_typing</a></code> …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="TypingIndicator -- Result type of `hikari.api.rest.RESTClient.trigger_typing` …" href="#hikari.api.special_endpoints.TypingIndicator"
+class='dotted'>TypingIndicator</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

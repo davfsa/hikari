@@ -1,0 +1,4508 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.api.entity_factory API documentation</title>
+<meta name="description" content="Core interface for an object that serializes/deserializes API objects." />
+<meta property="og:title" content="hikari.api.entity_factory module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.api.entity_factory">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.api -- Interfaces for components that make up Hikari applications …" href="index.html"
+class='dotted'>api</a></li>
+<li class="breadcrumb-item active"><a href="#">entity_factory</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Core interface for an object that serializes/deserializes API objects.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EntityFactory -- Interface for components that serialize and deserialize JSON payloads." href="#hikari.api.entity_factory.EntityFactory"
+class='sidebar-nav-pill'>EntityFactory</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_application -- Parse a raw payload from Discord into an application object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_application"
+class='sidebar-nav-pill'>deserialize_application</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_audit_log -- Parse a raw payload from Discord into an audit log object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_audit_log"
+class='sidebar-nav-pill'>deserialize_audit_log</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_channel -- Parse a raw payload from Discord into a channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_channel"
+class='sidebar-nav-pill'>deserialize_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_custom_emoji -- Parse a raw payload from Discord into a custom emoji object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_custom_emoji"
+class='sidebar-nav-pill'>deserialize_custom_emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_embed -- Parse a raw payload from Discord into an embed object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_embed"
+class='sidebar-nav-pill'>deserialize_embed</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_emoji -- Parse a raw payload from Discord into an emoji object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_emoji"
+class='sidebar-nav-pill'>deserialize_emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_gateway_bot -- Parse a raw payload from Discord into a gateway bot object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_gateway_bot"
+class='sidebar-nav-pill'>deserialize_gateway_bot</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_gateway_guild -- Parse a raw payload from Discord into a guild object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_gateway_guild"
+class='sidebar-nav-pill'>deserialize_gateway_guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_category -- Parse a raw payload from Discord into a guild category object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_category"
+class='sidebar-nav-pill'>deserialize_guild_category</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_member_ban -- Parse a raw payload from Discord into a guild member ban object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_member_ban"
+class='sidebar-nav-pill'>deserialize_guild_member_ban</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_news_channel -- Parse a raw payload from Discord into a guild news channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_news_channel"
+class='sidebar-nav-pill'>deserialize_guild_news_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_preview -- Parse a raw payload from Discord into a guild preview object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_preview"
+class='sidebar-nav-pill'>deserialize_guild_preview</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_store_channel -- Parse a raw payload from Discord into a guild store channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_store_channel"
+class='sidebar-nav-pill'>deserialize_guild_store_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_text_channel -- Parse a raw payload from Discord into a guild text channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_text_channel"
+class='sidebar-nav-pill'>deserialize_guild_text_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_voice_channel -- Parse a raw payload from Discord into a guild voice channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_voice_channel"
+class='sidebar-nav-pill'>deserialize_guild_voice_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_widget -- Parse a raw payload from Discord into a guild widget object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_guild_widget"
+class='sidebar-nav-pill'>deserialize_guild_widget</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_integration -- Parse a raw payload from Discord into an integration object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_integration"
+class='sidebar-nav-pill'>deserialize_integration</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_invite -- Parse a raw payload from Discord into an invite object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_invite"
+class='sidebar-nav-pill'>deserialize_invite</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_invite_with_metadata -- Parse a raw payload from Discord into a invite with metadata object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_invite_with_metadata"
+class='sidebar-nav-pill'>deserialize_invite_with_metadata</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_known_custom_emoji -- Parse a raw payload from Discord into a known custom emoji object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_known_custom_emoji"
+class='sidebar-nav-pill'>deserialize_known_custom_emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_member -- Parse a raw payload from Discord into a member object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_member"
+class='sidebar-nav-pill'>deserialize_member</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_member_presence -- Parse a raw payload from Discord into a member presence object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_member_presence"
+class='sidebar-nav-pill'>deserialize_member_presence</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message -- Parse a raw payload from Discord into a message object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_message"
+class='sidebar-nav-pill'>deserialize_message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_my_user -- Parse a raw payload from Discord into a user object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_my_user"
+class='sidebar-nav-pill'>deserialize_my_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_own_connection -- Parse a raw payload from Discord into an own connection object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_own_connection"
+class='sidebar-nav-pill'>deserialize_own_connection</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_own_guild -- Parse a raw payload from Discord into an own guild object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_own_guild"
+class='sidebar-nav-pill'>deserialize_own_guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_partial_channel -- Parse a raw payload from Discord into a partial channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_partial_channel"
+class='sidebar-nav-pill'>deserialize_partial_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_partial_integration -- Parse a raw payload from Discord into a partial integration object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_partial_integration"
+class='sidebar-nav-pill'>deserialize_partial_integration</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_partial_message -- Parse a raw payload from Discord into a partial message object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_partial_message"
+class='sidebar-nav-pill'>deserialize_partial_message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_permission_overwrite -- Parse a raw payload from Discord into a permission overwrite object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_permission_overwrite"
+class='sidebar-nav-pill'>deserialize_permission_overwrite</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_private_group_text_channel -- Parse a raw payload from Discord into a group DM channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_private_group_text_channel"
+class='sidebar-nav-pill'>deserialize_private_group_text_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_private_text_channel -- Parse a raw payload from Discord into a DM channel object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_private_text_channel"
+class='sidebar-nav-pill'>deserialize_private_text_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_rest_guild -- Parse a raw payload from Discord into a guild object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_rest_guild"
+class='sidebar-nav-pill'>deserialize_rest_guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_role -- Parse a raw payload from Discord into a role object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_role"
+class='sidebar-nav-pill'>deserialize_role</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_unicode_emoji -- Parse a raw payload from Discord into a unicode emoji object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_unicode_emoji"
+class='sidebar-nav-pill'>deserialize_unicode_emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_user -- Parse a raw payload from Discord into a user object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_user"
+class='sidebar-nav-pill'>deserialize_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_vanity_url -- Parse a raw payload from Discord into a vanity url object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_vanity_url"
+class='sidebar-nav-pill'>deserialize_vanity_url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_voice_region -- Parse a raw payload from Discord into a voice region object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_voice_region"
+class='sidebar-nav-pill'>deserialize_voice_region</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_voice_state -- Parse a raw payload from Discord into a voice state object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_voice_state"
+class='sidebar-nav-pill'>deserialize_voice_state</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_webhook -- Parse a raw payload from Discord into a webhook object …" href="#hikari.api.entity_factory.EntityFactory.deserialize_webhook"
+class='sidebar-nav-pill'>deserialize_webhook</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="serialize_embed -- Serialize an embed object to a json serializable dict …" href="#hikari.api.entity_factory.EntityFactory.serialize_embed"
+class='sidebar-nav-pill'>serialize_embed</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="serialize_permission_overwrite -- Serialize a permission overwrite object to a json serializable dict …" href="#hikari.api.entity_factory.EntityFactory.serialize_permission_overwrite"
+class='sidebar-nav-pill'>serialize_permission_overwrite</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L0-L999" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Core interface for an object that serializes/deserializes API objects.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;EntityFactory&#34;]
+
+import abc
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import undefined
+
+if typing.TYPE_CHECKING:
+    from hikari.models import applications as application_models
+    from hikari.models import audit_logs as audit_log_models
+    from hikari.models import channels as channel_models
+    from hikari.models import embeds as embed_models
+    from hikari.models import emojis as emoji_models
+    from hikari.models import gateway as gateway_models
+    from hikari.models import guilds as guild_models
+    from hikari.models import invites as invite_models
+    from hikari.models import messages as message_models
+    from hikari.models import presences as presence_models
+    from hikari.models import users as user_models
+    from hikari.models import voices as voice_models
+    from hikari.models import webhooks as webhook_models
+    from hikari.utilities import data_binding
+    from hikari.utilities import files
+    from hikari.utilities import snowflake
+
+
+@attr_extensions.with_copy
+@attr.s(slots=True, weakref_slot=False)
+class GatewayGuildDefinition:
+    &#34;&#34;&#34;A structure for handling entities within guild create and update events.&#34;&#34;&#34;
+
+    guild: guild_models.GatewayGuild = attr.ib()
+    &#34;&#34;&#34;Object of the guild the definition is for.&#34;&#34;&#34;
+
+    channels: typing.Optional[typing.Mapping[snowflake.Snowflake, channel_models.GuildChannel]] = attr.ib()
+    &#34;&#34;&#34;Mapping of channel IDs to the channels that belong to the guild.
+
+    Will be `builtins.None` when returned by guild update gateway events rather
+    than create.
+    &#34;&#34;&#34;
+
+    members: typing.Optional[typing.Mapping[snowflake.Snowflake, guild_models.Member]] = attr.ib()
+    &#34;&#34;&#34;Mapping of user IDs to the members that belong to the guild.
+
+    Will be `builtins.None` when returned by guild update gateway events rather
+    than create.
+
+    !!! note
+        This may be a partial mapping of members in the guild.
+    &#34;&#34;&#34;
+
+    presences: typing.Optional[typing.Mapping[snowflake.Snowflake, presence_models.MemberPresence]] = attr.ib()
+    &#34;&#34;&#34;Mapping of user IDs to the include_presences that are active in the guild.
+
+    Will be `builtins.None` when returned by guild update gateway events rather
+    than create.
+
+    !!! note
+        This may be a partial mapping of include_presences active in the guild.
+    &#34;&#34;&#34;
+
+    roles: typing.Mapping[snowflake.Snowflake, guild_models.Role] = attr.ib()
+    &#34;&#34;&#34;Mapping of role IDs to the roles that belong to the guild.&#34;&#34;&#34;
+
+    emojis: typing.Mapping[snowflake.Snowflake, emoji_models.KnownCustomEmoji] = attr.ib()
+    &#34;&#34;&#34;Mapping of emoji IDs to the emojis that belong to the guild.&#34;&#34;&#34;
+
+    voice_states: typing.Optional[typing.Mapping[snowflake.Snowflake, voice_models.VoiceState]] = attr.ib()
+    &#34;&#34;&#34;Mapping of user IDs to the voice states that are active in the guild.
+
+    !!! note
+        This may be a partial mapping of voice states active in the guild.
+    &#34;&#34;&#34;
+
+
+class EntityFactory(abc.ABC):
+    &#34;&#34;&#34;Interface for components that serialize and deserialize JSON payloads.&#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    ######################
+    # APPLICATION MODELS #
+    ######################
+
+    @abc.abstractmethod
+    def deserialize_own_connection(self, payload: data_binding.JSONObject) -&gt; application_models.OwnConnection:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an own connection object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.OwnConnection
+            The deserialized &#34;own connection&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_own_guild(self, payload: data_binding.JSONObject) -&gt; application_models.OwnGuild:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an own guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.OwnGuild
+            The deserialized &#34;own guild&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_application(self, payload: data_binding.JSONObject) -&gt; application_models.Application:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an application object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.Application
+            The deserialized application object.
+        &#34;&#34;&#34;
+
+    #####################
+    # AUDIT LOGS MODELS #
+    #####################
+
+    @abc.abstractmethod
+    def deserialize_audit_log(self, payload: data_binding.JSONObject) -&gt; audit_log_models.AuditLog:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an audit log object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.audit_logs.AuditLog
+            The deserialized audit log object.
+        &#34;&#34;&#34;
+
+    ##################
+    # CHANNEL MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_permission_overwrite(self, payload: data_binding.JSONObject) -&gt; channel_models.PermissionOverwrite:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a permission overwrite object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PermissionOverwrite
+            The deserialized permission overwrite object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def serialize_permission_overwrite(self, overwrite: channel_models.PermissionOverwrite) -&gt; data_binding.JSONObject:
+        &#34;&#34;&#34;Serialize a permission overwrite object to a json serializable dict.
+
+        Parameters
+        ----------
+        overwrite : hikari.models.channels.PermissionOverwrite
+            The permission overwrite object to serialize.
+
+        Returns
+        -------
+        hikari.utilities.data_binding.JSONObject
+            The serialized representation of the permission overwrite.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_partial_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PartialChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The deserialized &#34;partial channel&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_private_text_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PrivateTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a DM channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PrivateTextChannel
+            The deserialized DM channel object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_private_group_text_channel(
+        self, payload: data_binding.JSONObject
+    ) -&gt; channel_models.GroupPrivateTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a group DM channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.GroupPrivateTextChannel
+            The deserialized group private text channel object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_category(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildCategory:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild category object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildCategory
+            The deserialized guild category object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_text_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild text channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildTextChannel
+            The deserialized guild text channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_news_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildNewsChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild news channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildNewsChannel
+            The deserialized guild news channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_store_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildStoreChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild store channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildStoreChannel
+            The deserialized guild store channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_voice_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildVoiceChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild voice channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is npt included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildVoiceChannel
+            The deserialized guild voice channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.PartialChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. This will be ignored
+            for DM and group DM channels and will be prioritised over
+            `&#34;guild_id&#34;` in the payload when passed.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The deserialized partial channel-derived object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload of a guild
+            channel.
+        &#34;&#34;&#34;
+
+    ################
+    # EMBED MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_embed(self, payload: data_binding.JSONObject) -&gt; embed_models.Embed:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an embed object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.embeds.Embed
+            The deserialized embed object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def serialize_embed(
+        self, embed: embed_models.Embed
+    ) -&gt; typing.Tuple[data_binding.JSONObject, typing.List[files.Resource[files.AsyncReader]]]:
+        &#34;&#34;&#34;Serialize an embed object to a json serializable dict.
+
+        Parameters
+        ----------
+        embed : hikari.models.embeds.Embed
+            The embed object to serialize.
+
+        Returns
+        -------
+        typing.Tuple[hikari.utilities.data_binding.JSONObject, typing.List[hikari.utilities.files.Resource]]
+            A tuple with two items in it. The first item will be the serialized
+            embed representation. The second item will be a list of resources
+            to upload with the embed.
+        &#34;&#34;&#34;
+
+    ################
+    # EMOJI MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_unicode_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.UnicodeEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a unicode emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.UnicodeEmoji
+            The deserialized unicode emoji object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_custom_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.CustomEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a custom emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.CustomEmoji
+            The deserialized custom emoji object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_known_custom_emoji(
+        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake
+    ) -&gt; emoji_models.KnownCustomEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a known custom emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this emoji belongs to. This is used to ensure
+            that the guild a known custom emoji belongs to is remembered by
+            allowing for a context based artificial `guild_id` attribute.
+
+        Returns
+        -------
+        hikari.models.emojis.KnownCustomEmoji
+            The deserialized &#34;known custom emoji&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_emoji(
+        self, payload: data_binding.JSONObject
+    ) -&gt; typing.Union[emoji_models.UnicodeEmoji, emoji_models.CustomEmoji]:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.UnicodeEmoji or hikari.models.emojis.CustomEmoji
+            The deserialized custom or unicode emoji object.
+        &#34;&#34;&#34;
+
+    ##################
+    # GATEWAY MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_gateway_bot(self, payload: data_binding.JSONObject) -&gt; gateway_models.GatewayBot:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a gateway bot object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.gateway.GatewayBot
+            The deserialized gateway bot object.
+        &#34;&#34;&#34;
+
+    ################
+    # GUILD MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_guild_widget(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildWidget:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild widget object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildWidget
+            The deserialized guild widget object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_member(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        user: undefined.UndefinedOr[user_models.User] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; guild_models.Member:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a member object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        user : hikari.utilities.undefined.UndefinedOr[hikari.models.users.User]
+            The user to attach to this member, should only be passed in
+            situations where &#34;user&#34; is not included in the payload.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this member belongs to. If this is specified
+            then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` covers cases such as the GUILD_CREATE gateway event and
+            GET Guild Member where `&#34;guild_id&#34;` is not included in the returned
+            payload.
+
+        Returns
+        -------
+        hikari.models.guilds.Member
+            The deserialized member object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_role(
+        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake,
+    ) -&gt; guild_models.Role:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a role object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this role belongs to. This is used to ensure
+            that the guild a role belongs to is remembered by allowing for a
+            context based artificial `guild_id` attribute.
+
+        Returns
+        -------
+        hikari.models.guilds.Role
+            The deserialized role object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_partial_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.PartialIntegration:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial integration object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.PartialIntegration
+            The deserialized partial integration object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.Integration:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an integration object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.Integration
+            The deserialized integration object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_member_ban(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildMemberBan:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild member ban object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildMemberBan
+            The deserialized guild member ban object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_preview(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildPreview:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild preview object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildPreview
+            The deserialized guild preview object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_rest_guild(self, payload: data_binding.JSONObject) -&gt; guild_models.RESTGuild:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.RESTGuild
+            The deserialized guild object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_gateway_guild(self, payload: data_binding.JSONObject) -&gt; GatewayGuildDefinition:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        typing.Tuple[hikari.models.guilds.Guild ...]
+            The deserialized guild object and the internal collections as
+            maps of `hikari.utilities.snowflake.Snowflake` mapping to
+            `hikari.models.channels.GuildChannel`,
+            `hikari.models.guilds.Member`,
+            `hikari.models.include_presences.MemberPresence`,
+            `hikari.models.guilds.Role`, and
+            `hikari.models.emojis.KnownCustomEmoji`. This is provided in
+            several components to allow separate caching and linking
+            between entities in various relational cache implementations
+            internally.
+        &#34;&#34;&#34;
+
+    #################
+    # INVITE MODELS #
+    #################
+
+    @abc.abstractmethod
+    def deserialize_vanity_url(self, payload: data_binding.JSONObject) -&gt; invite_models.VanityURL:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a vanity url object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.VanityURL
+            The deserialized vanity url object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_invite(self, payload: data_binding.JSONObject) -&gt; invite_models.Invite:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an invite object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.Invite
+            The deserialized invite object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_invite_with_metadata(self, payload: data_binding.JSONObject) -&gt; invite_models.InviteWithMetadata:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a invite with metadata object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.InviteWithMetadata
+            The deserialized invite with metadata object.
+        &#34;&#34;&#34;
+
+    ##################
+    # MESSAGE MODELS #
+    ##################
+
+    def deserialize_partial_message(self, payload: data_binding.JSONObject) -&gt; message_models.PartialMessage:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial message object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.messages.PartialMessage
+            The deserialized partial message object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_message(self, payload: data_binding.JSONObject) -&gt; message_models.Message:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a message object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.messages.Message
+            The deserialized message object.
+        &#34;&#34;&#34;
+
+    ###################
+    # PRESENCE MODELS #
+    ###################
+
+    @abc.abstractmethod
+    def deserialize_member_presence(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; presence_models.MemberPresence:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a member presence object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild the presence belongs to. If this is specified
+            then it is prioritised over `guild_id` in the payload.
+
+        !!! note
+            At the time of writing, the only place where `guild_id` will be
+            mandatory is when parsing include_presences sent in a `GUILD_CREATE` event
+            from Discord, since the `guild_id` attribute in the payload will
+            have been omitted for redundancy.
+
+        Returns
+        -------
+        hikari.models.presences.MemberPresence
+            The deserialized member presence object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is not an attribute of the `payload` dict, and no
+            guild ID was passed for the `guild_id` parameter.
+
+            If this is raised, no guild ID info was provided anywhere.
+        &#34;&#34;&#34;
+
+    ###############
+    # USER MODELS #
+    ###############
+
+    @abc.abstractmethod
+    def deserialize_user(self, payload: data_binding.JSONObject) -&gt; user_models.User:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.users.User
+            The deserialized user object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_my_user(self, payload: data_binding.JSONObject) -&gt; user_models.OwnUser:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser
+            The deserialized user object.
+        &#34;&#34;&#34;
+
+    ################
+    # VOICE MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_voice_state(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        member: undefined.UndefinedOr[guild_models.Member] = undefined.UNDEFINED,
+    ) -&gt; voice_models.VoiceState:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a voice state object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this voice state belongs to. If this is specified
+            then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+        member : hikari.utilities.undefined.UndefinedOr[hikari.models.guilds.Member]
+            The object of the member this voice state belongs to. If this is
+            specified then this will be prioritised over `&#34;member&#34;` in the
+            payload.
+
+        !!! note
+            At the time of writing, `GUILD_CREATE` events are the only known
+            place where neither `guild_id` nor `member` will be keys on the
+            payload. In this case, you will need to provide the former
+            parameters explicitly.
+
+        Returns
+        -------
+        hikari.models.voices.VoiceState
+            The deserialized voice state object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload for the payload of
+            the voice state.
+
+            This will also be raised if no `member` data was passed in any
+            acceptable place.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_voice_region(self, payload: data_binding.JSONObject) -&gt; voice_models.VoiceRegion:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a voice region object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.voices.VoiceRegion
+            The deserialized voice region object.
+        &#34;&#34;&#34;
+
+    ##################
+    # WEBHOOK MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_webhook(self, payload: data_binding.JSONObject) -&gt; webhook_models.Webhook:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a webhook object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The deserialized webhook object.
+        &#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EntityFactory -- Interface for components that serialize and deserialize JSON payloads." href="#hikari.api.entity_factory.EntityFactory"
+class='dotted'>EntityFactory</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.entity_factory.EntityFactory" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EntityFactory: ...</code></pre>
+<p>Interface for components that serialize and deserialize JSON payloads.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L103-L1000" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EntityFactory(abc.ABC):
+    &#34;&#34;&#34;Interface for components that serialize and deserialize JSON payloads.&#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    ######################
+    # APPLICATION MODELS #
+    ######################
+
+    @abc.abstractmethod
+    def deserialize_own_connection(self, payload: data_binding.JSONObject) -&gt; application_models.OwnConnection:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an own connection object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.OwnConnection
+            The deserialized &#34;own connection&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_own_guild(self, payload: data_binding.JSONObject) -&gt; application_models.OwnGuild:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an own guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.OwnGuild
+            The deserialized &#34;own guild&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_application(self, payload: data_binding.JSONObject) -&gt; application_models.Application:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an application object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.applications.Application
+            The deserialized application object.
+        &#34;&#34;&#34;
+
+    #####################
+    # AUDIT LOGS MODELS #
+    #####################
+
+    @abc.abstractmethod
+    def deserialize_audit_log(self, payload: data_binding.JSONObject) -&gt; audit_log_models.AuditLog:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an audit log object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.audit_logs.AuditLog
+            The deserialized audit log object.
+        &#34;&#34;&#34;
+
+    ##################
+    # CHANNEL MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_permission_overwrite(self, payload: data_binding.JSONObject) -&gt; channel_models.PermissionOverwrite:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a permission overwrite object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PermissionOverwrite
+            The deserialized permission overwrite object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def serialize_permission_overwrite(self, overwrite: channel_models.PermissionOverwrite) -&gt; data_binding.JSONObject:
+        &#34;&#34;&#34;Serialize a permission overwrite object to a json serializable dict.
+
+        Parameters
+        ----------
+        overwrite : hikari.models.channels.PermissionOverwrite
+            The permission overwrite object to serialize.
+
+        Returns
+        -------
+        hikari.utilities.data_binding.JSONObject
+            The serialized representation of the permission overwrite.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_partial_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PartialChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The deserialized &#34;partial channel&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_private_text_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PrivateTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a DM channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.PrivateTextChannel
+            The deserialized DM channel object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_private_group_text_channel(
+        self, payload: data_binding.JSONObject
+    ) -&gt; channel_models.GroupPrivateTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a group DM channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.channels.GroupPrivateTextChannel
+            The deserialized group private text channel object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_category(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildCategory:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild category object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildCategory
+            The deserialized guild category object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_text_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildTextChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild text channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildTextChannel
+            The deserialized guild text channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_news_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildNewsChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild news channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildNewsChannel
+            The deserialized guild news channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_store_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildStoreChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild store channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildStoreChannel
+            The deserialized guild store channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_voice_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.GuildVoiceChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild voice channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this channel belongs to. If passed then this
+            will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is npt included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.GuildVoiceChannel
+            The deserialized guild voice channel object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_channel(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; channel_models.PartialChannel:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a channel object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this channel belongs to. This will be ignored
+            for DM and group DM channels and will be prioritised over
+            `&#34;guild_id&#34;` in the payload when passed.
+
+        !!! note
+            `guild_id` currently only covers the gateway GUILD_CREATE event
+            where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The deserialized partial channel-derived object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload of a guild
+            channel.
+        &#34;&#34;&#34;
+
+    ################
+    # EMBED MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_embed(self, payload: data_binding.JSONObject) -&gt; embed_models.Embed:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an embed object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.embeds.Embed
+            The deserialized embed object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def serialize_embed(
+        self, embed: embed_models.Embed
+    ) -&gt; typing.Tuple[data_binding.JSONObject, typing.List[files.Resource[files.AsyncReader]]]:
+        &#34;&#34;&#34;Serialize an embed object to a json serializable dict.
+
+        Parameters
+        ----------
+        embed : hikari.models.embeds.Embed
+            The embed object to serialize.
+
+        Returns
+        -------
+        typing.Tuple[hikari.utilities.data_binding.JSONObject, typing.List[hikari.utilities.files.Resource]]
+            A tuple with two items in it. The first item will be the serialized
+            embed representation. The second item will be a list of resources
+            to upload with the embed.
+        &#34;&#34;&#34;
+
+    ################
+    # EMOJI MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_unicode_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.UnicodeEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a unicode emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.UnicodeEmoji
+            The deserialized unicode emoji object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_custom_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.CustomEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a custom emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.CustomEmoji
+            The deserialized custom emoji object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_known_custom_emoji(
+        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake
+    ) -&gt; emoji_models.KnownCustomEmoji:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a known custom emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this emoji belongs to. This is used to ensure
+            that the guild a known custom emoji belongs to is remembered by
+            allowing for a context based artificial `guild_id` attribute.
+
+        Returns
+        -------
+        hikari.models.emojis.KnownCustomEmoji
+            The deserialized &#34;known custom emoji&#34; object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_emoji(
+        self, payload: data_binding.JSONObject
+    ) -&gt; typing.Union[emoji_models.UnicodeEmoji, emoji_models.CustomEmoji]:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an emoji object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.emojis.UnicodeEmoji or hikari.models.emojis.CustomEmoji
+            The deserialized custom or unicode emoji object.
+        &#34;&#34;&#34;
+
+    ##################
+    # GATEWAY MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_gateway_bot(self, payload: data_binding.JSONObject) -&gt; gateway_models.GatewayBot:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a gateway bot object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.gateway.GatewayBot
+            The deserialized gateway bot object.
+        &#34;&#34;&#34;
+
+    ################
+    # GUILD MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_guild_widget(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildWidget:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild widget object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildWidget
+            The deserialized guild widget object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_member(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        user: undefined.UndefinedOr[user_models.User] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; guild_models.Member:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a member object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        user : hikari.utilities.undefined.UndefinedOr[hikari.models.users.User]
+            The user to attach to this member, should only be passed in
+            situations where &#34;user&#34; is not included in the payload.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this member belongs to. If this is specified
+            then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+        !!! note
+            `guild_id` covers cases such as the GUILD_CREATE gateway event and
+            GET Guild Member where `&#34;guild_id&#34;` is not included in the returned
+            payload.
+
+        Returns
+        -------
+        hikari.models.guilds.Member
+            The deserialized member object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_role(
+        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake,
+    ) -&gt; guild_models.Role:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a role object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.snowflake.Snowflake
+            The ID of the guild this role belongs to. This is used to ensure
+            that the guild a role belongs to is remembered by allowing for a
+            context based artificial `guild_id` attribute.
+
+        Returns
+        -------
+        hikari.models.guilds.Role
+            The deserialized role object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_partial_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.PartialIntegration:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial integration object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.PartialIntegration
+            The deserialized partial integration object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.Integration:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an integration object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.Integration
+            The deserialized integration object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_member_ban(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildMemberBan:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild member ban object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildMemberBan
+            The deserialized guild member ban object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_guild_preview(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildPreview:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild preview object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildPreview
+            The deserialized guild preview object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_rest_guild(self, payload: data_binding.JSONObject) -&gt; guild_models.RESTGuild:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.guilds.RESTGuild
+            The deserialized guild object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_gateway_guild(self, payload: data_binding.JSONObject) -&gt; GatewayGuildDefinition:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        typing.Tuple[hikari.models.guilds.Guild ...]
+            The deserialized guild object and the internal collections as
+            maps of `hikari.utilities.snowflake.Snowflake` mapping to
+            `hikari.models.channels.GuildChannel`,
+            `hikari.models.guilds.Member`,
+            `hikari.models.include_presences.MemberPresence`,
+            `hikari.models.guilds.Role`, and
+            `hikari.models.emojis.KnownCustomEmoji`. This is provided in
+            several components to allow separate caching and linking
+            between entities in various relational cache implementations
+            internally.
+        &#34;&#34;&#34;
+
+    #################
+    # INVITE MODELS #
+    #################
+
+    @abc.abstractmethod
+    def deserialize_vanity_url(self, payload: data_binding.JSONObject) -&gt; invite_models.VanityURL:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a vanity url object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.VanityURL
+            The deserialized vanity url object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_invite(self, payload: data_binding.JSONObject) -&gt; invite_models.Invite:
+        &#34;&#34;&#34;Parse a raw payload from Discord into an invite object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.Invite
+            The deserialized invite object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_invite_with_metadata(self, payload: data_binding.JSONObject) -&gt; invite_models.InviteWithMetadata:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a invite with metadata object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.invites.InviteWithMetadata
+            The deserialized invite with metadata object.
+        &#34;&#34;&#34;
+
+    ##################
+    # MESSAGE MODELS #
+    ##################
+
+    def deserialize_partial_message(self, payload: data_binding.JSONObject) -&gt; message_models.PartialMessage:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a partial message object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.messages.PartialMessage
+            The deserialized partial message object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_message(self, payload: data_binding.JSONObject) -&gt; message_models.Message:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a message object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.messages.Message
+            The deserialized message object.
+        &#34;&#34;&#34;
+
+    ###################
+    # PRESENCE MODELS #
+    ###################
+
+    @abc.abstractmethod
+    def deserialize_member_presence(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    ) -&gt; presence_models.MemberPresence:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a member presence object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild the presence belongs to. If this is specified
+            then it is prioritised over `guild_id` in the payload.
+
+        !!! note
+            At the time of writing, the only place where `guild_id` will be
+            mandatory is when parsing include_presences sent in a `GUILD_CREATE` event
+            from Discord, since the `guild_id` attribute in the payload will
+            have been omitted for redundancy.
+
+        Returns
+        -------
+        hikari.models.presences.MemberPresence
+            The deserialized member presence object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is not an attribute of the `payload` dict, and no
+            guild ID was passed for the `guild_id` parameter.
+
+            If this is raised, no guild ID info was provided anywhere.
+        &#34;&#34;&#34;
+
+    ###############
+    # USER MODELS #
+    ###############
+
+    @abc.abstractmethod
+    def deserialize_user(self, payload: data_binding.JSONObject) -&gt; user_models.User:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.users.User
+            The deserialized user object.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_my_user(self, payload: data_binding.JSONObject) -&gt; user_models.OwnUser:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser
+            The deserialized user object.
+        &#34;&#34;&#34;
+
+    ################
+    # VOICE MODELS #
+    ################
+
+    @abc.abstractmethod
+    def deserialize_voice_state(
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        member: undefined.UndefinedOr[guild_models.Member] = undefined.UNDEFINED,
+    ) -&gt; voice_models.VoiceState:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a voice state object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+            The ID of the guild this voice state belongs to. If this is specified
+            then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+        member : hikari.utilities.undefined.UndefinedOr[hikari.models.guilds.Member]
+            The object of the member this voice state belongs to. If this is
+            specified then this will be prioritised over `&#34;member&#34;` in the
+            payload.
+
+        !!! note
+            At the time of writing, `GUILD_CREATE` events are the only known
+            place where neither `guild_id` nor `member` will be keys on the
+            payload. In this case, you will need to provide the former
+            parameters explicitly.
+
+        Returns
+        -------
+        hikari.models.voices.VoiceState
+            The deserialized voice state object.
+
+        Raises
+        ------
+        KeyError
+            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            `&#34;guild_id&#34;` is not present in the passed payload for the payload of
+            the voice state.
+
+            This will also be raised if no `member` data was passed in any
+            acceptable place.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    def deserialize_voice_region(self, payload: data_binding.JSONObject) -&gt; voice_models.VoiceRegion:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a voice region object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.voices.VoiceRegion
+            The deserialized voice region object.
+        &#34;&#34;&#34;
+
+    ##################
+    # WEBHOOK MODELS #
+    ##################
+
+    @abc.abstractmethod
+    def deserialize_webhook(self, payload: data_binding.JSONObject) -&gt; webhook_models.Webhook:
+        &#34;&#34;&#34;Parse a raw payload from Discord into a webhook object.
+
+        Parameters
+        ----------
+        payload : hikari.utilities.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The deserialized webhook object.
+        &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EntityFactoryImpl -- Standard implementation for a serializer/deserializer …" href="../impl/entity_factory.html#hikari.impl.entity_factory.EntityFactoryImpl"
+class='dotted'>EntityFactoryImpl</a></dt>
+<dd class="nested"><p>Standard implementation for a serializer/deserializer …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="EntityFactory -- Interface for components that serialize and deserialize JSON payloads." href="#hikari.api.entity_factory.EntityFactory"
+class='dotted'>EntityFactory</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_application" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_application(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/applications.html#hikari.models.applications.Application'>application_models.Application</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an application object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/applications.html#hikari.models.applications.Application'>Application</a></code></dt>
+<dd>The deserialized application object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L142-L155" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_application(self, payload: data_binding.JSONObject) -&gt; application_models.Application:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an application object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.applications.Application
+        The deserialized application object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_audit_log" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_audit_log(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/audit_logs.html#hikari.models.audit_logs.AuditLog'>audit_log_models.AuditLog</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an audit log object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/audit_logs.html#hikari.models.audit_logs.AuditLog'>AuditLog</a></code></dt>
+<dd>The deserialized audit log object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L161-L174" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_audit_log(self, payload: data_binding.JSONObject) -&gt; audit_log_models.AuditLog:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an audit log object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.audit_logs.AuditLog
+        The deserialized audit log object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.PartialChannel'>channel_models.PartialChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild this channel belongs to. This will be ignored
+for DM and group DM channels and will be prioritised over
+<code>"guild_id"</code> in the payload when passed.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is not included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.PartialChannel'>PartialChannel</a></code></dt>
+<dd>The deserialized partial channel-derived object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload of a guild
+channel.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L422-L455" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_channel(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.PartialChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild this channel belongs to. This will be ignored
+        for DM and group DM channels and will be prioritised over
+        `&#34;guild_id&#34;` in the payload when passed.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.PartialChannel
+        The deserialized partial channel-derived object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload of a guild
+        channel.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_custom_emoji" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_custom_emoji(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/emojis.html#hikari.models.emojis.CustomEmoji'>emoji_models.CustomEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a custom emoji object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/emojis.html#hikari.models.emojis.CustomEmoji'>CustomEmoji</a></code></dt>
+<dd>The deserialized custom emoji object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L514-L527" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_custom_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.CustomEmoji:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a custom emoji object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.emojis.CustomEmoji
+        The deserialized custom emoji object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_embed" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_embed(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/embeds.html#hikari.models.embeds.Embed'>embed_models.Embed</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an embed object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/embeds.html#hikari.models.embeds.Embed'>Embed</a></code></dt>
+<dd>The deserialized embed object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L461-L474" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_embed(self, payload: data_binding.JSONObject) -&gt; embed_models.Embed:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an embed object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.embeds.Embed
+        The deserialized embed object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_emoji" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_emoji(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='../models/emojis.html#hikari.models.emojis.UnicodeEmoji'>emoji_models.UnicodeEmoji</a>, <a href='../models/emojis.html#hikari.models.emojis.CustomEmoji'>emoji_models.CustomEmoji</a>]: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an emoji object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/emojis.html#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a></code> or <code><a href='../models/emojis.html#hikari.models.emojis.CustomEmoji'>CustomEmoji</a></code></dt>
+<dd>The deserialized custom or unicode emoji object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L550-L565" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_emoji(
+    self, payload: data_binding.JSONObject
+) -&gt; typing.Union[emoji_models.UnicodeEmoji, emoji_models.CustomEmoji]:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an emoji object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.emojis.UnicodeEmoji or hikari.models.emojis.CustomEmoji
+        The deserialized custom or unicode emoji object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_gateway_bot" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_gateway_bot(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/gateway.html#hikari.models.gateway.GatewayBot'>gateway_models.GatewayBot</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a gateway bot object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/gateway.html#hikari.models.gateway.GatewayBot'>GatewayBot</a></code></dt>
+<dd>The deserialized gateway bot object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L571-L584" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_gateway_bot(self, payload: data_binding.JSONObject) -&gt; gateway_models.GatewayBot:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a gateway bot object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.gateway.GatewayBot
+        The deserialized gateway bot object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_gateway_guild" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_gateway_guild(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> GatewayGuildDefinition: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Tuple[hikari.models.guilds.Guild &hellip;]</code></dt>
+<dd>The deserialized guild object and the internal collections as
+maps of <code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code> mapping to
+<code><a href='../models/channels.html#hikari.models.channels.GuildChannel'>GuildChannel</a></code>,
+<code><a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a></code>,
+<code><a href='../models/index.html'>hikari.models.include_presences.MemberPresence</a></code>,
+<code><a href='../models/guilds.html#hikari.models.guilds.Role'>Role</a></code>, and
+<code><a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>KnownCustomEmoji</a></code>. This is provided in
+several components to allow separate caching and linking
+between entities in various relational cache implementations
+internally.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L739-L761" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_gateway_guild(self, payload: data_binding.JSONObject) -&gt; GatewayGuildDefinition:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    typing.Tuple[hikari.models.guilds.Guild ...]
+        The deserialized guild object and the internal collections as
+        maps of `hikari.utilities.snowflake.Snowflake` mapping to
+        `hikari.models.channels.GuildChannel`,
+        `hikari.models.guilds.Member`,
+        `hikari.models.include_presences.MemberPresence`,
+        `hikari.models.guilds.Role`, and
+        `hikari.models.emojis.KnownCustomEmoji`. This is provided in
+        several components to allow separate caching and linking
+        between entities in various relational cache implementations
+        internally.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_category" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_category(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.GuildCategory'>channel_models.GuildCategory</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild category object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild this channel belongs to. If passed then this
+will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is not included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GuildCategory'>GuildCategory</a></code></dt>
+<dd>The deserialized guild category object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L257-L288" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_category(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.GuildCategory:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild category object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild this channel belongs to. If passed then this
+        will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.GuildCategory
+        The deserialized guild category object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_member_ban" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_member_ban(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.GuildMemberBan'>guild_models.GuildMemberBan</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild member ban object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.GuildMemberBan'>GuildMemberBan</a></code></dt>
+<dd>The deserialized guild member ban object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L694-L707" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_member_ban(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildMemberBan:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild member ban object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.GuildMemberBan
+        The deserialized guild member ban object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_news_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_news_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.GuildNewsChannel'>channel_models.GuildNewsChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild news channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild this channel belongs to. If passed then this
+will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is not included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GuildNewsChannel'>GuildNewsChannel</a></code></dt>
+<dd>The deserialized guild news channel object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L323-L354" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_news_channel(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.GuildNewsChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild news channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.snowflake.Snowflake
+        The ID of the guild this channel belongs to. If passed then this
+        will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.GuildNewsChannel
+        The deserialized guild news channel object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_preview" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_preview(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.GuildPreview'>guild_models.GuildPreview</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild preview object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.GuildPreview'>GuildPreview</a></code></dt>
+<dd>The deserialized guild preview object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L709-L722" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_preview(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildPreview:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild preview object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.GuildPreview
+        The deserialized guild preview object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_store_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_store_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.GuildStoreChannel'>channel_models.GuildStoreChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild store channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild this channel belongs to. If passed then this
+will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is not included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GuildStoreChannel'>GuildStoreChannel</a></code></dt>
+<dd>The deserialized guild store channel object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L356-L387" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_store_channel(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.GuildStoreChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild store channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.snowflake.Snowflake
+        The ID of the guild this channel belongs to. If passed then this
+        will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.GuildStoreChannel
+        The deserialized guild store channel object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_text_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_text_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.GuildTextChannel'>channel_models.GuildTextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild text channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild this channel belongs to. If passed then this
+will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is not included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GuildTextChannel'>GuildTextChannel</a></code></dt>
+<dd>The deserialized guild text channel object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L290-L321" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_text_channel(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.GuildTextChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild text channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild this channel belongs to. If passed then this
+        will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is not included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.GuildTextChannel
+        The deserialized guild text channel object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_voice_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_voice_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/channels.html#hikari.models.channels.GuildVoiceChannel'>channel_models.GuildVoiceChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild voice channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild this channel belongs to. If passed then this
+will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> currently only covers the gateway GUILD_CREATE event
+where <code>"guild_id"</code> is npt included in the channel's payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GuildVoiceChannel'>GuildVoiceChannel</a></code></dt>
+<dd>The deserialized guild voice channel object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L389-L420" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_voice_channel(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; channel_models.GuildVoiceChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild voice channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.snowflake.Snowflake
+        The ID of the guild this channel belongs to. If passed then this
+        will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` currently only covers the gateway GUILD_CREATE event
+        where `&#34;guild_id&#34;` is npt included in the channel&#39;s payload.
+
+    Returns
+    -------
+    hikari.models.channels.GuildVoiceChannel
+        The deserialized guild voice channel object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_guild_widget" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_widget(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.GuildWidget'>guild_models.GuildWidget</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild widget object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.GuildWidget'>GuildWidget</a></code></dt>
+<dd>The deserialized guild widget object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L590-L603" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_guild_widget(self, payload: data_binding.JSONObject) -&gt; guild_models.GuildWidget:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild widget object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.GuildWidget
+        The deserialized guild widget object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_integration" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_integration(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.Integration'>guild_models.Integration</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an integration object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Integration'>Integration</a></code></dt>
+<dd>The deserialized integration object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L679-L692" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.Integration:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an integration object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.Integration
+        The deserialized integration object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_invite" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_invite(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/invites.html#hikari.models.invites.Invite'>invite_models.Invite</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an invite object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/invites.html#hikari.models.invites.Invite'>Invite</a></code></dt>
+<dd>The deserialized invite object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L782-L795" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_invite(self, payload: data_binding.JSONObject) -&gt; invite_models.Invite:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an invite object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.invites.Invite
+        The deserialized invite object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_invite_with_metadata" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_invite_with_metadata(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/invites.html#hikari.models.invites.InviteWithMetadata'>invite_models.InviteWithMetadata</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a invite with metadata object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/invites.html#hikari.models.invites.InviteWithMetadata'>InviteWithMetadata</a></code></dt>
+<dd>The deserialized invite with metadata object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L797-L810" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_invite_with_metadata(self, payload: data_binding.JSONObject) -&gt; invite_models.InviteWithMetadata:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a invite with metadata object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.invites.InviteWithMetadata
+        The deserialized invite with metadata object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_known_custom_emoji" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_known_custom_emoji(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+) -> <a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>emoji_models.KnownCustomEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a known custom emoji object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild this emoji belongs to. This is used to ensure
+that the guild a known custom emoji belongs to is remembered by
+allowing for a context based artificial <code>guild_id</code> attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>KnownCustomEmoji</a></code></dt>
+<dd>The deserialized "known custom emoji" object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L529-L548" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_known_custom_emoji(
+    self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake
+) -&gt; emoji_models.KnownCustomEmoji:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a known custom emoji object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.snowflake.Snowflake
+        The ID of the guild this emoji belongs to. This is used to ensure
+        that the guild a known custom emoji belongs to is remembered by
+        allowing for a context based artificial `guild_id` attribute.
+
+    Returns
+    -------
+    hikari.models.emojis.KnownCustomEmoji
+        The deserialized &#34;known custom emoji&#34; object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_member" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_member(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    user: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/users.html#hikari.models.users.User'>user_models.User</a>] = UNDEFINED,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/guilds.html#hikari.models.guilds.Member'>guild_models.Member</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a member object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>user</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/users.html#hikari.models.users.User'>User</a>]</code></dt>
+<dd>The user to attach to this member, should only be passed in
+situations where "user" is not included in the payload.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild this member belongs to. If this is specified
+then this will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p><code>guild_id</code> covers cases such as the GUILD_CREATE gateway event and
+GET Guild Member where <code>"guild_id"</code> is not included in the returned
+payload.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a></code></dt>
+<dd>The deserialized member object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L605-L641" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_member(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    user: undefined.UndefinedOr[user_models.User] = undefined.UNDEFINED,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; guild_models.Member:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a member object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    user : hikari.utilities.undefined.UndefinedOr[hikari.models.users.User]
+        The user to attach to this member, should only be passed in
+        situations where &#34;user&#34; is not included in the payload.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild this member belongs to. If this is specified
+        then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+
+    !!! note
+        `guild_id` covers cases such as the GUILD_CREATE gateway event and
+        GET Guild Member where `&#34;guild_id&#34;` is not included in the returned
+        payload.
+
+    Returns
+    -------
+    hikari.models.guilds.Member
+        The deserialized member object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_member_presence" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_member_presence(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+) -> <a href='../models/presences.html#hikari.models.presences.MemberPresence'>presence_models.MemberPresence</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a member presence object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild the presence belongs to. If this is specified
+then it is prioritised over <code>guild_id</code> in the payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>At the time of writing, the only place where <code>guild_id</code> will be
+mandatory is when parsing include_presences sent in a <code>GUILD_CREATE</code> event
+from Discord, since the <code>guild_id</code> attribute in the payload will
+have been omitted for redundancy.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/presences.html#hikari.models.presences.MemberPresence'>MemberPresence</a></code></dt>
+<dd>The deserialized member presence object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>
+<p>If <code>guild_id</code> is not an attribute of the <code>payload</code> dict, and no
+guild ID was passed for the <code>guild_id</code> parameter.</p>
+<p>If this is raised, no guild ID info was provided anywhere.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L849-L884" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_member_presence(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+) -&gt; presence_models.MemberPresence:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a member presence object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild the presence belongs to. If this is specified
+        then it is prioritised over `guild_id` in the payload.
+
+    !!! note
+        At the time of writing, the only place where `guild_id` will be
+        mandatory is when parsing include_presences sent in a `GUILD_CREATE` event
+        from Discord, since the `guild_id` attribute in the payload will
+        have been omitted for redundancy.
+
+    Returns
+    -------
+    hikari.models.presences.MemberPresence
+        The deserialized member presence object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is not an attribute of the `payload` dict, and no
+        guild ID was passed for the `guild_id` parameter.
+
+        If this is raised, no guild ID info was provided anywhere.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_message" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/messages.html#hikari.models.messages.Message'>message_models.Message</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a message object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/messages.html#hikari.models.messages.Message'>Message</a></code></dt>
+<dd>The deserialized message object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L830-L843" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_message(self, payload: data_binding.JSONObject) -&gt; message_models.Message:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a message object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.messages.Message
+        The deserialized message object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_my_user" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_my_user(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/users.html#hikari.models.users.OwnUser'>user_models.OwnUser</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a user object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.OwnUser'>OwnUser</a></code></dt>
+<dd>The deserialized user object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L905-L918" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_my_user(self, payload: data_binding.JSONObject) -&gt; user_models.OwnUser:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.users.OwnUser
+        The deserialized user object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_own_connection" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_own_connection(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/applications.html#hikari.models.applications.OwnConnection'>application_models.OwnConnection</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an own connection object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/applications.html#hikari.models.applications.OwnConnection'>OwnConnection</a></code></dt>
+<dd>The deserialized "own connection" object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L112-L125" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_own_connection(self, payload: data_binding.JSONObject) -&gt; application_models.OwnConnection:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an own connection object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.applications.OwnConnection
+        The deserialized &#34;own connection&#34; object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_own_guild" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_own_guild(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/applications.html#hikari.models.applications.OwnGuild'>application_models.OwnGuild</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into an own guild object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/applications.html#hikari.models.applications.OwnGuild'>OwnGuild</a></code></dt>
+<dd>The deserialized "own guild" object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L127-L140" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_own_guild(self, payload: data_binding.JSONObject) -&gt; application_models.OwnGuild:
+    &#34;&#34;&#34;Parse a raw payload from Discord into an own guild object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.applications.OwnGuild
+        The deserialized &#34;own guild&#34; object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_partial_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_partial_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/channels.html#hikari.models.channels.PartialChannel'>channel_models.PartialChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a partial channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.PartialChannel'>PartialChannel</a></code></dt>
+<dd>The deserialized "partial channel" object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L210-L223" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_partial_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PartialChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a partial channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.channels.PartialChannel
+        The deserialized &#34;partial channel&#34; object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_partial_integration" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_partial_integration(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.PartialIntegration'>guild_models.PartialIntegration</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a partial integration object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.PartialIntegration'>PartialIntegration</a></code></dt>
+<dd>The deserialized partial integration object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L664-L677" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_partial_integration(self, payload: data_binding.JSONObject) -&gt; guild_models.PartialIntegration:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a partial integration object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.PartialIntegration
+        The deserialized partial integration object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_partial_message" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_partial_message(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/messages.html#hikari.models.messages.PartialMessage'>message_models.PartialMessage</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a partial message object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/messages.html#hikari.models.messages.PartialMessage'>PartialMessage</a></code></dt>
+<dd>The deserialized partial message object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L816-L828" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_partial_message(self, payload: data_binding.JSONObject) -&gt; message_models.PartialMessage:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a partial message object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.messages.PartialMessage
+        The deserialized partial message object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_permission_overwrite" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_permission_overwrite(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>channel_models.PermissionOverwrite</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a permission overwrite object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a></code></dt>
+<dd>The deserialized permission overwrite object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L180-L193" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_permission_overwrite(self, payload: data_binding.JSONObject) -&gt; channel_models.PermissionOverwrite:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a permission overwrite object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.channels.PermissionOverwrite
+        The deserialized permission overwrite object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_private_group_text_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_private_group_text_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/channels.html#hikari.models.channels.GroupPrivateTextChannel'>channel_models.GroupPrivateTextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a group DM channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.GroupPrivateTextChannel'>GroupPrivateTextChannel</a></code></dt>
+<dd>The deserialized group private text channel object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L240-L255" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_private_group_text_channel(
+    self, payload: data_binding.JSONObject
+) -&gt; channel_models.GroupPrivateTextChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a group DM channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.channels.GroupPrivateTextChannel
+        The deserialized group private text channel object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_private_text_channel" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_private_text_channel(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/channels.html#hikari.models.channels.PrivateTextChannel'>channel_models.PrivateTextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a DM channel object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.PrivateTextChannel'>PrivateTextChannel</a></code></dt>
+<dd>The deserialized DM channel object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L225-L238" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_private_text_channel(self, payload: data_binding.JSONObject) -&gt; channel_models.PrivateTextChannel:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a DM channel object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.channels.PrivateTextChannel
+        The deserialized DM channel object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_rest_guild" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_rest_guild(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.RESTGuild'>guild_models.RESTGuild</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a guild object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.RESTGuild'>RESTGuild</a></code></dt>
+<dd>The deserialized guild object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L724-L737" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_rest_guild(self, payload: data_binding.JSONObject) -&gt; guild_models.RESTGuild:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a guild object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.guilds.RESTGuild
+        The deserialized guild object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_role" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_role(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+) -> <a href='../models/guilds.html#hikari.models.guilds.Role'>guild_models.Role</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a role object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild this role belongs to. This is used to ensure
+that the guild a role belongs to is remembered by allowing for a
+context based artificial <code>guild_id</code> attribute.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Role'>Role</a></code></dt>
+<dd>The deserialized role object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L643-L662" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_role(
+    self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake,
+) -&gt; guild_models.Role:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a role object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.snowflake.Snowflake
+        The ID of the guild this role belongs to. This is used to ensure
+        that the guild a role belongs to is remembered by allowing for a
+        context based artificial `guild_id` attribute.
+
+    Returns
+    -------
+    hikari.models.guilds.Role
+        The deserialized role object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_unicode_emoji" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_unicode_emoji(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/emojis.html#hikari.models.emojis.UnicodeEmoji'>emoji_models.UnicodeEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a unicode emoji object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/emojis.html#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a></code></dt>
+<dd>The deserialized unicode emoji object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L499-L512" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_unicode_emoji(self, payload: data_binding.JSONObject) -&gt; emoji_models.UnicodeEmoji:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a unicode emoji object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.emojis.UnicodeEmoji
+        The deserialized unicode emoji object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_user" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_user(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/users.html#hikari.models.users.User'>user_models.User</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a user object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.User'>User</a></code></dt>
+<dd>The deserialized user object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L890-L903" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_user(self, payload: data_binding.JSONObject) -&gt; user_models.User:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a user object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.users.User
+        The deserialized user object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_vanity_url" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_vanity_url(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/invites.html#hikari.models.invites.VanityURL'>invite_models.VanityURL</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a vanity url object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/invites.html#hikari.models.invites.VanityURL'>VanityURL</a></code></dt>
+<dd>The deserialized vanity url object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L767-L780" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_vanity_url(self, payload: data_binding.JSONObject) -&gt; invite_models.VanityURL:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a vanity url object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.invites.VanityURL
+        The deserialized vanity url object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_voice_region" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_voice_region(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/voices.html#hikari.models.voices.VoiceRegion'>voice_models.VoiceRegion</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a voice region object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/voices.html#hikari.models.voices.VoiceRegion'>VoiceRegion</a></code></dt>
+<dd>The deserialized voice region object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L968-L981" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_voice_region(self, payload: data_binding.JSONObject) -&gt; voice_models.VoiceRegion:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a voice region object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.voices.VoiceRegion
+        The deserialized voice region object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_voice_state" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_voice_state(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+    *,
+    guild_id: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>] = UNDEFINED,
+    member: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/guilds.html#hikari.models.guilds.Member'>guild_models.Member</a>] = UNDEFINED,
+) -> <a href='../models/voices.html#hikari.models.voices.VoiceState'>voice_models.VoiceState</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a voice state object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+<dt><strong><code>guild_id</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>The ID of the guild this voice state belongs to. If this is specified
+then this will be prioritised over <code>"guild_id"</code> in the payload.</dd>
+<dt><strong><code>member</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a>]</code></dt>
+<dd>The object of the member this voice state belongs to. If this is
+specified then this will be prioritised over <code>"member"</code> in the
+payload.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>At the time of writing, <code>GUILD_CREATE</code> events are the only known
+place where neither <code>guild_id</code> nor <code>member</code> will be keys on the
+payload. In this case, you will need to provide the former
+parameters explicitly.</p>
+</div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/voices.html#hikari.models.voices.VoiceState'>VoiceState</a></code></dt>
+<dd>The deserialized voice state object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#KeyError'>KeyError</a></code></dt>
+<dd>
+<p>If <code>guild_id</code> is left as <code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code> when
+<code>"guild_id"</code> is not present in the passed payload for the payload of
+the voice state.</p>
+<p>This will also be raised if no <code>member</code> data was passed in any
+acceptable place.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L924-L966" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_voice_state(
+    self,
+    payload: data_binding.JSONObject,
+    *,
+    guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+    member: undefined.UndefinedOr[guild_models.Member] = undefined.UNDEFINED,
+) -&gt; voice_models.VoiceState:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a voice state object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+    guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        The ID of the guild this voice state belongs to. If this is specified
+        then this will be prioritised over `&#34;guild_id&#34;` in the payload.
+    member : hikari.utilities.undefined.UndefinedOr[hikari.models.guilds.Member]
+        The object of the member this voice state belongs to. If this is
+        specified then this will be prioritised over `&#34;member&#34;` in the
+        payload.
+
+    !!! note
+        At the time of writing, `GUILD_CREATE` events are the only known
+        place where neither `guild_id` nor `member` will be keys on the
+        payload. In this case, you will need to provide the former
+        parameters explicitly.
+
+    Returns
+    -------
+    hikari.models.voices.VoiceState
+        The deserialized voice state object.
+
+    Raises
+    ------
+    KeyError
+        If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+        `&#34;guild_id&#34;` is not present in the passed payload for the payload of
+        the voice state.
+
+        This will also be raised if no `member` data was passed in any
+        acceptable place.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.deserialize_webhook" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_webhook(
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../models/webhooks.html#hikari.models.webhooks.Webhook'>webhook_models.Webhook</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Parse a raw payload from Discord into a webhook object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The JSON payload to deserialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/webhooks.html#hikari.models.webhooks.Webhook'>Webhook</a></code></dt>
+<dd>The deserialized webhook object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L987-L1000" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def deserialize_webhook(self, payload: data_binding.JSONObject) -&gt; webhook_models.Webhook:
+    &#34;&#34;&#34;Parse a raw payload from Discord into a webhook object.
+
+    Parameters
+    ----------
+    payload : hikari.utilities.data_binding.JSONObject
+        The JSON payload to deserialize.
+
+    Returns
+    -------
+    hikari.models.webhooks.Webhook
+        The deserialized webhook object.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.serialize_embed" class="hljs python"><abbr title='A standard Python function.'>def</abbr> serialize_embed(
+    embed: <a href='../models/embeds.html#hikari.models.embeds.Embed'>embed_models.Embed</a>,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Tuple'>Tuple</a>[<a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>, <a href='https://docs.python.org/3/library/typing.html#typing.List'>List</a>[<a href='../utilities/files.html#hikari.utilities.files.Resource'>files.Resource</a>[<a href='../utilities/files.html#hikari.utilities.files.AsyncReader'>files.AsyncReader</a>]]]: ...</code></pre>
+</dt>
+<dd>
+<p>Serialize an embed object to a json serializable dict.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>embed</code></strong> :&ensp;<code><a href='../models/embeds.html#hikari.models.embeds.Embed'>Embed</a></code></dt>
+<dd>The embed object to serialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Tuple'>Tuple</a>[<a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a>, <a href='https://docs.python.org/3/library/typing.html#typing.List'>List</a>[<a href='../utilities/files.html#hikari.utilities.files.Resource'>Resource</a>]]</code></dt>
+<dd>A tuple with two items in it. The first item will be the serialized
+embed representation. The second item will be a list of resources
+to upload with the embed.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L476-L493" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def serialize_embed(
+    self, embed: embed_models.Embed
+) -&gt; typing.Tuple[data_binding.JSONObject, typing.List[files.Resource[files.AsyncReader]]]:
+    &#34;&#34;&#34;Serialize an embed object to a json serializable dict.
+
+    Parameters
+    ----------
+    embed : hikari.models.embeds.Embed
+        The embed object to serialize.
+
+    Returns
+    -------
+    typing.Tuple[hikari.utilities.data_binding.JSONObject, typing.List[hikari.utilities.files.Resource]]
+        A tuple with two items in it. The first item will be the serialized
+        embed representation. The second item will be a list of resources
+        to upload with the embed.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.entity_factory.EntityFactory.serialize_permission_overwrite" class="hljs python"><abbr title='A standard Python function.'>def</abbr> serialize_permission_overwrite(
+    overwrite: <a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>channel_models.PermissionOverwrite</a>,
+) -> <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Serialize a permission overwrite object to a json serializable dict.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code><a href='../models/channels.html#hikari.models.channels.PermissionOverwrite'>PermissionOverwrite</a></code></dt>
+<dd>The permission overwrite object to serialize.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The serialized representation of the permission overwrite.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/entity_factory.py#L195-L208" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def serialize_permission_overwrite(self, overwrite: channel_models.PermissionOverwrite) -&gt; data_binding.JSONObject:
+    &#34;&#34;&#34;Serialize a permission overwrite object to a json serializable dict.
+
+    Parameters
+    ----------
+    overwrite : hikari.models.channels.PermissionOverwrite
+        The permission overwrite object to serialize.
+
+    Returns
+    -------
+    hikari.utilities.data_binding.JSONObject
+        The serialized representation of the permission overwrite.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

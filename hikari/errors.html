@@ -1,0 +1,2771 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.errors API documentation</title>
+<meta name="description" content="Exceptions and warnings that can be thrown by this library." />
+<meta property="og:title" content="hikari.errors module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.errors">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item active"><a href="#">errors</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Exceptions and warnings that can be thrown by this library.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BadRequestError -- Raised when you send an invalid request somehow." href="#hikari.errors.BadRequestError"
+class='sidebar-nav-pill'>BadRequestError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.BadRequestError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.BadRequestError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.BadRequestError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.BadRequestError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.BadRequestError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.BadRequestError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BulkDeleteError -- Exception raised when a bulk delete fails midway through a call …" href="#hikari.errors.BulkDeleteError"
+class='sidebar-nav-pill'>BulkDeleteError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="messages_deleted -- Any message objects that were deleted before an exception occurred." href="#hikari.errors.BulkDeleteError.messages_deleted"
+class='sidebar-nav-pill'>messages_deleted</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="messages_skipped -- Any message objects that were skipped due to an exception." href="#hikari.errors.BulkDeleteError.messages_skipped"
+class='sidebar-nav-pill'>messages_skipped</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="percentage_completion -- Return the percentage completion of the bulk delete before it failed …" href="#hikari.errors.BulkDeleteError.percentage_completion"
+class='sidebar-nav-pill'>percentage_completion</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='sidebar-nav-pill'>ClientHTTPResponseError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.ClientHTTPResponseError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.ClientHTTPResponseError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.ClientHTTPResponseError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.ClientHTTPResponseError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.ClientHTTPResponseError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.ClientHTTPResponseError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ForbiddenError -- Raised when you are not allowed to access a specific resource …" href="#hikari.errors.ForbiddenError"
+class='sidebar-nav-pill'>ForbiddenError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.ForbiddenError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.ForbiddenError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.ForbiddenError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.ForbiddenError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.ForbiddenError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.ForbiddenError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayClientClosedError -- An exception raised when you programmatically shut down the bot." href="#hikari.errors.GatewayClientClosedError"
+class='sidebar-nav-pill'>GatewayClientClosedError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayClientClosedError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='sidebar-nav-pill'>GatewayError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayServerClosedConnectionError -- An exception raised when the server closes the connection." href="#hikari.errors.GatewayServerClosedConnectionError"
+class='sidebar-nav-pill'>GatewayServerClosedConnectionError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="can_reconnect -- Return `builtins.True` if we can recover from this closure …" href="#hikari.errors.GatewayServerClosedConnectionError.can_reconnect"
+class='sidebar-nav-pill'>can_reconnect</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- Return the close code that was received, if there is one …" href="#hikari.errors.GatewayServerClosedConnectionError.code"
+class='sidebar-nav-pill'>code</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayServerClosedConnectionError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPClientClosedError -- Exception raised if an `aiohttp.ClientSession` was closed …" href="#hikari.errors.HTTPClientClosedError"
+class='sidebar-nav-pill'>HTTPClientClosedError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPClientClosedError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='sidebar-nav-pill'>HTTPError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='sidebar-nav-pill'>HTTPResponseError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.HTTPResponseError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPResponseError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.HTTPResponseError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.HTTPResponseError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.HTTPResponseError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.HTTPResponseError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='sidebar-nav-pill'>HikariError</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariWarning -- Base for a warning raised by this API …" href="#hikari.errors.HikariWarning"
+class='sidebar-nav-pill'>HikariWarning</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InternalServerError -- Base exception for an erroneous HTTP response that is a server error …" href="#hikari.errors.InternalServerError"
+class='sidebar-nav-pill'>InternalServerError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.InternalServerError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.InternalServerError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.InternalServerError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.InternalServerError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.InternalServerError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.InternalServerError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentError -- Error raised when you try to perform an action without an intent …" href="#hikari.errors.MissingIntentError"
+class='sidebar-nav-pill'>MissingIntentError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- The combination of intents that are missing." href="#hikari.errors.MissingIntentError.intents"
+class='sidebar-nav-pill'>intents</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentWarning -- Warning raised when subscribing to an event that cannot be fired …" href="#hikari.errors.MissingIntentWarning"
+class='sidebar-nav-pill'>MissingIntentWarning</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="NotFoundError -- Raised when something is not found." href="#hikari.errors.NotFoundError"
+class='sidebar-nav-pill'>NotFoundError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.NotFoundError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.NotFoundError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.NotFoundError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.NotFoundError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.NotFoundError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.NotFoundError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ShardCloseCode -- Reasons for a shard connection closure." href="#hikari.errors.ShardCloseCode"
+class='sidebar-nav-pill'>ShardCloseCode</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALREADY_AUTHENTICATED -- " href="#hikari.errors.ShardCloseCode.ALREADY_AUTHENTICATED"
+class='sidebar-nav-pill'>ALREADY_AUTHENTICATED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AUTHENTICATION_FAILED -- " href="#hikari.errors.ShardCloseCode.AUTHENTICATION_FAILED"
+class='sidebar-nav-pill'>AUTHENTICATION_FAILED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DECODE_ERROR -- " href="#hikari.errors.ShardCloseCode.DECODE_ERROR"
+class='sidebar-nav-pill'>DECODE_ERROR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISALLOWED_INTENT -- " href="#hikari.errors.ShardCloseCode.DISALLOWED_INTENT"
+class='sidebar-nav-pill'>DISALLOWED_INTENT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ENCODING_ERROR -- " href="#hikari.errors.ShardCloseCode.ENCODING_ERROR"
+class='sidebar-nav-pill'>ENCODING_ERROR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GOING_AWAY -- " href="#hikari.errors.ShardCloseCode.GOING_AWAY"
+class='sidebar-nav-pill'>GOING_AWAY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_INTENT -- " href="#hikari.errors.ShardCloseCode.INVALID_INTENT"
+class='sidebar-nav-pill'>INVALID_INTENT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_SEQ -- " href="#hikari.errors.ShardCloseCode.INVALID_SEQ"
+class='sidebar-nav-pill'>INVALID_SEQ</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_SHARD -- " href="#hikari.errors.ShardCloseCode.INVALID_SHARD"
+class='sidebar-nav-pill'>INVALID_SHARD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_VERSION -- " href="#hikari.errors.ShardCloseCode.INVALID_VERSION"
+class='sidebar-nav-pill'>INVALID_VERSION</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NORMAL_CLOSURE -- " href="#hikari.errors.ShardCloseCode.NORMAL_CLOSURE"
+class='sidebar-nav-pill'>NORMAL_CLOSURE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NOT_AUTHENTICATED -- " href="#hikari.errors.ShardCloseCode.NOT_AUTHENTICATED"
+class='sidebar-nav-pill'>NOT_AUTHENTICATED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="POLICY_VIOLATION -- " href="#hikari.errors.ShardCloseCode.POLICY_VIOLATION"
+class='sidebar-nav-pill'>POLICY_VIOLATION</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PROTOCOL_ERROR -- " href="#hikari.errors.ShardCloseCode.PROTOCOL_ERROR"
+class='sidebar-nav-pill'>PROTOCOL_ERROR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="RATE_LIMITED -- " href="#hikari.errors.ShardCloseCode.RATE_LIMITED"
+class='sidebar-nav-pill'>RATE_LIMITED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SESSION_TIMEOUT -- " href="#hikari.errors.ShardCloseCode.SESSION_TIMEOUT"
+class='sidebar-nav-pill'>SESSION_TIMEOUT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SHARDING_REQUIRED -- " href="#hikari.errors.ShardCloseCode.SHARDING_REQUIRED"
+class='sidebar-nav-pill'>SHARDING_REQUIRED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TOO_BIG -- " href="#hikari.errors.ShardCloseCode.TOO_BIG"
+class='sidebar-nav-pill'>TOO_BIG</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TYPE_ERROR -- " href="#hikari.errors.ShardCloseCode.TYPE_ERROR"
+class='sidebar-nav-pill'>TYPE_ERROR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNEXPECTED_CONDITION -- " href="#hikari.errors.ShardCloseCode.UNEXPECTED_CONDITION"
+class='sidebar-nav-pill'>UNEXPECTED_CONDITION</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNKNOWN_ERROR -- " href="#hikari.errors.ShardCloseCode.UNKNOWN_ERROR"
+class='sidebar-nav-pill'>UNKNOWN_ERROR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNKNOWN_OPCODE -- " href="#hikari.errors.ShardCloseCode.UNKNOWN_OPCODE"
+class='sidebar-nav-pill'>UNKNOWN_OPCODE</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnauthorizedError -- Raised when you are not authorized to access a specific resource." href="#hikari.errors.UnauthorizedError"
+class='sidebar-nav-pill'>UnauthorizedError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.UnauthorizedError.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.UnauthorizedError.message"
+class='sidebar-nav-pill'>message</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.UnauthorizedError.raw_body"
+class='sidebar-nav-pill'>raw_body</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.UnauthorizedError.reason"
+class='sidebar-nav-pill'>reason</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.UnauthorizedError.status"
+class='sidebar-nav-pill'>status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.UnauthorizedError.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnavailableGuildError -- Raised when a guild is unavailable due to an outage." href="#hikari.errors.UnavailableGuildError"
+class='sidebar-nav-pill'>UnavailableGuildError</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The guild that is unavailable, or `builtins.None` if not yet known." href="#hikari.errors.UnavailableGuildError.guild"
+class='sidebar-nav-pill'>guild</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceError -- Error raised when a problem occurs with the voice subsystem." href="#hikari.errors.VoiceError"
+class='sidebar-nav-pill'>VoiceError</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L0-L425" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Exceptions and warnings that can be thrown by this library.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;HikariError&#34;,
+    &#34;HikariWarning&#34;,
+    &#34;NotFoundError&#34;,
+    &#34;UnauthorizedError&#34;,
+    &#34;ForbiddenError&#34;,
+    &#34;BadRequestError&#34;,
+    &#34;HTTPError&#34;,
+    &#34;HTTPResponseError&#34;,
+    &#34;HTTPClientClosedError&#34;,
+    &#34;ClientHTTPResponseError&#34;,
+    &#34;InternalServerError&#34;,
+    &#34;ShardCloseCode&#34;,
+    &#34;GatewayServerClosedConnectionError&#34;,
+    &#34;GatewayClientClosedError&#34;,
+    &#34;GatewayError&#34;,
+    &#34;MissingIntentWarning&#34;,
+    &#34;MissingIntentError&#34;,
+    &#34;UnavailableGuildError&#34;,
+    &#34;BulkDeleteError&#34;,
+    &#34;VoiceError&#34;,
+]
+
+import enum
+import http
+import typing
+
+import attr
+
+from hikari.models import messages
+from hikari.utilities import attr_extensions
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    from hikari.models import guilds
+    from hikari.models import intents as intents_
+    from hikari.utilities import data_binding
+    from hikari.utilities import routes
+
+
+@attr_extensions.with_copy
+@attr.s(auto_exc=True, slots=True, repr=False, init=False, weakref_slot=False)
+class HikariError(RuntimeError):
+    &#34;&#34;&#34;Base for an error raised by this API.
+
+    Any exceptions should derive from this.
+
+    !!! note
+        You should never initialize this exception directly.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(auto_exc=True, slots=True, repr=False, init=False, weakref_slot=False)
+class HikariWarning(RuntimeWarning):
+    &#34;&#34;&#34;Base for a warning raised by this API.
+
+    Any warnings should derive from this.
+
+    !!! note
+        You should never initialize this warning directly.
+    &#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class GatewayError(HikariError):
+    &#34;&#34;&#34;A base exception type for anything that can be thrown by the Gateway.&#34;&#34;&#34;
+
+    reason: str = attr.ib()
+    &#34;&#34;&#34;A string to explain the issue.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.reason
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class GatewayClientClosedError(GatewayError):
+    &#34;&#34;&#34;An exception raised when you programmatically shut down the bot.&#34;&#34;&#34;
+
+    reason: str = attr.ib(default=&#34;The gateway client has been closed&#34;)
+    &#34;&#34;&#34;A string to explain the issue.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.reason
+
+
+@enum.unique
+@typing.final
+class ShardCloseCode(enum.IntEnum):
+    &#34;&#34;&#34;Reasons for a shard connection closure.&#34;&#34;&#34;
+
+    NORMAL_CLOSURE = 1000
+    GOING_AWAY = 1001
+    PROTOCOL_ERROR = 1002
+    TYPE_ERROR = 1003
+    ENCODING_ERROR = 1007
+    POLICY_VIOLATION = 1008
+    TOO_BIG = 1009
+    UNEXPECTED_CONDITION = 1011
+    UNKNOWN_ERROR = 4000
+    UNKNOWN_OPCODE = 4001
+    DECODE_ERROR = 4002
+    NOT_AUTHENTICATED = 4003
+    AUTHENTICATION_FAILED = 4004
+    ALREADY_AUTHENTICATED = 4005
+    INVALID_SEQ = 4007
+    RATE_LIMITED = 4008
+    SESSION_TIMEOUT = 4009
+    INVALID_SHARD = 4010
+    SHARDING_REQUIRED = 4011
+    INVALID_VERSION = 4012
+    INVALID_INTENT = 4013
+    DISALLOWED_INTENT = 4014
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class GatewayServerClosedConnectionError(GatewayError):
+    &#34;&#34;&#34;An exception raised when the server closes the connection.&#34;&#34;&#34;
+
+    code: typing.Union[ShardCloseCode, int, None] = attr.ib(default=None)
+    &#34;&#34;&#34;Return the close code that was received, if there is one.
+
+    Returns
+    -------
+    typing.Union[ShardCloseCode, builtins.int, builtins.None]
+        The shard close code if there was one. Will be a `ShardCloseCode`
+        if the definition is known. Undocumented close codes may instead be
+        an `builtins.int` instead.
+
+        If no close code was received, this will be `builtins.None`.
+    &#34;&#34;&#34;
+
+    can_reconnect: bool = attr.ib(default=False)
+    &#34;&#34;&#34;Return `builtins.True` if we can recover from this closure.
+
+    If `builtins.True`, it will try to reconnect after this is raised rather
+    than it being propagated to the caller. If `builtins.False`, this will
+    be raised, thus stopping the applicaiton unless handled explicitly by the
+    user.
+
+    Returns
+    -------
+    builtins.bool
+        Whether the closure can be recovered from via a reconnect.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;Server closed connection with code {self.code} ({self.reason})&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class HTTPError(HikariError):
+    &#34;&#34;&#34;Base exception raised if an HTTP error occurs while making a request.&#34;&#34;&#34;
+
+    message: str = attr.ib()
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class HTTPClientClosedError(HTTPError):
+    &#34;&#34;&#34;Exception raised if an `aiohttp.ClientSession` was closed.
+
+    This fires when using a closed `aiohttp.ClientSession` to make a
+    request.
+    &#34;&#34;&#34;
+
+    message: str = attr.ib(default=&#34;The client session has been closed, no HTTP requests can occur.&#34;, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+_message_default_factory = attr.Factory(
+    lambda self: f&#34;{self.status}: {self.raw_body}&#34; if self.reason is None else self.reason, takes_self=True
+)
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class HTTPErrorResponse(HTTPError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response.&#34;&#34;&#34;
+
+    url: str = attr.ib()
+    &#34;&#34;&#34;The URL that produced this error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class HTTPResponseError(HTTPError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response.&#34;&#34;&#34;
+
+    url: str = attr.ib()
+    &#34;&#34;&#34;The URL that produced this error message.&#34;&#34;&#34;
+
+    status: typing.Union[int, http.HTTPStatus] = attr.ib()
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    headers: data_binding.Headers = attr.ib()
+    &#34;&#34;&#34;The headers received in the error response.&#34;&#34;&#34;
+
+    raw_body: typing.Any = attr.ib()
+    &#34;&#34;&#34;The response body.&#34;&#34;&#34;
+
+    reason: typing.Optional[str] = attr.ib(default=None)
+    &#34;&#34;&#34;The error reason. If `builtins.None`, will generate one automatically.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        try:
+            raw_body = self.raw_body.decode(&#34;utf-8&#34;)
+        except (AttributeError, UnicodeDecodeError):
+            raw_body = str(self.raw_body)
+
+        chomped = len(raw_body) &gt; 200
+
+        if isinstance(self.status, http.HTTPStatus):
+            name = self.status.name.replace(&#34;_&#34;, &#34; &#34;).title()
+            name_value = f&#34;{name} {self.status.value}&#34;
+        else:
+            name_value = str(self.status).title()
+
+        return f&#34;{name_value}: {raw_body[:200]}{&#39;...&#39; if chomped else &#39;&#39;} for {self.url}&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class ClientHTTPResponseError(HTTPResponseError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response that is a client error.
+
+    All exceptions derived from this base should be treated as 4xx client
+    errors when encountered.
+    &#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class BadRequestError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you send an invalid request somehow.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.BAD_REQUEST, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class UnauthorizedError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you are not authorized to access a specific resource.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.UNAUTHORIZED, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class ForbiddenError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you are not allowed to access a specific resource.
+
+    This means you lack the permissions to do something, either because of
+    permissions set in a guild, or because your application is not whitelisted
+    to use a specific endpoint.
+    &#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.FORBIDDEN, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class NotFoundError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when something is not found.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.NOT_FOUND, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, kw_only=True, slots=True, repr=False, weakref_slot=False)
+class RateLimitedError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when a non-global ratelimit that cannot be handled occurs.
+
+    This should only ever occur for specific routes that have additional
+    rate-limits applied to them by Discord. At the time of writing, the
+    PATCH CHANNEL _endpoint is the only one that knowingly implements this, and
+    does so by implementing rate-limits on the usage of specific fields only.
+
+    If you receive one of these, you should NOT try again until the given
+    time has passed, either discarding the operation you performed, or waiting
+    until the given time has passed first. Note that it may still be valid to
+    send requests with different attributes in them.
+
+    A use case for this by Discord appears to be to stop abuse from bots that
+    change channel names, etc, regularly. This kind of action allegedly causes
+    a fair amount of overhead internally for Discord. In the case you encounter
+    this, you may be able to send different requests that manipulate the same
+    entities (in this case editing the same channel) that do not use the same
+    collection of attributes as the previous request.
+
+    You should not usually see this occur, unless Discord vastly change their
+    ratelimit system without prior warning, which might happen in the future.
+
+    !!! note
+        If you receive this regularly, please file a bug report, or contact
+        Discord with the relevant debug information that can be obtained by
+        enabling debug logs and enabling the debug mode on the HTTP components.
+    &#34;&#34;&#34;
+
+    route: routes.CompiledRoute = attr.ib()
+    &#34;&#34;&#34;The route that produced this error.&#34;&#34;&#34;
+
+    retry_after: float = attr.ib()
+    &#34;&#34;&#34;How many seconds to wait before you can reuse the route with the specific request.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.TOO_MANY_REQUESTS, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    reason: str = attr.ib(init=False)
+    &#34;&#34;&#34;The error reason.&#34;&#34;&#34;
+
+    @reason.default
+    def _(self) -&gt; str:
+        return f&#34;You are being rate-limited for {self.retry_after:,} seconds on route {self.route}. Please slow down!&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class InternalServerError(HTTPResponseError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response that is a server error.
+
+    All exceptions derived from this base should be treated as 5xx server
+    errors when encountered. If you get one of these, it is not your fault!
+    &#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, init=False, weakref_slot=False)
+class MissingIntentWarning(HikariWarning):
+    &#34;&#34;&#34;Warning raised when subscribing to an event that cannot be fired.
+
+    This is caused by your application missing certain intents.
+    &#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class BulkDeleteError(HikariError):
+    &#34;&#34;&#34;Exception raised when a bulk delete fails midway through a call.
+
+    This will contain the list of message items that failed to be deleted,
+    and will have a cause containing the initial exception.
+    &#34;&#34;&#34;
+
+    messages_deleted: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    &#34;&#34;&#34;Any message objects that were deleted before an exception occurred.&#34;&#34;&#34;
+
+    messages_skipped: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    &#34;&#34;&#34;Any message objects that were skipped due to an exception.&#34;&#34;&#34;
+
+    @property
+    def percentage_completion(self) -&gt; float:
+        &#34;&#34;&#34;Return the percentage completion of the bulk delete before it failed.
+
+        Returns
+        -------
+        builtins.float
+            A percentage completion between 0 and 100 inclusive.
+        &#34;&#34;&#34;
+        deleted = len(self.messages_deleted)
+        total = deleted + len(self.messages_skipped)
+        return 100 * deleted / total
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, init=False, weakref_slot=False)
+class VoiceError(HikariError):
+    &#34;&#34;&#34;Error raised when a problem occurs with the voice subsystem.&#34;&#34;&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class MissingIntentError(HikariError):
+    &#34;&#34;&#34;Error raised when you try to perform an action without an intent.
+
+    This is usually raised when querying the cache for something that is
+    unavailable due to certain intents being disabled.
+    &#34;&#34;&#34;
+
+    intents: intents_.Intents = attr.ib()
+    &#34;&#34;&#34;The combination of intents that are missing.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;You are missing the following intent(s): {str(self.intents)}&#34;
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class UnavailableGuildError(HikariError):
+    &#34;&#34;&#34;Raised when a guild is unavailable due to an outage.&#34;&#34;&#34;
+
+    guild: typing.Optional[guilds.GatewayGuild] = attr.ib()
+    &#34;&#34;&#34;The guild that is unavailable, or `builtins.None` if not yet known.&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BadRequestError -- Raised when you send an invalid request somehow." href="#hikari.errors.BadRequestError"
+class='dotted'>BadRequestError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.BadRequestError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BadRequestError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Raised when you send an invalid request somehow.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L258-L265" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BadRequestError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you send an invalid request somehow.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.BAD_REQUEST, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BadRequestError -- Raised when you send an invalid request somehow." href="#hikari.errors.BadRequestError"
+class='dotted'>BadRequestError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a client error …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.BadRequestError.headers" id="hikari.errors.BadRequestError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.BadRequestError.message" id="hikari.errors.BadRequestError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.BadRequestError.raw_body" id="hikari.errors.BadRequestError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.BadRequestError.reason" id="hikari.errors.BadRequestError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.BadRequestError.status" id="hikari.errors.BadRequestError.status" class='dotted'>status</a> : http.HTTPStatus</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.BadRequestError.url" id="hikari.errors.BadRequestError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BulkDeleteError -- Exception raised when a bulk delete fails midway through a call …" href="#hikari.errors.BulkDeleteError"
+class='dotted'>BulkDeleteError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.BulkDeleteError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BulkDeleteError (
+    messages_deleted: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='models/messages.html#hikari.models.messages.Message'>messages.Message</a>]],
+    messages_skipped: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='models/messages.html#hikari.models.messages.Message'>messages.Message</a>]],
+): ...</code></pre>
+<p>Exception raised when a bulk delete fails midway through a call.</p>
+<p>This will contain the list of message items that failed to be deleted,
+and will have a cause containing the initial exception.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L374-L398" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BulkDeleteError(HikariError):
+    &#34;&#34;&#34;Exception raised when a bulk delete fails midway through a call.
+
+    This will contain the list of message items that failed to be deleted,
+    and will have a cause containing the initial exception.
+    &#34;&#34;&#34;
+
+    messages_deleted: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    &#34;&#34;&#34;Any message objects that were deleted before an exception occurred.&#34;&#34;&#34;
+
+    messages_skipped: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    &#34;&#34;&#34;Any message objects that were skipped due to an exception.&#34;&#34;&#34;
+
+    @property
+    def percentage_completion(self) -&gt; float:
+        &#34;&#34;&#34;Return the percentage completion of the bulk delete before it failed.
+
+        Returns
+        -------
+        builtins.float
+            A percentage completion between 0 and 100 inclusive.
+        &#34;&#34;&#34;
+        deleted = len(self.messages_deleted)
+        total = deleted + len(self.messages_skipped)
+        return 100 * deleted / total</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BulkDeleteError -- Exception raised when a bulk delete fails midway through a call …" href="#hikari.errors.BulkDeleteError"
+class='dotted'>BulkDeleteError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="messages_deleted -- Any message objects that were deleted before an exception occurred." href="#hikari.errors.BulkDeleteError.messages_deleted" id="hikari.errors.BulkDeleteError.messages_deleted" class='dotted'>messages_deleted</a> : Sequence[Union[<a href='models/messages.html#hikari.models.messages.Message'>Message</a>, <a href='utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]]</code></pre>
+</dt>
+<dd><p>Any message objects that were deleted before an exception occurred.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="messages_skipped -- Any message objects that were skipped due to an exception." href="#hikari.errors.BulkDeleteError.messages_skipped" id="hikari.errors.BulkDeleteError.messages_skipped" class='dotted'>messages_skipped</a> : Sequence[Union[<a href='models/messages.html#hikari.models.messages.Message'>Message</a>, <a href='utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]]</code></pre>
+</dt>
+<dd><p>Any message objects that were skipped due to an exception.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="percentage_completion -- Return the percentage completion of the bulk delete before it failed …" href="#hikari.errors.BulkDeleteError.percentage_completion" id="hikari.errors.BulkDeleteError.percentage_completion" class='dotted'>percentage_completion</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the percentage completion of the bulk delete before it failed.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>A percentage completion between 0 and 100 inclusive.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.ClientHTTPResponseError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ClientHTTPResponseError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    status: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/http.html#http.HTTPStatus'>http.HTTPStatus</a>],
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Base exception for an erroneous HTTP response that is a client error.</p>
+<p>All exceptions derived from this base should be treated as 4xx client
+errors when encountered.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L249-L254" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ClientHTTPResponseError(HTTPResponseError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response that is a client error.
+
+    All exceptions derived from this base should be treated as 4xx client
+    errors when encountered.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BadRequestError -- Raised when you send an invalid request somehow." href="#hikari.errors.BadRequestError"
+class='dotted'>BadRequestError</a></dt>
+<dd class="nested"><p>Raised when you send an invalid request somehow.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ForbiddenError -- Raised when you are not allowed to access a specific resource …" href="#hikari.errors.ForbiddenError"
+class='dotted'>ForbiddenError</a></dt>
+<dd class="nested"><p>Raised when you are not allowed to access a specific resource …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="NotFoundError -- Raised when something is not found." href="#hikari.errors.NotFoundError"
+class='dotted'>NotFoundError</a></dt>
+<dd class="nested"><p>Raised when something is not found.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnauthorizedError -- Raised when you are not authorized to access a specific resource." href="#hikari.errors.UnauthorizedError"
+class='dotted'>UnauthorizedError</a></dt>
+<dd class="nested"><p>Raised when you are not authorized to access a specific resource.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.ClientHTTPResponseError.headers" id="hikari.errors.ClientHTTPResponseError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.ClientHTTPResponseError.message" id="hikari.errors.ClientHTTPResponseError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.ClientHTTPResponseError.raw_body" id="hikari.errors.ClientHTTPResponseError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.ClientHTTPResponseError.reason" id="hikari.errors.ClientHTTPResponseError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.ClientHTTPResponseError.status" id="hikari.errors.ClientHTTPResponseError.status" class='dotted'>status</a> : typing.Union[int, http.HTTPStatus]</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.ClientHTTPResponseError.url" id="hikari.errors.ClientHTTPResponseError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ForbiddenError -- Raised when you are not allowed to access a specific resource …" href="#hikari.errors.ForbiddenError"
+class='dotted'>ForbiddenError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.ForbiddenError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ForbiddenError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Raised when you are not allowed to access a specific resource.</p>
+<p>This means you lack the permissions to do something, either because of
+permissions set in a guild, or because your application is not whitelisted
+to use a specific endpoint.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L280-L292" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ForbiddenError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you are not allowed to access a specific resource.
+
+    This means you lack the permissions to do something, either because of
+    permissions set in a guild, or because your application is not whitelisted
+    to use a specific endpoint.
+    &#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.FORBIDDEN, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ForbiddenError -- Raised when you are not allowed to access a specific resource …" href="#hikari.errors.ForbiddenError"
+class='dotted'>ForbiddenError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a client error …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.ForbiddenError.headers" id="hikari.errors.ForbiddenError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.ForbiddenError.message" id="hikari.errors.ForbiddenError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.ForbiddenError.raw_body" id="hikari.errors.ForbiddenError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.ForbiddenError.reason" id="hikari.errors.ForbiddenError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.ForbiddenError.status" id="hikari.errors.ForbiddenError.status" class='dotted'>status</a> : http.HTTPStatus</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.ForbiddenError.url" id="hikari.errors.ForbiddenError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayClientClosedError -- An exception raised when you programmatically shut down the bot." href="#hikari.errors.GatewayClientClosedError"
+class='dotted'>GatewayClientClosedError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.GatewayClientClosedError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayClientClosedError (
+    reason: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = 'The gateway client has been closed',
+): ...</code></pre>
+<p>An exception raised when you programmatically shut down the bot.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L102-L109" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayClientClosedError(GatewayError):
+    &#34;&#34;&#34;An exception raised when you programmatically shut down the bot.&#34;&#34;&#34;
+
+    reason: str = attr.ib(default=&#34;The gateway client has been closed&#34;)
+    &#34;&#34;&#34;A string to explain the issue.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.reason</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayClientClosedError -- An exception raised when you programmatically shut down the bot." href="#hikari.errors.GatewayClientClosedError"
+class='dotted'>GatewayClientClosedError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='dotted'>GatewayError</a></dt>
+<dd class="nested"><p>A base exception type for anything that can be thrown by the Gateway.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayClientClosedError.reason" id="hikari.errors.GatewayClientClosedError.reason" class='dotted'>reason</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>A string to explain the issue.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='dotted'>GatewayError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.GatewayError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayError (
+    reason: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+<p>A base exception type for anything that can be thrown by the Gateway.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L91-L98" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayError(HikariError):
+    &#34;&#34;&#34;A base exception type for anything that can be thrown by the Gateway.&#34;&#34;&#34;
+
+    reason: str = attr.ib()
+    &#34;&#34;&#34;A string to explain the issue.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.reason</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayClientClosedError -- An exception raised when you programmatically shut down the bot." href="#hikari.errors.GatewayClientClosedError"
+class='dotted'>GatewayClientClosedError</a></dt>
+<dd class="nested"><p>An exception raised when you programmatically shut down the bot.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayServerClosedConnectionError -- An exception raised when the server closes the connection." href="#hikari.errors.GatewayServerClosedConnectionError"
+class='dotted'>GatewayServerClosedConnectionError</a></dt>
+<dd class="nested"><p>An exception raised when the server closes the connection.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='dotted'>GatewayError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayError.reason" id="hikari.errors.GatewayError.reason" class='dotted'>reason</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>A string to explain the issue.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayServerClosedConnectionError -- An exception raised when the server closes the connection." href="#hikari.errors.GatewayServerClosedConnectionError"
+class='dotted'>GatewayServerClosedConnectionError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.GatewayServerClosedConnectionError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayServerClosedConnectionError (
+    reason: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    code: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='#hikari.errors.ShardCloseCode'>ShardCloseCode</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/constants.html#None'>None</a>] = None,
+    can_reconnect: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+): ...</code></pre>
+<p>An exception raised when the server closes the connection.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L142-L173" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayServerClosedConnectionError(GatewayError):
+    &#34;&#34;&#34;An exception raised when the server closes the connection.&#34;&#34;&#34;
+
+    code: typing.Union[ShardCloseCode, int, None] = attr.ib(default=None)
+    &#34;&#34;&#34;Return the close code that was received, if there is one.
+
+    Returns
+    -------
+    typing.Union[ShardCloseCode, builtins.int, builtins.None]
+        The shard close code if there was one. Will be a `ShardCloseCode`
+        if the definition is known. Undocumented close codes may instead be
+        an `builtins.int` instead.
+
+        If no close code was received, this will be `builtins.None`.
+    &#34;&#34;&#34;
+
+    can_reconnect: bool = attr.ib(default=False)
+    &#34;&#34;&#34;Return `builtins.True` if we can recover from this closure.
+
+    If `builtins.True`, it will try to reconnect after this is raised rather
+    than it being propagated to the caller. If `builtins.False`, this will
+    be raised, thus stopping the applicaiton unless handled explicitly by the
+    user.
+
+    Returns
+    -------
+    builtins.bool
+        Whether the closure can be recovered from via a reconnect.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;Server closed connection with code {self.code} ({self.reason})&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayServerClosedConnectionError -- An exception raised when the server closes the connection." href="#hikari.errors.GatewayServerClosedConnectionError"
+class='dotted'>GatewayServerClosedConnectionError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='dotted'>GatewayError</a></dt>
+<dd class="nested"><p>A base exception type for anything that can be thrown by the Gateway.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="can_reconnect -- Return `builtins.True` if we can recover from this closure …" href="#hikari.errors.GatewayServerClosedConnectionError.can_reconnect" id="hikari.errors.GatewayServerClosedConnectionError.can_reconnect" class='dotted'>can_reconnect</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if we can recover from this closure.</p>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, it will try to reconnect after this is raised rather
+than it being propagated to the caller. If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, this will
+be raised, thus stopping the applicaiton unless handled explicitly by the
+user.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Whether the closure can be recovered from via a reconnect.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="code -- Return the close code that was received, if there is one …" href="#hikari.errors.GatewayServerClosedConnectionError.code" id="hikari.errors.GatewayServerClosedConnectionError.code" class='dotted'>code</a> : Union[<a href='#hikari.errors.ShardCloseCode'>ShardCloseCode</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, None]</code></pre>
+</dt>
+<dd><p>Return the close code that was received, if there is one.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Union[ShardCloseCode, builtins.int, builtins.None]</code></dt>
+<dd>
+<p>The shard close code if there was one. Will be a <code><a href='#hikari.errors.ShardCloseCode'>ShardCloseCode</a></code>
+if the definition is known. Undocumented close codes may instead be
+an <code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> instead.</p>
+<p>If no close code was received, this will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p>
+</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- A string to explain the issue." href="#hikari.errors.GatewayServerClosedConnectionError.reason" id="hikari.errors.GatewayServerClosedConnectionError.reason" class='dotted'>reason</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>A string to explain the issue.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPClientClosedError -- Exception raised if an `aiohttp.ClientSession` was closed …" href="#hikari.errors.HTTPClientClosedError"
+class='dotted'>HTTPClientClosedError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.HTTPClientClosedError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HTTPClientClosedError: ...</code></pre>
+<p>Exception raised if an <code><a href='https://docs.aiohttp.org/en/stable/client_reference.html#aiohttp.ClientSession'>aiohttp.ClientSession</a></code> was closed.</p>
+<p>This fires when using a closed <code><a href='https://docs.aiohttp.org/en/stable/client_reference.html#aiohttp.ClientSession'>aiohttp.ClientSession</a></code> to make a
+request.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L185-L193" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HTTPClientClosedError(HTTPError):
+    &#34;&#34;&#34;Exception raised if an `aiohttp.ClientSession` was closed.
+
+    This fires when using a closed `aiohttp.ClientSession` to make a
+    request.
+    &#34;&#34;&#34;
+
+    message: str = attr.ib(default=&#34;The client session has been closed, no HTTP requests can occur.&#34;, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPClientClosedError -- Exception raised if an `aiohttp.ClientSession` was closed …" href="#hikari.errors.HTTPClientClosedError"
+class='dotted'>HTTPClientClosedError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPClientClosedError.message" id="hikari.errors.HTTPClientClosedError.message" class='dotted'>message</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.HTTPError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HTTPError (
+    message: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+<p>Base exception raised if an HTTP error occurs while making a request.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L177-L181" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HTTPError(HikariError):
+    &#34;&#34;&#34;Base exception raised if an HTTP error occurs while making a request.&#34;&#34;&#34;
+
+    message: str = attr.ib()
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPClientClosedError -- Exception raised if an `aiohttp.ClientSession` was closed …" href="#hikari.errors.HTTPClientClosedError"
+class='dotted'>HTTPClientClosedError</a></dt>
+<dd class="nested"><p>Exception raised if an <code><a href='https://docs.aiohttp.org/en/stable/client_reference.html#aiohttp.ClientSession'>aiohttp.ClientSession</a></code> was closed …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPError.message" id="hikari.errors.HTTPError.message" class='dotted'>message</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.HTTPResponseError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HTTPResponseError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    status: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/http.html#http.HTTPStatus'>http.HTTPStatus</a>],
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Base exception for an erroneous HTTP response.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L210-L245" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HTTPResponseError(HTTPError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response.&#34;&#34;&#34;
+
+    url: str = attr.ib()
+    &#34;&#34;&#34;The URL that produced this error message.&#34;&#34;&#34;
+
+    status: typing.Union[int, http.HTTPStatus] = attr.ib()
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    headers: data_binding.Headers = attr.ib()
+    &#34;&#34;&#34;The headers received in the error response.&#34;&#34;&#34;
+
+    raw_body: typing.Any = attr.ib()
+    &#34;&#34;&#34;The response body.&#34;&#34;&#34;
+
+    reason: typing.Optional[str] = attr.ib(default=None)
+    &#34;&#34;&#34;The error reason. If `builtins.None`, will generate one automatically.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        try:
+            raw_body = self.raw_body.decode(&#34;utf-8&#34;)
+        except (AttributeError, UnicodeDecodeError):
+            raw_body = str(self.raw_body)
+
+        chomped = len(raw_body) &gt; 200
+
+        if isinstance(self.status, http.HTTPStatus):
+            name = self.status.name.replace(&#34;_&#34;, &#34; &#34;).title()
+            name_value = f&#34;{name} {self.status.value}&#34;
+        else:
+            name_value = str(self.status).title()
+
+        return f&#34;{name_value}: {raw_body[:200]}{&#39;...&#39; if chomped else &#39;&#39;} for {self.url}&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a client error …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InternalServerError -- Base exception for an erroneous HTTP response that is a server error …" href="#hikari.errors.InternalServerError"
+class='dotted'>InternalServerError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a server error …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.HTTPResponseError.headers" id="hikari.errors.HTTPResponseError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.HTTPResponseError.message" id="hikari.errors.HTTPResponseError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.HTTPResponseError.raw_body" id="hikari.errors.HTTPResponseError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.HTTPResponseError.reason" id="hikari.errors.HTTPResponseError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.HTTPResponseError.status" id="hikari.errors.HTTPResponseError.status" class='dotted'>status</a> : typing.Union[int, http.HTTPStatus]</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.HTTPResponseError.url" id="hikari.errors.HTTPResponseError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.HikariError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HikariError (...): ...</code></pre>
+<p>Base for an error raised by this API.</p>
+<p>Any exceptions should derive from this.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>You should never initialize this exception directly.</p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L68-L75" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HikariError(RuntimeError):
+    &#34;&#34;&#34;Base for an error raised by this API.
+
+    Any exceptions should derive from this.
+
+    !!! note
+        You should never initialize this exception directly.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BulkDeleteError -- Exception raised when a bulk delete fails midway through a call …" href="#hikari.errors.BulkDeleteError"
+class='dotted'>BulkDeleteError</a></dt>
+<dd class="nested"><p>Exception raised when a bulk delete fails midway through a call …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GatewayError -- A base exception type for anything that can be thrown by the Gateway." href="#hikari.errors.GatewayError"
+class='dotted'>GatewayError</a></dt>
+<dd class="nested"><p>A base exception type for anything that can be thrown by the Gateway.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentError -- Error raised when you try to perform an action without an intent …" href="#hikari.errors.MissingIntentError"
+class='dotted'>MissingIntentError</a></dt>
+<dd class="nested"><p>Error raised when you try to perform an action without an intent …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnavailableGuildError -- Raised when a guild is unavailable due to an outage." href="#hikari.errors.UnavailableGuildError"
+class='dotted'>UnavailableGuildError</a></dt>
+<dd class="nested"><p>Raised when a guild is unavailable due to an outage.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceError -- Error raised when a problem occurs with the voice subsystem." href="#hikari.errors.VoiceError"
+class='dotted'>VoiceError</a></dt>
+<dd class="nested"><p>Error raised when a problem occurs with the voice subsystem.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariWarning -- Base for a warning raised by this API …" href="#hikari.errors.HikariWarning"
+class='dotted'>HikariWarning</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.HikariWarning" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HikariWarning (...): ...</code></pre>
+<p>Base for a warning raised by this API.</p>
+<p>Any warnings should derive from this.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>You should never initialize this warning directly.</p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L80-L87" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HikariWarning(RuntimeWarning):
+    &#34;&#34;&#34;Base for a warning raised by this API.
+
+    Any warnings should derive from this.
+
+    !!! note
+        You should never initialize this warning directly.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentWarning -- Warning raised when subscribing to an event that cannot be fired …" href="#hikari.errors.MissingIntentWarning"
+class='dotted'>MissingIntentWarning</a></dt>
+<dd class="nested"><p>Warning raised when subscribing to an event that cannot be fired …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariWarning -- Base for a warning raised by this API …" href="#hikari.errors.HikariWarning"
+class='dotted'>HikariWarning</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeWarning -- Base class for warnings about dubious runtime behavior." href="https://docs.python.org/3/library/exceptions.html#RuntimeWarning"
+class='dotted'>RuntimeWarning</a></dt>
+<dd class="nested"><p>Base class for warnings about dubious runtime behavior.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Warning -- Base class for warning categories." href="https://docs.python.org/3/library/exceptions.html#Warning"
+class='dotted'>Warning</a></dt>
+<dd class="nested"><p>Base class for warning categories.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InternalServerError -- Base exception for an erroneous HTTP response that is a server error …" href="#hikari.errors.InternalServerError"
+class='dotted'>InternalServerError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.InternalServerError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> InternalServerError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    status: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/http.html#http.HTTPStatus'>http.HTTPStatus</a>],
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Base exception for an erroneous HTTP response that is a server error.</p>
+<p>All exceptions derived from this base should be treated as 5xx server
+errors when encountered. If you get one of these, it is not your fault!</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L357-L362" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class InternalServerError(HTTPResponseError):
+    &#34;&#34;&#34;Base exception for an erroneous HTTP response that is a server error.
+
+    All exceptions derived from this base should be treated as 5xx server
+    errors when encountered. If you get one of these, it is not your fault!
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="InternalServerError -- Base exception for an erroneous HTTP response that is a server error …" href="#hikari.errors.InternalServerError"
+class='dotted'>InternalServerError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.InternalServerError.headers" id="hikari.errors.InternalServerError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.InternalServerError.message" id="hikari.errors.InternalServerError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.InternalServerError.raw_body" id="hikari.errors.InternalServerError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.InternalServerError.reason" id="hikari.errors.InternalServerError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.InternalServerError.status" id="hikari.errors.InternalServerError.status" class='dotted'>status</a> : typing.Union[int, http.HTTPStatus]</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.InternalServerError.url" id="hikari.errors.InternalServerError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentError -- Error raised when you try to perform an action without an intent …" href="#hikari.errors.MissingIntentError"
+class='dotted'>MissingIntentError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.MissingIntentError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MissingIntentError (
+    intents: <a href='models/intents.html#hikari.models.intents.Intents'>intents_.Intents</a>,
+): ...</code></pre>
+<p>Error raised when you try to perform an action without an intent.</p>
+<p>This is usually raised when querying the cache for something that is
+unavailable due to certain intents being disabled.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L407-L418" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MissingIntentError(HikariError):
+    &#34;&#34;&#34;Error raised when you try to perform an action without an intent.
+
+    This is usually raised when querying the cache for something that is
+    unavailable due to certain intents being disabled.
+    &#34;&#34;&#34;
+
+    intents: intents_.Intents = attr.ib()
+    &#34;&#34;&#34;The combination of intents that are missing.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;You are missing the following intent(s): {str(self.intents)}&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentError -- Error raised when you try to perform an action without an intent …" href="#hikari.errors.MissingIntentError"
+class='dotted'>MissingIntentError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- The combination of intents that are missing." href="#hikari.errors.MissingIntentError.intents" id="hikari.errors.MissingIntentError.intents" class='dotted'>intents</a> : intents_.Intents</code></pre>
+</dt>
+<dd><p>The combination of intents that are missing.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentWarning -- Warning raised when subscribing to an event that cannot be fired …" href="#hikari.errors.MissingIntentWarning"
+class='dotted'>MissingIntentWarning</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.MissingIntentWarning" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MissingIntentWarning (
+    ...,
+): ...</code></pre>
+<p>Warning raised when subscribing to an event that cannot be fired.</p>
+<p>This is caused by your application missing certain intents.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L366-L370" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MissingIntentWarning(HikariWarning):
+    &#34;&#34;&#34;Warning raised when subscribing to an event that cannot be fired.
+
+    This is caused by your application missing certain intents.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MissingIntentWarning -- Warning raised when subscribing to an event that cannot be fired …" href="#hikari.errors.MissingIntentWarning"
+class='dotted'>MissingIntentWarning</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariWarning -- Base for a warning raised by this API …" href="#hikari.errors.HikariWarning"
+class='dotted'>HikariWarning</a></dt>
+<dd class="nested"><p>Base for a warning raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeWarning -- Base class for warnings about dubious runtime behavior." href="https://docs.python.org/3/library/exceptions.html#RuntimeWarning"
+class='dotted'>RuntimeWarning</a></dt>
+<dd class="nested"><p>Base class for warnings about dubious runtime behavior.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Warning -- Base class for warning categories." href="https://docs.python.org/3/library/exceptions.html#Warning"
+class='dotted'>Warning</a></dt>
+<dd class="nested"><p>Base class for warning categories.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="NotFoundError -- Raised when something is not found." href="#hikari.errors.NotFoundError"
+class='dotted'>NotFoundError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.NotFoundError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> NotFoundError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Raised when something is not found.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L296-L303" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class NotFoundError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when something is not found.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.NOT_FOUND, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="NotFoundError -- Raised when something is not found." href="#hikari.errors.NotFoundError"
+class='dotted'>NotFoundError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a client error …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.NotFoundError.headers" id="hikari.errors.NotFoundError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.NotFoundError.message" id="hikari.errors.NotFoundError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.NotFoundError.raw_body" id="hikari.errors.NotFoundError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.NotFoundError.reason" id="hikari.errors.NotFoundError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.NotFoundError.status" id="hikari.errors.NotFoundError.status" class='dotted'>status</a> : http.HTTPStatus</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.NotFoundError.url" id="hikari.errors.NotFoundError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ShardCloseCode -- Reasons for a shard connection closure." href="#hikari.errors.ShardCloseCode"
+class='dotted'>ShardCloseCode</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.ShardCloseCode" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardCloseCode (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Reasons for a shard connection closure.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L114-L138" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardCloseCode(enum.IntEnum):
+    &#34;&#34;&#34;Reasons for a shard connection closure.&#34;&#34;&#34;
+
+    NORMAL_CLOSURE = 1000
+    GOING_AWAY = 1001
+    PROTOCOL_ERROR = 1002
+    TYPE_ERROR = 1003
+    ENCODING_ERROR = 1007
+    POLICY_VIOLATION = 1008
+    TOO_BIG = 1009
+    UNEXPECTED_CONDITION = 1011
+    UNKNOWN_ERROR = 4000
+    UNKNOWN_OPCODE = 4001
+    DECODE_ERROR = 4002
+    NOT_AUTHENTICATED = 4003
+    AUTHENTICATION_FAILED = 4004
+    ALREADY_AUTHENTICATED = 4005
+    INVALID_SEQ = 4007
+    RATE_LIMITED = 4008
+    SESSION_TIMEOUT = 4009
+    INVALID_SHARD = 4010
+    SHARDING_REQUIRED = 4011
+    INVALID_VERSION = 4012
+    INVALID_INTENT = 4013
+    DISALLOWED_INTENT = 4014</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ShardCloseCode -- Reasons for a shard connection closure." href="#hikari.errors.ShardCloseCode"
+class='dotted'>ShardCloseCode</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALREADY_AUTHENTICATED -- " href="#hikari.errors.ShardCloseCode.ALREADY_AUTHENTICATED" id="hikari.errors.ShardCloseCode.ALREADY_AUTHENTICATED" class='dotted'>ALREADY_AUTHENTICATED</a> = ShardCloseCode.ALREADY_AUTHENTICATED</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="AUTHENTICATION_FAILED -- " href="#hikari.errors.ShardCloseCode.AUTHENTICATION_FAILED" id="hikari.errors.ShardCloseCode.AUTHENTICATION_FAILED" class='dotted'>AUTHENTICATION_FAILED</a> = ShardCloseCode.AUTHENTICATION_FAILED</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DECODE_ERROR -- " href="#hikari.errors.ShardCloseCode.DECODE_ERROR" id="hikari.errors.ShardCloseCode.DECODE_ERROR" class='dotted'>DECODE_ERROR</a> = ShardCloseCode.DECODE_ERROR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISALLOWED_INTENT -- " href="#hikari.errors.ShardCloseCode.DISALLOWED_INTENT" id="hikari.errors.ShardCloseCode.DISALLOWED_INTENT" class='dotted'>DISALLOWED_INTENT</a> = ShardCloseCode.DISALLOWED_INTENT</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ENCODING_ERROR -- " href="#hikari.errors.ShardCloseCode.ENCODING_ERROR" id="hikari.errors.ShardCloseCode.ENCODING_ERROR" class='dotted'>ENCODING_ERROR</a> = ShardCloseCode.ENCODING_ERROR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GOING_AWAY -- " href="#hikari.errors.ShardCloseCode.GOING_AWAY" id="hikari.errors.ShardCloseCode.GOING_AWAY" class='dotted'>GOING_AWAY</a> = ShardCloseCode.GOING_AWAY</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_INTENT -- " href="#hikari.errors.ShardCloseCode.INVALID_INTENT" id="hikari.errors.ShardCloseCode.INVALID_INTENT" class='dotted'>INVALID_INTENT</a> = ShardCloseCode.INVALID_INTENT</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_SEQ -- " href="#hikari.errors.ShardCloseCode.INVALID_SEQ" id="hikari.errors.ShardCloseCode.INVALID_SEQ" class='dotted'>INVALID_SEQ</a> = ShardCloseCode.INVALID_SEQ</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_SHARD -- " href="#hikari.errors.ShardCloseCode.INVALID_SHARD" id="hikari.errors.ShardCloseCode.INVALID_SHARD" class='dotted'>INVALID_SHARD</a> = ShardCloseCode.INVALID_SHARD</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INVALID_VERSION -- " href="#hikari.errors.ShardCloseCode.INVALID_VERSION" id="hikari.errors.ShardCloseCode.INVALID_VERSION" class='dotted'>INVALID_VERSION</a> = ShardCloseCode.INVALID_VERSION</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NORMAL_CLOSURE -- " href="#hikari.errors.ShardCloseCode.NORMAL_CLOSURE" id="hikari.errors.ShardCloseCode.NORMAL_CLOSURE" class='dotted'>NORMAL_CLOSURE</a> = ShardCloseCode.NORMAL_CLOSURE</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NOT_AUTHENTICATED -- " href="#hikari.errors.ShardCloseCode.NOT_AUTHENTICATED" id="hikari.errors.ShardCloseCode.NOT_AUTHENTICATED" class='dotted'>NOT_AUTHENTICATED</a> = ShardCloseCode.NOT_AUTHENTICATED</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="POLICY_VIOLATION -- " href="#hikari.errors.ShardCloseCode.POLICY_VIOLATION" id="hikari.errors.ShardCloseCode.POLICY_VIOLATION" class='dotted'>POLICY_VIOLATION</a> = ShardCloseCode.POLICY_VIOLATION</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PROTOCOL_ERROR -- " href="#hikari.errors.ShardCloseCode.PROTOCOL_ERROR" id="hikari.errors.ShardCloseCode.PROTOCOL_ERROR" class='dotted'>PROTOCOL_ERROR</a> = ShardCloseCode.PROTOCOL_ERROR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="RATE_LIMITED -- " href="#hikari.errors.ShardCloseCode.RATE_LIMITED" id="hikari.errors.ShardCloseCode.RATE_LIMITED" class='dotted'>RATE_LIMITED</a> = ShardCloseCode.RATE_LIMITED</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SESSION_TIMEOUT -- " href="#hikari.errors.ShardCloseCode.SESSION_TIMEOUT" id="hikari.errors.ShardCloseCode.SESSION_TIMEOUT" class='dotted'>SESSION_TIMEOUT</a> = ShardCloseCode.SESSION_TIMEOUT</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SHARDING_REQUIRED -- " href="#hikari.errors.ShardCloseCode.SHARDING_REQUIRED" id="hikari.errors.ShardCloseCode.SHARDING_REQUIRED" class='dotted'>SHARDING_REQUIRED</a> = ShardCloseCode.SHARDING_REQUIRED</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TOO_BIG -- " href="#hikari.errors.ShardCloseCode.TOO_BIG" id="hikari.errors.ShardCloseCode.TOO_BIG" class='dotted'>TOO_BIG</a> = ShardCloseCode.TOO_BIG</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TYPE_ERROR -- " href="#hikari.errors.ShardCloseCode.TYPE_ERROR" id="hikari.errors.ShardCloseCode.TYPE_ERROR" class='dotted'>TYPE_ERROR</a> = ShardCloseCode.TYPE_ERROR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNEXPECTED_CONDITION -- " href="#hikari.errors.ShardCloseCode.UNEXPECTED_CONDITION" id="hikari.errors.ShardCloseCode.UNEXPECTED_CONDITION" class='dotted'>UNEXPECTED_CONDITION</a> = ShardCloseCode.UNEXPECTED_CONDITION</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNKNOWN_ERROR -- " href="#hikari.errors.ShardCloseCode.UNKNOWN_ERROR" id="hikari.errors.ShardCloseCode.UNKNOWN_ERROR" class='dotted'>UNKNOWN_ERROR</a> = ShardCloseCode.UNKNOWN_ERROR</code></pre>
+</dt>
+<dd></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="UNKNOWN_OPCODE -- " href="#hikari.errors.ShardCloseCode.UNKNOWN_OPCODE" id="hikari.errors.ShardCloseCode.UNKNOWN_OPCODE" class='dotted'>UNKNOWN_OPCODE</a> = ShardCloseCode.UNKNOWN_OPCODE</code></pre>
+</dt>
+<dd></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnauthorizedError -- Raised when you are not authorized to access a specific resource." href="#hikari.errors.UnauthorizedError"
+class='dotted'>UnauthorizedError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.UnauthorizedError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> UnauthorizedError (
+    url: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    headers: <a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>,
+    raw_body: <a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>,
+    reason: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+): ...</code></pre>
+<p>Raised when you are not authorized to access a specific resource.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L269-L276" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class UnauthorizedError(ClientHTTPResponseError):
+    &#34;&#34;&#34;Raised when you are not authorized to access a specific resource.&#34;&#34;&#34;
+
+    status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.UNAUTHORIZED, init=False)
+    &#34;&#34;&#34;The HTTP status code for the response.&#34;&#34;&#34;
+
+    message: str = attr.ib(default=_message_default_factory, init=False)
+    &#34;&#34;&#34;The error message.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnauthorizedError -- Raised when you are not authorized to access a specific resource." href="#hikari.errors.UnauthorizedError"
+class='dotted'>UnauthorizedError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientHTTPResponseError -- Base exception for an erroneous HTTP response that is a client error …" href="#hikari.errors.ClientHTTPResponseError"
+class='dotted'>ClientHTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response that is a client error …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPResponseError -- Base exception for an erroneous HTTP response." href="#hikari.errors.HTTPResponseError"
+class='dotted'>HTTPResponseError</a></dt>
+<dd class="nested"><p>Base exception for an erroneous HTTP response.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPError -- Base exception raised if an HTTP error occurs while making a request." href="#hikari.errors.HTTPError"
+class='dotted'>HTTPError</a></dt>
+<dd class="nested"><p>Base exception raised if an HTTP error occurs while making a request.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- The headers received in the error response." href="#hikari.errors.UnauthorizedError.headers" id="hikari.errors.UnauthorizedError.headers" class='dotted'>headers</a> : data_binding.Headers</code></pre>
+</dt>
+<dd><p>The headers received in the error response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="message -- The error message." href="#hikari.errors.UnauthorizedError.message" id="hikari.errors.UnauthorizedError.message" class='dotted'>message</a> : str</code></pre>
+</dt>
+<dd><p>The error message.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="raw_body -- The response body." href="#hikari.errors.UnauthorizedError.raw_body" id="hikari.errors.UnauthorizedError.raw_body" class='dotted'>raw_body</a> : typing.Any</code></pre>
+</dt>
+<dd><p>The response body.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="reason -- The error reason. If `builtins.None`, will generate one automatically." href="#hikari.errors.UnauthorizedError.reason" id="hikari.errors.UnauthorizedError.reason" class='dotted'>reason</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The error reason. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, will generate one automatically.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="status -- The HTTP status code for the response." href="#hikari.errors.UnauthorizedError.status" id="hikari.errors.UnauthorizedError.status" class='dotted'>status</a> : http.HTTPStatus</code></pre>
+</dt>
+<dd><p>The HTTP status code for the response.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL that produced this error message." href="#hikari.errors.UnauthorizedError.url" id="hikari.errors.UnauthorizedError.url" class='dotted'>url</a> : str</code></pre>
+</dt>
+<dd><p>The URL that produced this error message.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnavailableGuildError -- Raised when a guild is unavailable due to an outage." href="#hikari.errors.UnavailableGuildError"
+class='dotted'>UnavailableGuildError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.UnavailableGuildError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> UnavailableGuildError (
+    guild: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='models/guilds.html#hikari.models.guilds.GatewayGuild'>guilds.GatewayGuild</a>],
+): ...</code></pre>
+<p>Raised when a guild is unavailable due to an outage.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L422-L426" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class UnavailableGuildError(HikariError):
+    &#34;&#34;&#34;Raised when a guild is unavailable due to an outage.&#34;&#34;&#34;
+
+    guild: typing.Optional[guilds.GatewayGuild] = attr.ib()
+    &#34;&#34;&#34;The guild that is unavailable, or `builtins.None` if not yet known.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnavailableGuildError -- Raised when a guild is unavailable due to an outage." href="#hikari.errors.UnavailableGuildError"
+class='dotted'>UnavailableGuildError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- The guild that is unavailable, or `builtins.None` if not yet known." href="#hikari.errors.UnavailableGuildError.guild" id="hikari.errors.UnavailableGuildError.guild" class='dotted'>guild</a> : typing.Optional[guilds.GatewayGuild]</code></pre>
+</dt>
+<dd><p>The guild that is unavailable, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if not yet known.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceError -- Error raised when a problem occurs with the voice subsystem." href="#hikari.errors.VoiceError"
+class='dotted'>VoiceError</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.errors.VoiceError" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceError (...): ...</code></pre>
+<p>Error raised when a problem occurs with the voice subsystem.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/errors.py#L402-L403" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VoiceError(HikariError):
+    &#34;&#34;&#34;Error raised when a problem occurs with the voice subsystem.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceError -- Error raised when a problem occurs with the voice subsystem." href="#hikari.errors.VoiceError"
+class='dotted'>VoiceError</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HikariError -- Base for an error raised by this API …" href="#hikari.errors.HikariError"
+class='dotted'>HikariError</a></dt>
+<dd class="nested"><p>Base for an error raised by this API …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.RuntimeError -- Unspecified run-time error." href="https://docs.python.org/3/library/exceptions.html#RuntimeError"
+class='dotted'>RuntimeError</a></dt>
+<dd class="nested"><p>Unspecified run-time error.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.Exception -- Common base class for all non-exit exceptions." href="https://docs.python.org/3/library/exceptions.html#Exception"
+class='dotted'>Exception</a></dt>
+<dd class="nested"><p>Common base class for all non-exit exceptions.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.BaseException -- Common base class for all exceptions" href="https://docs.python.org/3/library/exceptions.html#BaseException"
+class='dotted'>BaseException</a></dt>
+<dd class="nested"><p>Common base class for all exceptions</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

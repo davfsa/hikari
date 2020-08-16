@@ -1,0 +1,860 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.config API documentation</title>
+<meta name="description" content="Data class containing network-related configuration settings." />
+<meta property="og:title" content="hikari.config module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.config">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item active"><a href="#">config</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Data class containing network-related configuration settings.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BasicAuthHeader -- An object that can be set as a producer for a basic auth header." href="#hikari.config.BasicAuthHeader"
+class='sidebar-nav-pill'>BasicAuthHeader</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="header -- Generate the header value and return it." href="#hikari.config.BasicAuthHeader.header"
+class='sidebar-nav-pill'>header</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="password -- Password for the header." href="#hikari.config.BasicAuthHeader.password"
+class='sidebar-nav-pill'>password</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the header." href="#hikari.config.BasicAuthHeader.username"
+class='sidebar-nav-pill'>username</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPSettings -- Settings to control the HTTP client." href="#hikari.config.HTTPSettings"
+class='sidebar-nav-pill'>HTTPSettings</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="allow_redirects -- If `builtins.True`, allow following redirects from `3xx` HTTP responses …" href="#hikari.config.HTTPSettings.allow_redirects"
+class='sidebar-nav-pill'>allow_redirects</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_redirects -- The maximum number of redirects to allow …" href="#hikari.config.HTTPSettings.max_redirects"
+class='sidebar-nav-pill'>max_redirects</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timeouts -- Settings to control HTTP request timeouts." href="#hikari.config.HTTPSettings.timeouts"
+class='sidebar-nav-pill'>timeouts</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verify_ssl -- If `builtins.True`, then responses with invalid SSL certificates will be
+rejected. Generally you want to keep this enabled unless you have a
+problem …" href="#hikari.config.HTTPSettings.verify_ssl"
+class='sidebar-nav-pill'>verify_ssl</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPTimeoutSettings -- Settings to control HTTP request timeouts." href="#hikari.config.HTTPTimeoutSettings"
+class='sidebar-nav-pill'>HTTPTimeoutSettings</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="acquire_and_connect -- Timeout for `request_socket_connect` PLUS connection acquisition." href="#hikari.config.HTTPTimeoutSettings.acquire_and_connect"
+class='sidebar-nav-pill'>acquire_and_connect</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="request_socket_connect -- Timeout for connecting a socket." href="#hikari.config.HTTPTimeoutSettings.request_socket_connect"
+class='sidebar-nav-pill'>request_socket_connect</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="request_socket_read -- Timeout for reading a socket." href="#hikari.config.HTTPTimeoutSettings.request_socket_read"
+class='sidebar-nav-pill'>request_socket_read</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="total -- Total timeout for entire request …" href="#hikari.config.HTTPTimeoutSettings.total"
+class='sidebar-nav-pill'>total</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ProxySettings -- The proxy settings to use." href="#hikari.config.ProxySettings"
+class='sidebar-nav-pill'>ProxySettings</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="all_headers -- Return all proxy headers …" href="#hikari.config.ProxySettings.all_headers"
+class='sidebar-nav-pill'>all_headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="auth -- An object that when cast to a string, yields the proxy auth header." href="#hikari.config.ProxySettings.auth"
+class='sidebar-nav-pill'>auth</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- Additional headers to use for requests via a proxy, if required." href="#hikari.config.ProxySettings.headers"
+class='sidebar-nav-pill'>headers</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="trust_env -- If `builtins.True`, and no proxy info is given, then `HTTP_PROXY` and
+`HTTPS_PROXY` will be used from the environment variables if present …" href="#hikari.config.ProxySettings.trust_env"
+class='sidebar-nav-pill'>trust_env</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL of the proxy to use." href="#hikari.config.ProxySettings.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/config.py#L0-L157" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Data class containing network-related configuration settings.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;BasicAuthHeader&#34;,
+    &#34;ProxySettings&#34;,
+    &#34;HTTPTimeoutSettings&#34;,
+    &#34;HTTPSettings&#34;,
+]
+
+import base64
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import constants
+from hikari.utilities import data_binding
+
+
+@attr_extensions.with_copy
+@attr.s(slots=True, kw_only=True, repr=False, weakref_slot=False)
+class BasicAuthHeader:
+    &#34;&#34;&#34;An object that can be set as a producer for a basic auth header.&#34;&#34;&#34;
+
+    username: str = attr.ib()
+    &#34;&#34;&#34;Username for the header.&#34;&#34;&#34;
+
+    password: str = attr.ib()
+    &#34;&#34;&#34;Password for the header.&#34;&#34;&#34;
+
+    @property
+    def header(self) -&gt; str:
+        &#34;&#34;&#34;Generate the header value and return it.&#34;&#34;&#34;
+        raw_token = f&#34;{self.username}:{self.password}&#34;.encode(&#34;ascii&#34;)
+        token_part = base64.b64encode(raw_token).decode(&#34;ascii&#34;)
+        return f&#34;{constants.BASICAUTH_TOKEN} {token_part}&#34;
+
+    def __str__(self) -&gt; str:
+        return self.header
+
+    __repr__ = __str__
+
+
+@attr_extensions.with_copy
+@attr.s(slots=True, kw_only=True, weakref_slot=False)
+class ProxySettings:
+    &#34;&#34;&#34;The proxy settings to use.&#34;&#34;&#34;
+
+    auth: typing.Optional[typing.Any] = attr.ib(default=None)
+    &#34;&#34;&#34;An object that when cast to a string, yields the proxy auth header.&#34;&#34;&#34;
+
+    headers: typing.Optional[data_binding.Headers] = attr.ib(default=None)
+    &#34;&#34;&#34;Additional headers to use for requests via a proxy, if required.&#34;&#34;&#34;
+
+    url: typing.Optional[str] = attr.ib(default=None)
+    &#34;&#34;&#34;The URL of the proxy to use.&#34;&#34;&#34;
+
+    trust_env: bool = attr.ib(default=False)
+    &#34;&#34;&#34;If `builtins.True`, and no proxy info is given, then `HTTP_PROXY` and
+    `HTTPS_PROXY` will be used from the environment variables if present.
+
+    Any proxy credentials will be read from the user&#39;s `netrc` file
+    (https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
+    If `builtins.False`, then this information is instead ignored.
+    Defaults to `builtins.False` if unspecified.
+    &#34;&#34;&#34;
+
+    @property
+    def all_headers(self) -&gt; typing.Optional[data_binding.Headers]:
+        &#34;&#34;&#34;Return all proxy headers.
+
+        Returns
+        -------
+        hikari.utilities.data_binding.Headers or builtins.None
+            Any headers that are set, or `builtins.None` if no headers are to
+            be sent with any request.
+        &#34;&#34;&#34;
+        if self.headers is None:
+            if self.auth is None:
+                return None
+            return {constants.PROXY_AUTHENTICATION_HEADER: self.auth}
+
+        if self.auth is None:
+            return self.headers
+        return {**self.headers, constants.PROXY_AUTHENTICATION_HEADER: self.auth}
+
+
+@attr_extensions.with_copy
+@attr.s(slots=True, kw_only=True, weakref_slot=False)
+class HTTPTimeoutSettings:
+    &#34;&#34;&#34;Settings to control HTTP request timeouts.&#34;&#34;&#34;
+
+    acquire_and_connect: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for `request_socket_connect` PLUS connection acquisition.&#34;&#34;&#34;
+
+    request_socket_connect: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for connecting a socket.&#34;&#34;&#34;
+
+    request_socket_read: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for reading a socket.&#34;&#34;&#34;
+
+    total: typing.Optional[float] = attr.ib(default=30.0)
+    &#34;&#34;&#34;Total timeout for entire request.
+
+    Defaults to 30 seconds.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(slots=True, kw_only=True, weakref_slot=False)
+class HTTPSettings:
+    &#34;&#34;&#34;Settings to control the HTTP client.&#34;&#34;&#34;
+
+    allow_redirects: bool = attr.ib(default=False)
+    &#34;&#34;&#34;If `builtins.True`, allow following redirects from `3xx` HTTP responses.
+
+    Generally you do not want to enable this unless you have a good reason to.
+    &#34;&#34;&#34;
+
+    max_redirects: int = attr.ib(default=10)
+    &#34;&#34;&#34;The maximum number of redirects to allow.
+
+    If `allow_redirects` is `builtins.False`, then this is ignored.
+    &#34;&#34;&#34;
+
+    timeouts: HTTPTimeoutSettings = attr.ib(factory=HTTPTimeoutSettings)
+    &#34;&#34;&#34;Settings to control HTTP request timeouts.&#34;&#34;&#34;
+
+    verify_ssl: bool = attr.ib(default=True)
+    &#34;&#34;&#34;If `builtins.True`, then responses with invalid SSL certificates will be
+    rejected. Generally you want to keep this enabled unless you have a
+    problem with SSL and you know exactly what you are doing by disabling
+    this. Disabling SSL  verification can have major security implications.
+    You turn this off at your own risk.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BasicAuthHeader -- An object that can be set as a producer for a basic auth header." href="#hikari.config.BasicAuthHeader"
+class='dotted'>BasicAuthHeader</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.config.BasicAuthHeader" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BasicAuthHeader (
+    *,
+    username: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    password: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+<p>An object that can be set as a producer for a basic auth header.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/config.py#L45-L64" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BasicAuthHeader:
+    &#34;&#34;&#34;An object that can be set as a producer for a basic auth header.&#34;&#34;&#34;
+
+    username: str = attr.ib()
+    &#34;&#34;&#34;Username for the header.&#34;&#34;&#34;
+
+    password: str = attr.ib()
+    &#34;&#34;&#34;Password for the header.&#34;&#34;&#34;
+
+    @property
+    def header(self) -&gt; str:
+        &#34;&#34;&#34;Generate the header value and return it.&#34;&#34;&#34;
+        raw_token = f&#34;{self.username}:{self.password}&#34;.encode(&#34;ascii&#34;)
+        token_part = base64.b64encode(raw_token).decode(&#34;ascii&#34;)
+        return f&#34;{constants.BASICAUTH_TOKEN} {token_part}&#34;
+
+    def __str__(self) -&gt; str:
+        return self.header
+
+    __repr__ = __str__</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="header -- Generate the header value and return it." href="#hikari.config.BasicAuthHeader.header" id="hikari.config.BasicAuthHeader.header" class='dotted'>header</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Generate the header value and return it.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="password -- Password for the header." href="#hikari.config.BasicAuthHeader.password" id="hikari.config.BasicAuthHeader.password" class='dotted'>password</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Password for the header.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the header." href="#hikari.config.BasicAuthHeader.username" id="hikari.config.BasicAuthHeader.username" class='dotted'>username</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Username for the header.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPSettings -- Settings to control the HTTP client." href="#hikari.config.HTTPSettings"
+class='dotted'>HTTPSettings</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.config.HTTPSettings" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HTTPSettings (
+    *,
+    allow_redirects: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+    max_redirects: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 10,
+    timeouts: <a href='#hikari.config.HTTPTimeoutSettings'>HTTPTimeoutSettings</a> = NOTHING,
+    verify_ssl: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = True,
+): ...</code></pre>
+<p>Settings to control the HTTP client.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/config.py#L134-L158" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HTTPSettings:
+    &#34;&#34;&#34;Settings to control the HTTP client.&#34;&#34;&#34;
+
+    allow_redirects: bool = attr.ib(default=False)
+    &#34;&#34;&#34;If `builtins.True`, allow following redirects from `3xx` HTTP responses.
+
+    Generally you do not want to enable this unless you have a good reason to.
+    &#34;&#34;&#34;
+
+    max_redirects: int = attr.ib(default=10)
+    &#34;&#34;&#34;The maximum number of redirects to allow.
+
+    If `allow_redirects` is `builtins.False`, then this is ignored.
+    &#34;&#34;&#34;
+
+    timeouts: HTTPTimeoutSettings = attr.ib(factory=HTTPTimeoutSettings)
+    &#34;&#34;&#34;Settings to control HTTP request timeouts.&#34;&#34;&#34;
+
+    verify_ssl: bool = attr.ib(default=True)
+    &#34;&#34;&#34;If `builtins.True`, then responses with invalid SSL certificates will be
+    rejected. Generally you want to keep this enabled unless you have a
+    problem with SSL and you know exactly what you are doing by disabling
+    this. Disabling SSL  verification can have major security implications.
+    You turn this off at your own risk.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="allow_redirects -- If `builtins.True`, allow following redirects from `3xx` HTTP responses …" href="#hikari.config.HTTPSettings.allow_redirects" id="hikari.config.HTTPSettings.allow_redirects" class='dotted'>allow_redirects</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, allow following redirects from <code>3xx</code> HTTP responses.</p>
+<p>Generally you do not want to enable this unless you have a good reason to.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_redirects -- The maximum number of redirects to allow …" href="#hikari.config.HTTPSettings.max_redirects" id="hikari.config.HTTPSettings.max_redirects" class='dotted'>max_redirects</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>The maximum number of redirects to allow.</p>
+<p>If <code>allow_redirects</code> is <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then this is ignored.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timeouts -- Settings to control HTTP request timeouts." href="#hikari.config.HTTPSettings.timeouts" id="hikari.config.HTTPSettings.timeouts" class='dotted'>timeouts</a> : <a href='#hikari.config.HTTPTimeoutSettings'>HTTPTimeoutSettings</a></code></pre>
+</dt>
+<dd><p>Settings to control HTTP request timeouts.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="verify_ssl -- If `builtins.True`, then responses with invalid SSL certificates will be
+rejected. Generally you want to keep this enabled unless you have a
+problem …" href="#hikari.config.HTTPSettings.verify_ssl" id="hikari.config.HTTPSettings.verify_ssl" class='dotted'>verify_ssl</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then responses with invalid SSL certificates will be
+rejected. Generally you want to keep this enabled unless you have a
+problem with SSL and you know exactly what you are doing by disabling
+this. Disabling SSL
+verification can have major security implications.
+You turn this off at your own risk.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="HTTPTimeoutSettings -- Settings to control HTTP request timeouts." href="#hikari.config.HTTPTimeoutSettings"
+class='dotted'>HTTPTimeoutSettings</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.config.HTTPTimeoutSettings" class="hljs python"><abbr title='A standard Python type.'>class</abbr> HTTPTimeoutSettings (
+    *,
+    acquire_and_connect: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>] = None,
+    request_socket_connect: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>] = None,
+    request_socket_read: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>] = None,
+    total: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>] = 30.0,
+): ...</code></pre>
+<p>Settings to control HTTP request timeouts.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/config.py#L113-L129" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class HTTPTimeoutSettings:
+    &#34;&#34;&#34;Settings to control HTTP request timeouts.&#34;&#34;&#34;
+
+    acquire_and_connect: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for `request_socket_connect` PLUS connection acquisition.&#34;&#34;&#34;
+
+    request_socket_connect: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for connecting a socket.&#34;&#34;&#34;
+
+    request_socket_read: typing.Optional[float] = attr.ib(default=None)
+    &#34;&#34;&#34;Timeout for reading a socket.&#34;&#34;&#34;
+
+    total: typing.Optional[float] = attr.ib(default=30.0)
+    &#34;&#34;&#34;Total timeout for entire request.
+
+    Defaults to 30 seconds.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="acquire_and_connect -- Timeout for `request_socket_connect` PLUS connection acquisition." href="#hikari.config.HTTPTimeoutSettings.acquire_and_connect" id="hikari.config.HTTPTimeoutSettings.acquire_and_connect" class='dotted'>acquire_and_connect</a> : Union[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, None]</code></pre>
+</dt>
+<dd><p>Timeout for <code>request_socket_connect</code> PLUS connection acquisition.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="request_socket_connect -- Timeout for connecting a socket." href="#hikari.config.HTTPTimeoutSettings.request_socket_connect" id="hikari.config.HTTPTimeoutSettings.request_socket_connect" class='dotted'>request_socket_connect</a> : Union[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, None]</code></pre>
+</dt>
+<dd><p>Timeout for connecting a socket.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="request_socket_read -- Timeout for reading a socket." href="#hikari.config.HTTPTimeoutSettings.request_socket_read" id="hikari.config.HTTPTimeoutSettings.request_socket_read" class='dotted'>request_socket_read</a> : Union[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, None]</code></pre>
+</dt>
+<dd><p>Timeout for reading a socket.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="total -- Total timeout for entire request …" href="#hikari.config.HTTPTimeoutSettings.total" id="hikari.config.HTTPTimeoutSettings.total" class='dotted'>total</a> : Union[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, None]</code></pre>
+</dt>
+<dd><p>Total timeout for entire request.</p>
+<p>Defaults to 30 seconds.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ProxySettings -- The proxy settings to use." href="#hikari.config.ProxySettings"
+class='dotted'>ProxySettings</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.config.ProxySettings" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ProxySettings (
+    *,
+    auth: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>] = None,
+    headers: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>data_binding.Headers</a>] = None,
+    url: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    trust_env: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+): ...</code></pre>
+<p>The proxy settings to use.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/config.py#L69-L108" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ProxySettings:
+    &#34;&#34;&#34;The proxy settings to use.&#34;&#34;&#34;
+
+    auth: typing.Optional[typing.Any] = attr.ib(default=None)
+    &#34;&#34;&#34;An object that when cast to a string, yields the proxy auth header.&#34;&#34;&#34;
+
+    headers: typing.Optional[data_binding.Headers] = attr.ib(default=None)
+    &#34;&#34;&#34;Additional headers to use for requests via a proxy, if required.&#34;&#34;&#34;
+
+    url: typing.Optional[str] = attr.ib(default=None)
+    &#34;&#34;&#34;The URL of the proxy to use.&#34;&#34;&#34;
+
+    trust_env: bool = attr.ib(default=False)
+    &#34;&#34;&#34;If `builtins.True`, and no proxy info is given, then `HTTP_PROXY` and
+    `HTTPS_PROXY` will be used from the environment variables if present.
+
+    Any proxy credentials will be read from the user&#39;s `netrc` file
+    (https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html)
+    If `builtins.False`, then this information is instead ignored.
+    Defaults to `builtins.False` if unspecified.
+    &#34;&#34;&#34;
+
+    @property
+    def all_headers(self) -&gt; typing.Optional[data_binding.Headers]:
+        &#34;&#34;&#34;Return all proxy headers.
+
+        Returns
+        -------
+        hikari.utilities.data_binding.Headers or builtins.None
+            Any headers that are set, or `builtins.None` if no headers are to
+            be sent with any request.
+        &#34;&#34;&#34;
+        if self.headers is None:
+            if self.auth is None:
+                return None
+            return {constants.PROXY_AUTHENTICATION_HEADER: self.auth}
+
+        if self.auth is None:
+            return self.headers
+        return {**self.headers, constants.PROXY_AUTHENTICATION_HEADER: self.auth}</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="all_headers -- Return all proxy headers …" href="#hikari.config.ProxySettings.all_headers" id="hikari.config.ProxySettings.all_headers" class='dotted'>all_headers</a> : Union[Mapping[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>], None]</code></pre>
+</dt>
+<dd><p>Return all proxy headers.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='utilities/data_binding.html#hikari.utilities.data_binding.Headers'>Headers</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Any headers that are set, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no headers are to
+be sent with any request.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="auth -- An object that when cast to a string, yields the proxy auth header." href="#hikari.config.ProxySettings.auth" id="hikari.config.ProxySettings.auth" class='dotted'>auth</a> : Union[Any, None]</code></pre>
+</dt>
+<dd><p>An object that when cast to a string, yields the proxy auth header.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="headers -- Additional headers to use for requests via a proxy, if required." href="#hikari.config.ProxySettings.headers" id="hikari.config.ProxySettings.headers" class='dotted'>headers</a> : Union[Mapping[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>], None]</code></pre>
+</dt>
+<dd><p>Additional headers to use for requests via a proxy, if required.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="trust_env -- If `builtins.True`, and no proxy info is given, then `HTTP_PROXY` and
+`HTTPS_PROXY` will be used from the environment variables if present …" href="#hikari.config.ProxySettings.trust_env" id="hikari.config.ProxySettings.trust_env" class='dotted'>trust_env</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, and no proxy info is given, then <code>HTTP_PROXY</code> and
+<code>HTTPS_PROXY</code> will be used from the environment variables if present.</p>
+<p>Any proxy credentials will be read from the user's <code><a href='https://docs.python.org/3/library/netrc.html#module-netrc'>netrc</a></code> file
+(<a href="https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html">https://www.gnu.org/software/inetutils/manual/html_node/The-_002enetrc-file.html</a>)
+If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then this information is instead ignored.
+Defaults to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> if unspecified.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The URL of the proxy to use." href="#hikari.config.ProxySettings.url" id="hikari.config.ProxySettings.url" class='dotted'>url</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The URL of the proxy to use.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

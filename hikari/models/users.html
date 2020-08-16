@@ -1,0 +1,2044 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.users API documentation</title>
+<meta name="description" content="Application and entities that are used to describe Users on Discord." />
+<meta property="og:title" content="hikari.models.users module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.users">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">users</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe Users on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUser -- Represents a user with extended OAuth2 information." href="#hikari.models.users.OwnUser"
+class='sidebar-nav-pill'>OwnUser</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.User.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- Avatar for the user, or the default avatar if not set." href="#hikari.models.users.User.avatar"
+class='sidebar-nav-pill'>avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.User.avatar_hash"
+class='sidebar-nav-pill'>avatar_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- Placeholder default avatar for the user if no avatar is set." href="#hikari.models.users.User.default_avatar"
+class='sidebar-nav-pill'>default_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.User.discriminator"
+class='sidebar-nav-pill'>discriminator</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="email -- The user's set email …" href="#hikari.models.users.OwnUser.email"
+class='sidebar-nav-pill'>email</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_self -- Get this user's up-to-date object …" href="#hikari.models.users.OwnUser.fetch_self"
+class='sidebar-nav-pill'>fetch_self</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.User.flags"
+class='sidebar-nav-pill'>flags</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_avatar -- Generate the avatar for this user, if set …" href="#hikari.models.users.User.format_avatar"
+class='sidebar-nav-pill'>format_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.User.is_bot"
+class='sidebar-nav-pill'>is_bot</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mfa_enabled -- Whether the user's account has multi-factor authentication enabled." href="#hikari.models.users.OwnUser.is_mfa_enabled"
+class='sidebar-nav-pill'>is_mfa_enabled</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.User.is_system"
+class='sidebar-nav-pill'>is_system</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_verified -- Whether the email for this user's account has been verified …" href="#hikari.models.users.OwnUser.is_verified"
+class='sidebar-nav-pill'>is_verified</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="locale -- The user's set language. This is not provided by the `READY` event." href="#hikari.models.users.OwnUser.locale"
+class='sidebar-nav-pill'>locale</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.User.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="premium_type -- The type of Nitro Subscription this user account had …" href="#hikari.models.users.OwnUser.premium_type"
+class='sidebar-nav-pill'>premium_type</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.User.username"
+class='sidebar-nav-pill'>username</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialUser -- A partial interface for a user …" href="#hikari.models.users.PartialUser"
+class='sidebar-nav-pill'>PartialUser</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.PartialUser.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.PartialUser.avatar_hash"
+class='sidebar-nav-pill'>avatar_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.PartialUser.discriminator"
+class='sidebar-nav-pill'>discriminator</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.PartialUser.flags"
+class='sidebar-nav-pill'>flags</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.PartialUser.is_bot"
+class='sidebar-nav-pill'>is_bot</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.PartialUser.is_system"
+class='sidebar-nav-pill'>is_system</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.PartialUser.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.PartialUser.username"
+class='sidebar-nav-pill'>username</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="PremiumType -- The types of Nitro." href="#hikari.models.users.PremiumType"
+class='sidebar-nav-pill'>PremiumType</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NITRO -- Premium including all perks (e.g. 2 server boosts)." href="#hikari.models.users.PremiumType.NITRO"
+class='sidebar-nav-pill'>NITRO</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NITRO_CLASSIC -- Premium including basic perks like animated emojis and avatars." href="#hikari.models.users.PremiumType.NITRO_CLASSIC"
+class='sidebar-nav-pill'>NITRO_CLASSIC</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- No premium." href="#hikari.models.users.PremiumType.NONE"
+class='sidebar-nav-pill'>NONE</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='sidebar-nav-pill'>User</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.User.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- Avatar for the user, or the default avatar if not set." href="#hikari.models.users.User.avatar"
+class='sidebar-nav-pill'>avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.User.avatar_hash"
+class='sidebar-nav-pill'>avatar_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- Placeholder default avatar for the user if no avatar is set." href="#hikari.models.users.User.default_avatar"
+class='sidebar-nav-pill'>default_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.User.discriminator"
+class='sidebar-nav-pill'>discriminator</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.User.flags"
+class='sidebar-nav-pill'>flags</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_avatar -- Generate the avatar for this user, if set …" href="#hikari.models.users.User.format_avatar"
+class='sidebar-nav-pill'>format_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.User.is_bot"
+class='sidebar-nav-pill'>is_bot</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.User.is_system"
+class='sidebar-nav-pill'>is_system</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.User.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.User.username"
+class='sidebar-nav-pill'>username</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="UserFlag -- The known user flags that represent account badges …" href="#hikari.models.users.UserFlag"
+class='sidebar-nav-pill'>UserFlag</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BUG_HUNTER_LEVEL_1 -- Bug Hunter Level 1" href="#hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_1"
+class='sidebar-nav-pill'>BUG_HUNTER_LEVEL_1</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BUG_HUNTER_LEVEL_2 -- Bug Hunter Level 2" href="#hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_2"
+class='sidebar-nav-pill'>BUG_HUNTER_LEVEL_2</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISCORD_EMPLOYEE -- Discord Employee" href="#hikari.models.users.UserFlag.DISCORD_EMPLOYEE"
+class='sidebar-nav-pill'>DISCORD_EMPLOYEE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISCORD_PARTNER -- Discord Partner" href="#hikari.models.users.UserFlag.DISCORD_PARTNER"
+class='sidebar-nav-pill'>DISCORD_PARTNER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EARLY_SUPPORTER -- Early Supporter" href="#hikari.models.users.UserFlag.EARLY_SUPPORTER"
+class='sidebar-nav-pill'>EARLY_SUPPORTER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BALANCE -- House of Balance" href="#hikari.models.users.UserFlag.HOUSE_BALANCE"
+class='sidebar-nav-pill'>HOUSE_BALANCE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BRAVERY -- House of Bravery" href="#hikari.models.users.UserFlag.HOUSE_BRAVERY"
+class='sidebar-nav-pill'>HOUSE_BRAVERY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BRILLIANCE -- House of Brilliance" href="#hikari.models.users.UserFlag.HOUSE_BRILLIANCE"
+class='sidebar-nav-pill'>HOUSE_BRILLIANCE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HYPESQUAD_EVENTS -- HypeSquad Events" href="#hikari.models.users.UserFlag.HYPESQUAD_EVENTS"
+class='sidebar-nav-pill'>HYPESQUAD_EVENTS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- None" href="#hikari.models.users.UserFlag.NONE"
+class='sidebar-nav-pill'>NONE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYSTEM -- System" href="#hikari.models.users.UserFlag.SYSTEM"
+class='sidebar-nav-pill'>SYSTEM</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TEAM_USER -- Team user" href="#hikari.models.users.UserFlag.TEAM_USER"
+class='sidebar-nav-pill'>TEAM_USER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFIED_BOT -- Verified Bot" href="#hikari.models.users.UserFlag.VERIFIED_BOT"
+class='sidebar-nav-pill'>VERIFIED_BOT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFIED_BOT_DEVELOPER -- Verified Bot Developer" href="#hikari.models.users.UserFlag.VERIFIED_BOT_DEVELOPER"
+class='sidebar-nav-pill'>VERIFIED_BOT_DEVELOPER</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L0-L436" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe Users on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;PartialUser&#34;, &#34;User&#34;, &#34;OwnUser&#34;, &#34;UserFlag&#34;, &#34;PremiumType&#34;]
+
+import abc
+import enum
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import constants
+from hikari.utilities import files
+from hikari.utilities import flag
+from hikari.utilities import routes
+from hikari.utilities import snowflake
+from hikari.utilities import undefined
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+
+
+@enum.unique
+@typing.final
+class UserFlag(flag.Flag):
+    &#34;&#34;&#34;The known user flags that represent account badges.&#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;None&#34;&#34;&#34;
+
+    DISCORD_EMPLOYEE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Discord Employee&#34;&#34;&#34;
+
+    DISCORD_PARTNER = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Discord Partner&#34;&#34;&#34;
+
+    HYPESQUAD_EVENTS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;HypeSquad Events&#34;&#34;&#34;
+
+    BUG_HUNTER_LEVEL_1 = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Bug Hunter Level 1&#34;&#34;&#34;
+
+    HOUSE_BRAVERY = 1 &lt;&lt; 6
+    &#34;&#34;&#34;House of Bravery&#34;&#34;&#34;
+
+    HOUSE_BRILLIANCE = 1 &lt;&lt; 7
+    &#34;&#34;&#34;House of Brilliance&#34;&#34;&#34;
+
+    HOUSE_BALANCE = 1 &lt;&lt; 8
+    &#34;&#34;&#34;House of Balance&#34;&#34;&#34;
+
+    EARLY_SUPPORTER = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Early Supporter&#34;&#34;&#34;
+
+    TEAM_USER = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Team user&#34;&#34;&#34;
+
+    SYSTEM = 1 &lt;&lt; 12
+    &#34;&#34;&#34;System&#34;&#34;&#34;
+
+    BUG_HUNTER_LEVEL_2 = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Bug Hunter Level 2&#34;&#34;&#34;
+
+    VERIFIED_BOT = 1 &lt;&lt; 16
+    &#34;&#34;&#34;Verified Bot&#34;&#34;&#34;
+
+    VERIFIED_BOT_DEVELOPER = 1 &lt;&lt; 17
+    &#34;&#34;&#34;Verified Bot Developer&#34;&#34;&#34;
+
+
+@enum.unique
+@typing.final
+class PremiumType(enum.IntEnum):
+    &#34;&#34;&#34;The types of Nitro.&#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;No premium.&#34;&#34;&#34;
+
+    NITRO_CLASSIC = 1
+    &#34;&#34;&#34;Premium including basic perks like animated emojis and avatars.&#34;&#34;&#34;
+
+    NITRO = 2
+    &#34;&#34;&#34;Premium including all perks (e.g. 2 server boosts).&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class PartialUser(snowflake.Unique, abc.ABC):
+    &#34;&#34;&#34;A partial interface for a user.
+
+    Fields may or may not be present, and must be checked explicitly if so.
+
+    This is pretty much the same as a normal user, but information may not be
+    present.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def app(self) -&gt; traits.RESTAware:
+        &#34;&#34;&#34;Client application that models may use for procedures.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def discriminator(self) -&gt; undefined.UndefinedOr[str]:
+        &#34;&#34;&#34;Discriminator for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def username(self) -&gt; undefined.UndefinedOr[str]:
+        &#34;&#34;&#34;Username for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def avatar_hash(self) -&gt; undefined.UndefinedNoneOr[str]:
+        &#34;&#34;&#34;Avatar hash for the user, if they have one, otherwise `builtins.None`.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_bot(self) -&gt; undefined.UndefinedOr[bool]:
+        &#34;&#34;&#34;`builtins.True` if this user is a bot account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_system(self) -&gt; undefined.UndefinedOr[bool]:
+        &#34;&#34;&#34;`builtins.True` if this user is a system account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def flags(self) -&gt; undefined.UndefinedOr[UserFlag]:
+        &#34;&#34;&#34;Flag bits that are set for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given user.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_user.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class User(PartialUser, abc.ABC):
+    &#34;&#34;&#34;Interface for any user-like object.
+
+    This does not include partial users, as they may not be fully formed.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def app(self) -&gt; traits.RESTAware:
+        &#34;&#34;&#34;Client application that models may use for procedures.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def discriminator(self) -&gt; str:
+        &#34;&#34;&#34;Discriminator for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def username(self) -&gt; str:
+        &#34;&#34;&#34;Username for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def avatar_hash(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Avatar hash for the user, if they have one, otherwise `builtins.None`.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_bot(self) -&gt; bool:
+        &#34;&#34;&#34;`builtins.True` if this user is a bot account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_system(self) -&gt; bool:
+        &#34;&#34;&#34;`builtins.True` if this user is a system account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def flags(self) -&gt; UserFlag:
+        &#34;&#34;&#34;Flag bits that are set for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given user.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_user.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+
+    @property
+    def avatar(self) -&gt; files.URL:
+        &#34;&#34;&#34;Avatar for the user, or the default avatar if not set.&#34;&#34;&#34;
+        return self.format_avatar() or self.default_avatar
+
+    # noinspection PyShadowingBuiltins
+    def format_avatar(self, *, format: typing.Optional[str] = None, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the avatar for this user, if set.
+
+        If no custom avatar is set, this returns `builtins.None`. You can then
+        use the `default_avatar_url` attribute instead to fetch the displayed
+        URL.
+
+        Parameters
+        ----------
+        format : builtins.str or builtins.None
+            The format to use for this URL, defaults to `png` or `gif`.
+            Supports `png`, `jpeg`, `jpg`, `webp` and `gif` (when
+            animated). Will be ignored for default avatars which can only be
+            `png`.
+
+            If `builtins.None`, then the correct default format is determined
+            based on whether the icon is animated or not.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+            Will be ignored for default avatars.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL to the avatar, or `builtins.None` if not present.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.avatar_hash is None:
+            return None
+
+        if format is None:
+            if self.avatar_hash.startswith(&#34;a_&#34;):
+                # Ignore the fact this shadows `format`, as it is the parameter
+                # name, which shadows it anyway.
+                format = &#34;gif&#34;  # noqa: A001 shadowing builtin
+            else:
+                format = &#34;png&#34;  # noqa: A001 shadowing builtin
+
+        return routes.CDN_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+        )
+
+    @property
+    def default_avatar(self) -&gt; files.URL:  # noqa: D401 imperative mood check
+        &#34;&#34;&#34;Placeholder default avatar for the user if no avatar is set.&#34;&#34;&#34;
+        return routes.CDN_DEFAULT_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, discriminator=int(self.discriminator) % 5, file_format=&#34;png&#34;,
+        )
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class PartialUserImpl(PartialUser):
+    &#34;&#34;&#34;Implementation for partial information about a user.
+
+    This is pretty much the same as a normal user, but information may not be
+    present.
+    &#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this user.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;Reference to the client application that models may use for procedures.&#34;&#34;&#34;
+
+    discriminator: undefined.UndefinedOr[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Four-digit discriminator for the user.&#34;&#34;&#34;
+
+    username: undefined.UndefinedOr[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Username of the user.&#34;&#34;&#34;
+
+    avatar_hash: undefined.UndefinedNoneOr[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Avatar hash of the user, if a custom avatar is set.&#34;&#34;&#34;
+
+    is_bot: undefined.UndefinedOr[bool] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether this user is a bot account.&#34;&#34;&#34;
+
+    is_system: undefined.UndefinedOr[bool] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is a system account.&#34;&#34;&#34;
+
+    flags: undefined.UndefinedOr[UserFlag] = attr.ib(eq=False, hash=False)
+    &#34;&#34;&#34;Public flags for this user.&#34;&#34;&#34;
+
+    @property
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given user.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_user.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+        return f&#34;&lt;@{self.id}&gt;&#34;
+
+    def __str__(self) -&gt; str:
+        if self.username is undefined.UNDEFINED or self.discriminator is undefined.UNDEFINED:
+            return f&#34;Partial user ID {self.id}&#34;
+        return f&#34;{self.username}#{self.discriminator}&#34;
+
+    async def fetch_self(self) -&gt; User:
+        &#34;&#34;&#34;Get this user&#39;s up-to-date object.
+
+        Returns
+        -------
+        hikari.models.users.User
+            The requested user object.
+
+        Raises
+        ------
+        hikari.errors.NotFound
+            If the user is not found.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_user(user=self.id)
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class UserImpl(PartialUserImpl, User):
+    &#34;&#34;&#34;Concrete implementation of user information.&#34;&#34;&#34;
+
+    # These are not attribs on purpose. The idea is to narrow the types of
+    # these fields without redefining them twice in the slots. This is
+    # compatible with MYPY, hence why I have done it like this...
+
+    discriminator: str
+    &#34;&#34;&#34;The user&#39;s discriminator.&#34;&#34;&#34;
+
+    username: str
+    &#34;&#34;&#34;The user&#39;s username.&#34;&#34;&#34;
+
+    avatar_hash: typing.Optional[str]
+    &#34;&#34;&#34;The user&#39;s avatar hash, if they have one, otherwise `builtins.None`.&#34;&#34;&#34;
+
+    is_bot: bool
+    &#34;&#34;&#34;`builtins.True` if this user is a bot account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    is_system: bool
+    &#34;&#34;&#34;`builtins.True` if this user is a system account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    flags: UserFlag
+    &#34;&#34;&#34;The public flags for this user.&#34;&#34;&#34;
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class OwnUser(UserImpl):
+    &#34;&#34;&#34;Represents a user with extended OAuth2 information.&#34;&#34;&#34;
+
+    is_mfa_enabled: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the user&#39;s account has multi-factor authentication enabled.&#34;&#34;&#34;
+
+    locale: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user&#39;s set language. This is not provided by the `READY` event.&#34;&#34;&#34;
+
+    is_verified: typing.Optional[bool] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the email for this user&#39;s account has been verified.
+
+    Will be `builtins.None` if retrieved through the OAuth2 flow without the `email`
+    scope.
+    &#34;&#34;&#34;
+
+    email: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user&#39;s set email.
+
+    Will be `builtins.None` if retrieved through OAuth2 flow without the `email`
+    scope. Will always be `builtins.None` for bot users.
+    &#34;&#34;&#34;
+
+    premium_type: typing.Optional[PremiumType] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The type of Nitro Subscription this user account had.
+
+    This will always be `builtins.None` for bots.
+    &#34;&#34;&#34;
+
+    async def fetch_self(self) -&gt; OwnUser:
+        &#34;&#34;&#34;Get this user&#39;s up-to-date object.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser
+            The requested user object.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_my_user()</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUser -- Represents a user with extended OAuth2 information." href="#hikari.models.users.OwnUser"
+class='dotted'>OwnUser</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.users.OwnUser" class="hljs python"><abbr title='A standard Python type.'>class</abbr> OwnUser (
+    *,
+    id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    discriminator: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    username: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    avatar_hash: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    is_bot: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>],
+    is_system: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>],
+    flags: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='#hikari.models.users.UserFlag'>UserFlag</a>],
+    is_mfa_enabled: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    locale: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    is_verified: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>],
+    email: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    premium_type: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.users.PremiumType'>PremiumType</a>],
+): ...</code></pre>
+<p>Represents a user with extended OAuth2 information.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L400-L437" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class OwnUser(UserImpl):
+    &#34;&#34;&#34;Represents a user with extended OAuth2 information.&#34;&#34;&#34;
+
+    is_mfa_enabled: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the user&#39;s account has multi-factor authentication enabled.&#34;&#34;&#34;
+
+    locale: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user&#39;s set language. This is not provided by the `READY` event.&#34;&#34;&#34;
+
+    is_verified: typing.Optional[bool] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the email for this user&#39;s account has been verified.
+
+    Will be `builtins.None` if retrieved through the OAuth2 flow without the `email`
+    scope.
+    &#34;&#34;&#34;
+
+    email: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user&#39;s set email.
+
+    Will be `builtins.None` if retrieved through OAuth2 flow without the `email`
+    scope. Will always be `builtins.None` for bot users.
+    &#34;&#34;&#34;
+
+    premium_type: typing.Optional[PremiumType] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The type of Nitro Subscription this user account had.
+
+    This will always be `builtins.None` for bots.
+    &#34;&#34;&#34;
+
+    async def fetch_self(self) -&gt; OwnUser:
+        &#34;&#34;&#34;Get this user&#39;s up-to-date object.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser
+            The requested user object.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_my_user()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUser -- Represents a user with extended OAuth2 information." href="#hikari.models.users.OwnUser"
+class='dotted'>OwnUser</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.models.users.UserImpl</dt>
+<dd class="nested"><p>Concrete implementation of user information.</p></dd>
+<dt class="nested">hikari.models.users.PartialUserImpl</dt>
+<dd class="nested"><p>Implementation for partial information about a user …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='dotted'>User</a></dt>
+<dd class="nested"><p>Interface for any user-like object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialUser -- A partial interface for a user …" href="#hikari.models.users.PartialUser"
+class='dotted'>PartialUser</a></dt>
+<dd class="nested"><p>A partial interface for a user …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.users.OwnUser.fetch_self" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_self() -> <a href='#hikari.models.users.OwnUser'>OwnUser</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Get this user's up-to-date object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='#hikari.models.users.OwnUser'>OwnUser</a></code></dt>
+<dd>The requested user object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L429-L437" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_self(self) -&gt; OwnUser:
+    &#34;&#34;&#34;Get this user&#39;s up-to-date object.
+
+    Returns
+    -------
+    hikari.models.users.OwnUser
+        The requested user object.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_my_user()</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.users.OwnUser.format_avatar" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_avatar(
+    *,
+    format: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='dotted'>User</a></code>.<code><a title="format_avatar -- Generate the avatar for this user, if set …" href="#hikari.models.users.User.format_avatar"
+class='dotted'>format_avatar</a></code>
+</p>
+<p>Generate the avatar for this user, if set.</p>
+<p>If no custom avatar is set, this returns <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>. You can then
+use the <code>default_avatar_url</code> attribute instead to fetch the displayed
+URL.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The format to use for this URL, defaults to <code>png</code> or <code>gif</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>webp</code> and <code>gif</code> (when
+animated). Will be ignored for default avatars which can only be
+<code>png</code>.</p>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then the correct default format is determined
+based on whether the icon is animated or not.</p>
+</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.
+Will be ignored for default avatars.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL to the avatar, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if not present.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two or not between 16 and 4096.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.User.app" id="hikari.models.users.OwnUser.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a></code></pre>
+</dt>
+<dd><p>Client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- Avatar for the user, or the default avatar if not set." href="#hikari.models.users.User.avatar" id="hikari.models.users.OwnUser.avatar" class='dotted'>avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>Avatar for the user, or the default avatar if not set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.User.avatar_hash" id="hikari.models.users.OwnUser.avatar_hash" class='dotted'>avatar_hash</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>Avatar hash for the user, if they have one, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.users.OwnUser.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- Placeholder default avatar for the user if no avatar is set." href="#hikari.models.users.User.default_avatar" id="hikari.models.users.OwnUser.default_avatar" class='dotted'>default_avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>Placeholder default avatar for the user if no avatar is set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.User.discriminator" id="hikari.models.users.OwnUser.discriminator" class='dotted'>discriminator</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Discriminator for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="email -- The user's set email …" href="#hikari.models.users.OwnUser.email" id="hikari.models.users.OwnUser.email" class='dotted'>email</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The user's set email.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if retrieved through OAuth2 flow without the <code><a href='https://docs.python.org/3/library/email.html#module-email'>email</a></code>
+scope. Will always be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for bot users.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.User.flags" id="hikari.models.users.OwnUser.flags" class='dotted'>flags</a> : <a href='#hikari.models.users.UserFlag'>UserFlag</a></code></pre>
+</dt>
+<dd><p>Flag bits that are set for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id" id="hikari.models.users.OwnUser.id" class='dotted'>id</a> : <a href='#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>Return the ID of this entity.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Snowflake</code></dt>
+<dd>The snowflake ID of this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.User.is_bot" id="hikari.models.users.OwnUser.is_bot" class='dotted'>is_bot</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a bot account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mfa_enabled -- Whether the user's account has multi-factor authentication enabled." href="#hikari.models.users.OwnUser.is_mfa_enabled" id="hikari.models.users.OwnUser.is_mfa_enabled" class='dotted'>is_mfa_enabled</a> : bool</code></pre>
+</dt>
+<dd><p>Whether the user's account has multi-factor authentication enabled.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.User.is_system" id="hikari.models.users.OwnUser.is_system" class='dotted'>is_system</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a system account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_verified -- Whether the email for this user's account has been verified …" href="#hikari.models.users.OwnUser.is_verified" id="hikari.models.users.OwnUser.is_verified" class='dotted'>is_verified</a> : typing.Optional[bool]</code></pre>
+</dt>
+<dd><p>Whether the email for this user's account has been verified.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if retrieved through the OAuth2 flow without the <code><a href='https://docs.python.org/3/library/email.html#module-email'>email</a></code>
+scope.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="locale -- The user's set language. This is not provided by the `READY` event." href="#hikari.models.users.OwnUser.locale" id="hikari.models.users.OwnUser.locale" class='dotted'>locale</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The user's set language. This is not provided by the <code>READY</code> event.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.User.mention" id="hikari.models.users.OwnUser.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Return a raw mention string for the given user.</p>
+<h2 id="example">Example</h2>
+<pre><code class="py">&gt;&gt;&gt; some_user.mention
+'&lt;@123456789123456789&gt;'
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The mention string to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="premium_type -- The type of Nitro Subscription this user account had …" href="#hikari.models.users.OwnUser.premium_type" id="hikari.models.users.OwnUser.premium_type" class='dotted'>premium_type</a> : typing.Optional[PremiumType]</code></pre>
+</dt>
+<dd><p>The type of Nitro Subscription this user account had.</p>
+<p>This will always be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> for bots.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.User.username" id="hikari.models.users.OwnUser.username" class='dotted'>username</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Username for the user.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialUser -- A partial interface for a user …" href="#hikari.models.users.PartialUser"
+class='dotted'>PartialUser</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.users.PartialUser" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PartialUser: ...</code></pre>
+<p>A partial interface for a user.</p>
+<p>Fields may or may not be present, and must be checked explicitly if so.</p>
+<p>This is pretty much the same as a normal user, but information may not be
+present.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L113-L174" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class PartialUser(snowflake.Unique, abc.ABC):
+    &#34;&#34;&#34;A partial interface for a user.
+
+    Fields may or may not be present, and must be checked explicitly if so.
+
+    This is pretty much the same as a normal user, but information may not be
+    present.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def app(self) -&gt; traits.RESTAware:
+        &#34;&#34;&#34;Client application that models may use for procedures.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def discriminator(self) -&gt; undefined.UndefinedOr[str]:
+        &#34;&#34;&#34;Discriminator for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def username(self) -&gt; undefined.UndefinedOr[str]:
+        &#34;&#34;&#34;Username for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def avatar_hash(self) -&gt; undefined.UndefinedNoneOr[str]:
+        &#34;&#34;&#34;Avatar hash for the user, if they have one, otherwise `builtins.None`.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_bot(self) -&gt; undefined.UndefinedOr[bool]:
+        &#34;&#34;&#34;`builtins.True` if this user is a bot account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_system(self) -&gt; undefined.UndefinedOr[bool]:
+        &#34;&#34;&#34;`builtins.True` if this user is a system account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def flags(self) -&gt; undefined.UndefinedOr[UserFlag]:
+        &#34;&#34;&#34;Flag bits that are set for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given user.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_user.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='dotted'>User</a></dt>
+<dd class="nested"><p>Interface for any user-like object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialUser -- A partial interface for a user …" href="#hikari.models.users.PartialUser"
+class='dotted'>PartialUser</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.PartialUser.app" id="hikari.models.users.PartialUser.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a></code></pre>
+</dt>
+<dd><p>Client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.PartialUser.avatar_hash" id="hikari.models.users.PartialUser.avatar_hash" class='dotted'>avatar_hash</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>, None]</code></pre>
+</dt>
+<dd><p>Avatar hash for the user, if they have one, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.users.PartialUser.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.PartialUser.discriminator" id="hikari.models.users.PartialUser.discriminator" class='dotted'>discriminator</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>]</code></pre>
+</dt>
+<dd><p>Discriminator for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.PartialUser.flags" id="hikari.models.users.PartialUser.flags" class='dotted'>flags</a> : Union[<a href='#hikari.models.users.UserFlag'>UserFlag</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>]</code></pre>
+</dt>
+<dd><p>Flag bits that are set for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id" id="hikari.models.users.PartialUser.id" class='dotted'>id</a> : <a href='#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>Return the ID of this entity.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Snowflake</code></dt>
+<dd>The snowflake ID of this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.PartialUser.is_bot" id="hikari.models.users.PartialUser.is_bot" class='dotted'>is_bot</a> : Union[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>]</code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a bot account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.PartialUser.is_system" id="hikari.models.users.PartialUser.is_system" class='dotted'>is_system</a> : Union[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>]</code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a system account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.PartialUser.mention" id="hikari.models.users.PartialUser.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Return a raw mention string for the given user.</p>
+<h2 id="example">Example</h2>
+<pre><code class="py">&gt;&gt;&gt; some_user.mention
+'&lt;@123456789123456789&gt;'
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The mention string to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.PartialUser.username" id="hikari.models.users.PartialUser.username" class='dotted'>username</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='../utilities/undefined.html'>hikari.utilities.undefined.UndefinedType</a>]</code></pre>
+</dt>
+<dd><p>Username for the user.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="PremiumType -- The types of Nitro." href="#hikari.models.users.PremiumType"
+class='dotted'>PremiumType</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.users.PremiumType" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PremiumType (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The types of Nitro.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L96-L109" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class PremiumType(enum.IntEnum):
+    &#34;&#34;&#34;The types of Nitro.&#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;No premium.&#34;&#34;&#34;
+
+    NITRO_CLASSIC = 1
+    &#34;&#34;&#34;Premium including basic perks like animated emojis and avatars.&#34;&#34;&#34;
+
+    NITRO = 2
+    &#34;&#34;&#34;Premium including all perks (e.g. 2 server boosts).&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="PremiumType -- The types of Nitro." href="#hikari.models.users.PremiumType"
+class='dotted'>PremiumType</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NITRO -- Premium including all perks (e.g. 2 server boosts)." href="#hikari.models.users.PremiumType.NITRO" id="hikari.models.users.PremiumType.NITRO" class='dotted'>NITRO</a> = NITRO</code></pre>
+</dt>
+<dd><p>Premium including all perks (e.g. 2 server boosts).</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NITRO_CLASSIC -- Premium including basic perks like animated emojis and avatars." href="#hikari.models.users.PremiumType.NITRO_CLASSIC" id="hikari.models.users.PremiumType.NITRO_CLASSIC" class='dotted'>NITRO_CLASSIC</a> = NITRO_CLASSIC</code></pre>
+</dt>
+<dd><p>Premium including basic perks like animated emojis and avatars.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- No premium." href="#hikari.models.users.PremiumType.NONE" id="hikari.models.users.PremiumType.NONE" class='dotted'>NONE</a> = NONE</code></pre>
+</dt>
+<dd><p>No premium.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='dotted'>User</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.users.User" class="hljs python"><abbr title='A standard Python type.'>class</abbr> User: ...</code></pre>
+<p>Interface for any user-like object.</p>
+<p>This does not include partial users, as they may not be fully formed.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L178-L296" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class User(PartialUser, abc.ABC):
+    &#34;&#34;&#34;Interface for any user-like object.
+
+    This does not include partial users, as they may not be fully formed.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def app(self) -&gt; traits.RESTAware:
+        &#34;&#34;&#34;Client application that models may use for procedures.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def discriminator(self) -&gt; str:
+        &#34;&#34;&#34;Discriminator for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def username(self) -&gt; str:
+        &#34;&#34;&#34;Username for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def avatar_hash(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Avatar hash for the user, if they have one, otherwise `builtins.None`.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_bot(self) -&gt; bool:
+        &#34;&#34;&#34;`builtins.True` if this user is a bot account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_system(self) -&gt; bool:
+        &#34;&#34;&#34;`builtins.True` if this user is a system account, `builtins.False` otherwise.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def flags(self) -&gt; UserFlag:
+        &#34;&#34;&#34;Flag bits that are set for the user.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given user.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_user.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+
+    @property
+    def avatar(self) -&gt; files.URL:
+        &#34;&#34;&#34;Avatar for the user, or the default avatar if not set.&#34;&#34;&#34;
+        return self.format_avatar() or self.default_avatar
+
+    # noinspection PyShadowingBuiltins
+    def format_avatar(self, *, format: typing.Optional[str] = None, size: int = 4096) -&gt; typing.Optional[files.URL]:
+        &#34;&#34;&#34;Generate the avatar for this user, if set.
+
+        If no custom avatar is set, this returns `builtins.None`. You can then
+        use the `default_avatar_url` attribute instead to fetch the displayed
+        URL.
+
+        Parameters
+        ----------
+        format : builtins.str or builtins.None
+            The format to use for this URL, defaults to `png` or `gif`.
+            Supports `png`, `jpeg`, `jpg`, `webp` and `gif` (when
+            animated). Will be ignored for default avatars which can only be
+            `png`.
+
+            If `builtins.None`, then the correct default format is determined
+            based on whether the icon is animated or not.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+            Will be ignored for default avatars.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL to the avatar, or `builtins.None` if not present.
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two or not between 16 and 4096.
+        &#34;&#34;&#34;
+        if self.avatar_hash is None:
+            return None
+
+        if format is None:
+            if self.avatar_hash.startswith(&#34;a_&#34;):
+                # Ignore the fact this shadows `format`, as it is the parameter
+                # name, which shadows it anyway.
+                format = &#34;gif&#34;  # noqa: A001 shadowing builtin
+            else:
+                format = &#34;png&#34;  # noqa: A001 shadowing builtin
+
+        return routes.CDN_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+        )
+
+    @property
+    def default_avatar(self) -&gt; files.URL:  # noqa: D401 imperative mood check
+        &#34;&#34;&#34;Placeholder default avatar for the user if no avatar is set.&#34;&#34;&#34;
+        return routes.CDN_DEFAULT_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, discriminator=int(self.discriminator) % 5, file_format=&#34;png&#34;,
+        )</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Member -- Used to represent a guild bound member." href="guilds.html#hikari.models.guilds.Member"
+class='dotted'>Member</a></dt>
+<dd class="nested"><p>Used to represent a guild bound member.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="User -- Interface for any user-like object …" href="#hikari.models.users.User"
+class='dotted'>User</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PartialUser -- A partial interface for a user …" href="#hikari.models.users.PartialUser"
+class='dotted'>PartialUser</a></dt>
+<dd class="nested"><p>A partial interface for a user …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.users.User.format_avatar" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_avatar(
+    *,
+    format: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p>Generate the avatar for this user, if set.</p>
+<p>If no custom avatar is set, this returns <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>. You can then
+use the <code>default_avatar_url</code> attribute instead to fetch the displayed
+URL.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The format to use for this URL, defaults to <code>png</code> or <code>gif</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>webp</code> and <code>gif</code> (when
+animated). Will be ignored for default avatars which can only be
+<code>png</code>.</p>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then the correct default format is determined
+based on whether the icon is animated or not.</p>
+</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.
+Will be ignored for default avatars.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL to the avatar, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if not present.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two or not between 16 and 4096.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L244-L289" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def format_avatar(self, *, format: typing.Optional[str] = None, size: int = 4096) -&gt; typing.Optional[files.URL]:
+    &#34;&#34;&#34;Generate the avatar for this user, if set.
+
+    If no custom avatar is set, this returns `builtins.None`. You can then
+    use the `default_avatar_url` attribute instead to fetch the displayed
+    URL.
+
+    Parameters
+    ----------
+    format : builtins.str or builtins.None
+        The format to use for this URL, defaults to `png` or `gif`.
+        Supports `png`, `jpeg`, `jpg`, `webp` and `gif` (when
+        animated). Will be ignored for default avatars which can only be
+        `png`.
+
+        If `builtins.None`, then the correct default format is determined
+        based on whether the icon is animated or not.
+    size : builtins.int
+        The size to set for the URL, defaults to `4096`.
+        Can be any power of two between 16 and 4096.
+        Will be ignored for default avatars.
+
+    Returns
+    -------
+    hikari.utilities.files.URL or builtins.None
+        The URL to the avatar, or `builtins.None` if not present.
+
+    Raises
+    ------
+    builtins.ValueError
+        If `size` is not a power of two or not between 16 and 4096.
+    &#34;&#34;&#34;
+    if self.avatar_hash is None:
+        return None
+
+    if format is None:
+        if self.avatar_hash.startswith(&#34;a_&#34;):
+            # Ignore the fact this shadows `format`, as it is the parameter
+            # name, which shadows it anyway.
+            format = &#34;gif&#34;  # noqa: A001 shadowing builtin
+        else:
+            format = &#34;png&#34;  # noqa: A001 shadowing builtin
+
+    return routes.CDN_USER_AVATAR.compile_to_file(
+        constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- Client application that models may use for procedures." href="#hikari.models.users.User.app" id="hikari.models.users.User.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a></code></pre>
+</dt>
+<dd><p>Client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- Avatar for the user, or the default avatar if not set." href="#hikari.models.users.User.avatar" id="hikari.models.users.User.avatar" class='dotted'>avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>Avatar for the user, or the default avatar if not set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- Avatar hash for the user, if they have one, otherwise `builtins.None`." href="#hikari.models.users.User.avatar_hash" id="hikari.models.users.User.avatar_hash" class='dotted'>avatar_hash</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>Avatar hash for the user, if they have one, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.users.User.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- Placeholder default avatar for the user if no avatar is set." href="#hikari.models.users.User.default_avatar" id="hikari.models.users.User.default_avatar" class='dotted'>default_avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>Placeholder default avatar for the user if no avatar is set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="discriminator -- Discriminator for the user." href="#hikari.models.users.User.discriminator" id="hikari.models.users.User.discriminator" class='dotted'>discriminator</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Discriminator for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flag bits that are set for the user." href="#hikari.models.users.User.flags" id="hikari.models.users.User.flags" class='dotted'>flags</a> : <a href='#hikari.models.users.UserFlag'>UserFlag</a></code></pre>
+</dt>
+<dd><p>Flag bits that are set for the user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the ID of this entity …" href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.id" id="hikari.models.users.User.id" class='dotted'>id</a> : <a href='#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></pre>
+</dt>
+<dd><p>Return the ID of this entity.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Snowflake</code></dt>
+<dd>The snowflake ID of this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_bot -- `builtins.True` if this user is a bot account, `builtins.False` otherwise." href="#hikari.models.users.User.is_bot" id="hikari.models.users.User.is_bot" class='dotted'>is_bot</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a bot account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_system -- `builtins.True` if this user is a system account, `builtins.False` otherwise." href="#hikari.models.users.User.is_system" id="hikari.models.users.User.is_system" class='dotted'>is_system</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if this user is a system account, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given user …" href="#hikari.models.users.User.mention" id="hikari.models.users.User.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Return a raw mention string for the given user.</p>
+<h2 id="example">Example</h2>
+<pre><code class="py">&gt;&gt;&gt; some_user.mention
+'&lt;@123456789123456789&gt;'
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The mention string to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="username -- Username for the user." href="#hikari.models.users.User.username" id="hikari.models.users.User.username" class='dotted'>username</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Username for the user.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="UserFlag -- The known user flags that represent account badges …" href="#hikari.models.users.UserFlag"
+class='dotted'>UserFlag</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.users.UserFlag" class="hljs python"><abbr title='A standard Python type.'>class</abbr> UserFlag (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The known user flags that represent account badges.</p>
+<p>This flag type has several additional operations that can be used
+compared to normal enum types. These are applied to instances of
+this enum directly, or can be used as a class method by passing the
+flag as the first parameter.</p>
+<ul>
+<li><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> split() -&gt; <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.users.UserFlag'>UserFlag</a>]: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Will split the combined flag up into individual atomic flags and
+return them in a <code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a></code>.</li>
+</ul>
+<pre><code class="py">&gt;&gt;&gt; (FOO | BAR | BAZ).split()
+[FOO, BAR, BAZ]
+</code></pre>
+<ul>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_any(*flags: <a href='#hikari.models.users.UserFlag'>UserFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if any of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_all(*flags: <a href='#hikari.models.users.UserFlag'>UserFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if all of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_none(*flags: <a href='#hikari.models.users.UserFlag'>UserFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if none of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+</ul>
+<p>In addition, new operators are overloaded. <code>+</code> will combine flags
+in the same way <code>|</code> would usually, and <code>-</code> will remove specific
+flags from this instance. This is equivalent to using the <code>&amp;</code> operator.</p>
+<p>Finally, combined flag types can be iterated across as if they
+were a collection.</p>
+<pre><code class="py">&gt;&gt;&gt; for f in FOO | BAR | BAZ:
+...     print(f)
+FOO
+BAR
+BAZ
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/users.py#L48-L91" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class UserFlag(flag.Flag):
+    &#34;&#34;&#34;The known user flags that represent account badges.&#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;None&#34;&#34;&#34;
+
+    DISCORD_EMPLOYEE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Discord Employee&#34;&#34;&#34;
+
+    DISCORD_PARTNER = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Discord Partner&#34;&#34;&#34;
+
+    HYPESQUAD_EVENTS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;HypeSquad Events&#34;&#34;&#34;
+
+    BUG_HUNTER_LEVEL_1 = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Bug Hunter Level 1&#34;&#34;&#34;
+
+    HOUSE_BRAVERY = 1 &lt;&lt; 6
+    &#34;&#34;&#34;House of Bravery&#34;&#34;&#34;
+
+    HOUSE_BRILLIANCE = 1 &lt;&lt; 7
+    &#34;&#34;&#34;House of Brilliance&#34;&#34;&#34;
+
+    HOUSE_BALANCE = 1 &lt;&lt; 8
+    &#34;&#34;&#34;House of Balance&#34;&#34;&#34;
+
+    EARLY_SUPPORTER = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Early Supporter&#34;&#34;&#34;
+
+    TEAM_USER = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Team user&#34;&#34;&#34;
+
+    SYSTEM = 1 &lt;&lt; 12
+    &#34;&#34;&#34;System&#34;&#34;&#34;
+
+    BUG_HUNTER_LEVEL_2 = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Bug Hunter Level 2&#34;&#34;&#34;
+
+    VERIFIED_BOT = 1 &lt;&lt; 16
+    &#34;&#34;&#34;Verified Bot&#34;&#34;&#34;
+
+    VERIFIED_BOT_DEVELOPER = 1 &lt;&lt; 17
+    &#34;&#34;&#34;Verified Bot Developer&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="UserFlag -- The known user flags that represent account badges …" href="#hikari.models.users.UserFlag"
+class='dotted'>UserFlag</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="../utilities/flag.html#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></dt>
+<dd class="nested"><p>Base type for an enum integer flag in Hikari …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntFlag -- Support for integer-based Flags" href="https://docs.python.org/3/library/enum.html#enum.IntFlag"
+class='dotted'>enum.IntFlag</a></dt>
+<dd class="nested"><p>Support for integer-based Flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Flag -- Support for flags" href="https://docs.python.org/3/library/enum.html#enum.Flag"
+class='dotted'>enum.Flag</a></dt>
+<dd class="nested"><p>Support for flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BUG_HUNTER_LEVEL_1 -- Bug Hunter Level 1" href="#hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_1" id="hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_1" class='dotted'>BUG_HUNTER_LEVEL_1</a> = BUG_HUNTER_LEVEL_1</code></pre>
+</dt>
+<dd><p>Bug Hunter Level 1</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BUG_HUNTER_LEVEL_2 -- Bug Hunter Level 2" href="#hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_2" id="hikari.models.users.UserFlag.BUG_HUNTER_LEVEL_2" class='dotted'>BUG_HUNTER_LEVEL_2</a> = BUG_HUNTER_LEVEL_2</code></pre>
+</dt>
+<dd><p>Bug Hunter Level 2</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISCORD_EMPLOYEE -- Discord Employee" href="#hikari.models.users.UserFlag.DISCORD_EMPLOYEE" id="hikari.models.users.UserFlag.DISCORD_EMPLOYEE" class='dotted'>DISCORD_EMPLOYEE</a> = DISCORD_EMPLOYEE</code></pre>
+</dt>
+<dd><p>Discord Employee</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DISCORD_PARTNER -- Discord Partner" href="#hikari.models.users.UserFlag.DISCORD_PARTNER" id="hikari.models.users.UserFlag.DISCORD_PARTNER" class='dotted'>DISCORD_PARTNER</a> = DISCORD_PARTNER</code></pre>
+</dt>
+<dd><p>Discord Partner</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EARLY_SUPPORTER -- Early Supporter" href="#hikari.models.users.UserFlag.EARLY_SUPPORTER" id="hikari.models.users.UserFlag.EARLY_SUPPORTER" class='dotted'>EARLY_SUPPORTER</a> = EARLY_SUPPORTER</code></pre>
+</dt>
+<dd><p>Early Supporter</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BALANCE -- House of Balance" href="#hikari.models.users.UserFlag.HOUSE_BALANCE" id="hikari.models.users.UserFlag.HOUSE_BALANCE" class='dotted'>HOUSE_BALANCE</a> = HOUSE_BALANCE</code></pre>
+</dt>
+<dd><p>House of Balance</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BRAVERY -- House of Bravery" href="#hikari.models.users.UserFlag.HOUSE_BRAVERY" id="hikari.models.users.UserFlag.HOUSE_BRAVERY" class='dotted'>HOUSE_BRAVERY</a> = HOUSE_BRAVERY</code></pre>
+</dt>
+<dd><p>House of Bravery</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HOUSE_BRILLIANCE -- House of Brilliance" href="#hikari.models.users.UserFlag.HOUSE_BRILLIANCE" id="hikari.models.users.UserFlag.HOUSE_BRILLIANCE" class='dotted'>HOUSE_BRILLIANCE</a> = HOUSE_BRILLIANCE</code></pre>
+</dt>
+<dd><p>House of Brilliance</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="HYPESQUAD_EVENTS -- HypeSquad Events" href="#hikari.models.users.UserFlag.HYPESQUAD_EVENTS" id="hikari.models.users.UserFlag.HYPESQUAD_EVENTS" class='dotted'>HYPESQUAD_EVENTS</a> = HYPESQUAD_EVENTS</code></pre>
+</dt>
+<dd><p>HypeSquad Events</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- None" href="#hikari.models.users.UserFlag.NONE" id="hikari.models.users.UserFlag.NONE" class='dotted'>NONE</a> = NONE</code></pre>
+</dt>
+<dd><p>None</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYSTEM -- System" href="#hikari.models.users.UserFlag.SYSTEM" id="hikari.models.users.UserFlag.SYSTEM" class='dotted'>SYSTEM</a> = SYSTEM</code></pre>
+</dt>
+<dd><p>System</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TEAM_USER -- Team user" href="#hikari.models.users.UserFlag.TEAM_USER" id="hikari.models.users.UserFlag.TEAM_USER" class='dotted'>TEAM_USER</a> = TEAM_USER</code></pre>
+</dt>
+<dd><p>Team user</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFIED_BOT -- Verified Bot" href="#hikari.models.users.UserFlag.VERIFIED_BOT" id="hikari.models.users.UserFlag.VERIFIED_BOT" class='dotted'>VERIFIED_BOT</a> = VERIFIED_BOT</code></pre>
+</dt>
+<dd><p>Verified Bot</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VERIFIED_BOT_DEVELOPER -- Verified Bot Developer" href="#hikari.models.users.UserFlag.VERIFIED_BOT_DEVELOPER" id="hikari.models.users.UserFlag.VERIFIED_BOT_DEVELOPER" class='dotted'>VERIFIED_BOT_DEVELOPER</a> = VERIFIED_BOT_DEVELOPER</code></pre>
+</dt>
+<dd><p>Verified Bot Developer</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

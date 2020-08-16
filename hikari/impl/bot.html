@@ -1,0 +1,3321 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.impl.bot API documentation</title>
+<meta name="description" content="Basic implementation the components for a single-process bot." />
+<meta property="og:title" content="hikari.impl.bot module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.impl.bot">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.impl -- Basic implementations of application components …" href="index.html"
+class='dotted'>impl</a></li>
+<li class="breadcrumb-item active"><a href="#">bot</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Basic implementation the components for a single-process bot.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="#hikari.impl.bot.BotApp"
+class='sidebar-nav-pill'>BotApp</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.impl.bot.BotApp.cache"
+class='sidebar-nav-pill'>cache</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.impl.bot.BotApp.chunker"
+class='sidebar-nav-pill'>chunker</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="close -- Request that all shards disconnect and the application shuts down …" href="#hikari.impl.bot.BotApp.close"
+class='sidebar-nav-pill'>close</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="dispatch -- Dispatch an event …" href="#hikari.impl.bot.BotApp.dispatch"
+class='sidebar-nav-pill'>dispatch</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.impl.bot.BotApp.dispatcher"
+class='sidebar-nav-pill'>dispatcher</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.impl.bot.BotApp.entity_factory"
+class='sidebar-nav-pill'>entity_factory</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.impl.bot.BotApp.event_factory"
+class='sidebar-nav-pill'>event_factory</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.impl.bot.BotApp.executor"
+class='sidebar-nav-pill'>executor</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="get_listeners -- Get the listeners for a given event type, if there are any …" href="#hikari.impl.bot.BotApp.get_listeners"
+class='sidebar-nav-pill'>get_listeners</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.impl.bot.BotApp.heartbeat_latencies"
+class='sidebar-nav-pill'>heartbeat_latencies</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.impl.bot.BotApp.heartbeat_latency"
+class='sidebar-nav-pill'>heartbeat_latency</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.impl.bot.BotApp.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.impl.bot.BotApp.intents"
+class='sidebar-nav-pill'>intents</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_debug_enabled -- Return `builtins.True` if debugging is enabled …" href="#hikari.impl.bot.BotApp.is_debug_enabled"
+class='sidebar-nav-pill'>is_debug_enabled</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="join -- Wait for the application to finish running …" href="#hikari.impl.bot.BotApp.join"
+class='sidebar-nav-pill'>join</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="listen -- Generate a decorator to subscribe a callback to an event type …" href="#hikari.impl.bot.BotApp.listen"
+class='sidebar-nav-pill'>listen</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.impl.bot.BotApp.me"
+class='sidebar-nav-pill'>me</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.impl.bot.BotApp.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.impl.bot.BotApp.rest"
+class='sidebar-nav-pill'>rest</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="run -- Run this application on the current thread in an event loop …" href="#hikari.impl.bot.BotApp.run"
+class='sidebar-nav-pill'>run</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.impl.bot.BotApp.shard_count"
+class='sidebar-nav-pill'>shard_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.impl.bot.BotApp.shards"
+class='sidebar-nav-pill'>shards</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="start -- Determine sharding settings if needed, and start all shards …" href="#hikari.impl.bot.BotApp.start"
+class='sidebar-nav-pill'>start</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="started_at -- Return the datetime when the bot first connected …" href="#hikari.impl.bot.BotApp.started_at"
+class='sidebar-nav-pill'>started_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="subscribe -- Subscribe a given callback to a given event type …" href="#hikari.impl.bot.BotApp.subscribe"
+class='sidebar-nav-pill'>subscribe</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="unsubscribe -- Unsubscribe a given callback from a given event type, if present …" href="#hikari.impl.bot.BotApp.unsubscribe"
+class='sidebar-nav-pill'>unsubscribe</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="update_presence -- Update the presence on all shards …" href="#hikari.impl.bot.BotApp.update_presence"
+class='sidebar-nav-pill'>update_presence</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uptime -- Return the number of seconds that the bot has been up …" href="#hikari.impl.bot.BotApp.uptime"
+class='sidebar-nav-pill'>uptime</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.impl.bot.BotApp.voice"
+class='sidebar-nav-pill'>voice</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="wait_for -- Wait for a given event to occur once, then return the event …" href="#hikari.impl.bot.BotApp.wait_for"
+class='sidebar-nav-pill'>wait_for</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L0-L889" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Basic implementation the components for a single-process bot.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;BotApp&#34;]
+
+import asyncio
+import contextlib
+import datetime
+import logging
+import math
+import signal
+import sys
+import time
+import typing
+import warnings
+
+from hikari import config
+from hikari import errors
+from hikari import traits
+from hikari.api import event_dispatcher
+from hikari.api import shard as gateway_shard
+from hikari.events import lifetime_events
+from hikari.impl import entity_factory as entity_factory_impl
+from hikari.impl import event_factory as event_factory_impl
+from hikari.impl import rate_limits
+from hikari.impl import rest as rest_client_impl
+from hikari.impl import shard as gateway_shard_impl
+from hikari.impl import stateful_cache as cache_impl
+from hikari.impl import stateful_event_manager
+from hikari.impl import stateful_guild_chunker as guild_chunker_impl
+from hikari.impl import stateless_cache as stateless_cache_impl
+from hikari.impl import stateless_event_manager
+from hikari.impl import stateless_guild_chunker as stateless_guild_chunker_impl
+from hikari.impl import voice
+from hikari.models import intents as intents_
+from hikari.models import presences
+from hikari.utilities import art
+from hikari.utilities import constants
+from hikari.utilities import date
+from hikari.utilities import undefined
+from hikari.utilities import version_sniffer
+
+if typing.TYPE_CHECKING:
+    import concurrent.futures
+
+    from hikari.api import cache as cache_
+    from hikari.api import chunker as guild_chunker_
+    from hikari.events import base_events
+    from hikari.impl import event_manager_base
+    from hikari.models import users
+
+_LOGGER: typing.Final[logging.Logger] = logging.getLogger(&#34;hikari&#34;)
+
+
+class BotApp(
+    traits.DispatcherAware,
+    traits.EventFactoryAware,
+    traits.RESTAware,
+    traits.ShardAware,
+    event_dispatcher.EventDispatcher,
+):
+    &#34;&#34;&#34;Implementation of an auto-sharded single-instance bot application.
+
+    Parameters
+    ----------
+    banner_package : builtins.str or builtins.None
+        The package to look for a `banner.txt` in. Will default to Hikari&#39;s
+        banner if unspecified. If you set this to `builtins.None`, then no
+        banner will be displayed.
+    debug : builtins.bool
+        Defaulting to `builtins.False`, if `builtins.True`, then each payload sent and received
+        on the gateway will be dumped to debug logs, and every HTTP API request
+        and response will also be dumped to logs. This will provide useful
+        debugging context at the cost of performance. Generally you do not
+        need to enable this.
+    gateway_version : builtins.int
+        The version of the gateway to connect to. At the time of writing,
+        only version `6` and version `7` (undocumented development release)
+        are supported. This defaults to using v6.
+    http_settings : hikari.config.HTTPSettings or builtins.None
+        The HTTP-related settings to use.
+    initial_activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
+        The initial activity to have on each shard.
+    initial_status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
+        The initial status to have on each shard.
+    initial_idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+        The initial time to show as being idle since, or `builtins.None` if not
+        idle, for each shard.
+    initial_is_afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, each shard will appear as being AFK on startup. If `builtins.False`,
+        each shard will appear as _not_ being AFK.
+    intents : hikari.models.intents.Intents or builtins.None
+        The intents to use for each shard. If `builtins.None`, then no intents
+        are passed. Note that on the version `7` gateway, this will cause an
+        immediate connection close with an error code.
+
+        The default for this is to enable all intents that do not require
+        privileges.
+
+        !!! warning
+            Enabling privileged intents without enabling the intent
+            in the Discord developer dashboard will result in shards immediately
+            being disconnected on startup and the application raising an
+            exception.
+    large_threshold : builtins.int
+        The number of members that need to be in a guild for the guild to be
+        considered large. Defaults to the maximum, which is `250`.
+    logging_level : builtins.str or builtins.int or builtins.None
+        If not `builtins.None`, then this will be the logging level set if you
+        have not enabled logging already. In this case, it should be a valid
+        `logging` level that can be passed to `logging.basicConfig`. If you have
+        already initialized logging, then this is irrelevant and this
+        parameter can be safely ignored. If you set this to `builtins.None`,
+        then no logging will initialize if you have a reason to not use any
+        logging or simply wish to initialize it in your own time instead.
+
+        !!! note
+            Initializing logging means already have a handler in the root
+            logger. This is usually achieved by calling `logging.basicConfig`
+            or adding the handler manually.
+    proxy_settings : hikari.config.ProxySettings or builtins.None
+        Settings to use for the proxy.
+    rest_version : int
+        The version of the HTTP API to connect to. At the time of writing,
+        only version `6` and version `7` (undocumented development release)
+        are supported. This defaults to v6.
+    shard_ids : typing.AbstractSet[builtins.int] or builtins.None
+        A set of every shard ID that should be created and started on startup.
+        If left to `builtins.None` along with `shard_count`, then auto-sharding
+        is used instead, which is the default.
+    shard_count : builtins.int or builtins.None
+        The number of shards in the entire application. If left to
+        `builtins.None` along with `shard_ids`, then auto-sharding is used
+        instead, which is the default.
+    stateless : builtins.bool
+        If `builtins.True`, the bot will not implement a cache, and will be
+        considered stateless. If `builtins.False`, then a cache will be used.
+
+        While the cache components are a WIP, this will default to
+        `builtins.True`. This should be expected to be changed to
+        `builtins.False` before the first non-development release is made.
+    token : builtins.str
+        The bot token to use. This should not start with a prefix such as
+        `Bot `, but instead only contain the token itself.
+
+    !!! note
+        The default parameters for `shard_ids` and `shard_count` are marked as
+        undefined. When both of these are left to the default value, the
+        application will use the Discord-provided recommendation for the number
+        of shards to start.
+
+        If only one of these two parameters are specified, expect a
+        `builtins.TypeError` to be raised.
+
+        Likewise, all shard_ids must be greater-than or equal-to `0`, and
+        less than `shard_count` to be valid. Failing to provide valid
+        values will result in a `builtins.ValueError` being raised.
+
+    !!! note
+        If all four of `initial_activity`, `initial_idle_since`,
+        `initial_is_afk`, and `initial_status` are not defined and left to their
+        default values, then the presence will not be _updated_ on startup
+        at all.
+
+    !!! note
+        To disable auto-sharding, you should explicitly specify how many shards
+        you wish to use. For non-sharded applications, this can be done by
+        passing `shard_count` as `1` in the constructor.
+
+    Raises
+    ------
+    builtins.TypeError
+        If sharding information is not specified correctly.
+    builtins.ValueError
+        If sharding information is provided, but is unfeasible or invalid.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = (
+        &#34;_cache&#34;,
+        &#34;_guild_chunker&#34;,
+        &#34;_connector_factory&#34;,
+        &#34;_debug&#34;,
+        &#34;_entity_factory&#34;,
+        &#34;_event_manager&#34;,
+        &#34;_event_factory&#34;,
+        &#34;_executor&#34;,
+        &#34;_global_ratelimit&#34;,
+        &#34;_http_settings&#34;,
+        &#34;_initial_activity&#34;,
+        &#34;_initial_idle_since&#34;,
+        &#34;_initial_is_afk&#34;,
+        &#34;_initial_status&#34;,
+        &#34;_intents&#34;,
+        &#34;_large_threshold&#34;,
+        &#34;_max_concurrency&#34;,
+        &#34;_proxy_settings&#34;,
+        &#34;_request_close_event&#34;,
+        &#34;_rest&#34;,
+        &#34;_shard_count&#34;,
+        &#34;_shard_gather_task&#34;,
+        &#34;_shard_ids&#34;,
+        &#34;_shards&#34;,
+        &#34;_started_at_monotonic&#34;,
+        &#34;_started_at_timestamp&#34;,
+        &#34;_tasks&#34;,
+        &#34;_token&#34;,
+        &#34;_version&#34;,
+        &#34;_voice&#34;,
+        &#34;_start_count&#34;,
+    )
+
+    def __init__(
+        self,
+        *,
+        banner_package: typing.Optional[str] = &#34;hikari&#34;,
+        debug: bool = False,
+        executor: typing.Optional[concurrent.futures.Executor] = None,
+        gateway_version: int = 6,
+        http_settings: typing.Optional[config.HTTPSettings] = None,
+        initial_activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        initial_idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        initial_is_afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        initial_status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+        intents: typing.Optional[intents_.Intents] = intents_.Intents.ALL_UNPRIVILEGED,
+        large_threshold: int = 250,
+        logging_level: typing.Union[str, int, None] = &#34;INFO&#34;,
+        proxy_settings: typing.Optional[config.ProxySettings] = None,
+        rest_version: int = 6,
+        rest_url: typing.Optional[str] = None,
+        shard_ids: typing.Optional[typing.AbstractSet[int]] = None,
+        shard_count: typing.Optional[int] = None,
+        stateless: bool = True,
+        token: str,
+    ) -&gt; None:
+        if undefined.count(shard_ids, shard_count) == 1:
+            raise TypeError(&#34;You must provide values for both shard_ids and shard_count, or neither.&#34;)
+
+        if logging_level is not None and not _LOGGER.hasHandlers():
+            logging.captureWarnings(True)
+            logging.basicConfig(format=art.get_default_logging_format())
+            logging.root.setLevel(logging_level)
+
+        if banner_package is not None:
+            self._dump_banner(banner_package)
+
+        self._connector_factory = rest_client_impl.BasicLazyCachedTCPConnectorFactory()
+        self._debug = debug
+        self._entity_factory = entity_factory_impl.EntityFactoryImpl(app=self)
+        self._event_factory = event_factory_impl.EventFactoryImpl(app=self)
+        self._executor = executor
+        self._global_ratelimit = rate_limits.ManualRateLimiter()
+        self._http_settings = config.HTTPSettings() if http_settings is None else http_settings
+        self._initial_activity = initial_activity
+        self._initial_idle_since = initial_idle_since
+        self._initial_is_afk = initial_is_afk
+        self._initial_status = initial_status
+        self._intents = intents
+        self._large_threshold = large_threshold
+        self._max_concurrency = 1
+        self._proxy_settings = config.ProxySettings() if proxy_settings is None else proxy_settings
+        self._request_close_event = asyncio.Event()
+        self._rest = rest_client_impl.RESTClientImpl(  # noqa: S106 - Possible hardcoded password
+            connector_factory=self._connector_factory,
+            connector_owner=False,
+            debug=debug,
+            entity_factory=self._entity_factory,
+            executor=self._executor,
+            http_settings=self._http_settings,
+            proxy_settings=self._proxy_settings,
+            token=token,
+            token_type=constants.BOT_TOKEN,  # nosec
+            rest_url=rest_url,
+            version=rest_version,
+        )
+        self._shard_count: int = shard_count if shard_count is not None else 0
+        self._shard_gather_task: typing.Optional[asyncio.Task[None]] = None
+        self._shard_ids: typing.AbstractSet[int] = set() if shard_ids is None else shard_ids
+        self._shards: typing.Dict[int, gateway_shard.GatewayShard] = {}
+        self._started_at_monotonic: typing.Optional[float] = None
+        self._started_at_timestamp: typing.Optional[datetime.datetime] = None
+        self._tasks: typing.Dict[int, asyncio.Task[typing.Any]] = {}
+        self._token = token
+        self._version = gateway_version
+        # This should always be last so that we don&#39;t get an extra error when failed to initialize
+        self._start_count: int = 0
+
+        self._cache: cache_.MutableCache
+        self._guild_chunker: guild_chunker_.GuildChunker
+        self._event_manager: event_manager_base.EventManagerBase
+
+        if stateless:
+            self._cache = stateless_cache_impl.StatelessCacheImpl()
+            self._guild_chunker = stateless_guild_chunker_impl.StatelessGuildChunkerImpl()
+            self._event_manager = stateless_event_manager.StatelessEventManagerImpl(app=self, intents=intents)
+            _LOGGER.info(&#34;this application is stateless, cache-based operations will not be available&#34;)
+        else:
+            self._cache = cache_impl.StatefulCacheImpl(app=self, intents=intents)
+            self._guild_chunker = guild_chunker_impl.StatefulGuildChunkerImpl(app=self, intents=intents)
+            self._event_manager = stateful_event_manager.StatefulEventManagerImpl(
+                app=self, cache=self._cache, intents=intents
+            )
+
+        self._voice = voice.VoiceComponentImpl(self, self._event_manager)
+
+    def __del__(self) -&gt; None:
+        # If something goes wrong while initializing the bot, `_start_count` might not be there.
+        if hasattr(self, &#34;_start_count&#34;) and self._start_count == 0:
+            # TODO: may remove this as it causes issues with tests. Provisionally implemented only.
+            warnings.warn(
+                &#34;Looks like your bot never started. Make sure you called bot.run() after you set the bot object up.&#34;,
+                category=errors.HikariWarning,
+            )
+
+    @property
+    def cache(self) -&gt; cache_.Cache:
+        # &lt;&lt;inherited docstring from traits.CacheAware&gt;&gt;
+        return self._cache
+
+    @property
+    def chunker(self) -&gt; guild_chunker_.GuildChunker:
+        # &lt;&lt;inherited docstring from traits.ChunkerAware&gt;&gt;
+        return self._guild_chunker
+
+    @property
+    def dispatcher(self) -&gt; event_dispatcher.EventDispatcher:
+        # &lt;&lt;inherited docstring from traits.DispatcherAware&gt;&gt;
+        return self._event_manager
+
+    @property
+    def entity_factory(self) -&gt; entity_factory_impl.EntityFactoryImpl:
+        # &lt;&lt;inherited docstring from traits.EntityFactoryAware&gt;&gt;
+        return self._entity_factory
+
+    @property
+    def event_factory(self) -&gt; event_factory_impl.EventFactoryImpl:
+        # &lt;&lt;inherited docstring from traits.EventFactoryAware&gt;&gt;
+        return self._event_factory
+
+    @property
+    def executor(self) -&gt; typing.Optional[concurrent.futures.Executor]:
+        # &lt;&lt;inherited docstring from traits.ExecutorAware&gt;&gt;
+        return self._executor
+
+    @property
+    def heartbeat_latencies(self) -&gt; typing.Mapping[int, float]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return {shard_id: shard.heartbeat_latency for shard_id, shard in self._shards.items()}
+
+    @property
+    def heartbeat_latency(self) -&gt; float:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        started_shards = [
+            shard.heartbeat_latency for shard in self._shards.values() if not math.isnan(shard.heartbeat_latency)
+        ]
+
+        if not started_shards:
+            return float(&#34;nan&#34;)
+
+        return sum(started_shards) / len(started_shards)
+
+    @property
+    def http_settings(self) -&gt; config.HTTPSettings:
+        # &lt;&lt;inherited docstring from traits.NetworkSettingsAware&gt;&gt;
+        return self._http_settings
+
+    @property
+    def is_debug_enabled(self) -&gt; bool:
+        &#34;&#34;&#34;Return `builtins.True` if debugging is enabled.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if debugging is enabled, `builtins.False` otherwise.
+
+        &#34;&#34;&#34;
+        return self._debug
+
+    @property
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._intents
+
+    @property
+    def me(self) -&gt; typing.Optional[users.OwnUser]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._cache.get_me()
+
+    @property
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        # &lt;&lt;inherited docstring from traits.NetworkSettingsAware&gt;&gt;
+        return self._proxy_settings
+
+    @property
+    def rest(self) -&gt; rest_client_impl.RESTClientImpl:
+        # &lt;&lt;inherited docstring from traits.RESTAware&gt;&gt;
+        return self._rest
+
+    @property
+    def shards(self) -&gt; typing.Mapping[int, gateway_shard.GatewayShard]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._shards
+
+    @property
+    def shard_count(self) -&gt; int:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._shard_count
+
+    @property
+    def voice(self) -&gt; voice.VoiceComponentImpl:
+        # &lt;&lt;inherited docstring from traits.VoiceAware&gt;&gt;
+        return self._voice
+
+    @property
+    def started_at(self) -&gt; typing.Optional[datetime.datetime]:
+        &#34;&#34;&#34;Return the datetime when the bot first connected.
+
+        Returns
+        -------
+        datetime.datetime or builtins.None
+            The datetime that the bot connected at for the first time, or
+            `builtins.None` if it has not yet connected.
+        &#34;&#34;&#34;
+        return self._started_at_timestamp
+
+    @property
+    def uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the number of seconds that the bot has been up.
+
+        This is a monotonic time. To get the physical startup date, see
+        `BotApp.started_at` instead.
+
+        Returns
+        -------
+        builtins.float
+            The number of seconds the application has been running for.
+            If not started, then this will return `0.0`.
+        &#34;&#34;&#34;
+        return date.monotonic() - self._started_at_monotonic if self._started_at_monotonic else 0.0
+
+    async def start(self) -&gt; None:
+        &#34;&#34;&#34;Determine sharding settings if needed, and start all shards.
+
+        This method will first log if any library updates are available.
+
+        The bot user info and sharding settings will be fetched from the REST
+        API. If no explicit shard count/shard IDs have been provided to the
+        constructor of this class, then the recommended shard count that
+        Discord recommends will be used instead.
+
+        The first shard will be started individually first. This ensures that
+        we do not spam IDENTIFY payloads on multiple shards in large
+        applications if the application will be unable to start.
+
+        After this, each remaining shard will be started, respecting the API&#39;s
+        max concurrency that Discord specifies.
+
+        This will return once all shards that are to be started have
+        fired their READY event. Any exceptions that are raised before this
+        will be propagated, and all existing connections will be closed again.
+
+        To wait for the bot to close indefinitely, you should call `BotApp.join`
+        immediately after this call returns, else this will attempt to
+        keep-alive in the background.
+        &#34;&#34;&#34;
+        asyncio.create_task(version_sniffer.log_available_updates(_LOGGER), name=&#34;check for hikari library updates&#34;)
+
+        self._start_count += 1
+        self._started_at_monotonic = date.monotonic()
+        self._started_at_timestamp = date.local_datetime()
+
+        if self._debug is True:
+            _LOGGER.warning(&#34;debug mode is enabled, performance may be affected&#34;)
+
+            # If possible, set the coroutine origin tracking depth to a larger value.
+            # This feature is provisional, so don&#39;t hold your breath if it doesn&#39;t
+            # exist.
+            with contextlib.suppress(AttributeError, NameError):
+                # noinspection PyUnresolvedReferences
+                sys.set_coroutine_origin_tracking_depth(40)  # type: ignore[attr-defined]
+
+            # Set debugging on the event loop.
+            asyncio.get_event_loop().set_debug(True)
+
+        self._tasks.clear()
+        self._shard_gather_task = None
+
+        await self._init()
+
+        self._request_close_event.clear()
+
+        await self.dispatch(lifetime_events.StartingEvent(app=self))
+
+        start_time = date.monotonic()
+
+        try:
+            for i, shard_ids in enumerate(self._max_concurrency_chunker()):
+                if self._request_close_event.is_set():
+                    break
+
+                if i &gt; 0:
+                    _LOGGER.info(&#34;backing off for 5 seconds&#34;)
+                    completed, _ = await asyncio.wait(
+                        self._tasks.values(), timeout=5, return_when=asyncio.FIRST_COMPLETED
+                    )
+
+                    while completed:
+                        if (ex := completed.pop().exception()) is not None:
+                            raise ex
+
+                window = {}
+                for shard_id in shard_ids:
+                    shard_obj = self._shards[shard_id]
+                    window[shard_id] = asyncio.create_task(shard_obj.start(), name=f&#34;start gateway shard {shard_id}&#34;)
+
+                # Wait for the group to start.
+                await asyncio.gather(*window.values())
+
+                # Store the keep-alive tasks and continue.
+                for shard_id, start_task in window.items():
+                    self._tasks[shard_id] = start_task.result()
+
+        finally:
+            if len(self._tasks) != len(self._shards):
+                _LOGGER.warning(
+                    &#34;application aborted midway through initialization, will begin shutting down %s shard(s)&#34;,
+                    len(self._tasks),
+                )
+                await self._abort_shards()
+
+                # We know an error occurred if this condition is met, so re-raise it.
+                raise
+
+            finish_time = date.monotonic()
+            self._shard_gather_task = asyncio.create_task(
+                self._gather_shard_lifecycles(), name=f&#34;zookeeper for {len(self._shards)} shard(s)&#34;
+            )
+
+            # Don&#39;t bother logging this if we are single sharded. It is useless information.
+            if len(self._shard_ids) &gt; 1:
+                _LOGGER.info(&#34;started %s shard(s) in approx %.2fs&#34;, len(self._shards), finish_time - start_time)
+
+            await self.dispatch(lifetime_events.StartedEvent(app=self))
+
+    def listen(
+        self, event_type: typing.Optional[typing.Type[event_dispatcher.EventT_co]] = None,
+    ) -&gt; typing.Callable[
+        [event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]],
+        event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.listen(event_type)
+
+    def get_listeners(
+        self, event_type: typing.Type[event_dispatcher.EventT_co], *, polymorphic: bool = True,
+    ) -&gt; typing.Collection[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.get_listeners(event_type, polymorphic=polymorphic)
+
+    def subscribe(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ) -&gt; event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.subscribe(event_type, callback)
+
+    def unsubscribe(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ) -&gt; None:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.unsubscribe(event_type, callback)
+
+    async def wait_for(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        predicate: typing.Optional[event_dispatcher.PredicateT[event_dispatcher.EventT_co]] = None,
+    ) -&gt; event_dispatcher.EventT_co:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return await self.dispatcher.wait_for(event_type, predicate=predicate, timeout=timeout)
+
+    def dispatch(self, event: base_events.Event) -&gt; asyncio.Future[typing.Any]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.dispatch(event)
+
+    async def close(self) -&gt; None:
+        &#34;&#34;&#34;Request that all shards disconnect and the application shuts down.
+
+        This will close all shards that are running, and then close any
+        REST components and connectors.
+        &#34;&#34;&#34;
+        self._guild_chunker.close()
+
+        try:
+            if self._tasks:
+                # This way if we cancel the stopping task, we still shut down properly.
+                self._request_close_event.set()
+
+                _LOGGER.info(&#34;stopping %s shard(s)&#34;, len(self._tasks))
+
+                try:
+                    await self.dispatch(lifetime_events.StoppingEvent(app=self))
+                    await self._abort_shards()
+                finally:
+                    self._tasks.clear()
+                    await self.dispatch(lifetime_events.StoppedEvent(app=self))
+        finally:
+            await self._rest.close()
+            await self._connector_factory.close()
+            self._global_ratelimit.close()
+
+    def run(self, *, close_loop: bool = True) -&gt; None:
+        &#34;&#34;&#34;Run this application on the current thread in an event loop.
+
+        This will use the event loop that is set for the current thread, or
+        it will create one if it does not already exist.
+
+        This call will **block** the current thread until the application
+        has closed. Additionally, it will hook into any OS signals to
+        detect external interrupts to request the process terminates.
+
+        All hooks will be removed again on shutdown. Any fatal exceptions
+        that may have occurred during the startup or execution of the
+        application will be propagated.
+
+        The application is always guaranteed to be shut down before this
+        function completes or propagates any exception.
+
+        Parameters
+        ----------
+        close_loop : builtins.bool
+            If `builtins.True` (per the default), then the event loop will
+            be explicitly closed once the application has closed. If
+            `builtins.False`, this behaviour will not occur.
+
+            Setting this to `builtins.False` may be desirable if you wish
+            to continue using the event loop after the application has closed.
+        &#34;&#34;&#34;
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            _LOGGER.debug(&#34;no event loop registered on this thread; now creating one...&#34;)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            self._map_signal_handlers(
+                loop.add_signal_handler,
+                lambda *_: loop.create_task(self.close(), name=&#34;signal interrupt shutting down application&#34;),
+            )
+            loop.run_until_complete(self._shard_management_lifecycle())
+
+        except KeyboardInterrupt as ex:
+            _LOGGER.info(&#34;received signal to shut down client&#34;)
+            if self._debug:
+                raise
+            # The user will not care where this gets raised from, unless we are
+            # debugging. It just causes a lot of confusing spam.
+            raise ex.with_traceback(None) from None
+
+        finally:
+            self._map_signal_handlers(loop.remove_signal_handler)
+            _LOGGER.info(&#34;client has shut down&#34;)
+
+            if close_loop and not loop.is_closed():
+                _LOGGER.info(&#34;closing event loop&#34;)
+                loop.close()
+
+    async def join(self) -&gt; None:
+        &#34;&#34;&#34;Wait for the application to finish running.
+
+        If the application has not started, then calling this will return
+        immediately.
+
+        Any exceptions that are raised by the application that go unhandled
+        will be propagated.
+        &#34;&#34;&#34;
+        if self._shard_gather_task is not None:
+            await self._shard_gather_task
+
+    async def update_presence(
+        self,
+        *,
+        status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the presence on all shards.
+
+        This call will patch the presence on each shard. This means that
+        unless you explicitly specify a parameter, the previous value will be
+        retained. This means you do not have to track the global presence
+        in your code.
+
+        Parameters
+        ----------
+        status : hikari.utilities.undefined.UndefinedOr[hikari.models.presences.Status]
+            The status to set all shards to. If undefined, no statuses are
+            changed.
+        activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.presences.Activity]
+            The activity to set. May be `builtins.None` if the activity should
+            be cleared. If undefined, no activities are changed.
+        idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+            The datetime to appear to be idle since. If `builtins.None`, then
+            this is not sent (this does not need to be specified to set the
+            bot&#39;s status to idle). If undefined, the idle timestamp is not
+            changed.
+        afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, then the bot is marked as being AFK. If
+            `builtins.False`, the bot is marked as not being AFK. If
+            unspecified, this is not changed.
+
+        !!! note
+            This will only send the update payloads to shards that are alive.
+            Any shards that are not alive will cache the new presence for
+            when they do start.
+
+        !!! note
+            If you want to set presences per shard, access the shard you wish
+            to update (e.g. by using `BotApp.shards`), and call
+            `hikari.api.shard.IGatewayShard.update_presence` on that shard.
+
+            This method is simply a facade to make performing this in bulk
+            simpler.
+        &#34;&#34;&#34;
+        coros = [
+            s.update_presence(status=status, activity=activity, idle_since=idle_since, afk=afk)
+            for s in self._shards.values()
+        ]
+
+        await asyncio.gather(*coros)
+
+    async def _init(self) -&gt; None:
+        gw_recs, bot_user = await asyncio.gather(self.rest.fetch_gateway_bot(), self.rest.fetch_my_user())
+
+        self._cache.set_me(bot_user)
+
+        self._shard_count = self._shard_count if self._shard_count else gw_recs.shard_count
+        self._shard_ids = self._shard_ids if self._shard_ids else set(range(self._shard_count))
+        self._max_concurrency = gw_recs.session_start_limit.max_concurrency
+        url = gw_recs.url
+
+        reset_at = gw_recs.session_start_limit.reset_at.strftime(&#34;%d/%m/%y %H:%M:%S %Z&#34;).rstrip()
+
+        shard_clients: typing.Dict[int, gateway_shard.GatewayShard] = {}
+        for shard_id in self._shard_ids:
+            # TODO: allow custom connector factory?
+            shard = gateway_shard_impl.GatewayShardImpl(
+                compression=gateway_shard.GatewayCompression.PAYLOAD_ZLIB_STREAM,
+                data_format=gateway_shard.GatewayDataFormat.JSON,
+                debug=self._debug,
+                event_consumer=self._event_manager.consume_raw_event,
+                http_settings=self._http_settings,
+                initial_activity=self._initial_activity,
+                initial_idle_since=self._initial_idle_since,
+                initial_is_afk=self._initial_is_afk,
+                initial_status=self._initial_status,
+                intents=self._intents,
+                large_threshold=self._large_threshold,
+                proxy_settings=self._proxy_settings,
+                shard_id=shard_id,
+                shard_count=self._shard_count,
+                token=self._token,
+                url=url,
+                version=self._version,
+            )
+            shard_clients[shard_id] = shard
+
+        self._shards = shard_clients
+
+        if len(self._shard_ids) == 1 and self._shard_ids == {0}:
+            _LOGGER.info(
+                &#34;single-sharded configuration -- you have started %s/%s sessions prior to connecting (resets at %s)&#34;,
+                gw_recs.session_start_limit.used,
+                gw_recs.session_start_limit.total,
+                reset_at,
+            )
+        else:
+            _LOGGER.info(
+                &#34;will connect %s/%s shards with a max concurrency of %s -- &#34;
+                &#34;you have started %s/%s sessions prior to connecting (resets at %s)&#34;,
+                len(self._shard_ids),
+                self._shard_count,
+                self._max_concurrency,
+                gw_recs.session_start_limit.used,
+                gw_recs.session_start_limit.total,
+                reset_at,
+            )
+
+    def _max_concurrency_chunker(self) -&gt; typing.Iterator[typing.Iterator[int]]:
+        &#34;&#34;&#34;Yield generators of shard IDs.
+
+        Each yielded generator will yield every shard ID that can be started
+        at the same time.
+
+        You should then wait 5 seconds between each window.
+
+        The first window will always contain a single shard.
+        The reasoning behind this is to ensure we are able to successfully
+        connect on one shard before spamming the gateway with failed
+        connections on large applications, as this can exhaust the daily
+        identify limit.
+        &#34;&#34;&#34;
+        n = 0
+        is_first = True
+
+        while n &lt; self._shard_count:
+            next_window = [i for i in range(n, n + self._max_concurrency) if i in self._shard_ids]
+            # Don&#39;t yield anything if no IDs are in the given window.
+            if next_window:
+                if is_first:
+                    is_first = False
+                    first, next_window = next_window[0], next_window[1:]
+                    yield iter((first,))
+
+                yield iter(next_window)
+            n += self._max_concurrency
+
+    async def _abort_shards(self) -&gt; None:
+        &#34;&#34;&#34;Close all shards and wait for them to terminate.&#34;&#34;&#34;
+        for shard_id in self._tasks:
+            if self._shards[shard_id].is_alive:
+                _LOGGER.debug(&#34;stopping shard %s&#34;, shard_id)
+                await self._shards[shard_id].close()
+        await asyncio.gather(*self._tasks.values(), return_exceptions=True)
+
+    async def _gather_shard_lifecycles(self) -&gt; None:
+        &#34;&#34;&#34;Await all shards.
+
+        Ensure shards are requested to close before the coroutine function
+        completes.
+        &#34;&#34;&#34;
+        try:
+            _LOGGER.debug(&#34;gathering shards&#34;)
+            await asyncio.gather(*self._tasks.values())
+        finally:
+            _LOGGER.debug(&#34;gather terminated, shutting down shard(s)&#34;)
+            await asyncio.shield(self.close())
+
+    async def _shard_management_lifecycle(self) -&gt; None:
+        &#34;&#34;&#34;Start all shards and then wait for them to finish.&#34;&#34;&#34;
+        await self.start()
+        await self.join()
+
+    @staticmethod
+    def _map_signal_handlers(
+        mapping_function: typing.Callable[..., None], *args: typing.Callable[[], typing.Any]
+    ) -&gt; None:
+        &#34;&#34;&#34;Register/deregister a given signal handler to all signals.&#34;&#34;&#34;
+        valid_interrupts = signal.valid_signals()
+        # We must getattr on these, or we risk an exception occurring on Windows.
+        for interrupt_name in (&#34;SIGQUIT&#34;, &#34;SIGTERM&#34;):
+            interrupt = getattr(signal, interrupt_name, None)
+            if interrupt in valid_interrupts:
+                with contextlib.suppress(NotImplementedError):
+                    mapping_function(interrupt, *args)
+
+    @staticmethod
+    def _dump_banner(banner_package: str) -&gt; None:
+        &#34;&#34;&#34;Dump the banner art and wait for it to flush before continuing.&#34;&#34;&#34;
+        sys.stdout.write(art.get_banner(banner_package) + &#34;\n&#34;)
+        sys.stdout.flush()
+        # Give the TTY time to flush properly.
+        time.sleep(0.05)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.impl.bot.BotApp" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BotApp (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Implementation of an auto-sharded single-instance bot application.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>banner_package</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The package to look for a <code>banner.txt</code> in. Will default to Hikari's
+banner if unspecified. If you set this to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then no
+banner will be displayed.</dd>
+<dt><strong><code>debug</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Defaulting to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, if <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then each payload sent and received
+on the gateway will be dumped to debug logs, and every HTTP API request
+and response will also be dumped to logs. This will provide useful
+debugging context at the cost of performance. Generally you do not
+need to enable this.</dd>
+<dt><strong><code>gateway_version</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The version of the gateway to connect to. At the time of writing,
+only version <code>6</code> and version <code>7</code> (undocumented development release)
+are supported. This defaults to using v6.</dd>
+<dt><strong><code>http_settings</code></strong> :&ensp;<code><a href='../config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The HTTP-related settings to use.</dd>
+<dt><strong><code>initial_activity</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='../models/index.html'>hikari.models.include_presences.Activity</a>]</code></dt>
+<dd>The initial activity to have on each shard.</dd>
+<dt><strong><code>initial_status</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/index.html'>hikari.models.include_presences.Status</a>]</code></dt>
+<dd>The initial status to have on each shard.</dd>
+<dt><strong><code>initial_idle_since</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>]</code></dt>
+<dd>The initial time to show as being idle since, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if not
+idle, for each shard.</dd>
+<dt><strong><code>initial_is_afk</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, each shard will appear as being AFK on startup. If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>,
+each shard will appear as <em>not</em> being AFK.</dd>
+<dt><strong><code>intents</code></strong> :&ensp;<code><a href='../models/intents.html#hikari.models.intents.Intents'>Intents</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The intents to use for each shard. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then no intents
+are passed. Note that on the version <code>7</code> gateway, this will cause an
+immediate connection close with an error code.</p>
+<p>The default for this is to enable all intents that do not require
+privileges.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>Enabling privileged intents without enabling the intent
+in the Discord developer dashboard will result in shards immediately
+being disconnected on startup and the application raising an
+exception.</p>
+</div>
+</dd>
+<dt><strong><code>large_threshold</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The number of members that need to be in a guild for the guild to be
+considered large. Defaults to the maximum, which is <code>250</code>.</dd>
+<dt><strong><code>logging_level</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>If not <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then this will be the logging level set if you
+have not enabled logging already. In this case, it should be a valid
+<code><a href='https://docs.aiohttp.org/en/stable/logging.html'>logging</a></code> level that can be passed to <code><a href='https://docs.python.org/3/library/logging.html#logging.basicConfig'>logging.basicConfig</a></code>. If you have
+already initialized logging, then this is irrelevant and this
+parameter can be safely ignored. If you set this to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>,
+then no logging will initialize if you have a reason to not use any
+logging or simply wish to initialize it in your own time instead.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>Initializing logging means already have a handler in the root
+logger. This is usually achieved by calling <code><a href='https://docs.python.org/3/library/logging.html#logging.basicConfig'>logging.basicConfig</a></code>
+or adding the handler manually.</p>
+</div>
+</dd>
+<dt><strong><code>proxy_settings</code></strong> :&ensp;<code><a href='../config.html#hikari.config.ProxySettings'>ProxySettings</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Settings to use for the proxy.</dd>
+<dt><strong><code>rest_version</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The version of the HTTP API to connect to. At the time of writing,
+only version <code>6</code> and version <code>7</code> (undocumented development release)
+are supported. This defaults to v6.</dd>
+<dt><strong><code>shard_ids</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.AbstractSet'>AbstractSet</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>A set of every shard ID that should be created and started on startup.
+If left to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> along with <code>shard_count</code>, then auto-sharding
+is used instead, which is the default.</dd>
+<dt><strong><code>shard_count</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The number of shards in the entire application. If left to
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> along with <code>shard_ids</code>, then auto-sharding is used
+instead, which is the default.</dd>
+<dt><strong><code>stateless</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the bot will not implement a cache, and will be
+considered stateless. If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then a cache will be used.</p>
+<p>While the cache components are a WIP, this will default to
+<code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>. This should be expected to be changed to
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> before the first non-development release is made.</p>
+</dd>
+<dt><strong><code>token</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The bot token to use. This should not start with a prefix such as
+<code>Bot </code>, but instead only contain the token itself.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>The default parameters for <code>shard_ids</code> and <code>shard_count</code> are marked as
+undefined. When both of these are left to the default value, the
+application will use the Discord-provided recommendation for the number
+of shards to start.</p>
+<p>If only one of these two parameters are specified, expect a
+<code><a href='https://docs.python.org/3/library/exceptions.html#TypeError'>TypeError</a></code> to be raised.</p>
+<p>Likewise, all shard_ids must be greater-than or equal-to <code>0</code>, and
+less than <code>shard_count</code> to be valid. Failing to provide valid
+values will result in a <code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code> being raised.</p>
+</div>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>If all four of <code>initial_activity</code>, <code>initial_idle_since</code>,
+<code>initial_is_afk</code>, and <code>initial_status</code> are not defined and left to their
+default values, then the presence will not be <em>updated</em> on startup
+at all.</p>
+</div>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>To disable auto-sharding, you should explicitly specify how many shards
+you wish to use. For non-sharded applications, this can be done by
+passing <code>shard_count</code> as <code>1</code> in the constructor.</p>
+</div>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#TypeError'>TypeError</a></code></dt>
+<dd>If sharding information is not specified correctly.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If sharding information is provided, but is unfeasible or invalid.</dd>
+</dl>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L77-L890" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BotApp(
+    traits.DispatcherAware,
+    traits.EventFactoryAware,
+    traits.RESTAware,
+    traits.ShardAware,
+    event_dispatcher.EventDispatcher,
+):
+    &#34;&#34;&#34;Implementation of an auto-sharded single-instance bot application.
+
+    Parameters
+    ----------
+    banner_package : builtins.str or builtins.None
+        The package to look for a `banner.txt` in. Will default to Hikari&#39;s
+        banner if unspecified. If you set this to `builtins.None`, then no
+        banner will be displayed.
+    debug : builtins.bool
+        Defaulting to `builtins.False`, if `builtins.True`, then each payload sent and received
+        on the gateway will be dumped to debug logs, and every HTTP API request
+        and response will also be dumped to logs. This will provide useful
+        debugging context at the cost of performance. Generally you do not
+        need to enable this.
+    gateway_version : builtins.int
+        The version of the gateway to connect to. At the time of writing,
+        only version `6` and version `7` (undocumented development release)
+        are supported. This defaults to using v6.
+    http_settings : hikari.config.HTTPSettings or builtins.None
+        The HTTP-related settings to use.
+    initial_activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
+        The initial activity to have on each shard.
+    initial_status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
+        The initial status to have on each shard.
+    initial_idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+        The initial time to show as being idle since, or `builtins.None` if not
+        idle, for each shard.
+    initial_is_afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, each shard will appear as being AFK on startup. If `builtins.False`,
+        each shard will appear as _not_ being AFK.
+    intents : hikari.models.intents.Intents or builtins.None
+        The intents to use for each shard. If `builtins.None`, then no intents
+        are passed. Note that on the version `7` gateway, this will cause an
+        immediate connection close with an error code.
+
+        The default for this is to enable all intents that do not require
+        privileges.
+
+        !!! warning
+            Enabling privileged intents without enabling the intent
+            in the Discord developer dashboard will result in shards immediately
+            being disconnected on startup and the application raising an
+            exception.
+    large_threshold : builtins.int
+        The number of members that need to be in a guild for the guild to be
+        considered large. Defaults to the maximum, which is `250`.
+    logging_level : builtins.str or builtins.int or builtins.None
+        If not `builtins.None`, then this will be the logging level set if you
+        have not enabled logging already. In this case, it should be a valid
+        `logging` level that can be passed to `logging.basicConfig`. If you have
+        already initialized logging, then this is irrelevant and this
+        parameter can be safely ignored. If you set this to `builtins.None`,
+        then no logging will initialize if you have a reason to not use any
+        logging or simply wish to initialize it in your own time instead.
+
+        !!! note
+            Initializing logging means already have a handler in the root
+            logger. This is usually achieved by calling `logging.basicConfig`
+            or adding the handler manually.
+    proxy_settings : hikari.config.ProxySettings or builtins.None
+        Settings to use for the proxy.
+    rest_version : int
+        The version of the HTTP API to connect to. At the time of writing,
+        only version `6` and version `7` (undocumented development release)
+        are supported. This defaults to v6.
+    shard_ids : typing.AbstractSet[builtins.int] or builtins.None
+        A set of every shard ID that should be created and started on startup.
+        If left to `builtins.None` along with `shard_count`, then auto-sharding
+        is used instead, which is the default.
+    shard_count : builtins.int or builtins.None
+        The number of shards in the entire application. If left to
+        `builtins.None` along with `shard_ids`, then auto-sharding is used
+        instead, which is the default.
+    stateless : builtins.bool
+        If `builtins.True`, the bot will not implement a cache, and will be
+        considered stateless. If `builtins.False`, then a cache will be used.
+
+        While the cache components are a WIP, this will default to
+        `builtins.True`. This should be expected to be changed to
+        `builtins.False` before the first non-development release is made.
+    token : builtins.str
+        The bot token to use. This should not start with a prefix such as
+        `Bot `, but instead only contain the token itself.
+
+    !!! note
+        The default parameters for `shard_ids` and `shard_count` are marked as
+        undefined. When both of these are left to the default value, the
+        application will use the Discord-provided recommendation for the number
+        of shards to start.
+
+        If only one of these two parameters are specified, expect a
+        `builtins.TypeError` to be raised.
+
+        Likewise, all shard_ids must be greater-than or equal-to `0`, and
+        less than `shard_count` to be valid. Failing to provide valid
+        values will result in a `builtins.ValueError` being raised.
+
+    !!! note
+        If all four of `initial_activity`, `initial_idle_since`,
+        `initial_is_afk`, and `initial_status` are not defined and left to their
+        default values, then the presence will not be _updated_ on startup
+        at all.
+
+    !!! note
+        To disable auto-sharding, you should explicitly specify how many shards
+        you wish to use. For non-sharded applications, this can be done by
+        passing `shard_count` as `1` in the constructor.
+
+    Raises
+    ------
+    builtins.TypeError
+        If sharding information is not specified correctly.
+    builtins.ValueError
+        If sharding information is provided, but is unfeasible or invalid.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = (
+        &#34;_cache&#34;,
+        &#34;_guild_chunker&#34;,
+        &#34;_connector_factory&#34;,
+        &#34;_debug&#34;,
+        &#34;_entity_factory&#34;,
+        &#34;_event_manager&#34;,
+        &#34;_event_factory&#34;,
+        &#34;_executor&#34;,
+        &#34;_global_ratelimit&#34;,
+        &#34;_http_settings&#34;,
+        &#34;_initial_activity&#34;,
+        &#34;_initial_idle_since&#34;,
+        &#34;_initial_is_afk&#34;,
+        &#34;_initial_status&#34;,
+        &#34;_intents&#34;,
+        &#34;_large_threshold&#34;,
+        &#34;_max_concurrency&#34;,
+        &#34;_proxy_settings&#34;,
+        &#34;_request_close_event&#34;,
+        &#34;_rest&#34;,
+        &#34;_shard_count&#34;,
+        &#34;_shard_gather_task&#34;,
+        &#34;_shard_ids&#34;,
+        &#34;_shards&#34;,
+        &#34;_started_at_monotonic&#34;,
+        &#34;_started_at_timestamp&#34;,
+        &#34;_tasks&#34;,
+        &#34;_token&#34;,
+        &#34;_version&#34;,
+        &#34;_voice&#34;,
+        &#34;_start_count&#34;,
+    )
+
+    def __init__(
+        self,
+        *,
+        banner_package: typing.Optional[str] = &#34;hikari&#34;,
+        debug: bool = False,
+        executor: typing.Optional[concurrent.futures.Executor] = None,
+        gateway_version: int = 6,
+        http_settings: typing.Optional[config.HTTPSettings] = None,
+        initial_activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        initial_idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        initial_is_afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        initial_status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+        intents: typing.Optional[intents_.Intents] = intents_.Intents.ALL_UNPRIVILEGED,
+        large_threshold: int = 250,
+        logging_level: typing.Union[str, int, None] = &#34;INFO&#34;,
+        proxy_settings: typing.Optional[config.ProxySettings] = None,
+        rest_version: int = 6,
+        rest_url: typing.Optional[str] = None,
+        shard_ids: typing.Optional[typing.AbstractSet[int]] = None,
+        shard_count: typing.Optional[int] = None,
+        stateless: bool = True,
+        token: str,
+    ) -&gt; None:
+        if undefined.count(shard_ids, shard_count) == 1:
+            raise TypeError(&#34;You must provide values for both shard_ids and shard_count, or neither.&#34;)
+
+        if logging_level is not None and not _LOGGER.hasHandlers():
+            logging.captureWarnings(True)
+            logging.basicConfig(format=art.get_default_logging_format())
+            logging.root.setLevel(logging_level)
+
+        if banner_package is not None:
+            self._dump_banner(banner_package)
+
+        self._connector_factory = rest_client_impl.BasicLazyCachedTCPConnectorFactory()
+        self._debug = debug
+        self._entity_factory = entity_factory_impl.EntityFactoryImpl(app=self)
+        self._event_factory = event_factory_impl.EventFactoryImpl(app=self)
+        self._executor = executor
+        self._global_ratelimit = rate_limits.ManualRateLimiter()
+        self._http_settings = config.HTTPSettings() if http_settings is None else http_settings
+        self._initial_activity = initial_activity
+        self._initial_idle_since = initial_idle_since
+        self._initial_is_afk = initial_is_afk
+        self._initial_status = initial_status
+        self._intents = intents
+        self._large_threshold = large_threshold
+        self._max_concurrency = 1
+        self._proxy_settings = config.ProxySettings() if proxy_settings is None else proxy_settings
+        self._request_close_event = asyncio.Event()
+        self._rest = rest_client_impl.RESTClientImpl(  # noqa: S106 - Possible hardcoded password
+            connector_factory=self._connector_factory,
+            connector_owner=False,
+            debug=debug,
+            entity_factory=self._entity_factory,
+            executor=self._executor,
+            http_settings=self._http_settings,
+            proxy_settings=self._proxy_settings,
+            token=token,
+            token_type=constants.BOT_TOKEN,  # nosec
+            rest_url=rest_url,
+            version=rest_version,
+        )
+        self._shard_count: int = shard_count if shard_count is not None else 0
+        self._shard_gather_task: typing.Optional[asyncio.Task[None]] = None
+        self._shard_ids: typing.AbstractSet[int] = set() if shard_ids is None else shard_ids
+        self._shards: typing.Dict[int, gateway_shard.GatewayShard] = {}
+        self._started_at_monotonic: typing.Optional[float] = None
+        self._started_at_timestamp: typing.Optional[datetime.datetime] = None
+        self._tasks: typing.Dict[int, asyncio.Task[typing.Any]] = {}
+        self._token = token
+        self._version = gateway_version
+        # This should always be last so that we don&#39;t get an extra error when failed to initialize
+        self._start_count: int = 0
+
+        self._cache: cache_.MutableCache
+        self._guild_chunker: guild_chunker_.GuildChunker
+        self._event_manager: event_manager_base.EventManagerBase
+
+        if stateless:
+            self._cache = stateless_cache_impl.StatelessCacheImpl()
+            self._guild_chunker = stateless_guild_chunker_impl.StatelessGuildChunkerImpl()
+            self._event_manager = stateless_event_manager.StatelessEventManagerImpl(app=self, intents=intents)
+            _LOGGER.info(&#34;this application is stateless, cache-based operations will not be available&#34;)
+        else:
+            self._cache = cache_impl.StatefulCacheImpl(app=self, intents=intents)
+            self._guild_chunker = guild_chunker_impl.StatefulGuildChunkerImpl(app=self, intents=intents)
+            self._event_manager = stateful_event_manager.StatefulEventManagerImpl(
+                app=self, cache=self._cache, intents=intents
+            )
+
+        self._voice = voice.VoiceComponentImpl(self, self._event_manager)
+
+    def __del__(self) -&gt; None:
+        # If something goes wrong while initializing the bot, `_start_count` might not be there.
+        if hasattr(self, &#34;_start_count&#34;) and self._start_count == 0:
+            # TODO: may remove this as it causes issues with tests. Provisionally implemented only.
+            warnings.warn(
+                &#34;Looks like your bot never started. Make sure you called bot.run() after you set the bot object up.&#34;,
+                category=errors.HikariWarning,
+            )
+
+    @property
+    def cache(self) -&gt; cache_.Cache:
+        # &lt;&lt;inherited docstring from traits.CacheAware&gt;&gt;
+        return self._cache
+
+    @property
+    def chunker(self) -&gt; guild_chunker_.GuildChunker:
+        # &lt;&lt;inherited docstring from traits.ChunkerAware&gt;&gt;
+        return self._guild_chunker
+
+    @property
+    def dispatcher(self) -&gt; event_dispatcher.EventDispatcher:
+        # &lt;&lt;inherited docstring from traits.DispatcherAware&gt;&gt;
+        return self._event_manager
+
+    @property
+    def entity_factory(self) -&gt; entity_factory_impl.EntityFactoryImpl:
+        # &lt;&lt;inherited docstring from traits.EntityFactoryAware&gt;&gt;
+        return self._entity_factory
+
+    @property
+    def event_factory(self) -&gt; event_factory_impl.EventFactoryImpl:
+        # &lt;&lt;inherited docstring from traits.EventFactoryAware&gt;&gt;
+        return self._event_factory
+
+    @property
+    def executor(self) -&gt; typing.Optional[concurrent.futures.Executor]:
+        # &lt;&lt;inherited docstring from traits.ExecutorAware&gt;&gt;
+        return self._executor
+
+    @property
+    def heartbeat_latencies(self) -&gt; typing.Mapping[int, float]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return {shard_id: shard.heartbeat_latency for shard_id, shard in self._shards.items()}
+
+    @property
+    def heartbeat_latency(self) -&gt; float:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        started_shards = [
+            shard.heartbeat_latency for shard in self._shards.values() if not math.isnan(shard.heartbeat_latency)
+        ]
+
+        if not started_shards:
+            return float(&#34;nan&#34;)
+
+        return sum(started_shards) / len(started_shards)
+
+    @property
+    def http_settings(self) -&gt; config.HTTPSettings:
+        # &lt;&lt;inherited docstring from traits.NetworkSettingsAware&gt;&gt;
+        return self._http_settings
+
+    @property
+    def is_debug_enabled(self) -&gt; bool:
+        &#34;&#34;&#34;Return `builtins.True` if debugging is enabled.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if debugging is enabled, `builtins.False` otherwise.
+
+        &#34;&#34;&#34;
+        return self._debug
+
+    @property
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._intents
+
+    @property
+    def me(self) -&gt; typing.Optional[users.OwnUser]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._cache.get_me()
+
+    @property
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        # &lt;&lt;inherited docstring from traits.NetworkSettingsAware&gt;&gt;
+        return self._proxy_settings
+
+    @property
+    def rest(self) -&gt; rest_client_impl.RESTClientImpl:
+        # &lt;&lt;inherited docstring from traits.RESTAware&gt;&gt;
+        return self._rest
+
+    @property
+    def shards(self) -&gt; typing.Mapping[int, gateway_shard.GatewayShard]:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._shards
+
+    @property
+    def shard_count(self) -&gt; int:
+        # &lt;&lt;inherited docstring from traits.ShardAware&gt;&gt;
+        return self._shard_count
+
+    @property
+    def voice(self) -&gt; voice.VoiceComponentImpl:
+        # &lt;&lt;inherited docstring from traits.VoiceAware&gt;&gt;
+        return self._voice
+
+    @property
+    def started_at(self) -&gt; typing.Optional[datetime.datetime]:
+        &#34;&#34;&#34;Return the datetime when the bot first connected.
+
+        Returns
+        -------
+        datetime.datetime or builtins.None
+            The datetime that the bot connected at for the first time, or
+            `builtins.None` if it has not yet connected.
+        &#34;&#34;&#34;
+        return self._started_at_timestamp
+
+    @property
+    def uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the number of seconds that the bot has been up.
+
+        This is a monotonic time. To get the physical startup date, see
+        `BotApp.started_at` instead.
+
+        Returns
+        -------
+        builtins.float
+            The number of seconds the application has been running for.
+            If not started, then this will return `0.0`.
+        &#34;&#34;&#34;
+        return date.monotonic() - self._started_at_monotonic if self._started_at_monotonic else 0.0
+
+    async def start(self) -&gt; None:
+        &#34;&#34;&#34;Determine sharding settings if needed, and start all shards.
+
+        This method will first log if any library updates are available.
+
+        The bot user info and sharding settings will be fetched from the REST
+        API. If no explicit shard count/shard IDs have been provided to the
+        constructor of this class, then the recommended shard count that
+        Discord recommends will be used instead.
+
+        The first shard will be started individually first. This ensures that
+        we do not spam IDENTIFY payloads on multiple shards in large
+        applications if the application will be unable to start.
+
+        After this, each remaining shard will be started, respecting the API&#39;s
+        max concurrency that Discord specifies.
+
+        This will return once all shards that are to be started have
+        fired their READY event. Any exceptions that are raised before this
+        will be propagated, and all existing connections will be closed again.
+
+        To wait for the bot to close indefinitely, you should call `BotApp.join`
+        immediately after this call returns, else this will attempt to
+        keep-alive in the background.
+        &#34;&#34;&#34;
+        asyncio.create_task(version_sniffer.log_available_updates(_LOGGER), name=&#34;check for hikari library updates&#34;)
+
+        self._start_count += 1
+        self._started_at_monotonic = date.monotonic()
+        self._started_at_timestamp = date.local_datetime()
+
+        if self._debug is True:
+            _LOGGER.warning(&#34;debug mode is enabled, performance may be affected&#34;)
+
+            # If possible, set the coroutine origin tracking depth to a larger value.
+            # This feature is provisional, so don&#39;t hold your breath if it doesn&#39;t
+            # exist.
+            with contextlib.suppress(AttributeError, NameError):
+                # noinspection PyUnresolvedReferences
+                sys.set_coroutine_origin_tracking_depth(40)  # type: ignore[attr-defined]
+
+            # Set debugging on the event loop.
+            asyncio.get_event_loop().set_debug(True)
+
+        self._tasks.clear()
+        self._shard_gather_task = None
+
+        await self._init()
+
+        self._request_close_event.clear()
+
+        await self.dispatch(lifetime_events.StartingEvent(app=self))
+
+        start_time = date.monotonic()
+
+        try:
+            for i, shard_ids in enumerate(self._max_concurrency_chunker()):
+                if self._request_close_event.is_set():
+                    break
+
+                if i &gt; 0:
+                    _LOGGER.info(&#34;backing off for 5 seconds&#34;)
+                    completed, _ = await asyncio.wait(
+                        self._tasks.values(), timeout=5, return_when=asyncio.FIRST_COMPLETED
+                    )
+
+                    while completed:
+                        if (ex := completed.pop().exception()) is not None:
+                            raise ex
+
+                window = {}
+                for shard_id in shard_ids:
+                    shard_obj = self._shards[shard_id]
+                    window[shard_id] = asyncio.create_task(shard_obj.start(), name=f&#34;start gateway shard {shard_id}&#34;)
+
+                # Wait for the group to start.
+                await asyncio.gather(*window.values())
+
+                # Store the keep-alive tasks and continue.
+                for shard_id, start_task in window.items():
+                    self._tasks[shard_id] = start_task.result()
+
+        finally:
+            if len(self._tasks) != len(self._shards):
+                _LOGGER.warning(
+                    &#34;application aborted midway through initialization, will begin shutting down %s shard(s)&#34;,
+                    len(self._tasks),
+                )
+                await self._abort_shards()
+
+                # We know an error occurred if this condition is met, so re-raise it.
+                raise
+
+            finish_time = date.monotonic()
+            self._shard_gather_task = asyncio.create_task(
+                self._gather_shard_lifecycles(), name=f&#34;zookeeper for {len(self._shards)} shard(s)&#34;
+            )
+
+            # Don&#39;t bother logging this if we are single sharded. It is useless information.
+            if len(self._shard_ids) &gt; 1:
+                _LOGGER.info(&#34;started %s shard(s) in approx %.2fs&#34;, len(self._shards), finish_time - start_time)
+
+            await self.dispatch(lifetime_events.StartedEvent(app=self))
+
+    def listen(
+        self, event_type: typing.Optional[typing.Type[event_dispatcher.EventT_co]] = None,
+    ) -&gt; typing.Callable[
+        [event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]],
+        event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.listen(event_type)
+
+    def get_listeners(
+        self, event_type: typing.Type[event_dispatcher.EventT_co], *, polymorphic: bool = True,
+    ) -&gt; typing.Collection[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.get_listeners(event_type, polymorphic=polymorphic)
+
+    def subscribe(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ) -&gt; event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.subscribe(event_type, callback)
+
+    def unsubscribe(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+    ) -&gt; None:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.unsubscribe(event_type, callback)
+
+    async def wait_for(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        predicate: typing.Optional[event_dispatcher.PredicateT[event_dispatcher.EventT_co]] = None,
+    ) -&gt; event_dispatcher.EventT_co:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return await self.dispatcher.wait_for(event_type, predicate=predicate, timeout=timeout)
+
+    def dispatch(self, event: base_events.Event) -&gt; asyncio.Future[typing.Any]:
+        # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+        return self.dispatcher.dispatch(event)
+
+    async def close(self) -&gt; None:
+        &#34;&#34;&#34;Request that all shards disconnect and the application shuts down.
+
+        This will close all shards that are running, and then close any
+        REST components and connectors.
+        &#34;&#34;&#34;
+        self._guild_chunker.close()
+
+        try:
+            if self._tasks:
+                # This way if we cancel the stopping task, we still shut down properly.
+                self._request_close_event.set()
+
+                _LOGGER.info(&#34;stopping %s shard(s)&#34;, len(self._tasks))
+
+                try:
+                    await self.dispatch(lifetime_events.StoppingEvent(app=self))
+                    await self._abort_shards()
+                finally:
+                    self._tasks.clear()
+                    await self.dispatch(lifetime_events.StoppedEvent(app=self))
+        finally:
+            await self._rest.close()
+            await self._connector_factory.close()
+            self._global_ratelimit.close()
+
+    def run(self, *, close_loop: bool = True) -&gt; None:
+        &#34;&#34;&#34;Run this application on the current thread in an event loop.
+
+        This will use the event loop that is set for the current thread, or
+        it will create one if it does not already exist.
+
+        This call will **block** the current thread until the application
+        has closed. Additionally, it will hook into any OS signals to
+        detect external interrupts to request the process terminates.
+
+        All hooks will be removed again on shutdown. Any fatal exceptions
+        that may have occurred during the startup or execution of the
+        application will be propagated.
+
+        The application is always guaranteed to be shut down before this
+        function completes or propagates any exception.
+
+        Parameters
+        ----------
+        close_loop : builtins.bool
+            If `builtins.True` (per the default), then the event loop will
+            be explicitly closed once the application has closed. If
+            `builtins.False`, this behaviour will not occur.
+
+            Setting this to `builtins.False` may be desirable if you wish
+            to continue using the event loop after the application has closed.
+        &#34;&#34;&#34;
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            _LOGGER.debug(&#34;no event loop registered on this thread; now creating one...&#34;)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        try:
+            self._map_signal_handlers(
+                loop.add_signal_handler,
+                lambda *_: loop.create_task(self.close(), name=&#34;signal interrupt shutting down application&#34;),
+            )
+            loop.run_until_complete(self._shard_management_lifecycle())
+
+        except KeyboardInterrupt as ex:
+            _LOGGER.info(&#34;received signal to shut down client&#34;)
+            if self._debug:
+                raise
+            # The user will not care where this gets raised from, unless we are
+            # debugging. It just causes a lot of confusing spam.
+            raise ex.with_traceback(None) from None
+
+        finally:
+            self._map_signal_handlers(loop.remove_signal_handler)
+            _LOGGER.info(&#34;client has shut down&#34;)
+
+            if close_loop and not loop.is_closed():
+                _LOGGER.info(&#34;closing event loop&#34;)
+                loop.close()
+
+    async def join(self) -&gt; None:
+        &#34;&#34;&#34;Wait for the application to finish running.
+
+        If the application has not started, then calling this will return
+        immediately.
+
+        Any exceptions that are raised by the application that go unhandled
+        will be propagated.
+        &#34;&#34;&#34;
+        if self._shard_gather_task is not None:
+            await self._shard_gather_task
+
+    async def update_presence(
+        self,
+        *,
+        status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the presence on all shards.
+
+        This call will patch the presence on each shard. This means that
+        unless you explicitly specify a parameter, the previous value will be
+        retained. This means you do not have to track the global presence
+        in your code.
+
+        Parameters
+        ----------
+        status : hikari.utilities.undefined.UndefinedOr[hikari.models.presences.Status]
+            The status to set all shards to. If undefined, no statuses are
+            changed.
+        activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.presences.Activity]
+            The activity to set. May be `builtins.None` if the activity should
+            be cleared. If undefined, no activities are changed.
+        idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+            The datetime to appear to be idle since. If `builtins.None`, then
+            this is not sent (this does not need to be specified to set the
+            bot&#39;s status to idle). If undefined, the idle timestamp is not
+            changed.
+        afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, then the bot is marked as being AFK. If
+            `builtins.False`, the bot is marked as not being AFK. If
+            unspecified, this is not changed.
+
+        !!! note
+            This will only send the update payloads to shards that are alive.
+            Any shards that are not alive will cache the new presence for
+            when they do start.
+
+        !!! note
+            If you want to set presences per shard, access the shard you wish
+            to update (e.g. by using `BotApp.shards`), and call
+            `hikari.api.shard.IGatewayShard.update_presence` on that shard.
+
+            This method is simply a facade to make performing this in bulk
+            simpler.
+        &#34;&#34;&#34;
+        coros = [
+            s.update_presence(status=status, activity=activity, idle_since=idle_since, afk=afk)
+            for s in self._shards.values()
+        ]
+
+        await asyncio.gather(*coros)
+
+    async def _init(self) -&gt; None:
+        gw_recs, bot_user = await asyncio.gather(self.rest.fetch_gateway_bot(), self.rest.fetch_my_user())
+
+        self._cache.set_me(bot_user)
+
+        self._shard_count = self._shard_count if self._shard_count else gw_recs.shard_count
+        self._shard_ids = self._shard_ids if self._shard_ids else set(range(self._shard_count))
+        self._max_concurrency = gw_recs.session_start_limit.max_concurrency
+        url = gw_recs.url
+
+        reset_at = gw_recs.session_start_limit.reset_at.strftime(&#34;%d/%m/%y %H:%M:%S %Z&#34;).rstrip()
+
+        shard_clients: typing.Dict[int, gateway_shard.GatewayShard] = {}
+        for shard_id in self._shard_ids:
+            # TODO: allow custom connector factory?
+            shard = gateway_shard_impl.GatewayShardImpl(
+                compression=gateway_shard.GatewayCompression.PAYLOAD_ZLIB_STREAM,
+                data_format=gateway_shard.GatewayDataFormat.JSON,
+                debug=self._debug,
+                event_consumer=self._event_manager.consume_raw_event,
+                http_settings=self._http_settings,
+                initial_activity=self._initial_activity,
+                initial_idle_since=self._initial_idle_since,
+                initial_is_afk=self._initial_is_afk,
+                initial_status=self._initial_status,
+                intents=self._intents,
+                large_threshold=self._large_threshold,
+                proxy_settings=self._proxy_settings,
+                shard_id=shard_id,
+                shard_count=self._shard_count,
+                token=self._token,
+                url=url,
+                version=self._version,
+            )
+            shard_clients[shard_id] = shard
+
+        self._shards = shard_clients
+
+        if len(self._shard_ids) == 1 and self._shard_ids == {0}:
+            _LOGGER.info(
+                &#34;single-sharded configuration -- you have started %s/%s sessions prior to connecting (resets at %s)&#34;,
+                gw_recs.session_start_limit.used,
+                gw_recs.session_start_limit.total,
+                reset_at,
+            )
+        else:
+            _LOGGER.info(
+                &#34;will connect %s/%s shards with a max concurrency of %s -- &#34;
+                &#34;you have started %s/%s sessions prior to connecting (resets at %s)&#34;,
+                len(self._shard_ids),
+                self._shard_count,
+                self._max_concurrency,
+                gw_recs.session_start_limit.used,
+                gw_recs.session_start_limit.total,
+                reset_at,
+            )
+
+    def _max_concurrency_chunker(self) -&gt; typing.Iterator[typing.Iterator[int]]:
+        &#34;&#34;&#34;Yield generators of shard IDs.
+
+        Each yielded generator will yield every shard ID that can be started
+        at the same time.
+
+        You should then wait 5 seconds between each window.
+
+        The first window will always contain a single shard.
+        The reasoning behind this is to ensure we are able to successfully
+        connect on one shard before spamming the gateway with failed
+        connections on large applications, as this can exhaust the daily
+        identify limit.
+        &#34;&#34;&#34;
+        n = 0
+        is_first = True
+
+        while n &lt; self._shard_count:
+            next_window = [i for i in range(n, n + self._max_concurrency) if i in self._shard_ids]
+            # Don&#39;t yield anything if no IDs are in the given window.
+            if next_window:
+                if is_first:
+                    is_first = False
+                    first, next_window = next_window[0], next_window[1:]
+                    yield iter((first,))
+
+                yield iter(next_window)
+            n += self._max_concurrency
+
+    async def _abort_shards(self) -&gt; None:
+        &#34;&#34;&#34;Close all shards and wait for them to terminate.&#34;&#34;&#34;
+        for shard_id in self._tasks:
+            if self._shards[shard_id].is_alive:
+                _LOGGER.debug(&#34;stopping shard %s&#34;, shard_id)
+                await self._shards[shard_id].close()
+        await asyncio.gather(*self._tasks.values(), return_exceptions=True)
+
+    async def _gather_shard_lifecycles(self) -&gt; None:
+        &#34;&#34;&#34;Await all shards.
+
+        Ensure shards are requested to close before the coroutine function
+        completes.
+        &#34;&#34;&#34;
+        try:
+            _LOGGER.debug(&#34;gathering shards&#34;)
+            await asyncio.gather(*self._tasks.values())
+        finally:
+            _LOGGER.debug(&#34;gather terminated, shutting down shard(s)&#34;)
+            await asyncio.shield(self.close())
+
+    async def _shard_management_lifecycle(self) -&gt; None:
+        &#34;&#34;&#34;Start all shards and then wait for them to finish.&#34;&#34;&#34;
+        await self.start()
+        await self.join()
+
+    @staticmethod
+    def _map_signal_handlers(
+        mapping_function: typing.Callable[..., None], *args: typing.Callable[[], typing.Any]
+    ) -&gt; None:
+        &#34;&#34;&#34;Register/deregister a given signal handler to all signals.&#34;&#34;&#34;
+        valid_interrupts = signal.valid_signals()
+        # We must getattr on these, or we risk an exception occurring on Windows.
+        for interrupt_name in (&#34;SIGQUIT&#34;, &#34;SIGTERM&#34;):
+            interrupt = getattr(signal, interrupt_name, None)
+            if interrupt in valid_interrupts:
+                with contextlib.suppress(NotImplementedError):
+                    mapping_function(interrupt, *args)
+
+    @staticmethod
+    def _dump_banner(banner_package: str) -&gt; None:
+        &#34;&#34;&#34;Dump the banner art and wait for it to flush before continuing.&#34;&#34;&#34;
+        sys.stdout.write(art.get_banner(banner_package) + &#34;\n&#34;)
+        sys.stdout.flush()
+        # Give the TTY time to flush properly.
+        time.sleep(0.05)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="DispatcherAware -- Structural supertype for a dispatcher-aware object …" href="../traits.html#hikari.traits.DispatcherAware"
+class='dotted'>DispatcherAware</a></dt>
+<dd class="nested"><p>Structural supertype for a dispatcher-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactoryAware -- Structural supertype for an event factory-aware object …" href="../traits.html#hikari.traits.EventFactoryAware"
+class='dotted'>EventFactoryAware</a></dt>
+<dd class="nested"><p>Structural supertype for an event factory-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="../traits.html#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="../traits.html#hikari.traits.EntityFactoryAware"
+class='dotted'>EntityFactoryAware</a></dt>
+<dd class="nested"><p>Structural supertype for an entity factory-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="../traits.html#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="../traits.html#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></dt>
+<dd class="nested"><p>Structural supertype for any component aware of network settings.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="../traits.html#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></dt>
+<dd class="nested"><p>Structural supertype for an executor-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="../traits.html#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></dt>
+<dd class="nested"><p>Structural supertype for a cache-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="../traits.html#hikari.traits.ChunkerAware"
+class='dotted'>ChunkerAware</a></dt>
+<dd class="nested"><p>Structural supertype for a guild chunker-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="../traits.html#hikari.traits.VoiceAware"
+class='dotted'>VoiceAware</a></dt>
+<dd class="nested"><p>Structural supertype for a voice-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></dt>
+<dd class="nested"><p>Base interface for event dispatcher implementations …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.close" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> close() -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Request that all shards disconnect and the application shuts down.</p>
+<p>This will close all shards that are running, and then close any
+REST components and connectors.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L611-L635" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def close(self) -&gt; None:
+    &#34;&#34;&#34;Request that all shards disconnect and the application shuts down.
+
+    This will close all shards that are running, and then close any
+    REST components and connectors.
+    &#34;&#34;&#34;
+    self._guild_chunker.close()
+
+    try:
+        if self._tasks:
+            # This way if we cancel the stopping task, we still shut down properly.
+            self._request_close_event.set()
+
+            _LOGGER.info(&#34;stopping %s shard(s)&#34;, len(self._tasks))
+
+            try:
+                await self.dispatch(lifetime_events.StoppingEvent(app=self))
+                await self._abort_shards()
+            finally:
+                self._tasks.clear()
+                await self.dispatch(lifetime_events.StoppedEvent(app=self))
+    finally:
+        await self._rest.close()
+        await self._connector_factory.close()
+        self._global_ratelimit.close()</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.dispatch" class="hljs python"><abbr title='A standard Python function.'>def</abbr> dispatch(
+    event: <a href='../events/base_events.html#hikari.events.base_events.Event'>base_events.Event</a>,
+) -> <a href='https://docs.python.org/3/library/asyncio-future.html#asyncio.Future'>Future</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="dispatch -- Dispatch an event …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.dispatch"
+class='dotted'>dispatch</a></code>
+</p>
+<p>Dispatch an event.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event</code></strong> :&ensp;<code><a href='../events/index.html'>hikari.events.base.Event</a></code></dt>
+<dd>The event to dispatch.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>We can dispatch custom events by first defining a class that
+derives from <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+<pre><code class="py">import attr
+
+from hikari.traits import RESTAware
+from hikari.events.base_events import Event
+from hikari.models.users import User
+from hikari.utilities.snowflake import Snowflake
+
+@attr.s()
+class EveryoneMentionedEvent(Event):
+    app: RESTAware = attr.ib()
+
+    author: User = attr.ib()
+    '''The user who mentioned everyone.'''
+
+    content: str = attr.ib()
+    '''The message that was sent.'''
+
+    message_id: Snowflake = attr.ib()
+    '''The message ID.'''
+
+    channel_id: Snowflake = attr.ib()
+    '''The channel ID.'''
+</code></pre>
+<p>We can then dispatch our event as we see fit.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+@bot.listen(MessageCreateEvent)
+async def on_message(event):
+    if &quot;@everyone&quot; in event.content or &quot;@here&quot; in event.content:
+        event = EveryoneMentionedEvent(
+            author=event.author,
+            content=event.content,
+            message_id=event.id,
+            channel_id=event.channel_id,
+        )
+
+        bot.dispatch(event)
+</code></pre>
+<p>This event can be listened to elsewhere by subscribing to it with
+<code>IEventDispatcherBase.subscribe</code>.</p>
+<pre><code class="py">@bot.listen(EveryoneMentionedEvent)
+async def on_everyone_mentioned(event):
+    print(event.user, &quot;just pinged everyone in&quot;, event.channel_id)
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/asyncio-future.html#asyncio.Future'>Future</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]</code></dt>
+<dd>A future that can be optionally awaited. If awaited, the future
+will complete once all corresponding event listeners have been
+invoked. If not awaited, this will schedule the dispatch of the
+events in the background for later.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L607-L609" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def dispatch(self, event: base_events.Event) -&gt; asyncio.Future[typing.Any]:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return self.dispatcher.dispatch(event)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.get_listeners" class="hljs python"><abbr title='A standard Python function.'>def</abbr> get_listeners(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[event_dispatcher.EventT_co],
+    *,
+    polymorphic: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = True,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="get_listeners -- Get the listeners for a given event type, if there are any …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.get_listeners"
+class='dotted'>get_listeners</a></code>
+</p>
+<p>Get the listeners for a given event type, if there are any.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to look for.
+<code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>polymorphic</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, this will return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if a subclass
+of the given event type has a listener registered. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then only listeners for this class specifically
+are returned. The default is <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Collection[typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]]</code></dt>
+<dd>
+<p>A copy of the collection of listeners for the event. Will return
+an empty collection if nothing is registered.</p>
+<p><code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<p><code>Has listener: </code>hikari.api.event_dispatcher.IEventDispatcherBase.has_listener``</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L575-L579" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def get_listeners(
+    self, event_type: typing.Type[event_dispatcher.EventT_co], *, polymorphic: bool = True,
+) -&gt; typing.Collection[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return self.dispatcher.get_listeners(event_type, polymorphic=polymorphic)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.join" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> join() -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Wait for the application to finish running.</p>
+<p>If the application has not started, then calling this will return
+immediately.</p>
+<p>Any exceptions that are raised by the application that go unhandled
+will be propagated.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L694-L704" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def join(self) -&gt; None:
+    &#34;&#34;&#34;Wait for the application to finish running.
+
+    If the application has not started, then calling this will return
+    immediately.
+
+    Any exceptions that are raised by the application that go unhandled
+    will be propagated.
+    &#34;&#34;&#34;
+    if self._shard_gather_task is not None:
+        await self._shard_gather_task</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.listen" class="hljs python"><abbr title='A standard Python function.'>def</abbr> listen(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[event_dispatcher.EventT_co]] = None,
+) -> <a href='https://docs.python.org/3/library/typing.html#typing.Callable'>Callable</a>[[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]], event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="listen -- Generate a decorator to subscribe a callback to an event type …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.listen"
+class='dotted'>listen</a></code>
+</p>
+<p>Generate a decorator to subscribe a callback to an event type.</p>
+<p>This is a second-order decorator.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>
+<p>The event type to subscribe to. The implementation may allow this
+to be undefined. If this is the case, the event type will be inferred
+instead from the type hints on the function signature.</p>
+<p><code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Callable'>Callable</a>[[T], T]</code></dt>
+<dd>A decorator for a coroutine function that passes it to
+<code>IEventDispatcherBase.subscribe</code> before returning the function
+reference.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Dispatch</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.dispatch</a></code></dd>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code></dd>
+<dt><code>Unsubscribe</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L566-L573" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def listen(
+    self, event_type: typing.Optional[typing.Type[event_dispatcher.EventT_co]] = None,
+) -&gt; typing.Callable[
+    [event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]],
+    event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+]:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return self.dispatcher.listen(event_type)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.run" class="hljs python"><abbr title='A standard Python function.'>def</abbr> run(
+    *,
+    close_loop: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = True,
+) -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Run this application on the current thread in an event loop.</p>
+<p>This will use the event loop that is set for the current thread, or
+it will create one if it does not already exist.</p>
+<p>This call will <strong>block</strong> the current thread until the application
+has closed. Additionally, it will hook into any OS signals to
+detect external interrupts to request the process terminates.</p>
+<p>All hooks will be removed again on shutdown. Any fatal exceptions
+that may have occurred during the startup or execution of the
+application will be propagated.</p>
+<p>The application is always guaranteed to be shut down before this
+function completes or propagates any exception.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>close_loop</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>
+<p>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> (per the default), then the event loop will
+be explicitly closed once the application has closed. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, this behaviour will not occur.</p>
+<p>Setting this to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> may be desirable if you wish
+to continue using the event loop after the application has closed.</p>
+</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L637-L692" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def run(self, *, close_loop: bool = True) -&gt; None:
+    &#34;&#34;&#34;Run this application on the current thread in an event loop.
+
+    This will use the event loop that is set for the current thread, or
+    it will create one if it does not already exist.
+
+    This call will **block** the current thread until the application
+    has closed. Additionally, it will hook into any OS signals to
+    detect external interrupts to request the process terminates.
+
+    All hooks will be removed again on shutdown. Any fatal exceptions
+    that may have occurred during the startup or execution of the
+    application will be propagated.
+
+    The application is always guaranteed to be shut down before this
+    function completes or propagates any exception.
+
+    Parameters
+    ----------
+    close_loop : builtins.bool
+        If `builtins.True` (per the default), then the event loop will
+        be explicitly closed once the application has closed. If
+        `builtins.False`, this behaviour will not occur.
+
+        Setting this to `builtins.False` may be desirable if you wish
+        to continue using the event loop after the application has closed.
+    &#34;&#34;&#34;
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        _LOGGER.debug(&#34;no event loop registered on this thread; now creating one...&#34;)
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+    try:
+        self._map_signal_handlers(
+            loop.add_signal_handler,
+            lambda *_: loop.create_task(self.close(), name=&#34;signal interrupt shutting down application&#34;),
+        )
+        loop.run_until_complete(self._shard_management_lifecycle())
+
+    except KeyboardInterrupt as ex:
+        _LOGGER.info(&#34;received signal to shut down client&#34;)
+        if self._debug:
+            raise
+        # The user will not care where this gets raised from, unless we are
+        # debugging. It just causes a lot of confusing spam.
+        raise ex.with_traceback(None) from None
+
+    finally:
+        self._map_signal_handlers(loop.remove_signal_handler)
+        _LOGGER.info(&#34;client has shut down&#34;)
+
+        if close_loop and not loop.is_closed():
+            _LOGGER.info(&#34;closing event loop&#34;)
+            loop.close()</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.start" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> start() -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Determine sharding settings if needed, and start all shards.</p>
+<p>This method will first log if any library updates are available.</p>
+<p>The bot user info and sharding settings will be fetched from the REST
+API. If no explicit shard count/shard IDs have been provided to the
+constructor of this class, then the recommended shard count that
+Discord recommends will be used instead.</p>
+<p>The first shard will be started individually first. This ensures that
+we do not spam IDENTIFY payloads on multiple shards in large
+applications if the application will be unable to start.</p>
+<p>After this, each remaining shard will be started, respecting the API's
+max concurrency that Discord specifies.</p>
+<p>This will return once all shards that are to be started have
+fired their READY event. Any exceptions that are raised before this
+will be propagated, and all existing connections will be closed again.</p>
+<p>To wait for the bot to close indefinitely, you should call <code><a href='#hikari.impl.bot.BotApp.join'>join</a></code>
+immediately after this call returns, else this will attempt to
+keep-alive in the background.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L462-L564" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def start(self) -&gt; None:
+    &#34;&#34;&#34;Determine sharding settings if needed, and start all shards.
+
+    This method will first log if any library updates are available.
+
+    The bot user info and sharding settings will be fetched from the REST
+    API. If no explicit shard count/shard IDs have been provided to the
+    constructor of this class, then the recommended shard count that
+    Discord recommends will be used instead.
+
+    The first shard will be started individually first. This ensures that
+    we do not spam IDENTIFY payloads on multiple shards in large
+    applications if the application will be unable to start.
+
+    After this, each remaining shard will be started, respecting the API&#39;s
+    max concurrency that Discord specifies.
+
+    This will return once all shards that are to be started have
+    fired their READY event. Any exceptions that are raised before this
+    will be propagated, and all existing connections will be closed again.
+
+    To wait for the bot to close indefinitely, you should call `BotApp.join`
+    immediately after this call returns, else this will attempt to
+    keep-alive in the background.
+    &#34;&#34;&#34;
+    asyncio.create_task(version_sniffer.log_available_updates(_LOGGER), name=&#34;check for hikari library updates&#34;)
+
+    self._start_count += 1
+    self._started_at_monotonic = date.monotonic()
+    self._started_at_timestamp = date.local_datetime()
+
+    if self._debug is True:
+        _LOGGER.warning(&#34;debug mode is enabled, performance may be affected&#34;)
+
+        # If possible, set the coroutine origin tracking depth to a larger value.
+        # This feature is provisional, so don&#39;t hold your breath if it doesn&#39;t
+        # exist.
+        with contextlib.suppress(AttributeError, NameError):
+            # noinspection PyUnresolvedReferences
+            sys.set_coroutine_origin_tracking_depth(40)  # type: ignore[attr-defined]
+
+        # Set debugging on the event loop.
+        asyncio.get_event_loop().set_debug(True)
+
+    self._tasks.clear()
+    self._shard_gather_task = None
+
+    await self._init()
+
+    self._request_close_event.clear()
+
+    await self.dispatch(lifetime_events.StartingEvent(app=self))
+
+    start_time = date.monotonic()
+
+    try:
+        for i, shard_ids in enumerate(self._max_concurrency_chunker()):
+            if self._request_close_event.is_set():
+                break
+
+            if i &gt; 0:
+                _LOGGER.info(&#34;backing off for 5 seconds&#34;)
+                completed, _ = await asyncio.wait(
+                    self._tasks.values(), timeout=5, return_when=asyncio.FIRST_COMPLETED
+                )
+
+                while completed:
+                    if (ex := completed.pop().exception()) is not None:
+                        raise ex
+
+            window = {}
+            for shard_id in shard_ids:
+                shard_obj = self._shards[shard_id]
+                window[shard_id] = asyncio.create_task(shard_obj.start(), name=f&#34;start gateway shard {shard_id}&#34;)
+
+            # Wait for the group to start.
+            await asyncio.gather(*window.values())
+
+            # Store the keep-alive tasks and continue.
+            for shard_id, start_task in window.items():
+                self._tasks[shard_id] = start_task.result()
+
+    finally:
+        if len(self._tasks) != len(self._shards):
+            _LOGGER.warning(
+                &#34;application aborted midway through initialization, will begin shutting down %s shard(s)&#34;,
+                len(self._tasks),
+            )
+            await self._abort_shards()
+
+            # We know an error occurred if this condition is met, so re-raise it.
+            raise
+
+        finish_time = date.monotonic()
+        self._shard_gather_task = asyncio.create_task(
+            self._gather_shard_lifecycles(), name=f&#34;zookeeper for {len(self._shards)} shard(s)&#34;
+        )
+
+        # Don&#39;t bother logging this if we are single sharded. It is useless information.
+        if len(self._shard_ids) &gt; 1:
+            _LOGGER.info(&#34;started %s shard(s) in approx %.2fs&#34;, len(self._shards), finish_time - start_time)
+
+        await self.dispatch(lifetime_events.StartedEvent(app=self))</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.subscribe" class="hljs python"><abbr title='A standard Python function.'>def</abbr> subscribe(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[event_dispatcher.EventT_co],
+    callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+) -> event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="subscribe -- Subscribe a given callback to a given event type …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.subscribe"
+class='dotted'>subscribe</a></code>
+</p>
+<p>Subscribe a given callback to a given event type.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to listen for. This will also listen for any
+subclasses of the given type.
+<code>T</code> must be a subclass of <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>callback</code></strong></dt>
+<dd>Must be a coroutine function to invoke. This should
+consume an instance of the given event, or an instance of a valid
+subclass if one exists. Any result is discarded.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>The following demonstrates subscribing a callback to message creation
+events.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+async def on_message(event):
+    ...
+
+bot.subscribe(MessageCreateEvent, on_message)
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>typing.Callable[[T], typing.Coroutine[typing.Any, typing.Any, builtins.None]</code></dt>
+<dd>The event callback that was passed in.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Listen</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.listen</a></code>
+<code>Wait for: </code>hikari.api.event_dispatcher.IEventDispatcherBase.wait_for``</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L581-L587" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def subscribe(
+    self,
+    event_type: typing.Type[event_dispatcher.EventT_co],
+    callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+) -&gt; event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return self.dispatcher.subscribe(event_type, callback)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.unsubscribe" class="hljs python"><abbr title='A standard Python function.'>def</abbr> unsubscribe(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[event_dispatcher.EventT_co],
+    callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+) -> <a href='https://docs.python.org/3/library/constants.html#None'>None</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="unsubscribe -- Unsubscribe a given callback from a given event type, if present …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.unsubscribe"
+class='dotted'>unsubscribe</a></code>
+</p>
+<p>Unsubscribe a given callback from a given event type, if present.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[T]</code></dt>
+<dd>The event type to unsubscribe from. This must be the same exact
+type as was originally subscribed with to be removed correctly.
+<code>T</code> must derive from <code><a href='../events/index.html'>hikari.events.base.Event</a></code>.</dd>
+<dt><strong><code>callback</code></strong></dt>
+<dd>The callback to unsubscribe.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>The following demonstrates unsubscribing a callback from a message
+creation event.</p>
+<pre><code class="py">from hikari.events.messages import MessageCreateEvent
+
+async def on_message(event):
+    ...
+
+bot.unsubscribe(MessageCreateEvent, on_message)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L589-L595" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def unsubscribe(
+    self,
+    event_type: typing.Type[event_dispatcher.EventT_co],
+    callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+) -&gt; None:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return self.dispatcher.unsubscribe(event_type, callback)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.update_presence" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> update_presence(
+    *,
+    status: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/presences.html#hikari.models.presences.Status'>presences.Status</a>] = UNDEFINED,
+    activity: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='../models/presences.html#hikari.models.presences.Activity'>presences.Activity</a>] = UNDEFINED,
+    idle_since: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>] = UNDEFINED,
+    afk: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+) -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Update the presence on all shards.</p>
+<p>This call will patch the presence on each shard. This means that
+unless you explicitly specify a parameter, the previous value will be
+retained. This means you do not have to track the global presence
+in your code.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>status</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/presences.html#hikari.models.presences.Status'>Status</a>]</code></dt>
+<dd>The status to set all shards to. If undefined, no statuses are
+changed.</dd>
+<dt><strong><code>activity</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='../models/presences.html#hikari.models.presences.Activity'>Activity</a>]</code></dt>
+<dd>The activity to set. May be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the activity should
+be cleared. If undefined, no activities are changed.</dd>
+<dt><strong><code>idle_since</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>]</code></dt>
+<dd>The datetime to appear to be idle since. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then
+this is not sent (this does not need to be specified to set the
+bot's status to idle). If undefined, the idle timestamp is not
+changed.</dd>
+<dt><strong><code>afk</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the bot is marked as being AFK. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, the bot is marked as not being AFK. If
+unspecified, this is not changed.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This will only send the update payloads to shards that are alive.
+Any shards that are not alive will cache the new presence for
+when they do start.</p>
+</div>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>If you want to set presences per shard, access the shard you wish
+to update (e.g. by using <code><a href='#hikari.impl.bot.BotApp.shards'>shards</a></code>), and call
+<code><a href='../api/shard.html'>hikari.api.shard.IGatewayShard.update_presence</a></code> on that shard.</p>
+<p>This method is simply a facade to make performing this in bulk
+simpler.</p>
+</div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L706-L757" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def update_presence(
+    self,
+    *,
+    status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+    activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+    idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+    afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+) -&gt; None:
+    &#34;&#34;&#34;Update the presence on all shards.
+
+    This call will patch the presence on each shard. This means that
+    unless you explicitly specify a parameter, the previous value will be
+    retained. This means you do not have to track the global presence
+    in your code.
+
+    Parameters
+    ----------
+    status : hikari.utilities.undefined.UndefinedOr[hikari.models.presences.Status]
+        The status to set all shards to. If undefined, no statuses are
+        changed.
+    activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.presences.Activity]
+        The activity to set. May be `builtins.None` if the activity should
+        be cleared. If undefined, no activities are changed.
+    idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+        The datetime to appear to be idle since. If `builtins.None`, then
+        this is not sent (this does not need to be specified to set the
+        bot&#39;s status to idle). If undefined, the idle timestamp is not
+        changed.
+    afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, then the bot is marked as being AFK. If
+        `builtins.False`, the bot is marked as not being AFK. If
+        unspecified, this is not changed.
+
+    !!! note
+        This will only send the update payloads to shards that are alive.
+        Any shards that are not alive will cache the new presence for
+        when they do start.
+
+    !!! note
+        If you want to set presences per shard, access the shard you wish
+        to update (e.g. by using `BotApp.shards`), and call
+        `hikari.api.shard.IGatewayShard.update_presence` on that shard.
+
+        This method is simply a facade to make performing this in bulk
+        simpler.
+    &#34;&#34;&#34;
+    coros = [
+        s.update_presence(status=status, activity=activity, idle_since=idle_since, afk=afk)
+        for s in self._shards.values()
+    ]
+
+    await asyncio.gather(*coros)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.bot.BotApp.wait_for" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> wait_for(
+    event_type: <a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[event_dispatcher.EventT_co],
+    /,
+    timeout: <a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/functions.html#float'>float</a>, <a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/constants.html#None'>None</a>],
+    predicate: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[event_dispatcher.PredicateT[event_dispatcher.EventT_co]] = None,
+) -> event_dispatcher.EventT_co: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventDispatcher -- Base interface for event dispatcher implementations …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher"
+class='dotted'>EventDispatcher</a></code>.<code><a title="wait_for -- Wait for a given event to occur once, then return the event …" href="../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher.wait_for"
+class='dotted'>wait_for</a></code>
+</p>
+<p>Wait for a given event to occur once, then return the event.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>event_type</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Type'>Type</a>[<a href='../events/index.html'>hikari.events.base.Event</a>]</code></dt>
+<dd>The event type to listen for. This will listen for subclasses of
+this type additionally.</dd>
+<dt><strong><code>predicate</code></strong></dt>
+<dd>A function or coroutine taking the event as the single parameter.
+This should return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if the event is one you want to
+return, or <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> if the event should not be returned.
+If left as <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> (the default), then the first matching event type
+that the bot receives (or any subtype) will be the one returned.</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code> or <code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The amount of time to wait before raising an <code><a href='https://docs.python.org/3/library/asyncio-exceptions.html#asyncio.TimeoutError'>TimeoutError</a></code>
+and giving up instead. This is measured in seconds. If
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then no timeout will be waited for (no timeout can
+result in "leaking" of coroutines that never complete if called in
+an uncontrolled way, so is not recommended).</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/index.html'>hikari.events.base.Event</a></code></dt>
+<dd>The event that was provided.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/asyncio-exceptions.html#asyncio.TimeoutError'>TimeoutError</a></code></dt>
+<dd>If the timeout is not <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> and is reached before an
+event is received that the predicate returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> for.</dd>
+</dl>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code>Listen</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.listen</a></code></dd>
+<dt><code>Subscribe</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.subscribe</a></code></dd>
+<dt><code>Dispatch</code></dt>
+<dd><code><a href='../api/event_dispatcher.html'>hikari.api.event_dispatcher.IEventDispatcherBase.dispatch</a></code></dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/bot.py#L597-L605" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def wait_for(
+    self,
+    event_type: typing.Type[event_dispatcher.EventT_co],
+    /,
+    timeout: typing.Union[float, int, None],
+    predicate: typing.Optional[event_dispatcher.PredicateT[event_dispatcher.EventT_co]] = None,
+) -&gt; event_dispatcher.EventT_co:
+    # &lt;&lt;inherited docstring from event_dispatcher.EventDispatcher&gt;&gt;
+    return await self.dispatcher.wait_for(event_type, predicate=predicate, timeout=timeout)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.impl.bot.BotApp.cache" id="hikari.impl.bot.BotApp.cache" class='dotted'>cache</a> : cache_.Cache</code></pre>
+</dt>
+<dd><p>Return the immutable cache implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/cache.html#hikari.api.cache.Cache'>Cache</a></code></dt>
+<dd>The cache component for this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.impl.bot.BotApp.chunker" id="hikari.impl.bot.BotApp.chunker" class='dotted'>chunker</a> : guild_chunker_.GuildChunker</code></pre>
+</dt>
+<dd><p>Return the guild chunker component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/chunker.html#hikari.api.chunker.GuildChunker'>GuildChunker</a></code></dt>
+<dd>The guild chunker component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.impl.bot.BotApp.dispatcher" id="hikari.impl.bot.BotApp.dispatcher" class='dotted'>dispatcher</a> : <a href='../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>EventDispatcher</a></code></pre>
+</dt>
+<dd><p>Return the event dispatcher for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>EventDispatcher</a></code></dt>
+<dd>The event dispatcher component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.impl.bot.BotApp.entity_factory" id="hikari.impl.bot.BotApp.entity_factory" class='dotted'>entity_factory</a> : <a href='entity_factory.html#hikari.impl.entity_factory.EntityFactoryImpl'>EntityFactoryImpl</a></code></pre>
+</dt>
+<dd><p>Return the entity factory implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>EntityFactory</a></code></dt>
+<dd>The entity factory component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.impl.bot.BotApp.event_factory" id="hikari.impl.bot.BotApp.event_factory" class='dotted'>event_factory</a> : <a href='event_factory.html#hikari.impl.event_factory.EventFactoryImpl'>EventFactoryImpl</a></code></pre>
+</dt>
+<dd><p>Return the event factory component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/event_factory.html#hikari.api.event_factory.EventFactory'>EventFactory</a></code></dt>
+<dd>The event factory component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.impl.bot.BotApp.executor" id="hikari.impl.bot.BotApp.executor" class='dotted'>executor</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>]</code></pre>
+</dt>
+<dd><p>Return the executor to use for blocking operations.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool
+should be used instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The executor to use, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> to use the <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> default
+instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.impl.bot.BotApp.heartbeat_latencies" id="hikari.impl.bot.BotApp.heartbeat_latencies" class='dotted'>heartbeat_latencies</a> : Mapping[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shard ID to heartbeat latency.</p>
+<p>Any shards that are not yet started will be <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></dt>
+<dd>Each shard ID mapped to the corresponding heartbeat latency in
+seconds.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.impl.bot.BotApp.heartbeat_latency" id="hikari.impl.bot.BotApp.heartbeat_latency" class='dotted'>heartbeat_latency</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the average heartbeat latency of all started shards.</p>
+<p>If no shards are started, this will return <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>The average heartbeat latency of all started shards, or
+<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code> if no shards are started.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.impl.bot.BotApp.http_settings" id="hikari.impl.bot.BotApp.http_settings" class='dotted'>http_settings</a> : <a href='../config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.impl.bot.BotApp.intents" id="hikari.impl.bot.BotApp.intents" class='dotted'>intents</a> : Union[<a href='../models/intents.html#hikari.models.intents.Intents'>Intents</a>, None]</code></pre>
+</dt>
+<dd><p>Return the intents registered for the application.</p>
+<p>If no intents are in use, <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> is returned instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/intents.html'>hikari.models.intents.Intent</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The intents registered on this application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_debug_enabled -- Return `builtins.True` if debugging is enabled …" href="#hikari.impl.bot.BotApp.is_debug_enabled" id="hikari.impl.bot.BotApp.is_debug_enabled" class='dotted'>is_debug_enabled</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if debugging is enabled.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if debugging is enabled, <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> otherwise.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.impl.bot.BotApp.me" id="hikari.impl.bot.BotApp.me" class='dotted'>me</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../models/users.html#hikari.models.users.OwnUser'>users.OwnUser</a>]</code></pre>
+</dt>
+<dd><p>Return the bot user, if known.</p>
+<p>This should be available as soon as the bot has fired the
+<code><a href='../events/lifetime_events.html#hikari.events.lifetime_events.StartingEvent'>StartingEvent</a></code>.</p>
+<p>Until then, this may or may not be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.OwnUser'>OwnUser</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The bot user, if known, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.impl.bot.BotApp.proxy_settings" id="hikari.impl.bot.BotApp.proxy_settings" class='dotted'>proxy_settings</a> : <a href='../config.html#hikari.config.ProxySettings'>ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.impl.bot.BotApp.rest" id="hikari.impl.bot.BotApp.rest" class='dotted'>rest</a> : <a href='rest.html#hikari.impl.rest.RESTClientImpl'>RESTClientImpl</a></code></pre>
+</dt>
+<dd><p>Return the REST client to use for HTTP requests.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/rest.html#hikari.api.rest.RESTClient'>RESTClient</a></code></dt>
+<dd>The REST client to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.impl.bot.BotApp.shard_count" id="hikari.impl.bot.BotApp.shard_count" class='dotted'>shard_count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the number of shards in the total application.</p>
+<p>This may not be the same as the size of <code>shards</code>. If the application
+is auto-sharded, this may be <code>0</code> until the shards are started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The number of shards in the total application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.impl.bot.BotApp.shards" id="hikari.impl.bot.BotApp.shards" class='dotted'>shards</a> : Mapping[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shards in this application instance.</p>
+<p>Each shard ID is mapped to the corresponding shard instance.</p>
+<p>If the application has not started, it is acceptable to assume the
+result of this call will be an empty mapping.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a>]</code></dt>
+<dd>The shard mapping.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="started_at -- Return the datetime when the bot first connected …" href="#hikari.impl.bot.BotApp.started_at" id="hikari.impl.bot.BotApp.started_at" class='dotted'>started_at</a> : Union[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>, None]</code></pre>
+</dt>
+<dd><p>Return the datetime when the bot first connected.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The datetime that the bot connected at for the first time, or
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if it has not yet connected.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="uptime -- Return the number of seconds that the bot has been up …" href="#hikari.impl.bot.BotApp.uptime" id="hikari.impl.bot.BotApp.uptime" class='dotted'>uptime</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the number of seconds that the bot has been up.</p>
+<p>This is a monotonic time. To get the physical startup date, see
+<code><a href='#hikari.impl.bot.BotApp.started_at'>started_at</a></code> instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>The number of seconds the application has been running for.
+If not started, then this will return <code>0.0</code>.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.impl.bot.BotApp.voice" id="hikari.impl.bot.BotApp.voice" class='dotted'>voice</a> : <a href='voice.html'>hikari.impl.voice.VoiceComponentImpl</a></code></pre>
+</dt>
+<dd><p>Return the voice connection manager component for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/voice.html#hikari.api.voice.VoiceComponent'>VoiceComponent</a></code></dt>
+<dd>The voice component for the application.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

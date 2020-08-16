@@ -1,0 +1,1334 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.events.typing_events API documentation</title>
+<meta name="description" content="Events fired when users begin typing in channels." />
+<meta property="og:title" content="hikari.events.typing_events module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.events.typing_events">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.events -- Events that can be fired by Hikari's gateway implementation." href="index.html"
+class='dotted'>events</a></li>
+<li class="breadcrumb-item active"><a href="#">typing_events</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Events fired when users begin typing in channels.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.GuildTypingEvent"
+class='sidebar-nav-pill'>GuildTypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.typing_events.GuildTypingEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.GuildTypingEvent.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_channel -- Perform an API call to fetch an up-to-date image of this channel …" href="#hikari.events.typing_events.TypingEvent.fetch_channel"
+class='sidebar-nav-pill'>fetch_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_guild -- Perform an API call to fetch an up-to-date image of this guild …" href="#hikari.events.typing_events.GuildTypingEvent.fetch_guild"
+class='sidebar-nav-pill'>fetch_guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_guild_preview -- Perform an API call to fetch an up-to-date preview of this guild …" href="#hikari.events.typing_events.GuildTypingEvent.fetch_guild_preview"
+class='sidebar-nav-pill'>fetch_guild_preview</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_member -- Perform an API call to fetch an up-to-date image of this member …" href="#hikari.events.typing_events.GuildTypingEvent.fetch_member"
+class='sidebar-nav-pill'>fetch_member</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_user -- Perform an API call to fetch an up-to-date image of this user …" href="#hikari.events.typing_events.TypingEvent.fetch_user"
+class='sidebar-nav-pill'>fetch_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.typing_events.GuildTypingEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="member -- Member object of the user who triggered this typing event …" href="#hikari.events.typing_events.GuildTypingEvent.member"
+class='sidebar-nav-pill'>member</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.typing_events.GuildTypingEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.GuildTypingEvent.timestamp"
+class='sidebar-nav-pill'>timestamp</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.GuildTypingEvent.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.PrivateTypingEvent"
+class='sidebar-nav-pill'>PrivateTypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.typing_events.PrivateTypingEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.PrivateTypingEvent.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_channel -- Perform an API call to fetch an up-to-date image of this channel …" href="#hikari.events.typing_events.TypingEvent.fetch_channel"
+class='sidebar-nav-pill'>fetch_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_user -- Perform an API call to fetch an up-to-date image of this user …" href="#hikari.events.typing_events.TypingEvent.fetch_user"
+class='sidebar-nav-pill'>fetch_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.typing_events.PrivateTypingEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.PrivateTypingEvent.timestamp"
+class='sidebar-nav-pill'>timestamp</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.PrivateTypingEvent.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='sidebar-nav-pill'>TypingEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.TypingEvent.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_channel -- Perform an API call to fetch an up-to-date image of this channel …" href="#hikari.events.typing_events.TypingEvent.fetch_channel"
+class='sidebar-nav-pill'>fetch_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_user -- Perform an API call to fetch an up-to-date image of this user …" href="#hikari.events.typing_events.TypingEvent.fetch_user"
+class='sidebar-nav-pill'>fetch_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.TypingEvent.timestamp"
+class='sidebar-nav-pill'>timestamp</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.TypingEvent.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L0-L208" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Events fired when users begin typing in channels.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;TypingEvent&#34;,
+    &#34;GuildTypingEvent&#34;,
+    &#34;PrivateTypingEvent&#34;,
+]
+
+import abc
+import typing
+
+import attr
+
+from hikari.events import base_events
+from hikari.events import shard_events
+from hikari.models import intents
+from hikari.utilities import attr_extensions
+
+if typing.TYPE_CHECKING:
+    import datetime
+
+    from hikari import traits
+    from hikari.api import shard as gateway_shard
+    from hikari.models import channels
+    from hikari.models import guilds
+    from hikari.models import users
+    from hikari.utilities import snowflake
+
+
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_TYPING, intents.Intents.PRIVATE_MESSAGE_TYPING)
+class TypingEvent(shard_events.ShardEvent, abc.ABC):
+    &#34;&#34;&#34;Base event fired when a user begins typing in a channel.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def channel_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;ID of the channel that this event concerns.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The ID of the channel that this event concerns.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;ID of the user who triggered this typing event.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the user who is typing.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def timestamp(self) -&gt; datetime.datetime:
+        &#34;&#34;&#34;Timestamp of when this typing event started.
+
+        Returns
+        -------
+        datetime.datetime
+            UTC timestamp of when the user started typing.
+        &#34;&#34;&#34;
+
+    async def fetch_channel(self) -&gt; channels.TextChannel:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this channel.
+
+        Returns
+        -------
+        hikari.models.channels.TextChannel
+            The channel.
+        &#34;&#34;&#34;
+        return typing.cast(&#34;channels.TextChannel&#34;, await self.app.rest.fetch_channel(self.channel_id))
+
+    async def fetch_user(self) -&gt; users.User:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this user.
+
+        Returns
+        -------
+        hikari.models.users.user
+            The user.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_user(self.user_id)
+
+
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_TYPING)
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class GuildTypingEvent(TypingEvent):
+    &#34;&#34;&#34;Event fired when a user starts typing in a guild channel.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    channel_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    timestamp: datetime.datetime = attr.ib(repr=False)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    &#34;&#34;&#34;ID of the guild that this event relates to.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The ID of the guild that relates to this event.
+    &#34;&#34;&#34;
+
+    member: guilds.Member = attr.ib(repr=False)
+    &#34;&#34;&#34;Member object of the user who triggered this typing event.
+
+    Returns
+    -------
+    hikari.models.guilds.Member
+        Member of the user who triggered this typing event.
+    &#34;&#34;&#34;
+
+    if typing.TYPE_CHECKING:
+
+        async def fetch_channel(self) -&gt; channels.GuildTextChannel:
+            ...
+
+    async def fetch_member(self) -&gt; guilds.Member:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this member.
+
+        Returns
+        -------
+        hikari.models.guilds.Member
+            The member.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_member(self.guild_id, self.user_id)
+
+    async def fetch_guild(self) -&gt; guilds.Guild:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this guild.
+
+        Returns
+        -------
+        hikari.models.guilds.Guild
+            The guild.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_guild(self.guild_id)
+
+    async def fetch_guild_preview(self) -&gt; guilds.GuildPreview:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date preview of this guild.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildPreview
+            The guild.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_guild_preview(self.guild_id)
+
+
+@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class PrivateTypingEvent(TypingEvent):
+    &#34;&#34;&#34;Event fired when a user starts typing in a guild channel.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    channel_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    timestamp: datetime.datetime = attr.ib(repr=False)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    if typing.TYPE_CHECKING:
+
+        async def fetch_channel(self) -&gt; channels.PrivateTextChannel:
+            ...</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.GuildTypingEvent"
+class='dotted'>GuildTypingEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildTypingEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    user_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    timestamp: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    member: <a href='../models/guilds.html#hikari.models.guilds.Member'>guilds.Member</a>,
+): ...</code></pre>
+<p>Event fired when a user starts typing in a guild channel.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_MESSAGE_TYPING'>GUILD_MESSAGE_TYPING</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L113-L182" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildTypingEvent(TypingEvent):
+    &#34;&#34;&#34;Event fired when a user starts typing in a guild channel.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    channel_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    timestamp: datetime.datetime = attr.ib(repr=False)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    &#34;&#34;&#34;ID of the guild that this event relates to.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The ID of the guild that relates to this event.
+    &#34;&#34;&#34;
+
+    member: guilds.Member = attr.ib(repr=False)
+    &#34;&#34;&#34;Member object of the user who triggered this typing event.
+
+    Returns
+    -------
+    hikari.models.guilds.Member
+        Member of the user who triggered this typing event.
+    &#34;&#34;&#34;
+
+    if typing.TYPE_CHECKING:
+
+        async def fetch_channel(self) -&gt; channels.GuildTextChannel:
+            ...
+
+    async def fetch_member(self) -&gt; guilds.Member:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this member.
+
+        Returns
+        -------
+        hikari.models.guilds.Member
+            The member.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_member(self.guild_id, self.user_id)
+
+    async def fetch_guild(self) -&gt; guilds.Guild:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this guild.
+
+        Returns
+        -------
+        hikari.models.guilds.Guild
+            The guild.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_guild(self.guild_id)
+
+    async def fetch_guild_preview(self) -&gt; guilds.GuildPreview:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date preview of this guild.
+
+        Returns
+        -------
+        hikari.models.guilds.GuildPreview
+            The guild.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_guild_preview(self.guild_id)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.GuildTypingEvent"
+class='dotted'>GuildTypingEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></dt>
+<dd class="nested"><p>Base event fired when a user begins typing in a channel …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent.fetch_channel" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_channel() -> <a href='../models/channels.html#hikari.models.channels.TextChannel'>channels.TextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></code>.<code><a title="fetch_channel -- Perform an API call to fetch an up-to-date image of this channel …" href="#hikari.events.typing_events.TypingEvent.fetch_channel"
+class='dotted'>fetch_channel</a></code>
+</p>
+<p>Perform an API call to fetch an up-to-date image of this channel.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.TextChannel'>TextChannel</a></code></dt>
+<dd>The channel.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent.fetch_guild" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_guild() -> <a href='../models/guilds.html#hikari.models.guilds.Guild'>guilds.Guild</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Perform an API call to fetch an up-to-date image of this guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Guild'>Guild</a></code></dt>
+<dd>The guild.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L164-L172" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_guild(self) -&gt; guilds.Guild:
+    &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this guild.
+
+    Returns
+    -------
+    hikari.models.guilds.Guild
+        The guild.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_guild(self.guild_id)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent.fetch_guild_preview" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_guild_preview() -> <a href='../models/guilds.html#hikari.models.guilds.GuildPreview'>guilds.GuildPreview</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Perform an API call to fetch an up-to-date preview of this guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.GuildPreview'>GuildPreview</a></code></dt>
+<dd>The guild.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L174-L182" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_guild_preview(self) -&gt; guilds.GuildPreview:
+    &#34;&#34;&#34;Perform an API call to fetch an up-to-date preview of this guild.
+
+    Returns
+    -------
+    hikari.models.guilds.GuildPreview
+        The guild.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_guild_preview(self.guild_id)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent.fetch_member" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_member() -> <a href='../models/guilds.html#hikari.models.guilds.Member'>guilds.Member</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Perform an API call to fetch an up-to-date image of this member.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a></code></dt>
+<dd>The member.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L154-L162" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_member(self) -&gt; guilds.Member:
+    &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this member.
+
+    Returns
+    -------
+    hikari.models.guilds.Member
+        The member.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_member(self.guild_id, self.user_id)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.GuildTypingEvent.fetch_user" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_user() -> <a href='../models/users.html#hikari.models.users.User'>users.User</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></code>.<code><a title="fetch_user -- Perform an API call to fetch an up-to-date image of this user …" href="#hikari.events.typing_events.TypingEvent.fetch_user"
+class='dotted'>fetch_user</a></code>
+</p>
+<p>Perform an API call to fetch an up-to-date image of this user.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html'>hikari.models.users.user</a></code></dt>
+<dd>The user.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.typing_events.GuildTypingEvent.app" id="hikari.events.typing_events.GuildTypingEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.GuildTypingEvent.channel_id" id="hikari.events.typing_events.GuildTypingEvent.channel_id" class='dotted'>channel_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the channel that this event concerns.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the channel that this event concerns.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.typing_events.GuildTypingEvent.guild_id" id="hikari.events.typing_events.GuildTypingEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="member -- Member object of the user who triggered this typing event …" href="#hikari.events.typing_events.GuildTypingEvent.member" id="hikari.events.typing_events.GuildTypingEvent.member" class='dotted'>member</a> : guilds.Member</code></pre>
+</dt>
+<dd><p>Member object of the user who triggered this typing event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a></code></dt>
+<dd>Member of the user who triggered this typing event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.typing_events.GuildTypingEvent.shard" id="hikari.events.typing_events.GuildTypingEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.GuildTypingEvent.timestamp" id="hikari.events.typing_events.GuildTypingEvent.timestamp" class='dotted'>timestamp</a> : datetime.datetime</code></pre>
+</dt>
+<dd><p>Timestamp of when this typing event started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></dt>
+<dd>UTC timestamp of when the user started typing.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.GuildTypingEvent.user_id" id="hikari.events.typing_events.GuildTypingEvent.user_id" class='dotted'>user_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the user who triggered this typing event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>ID of the user who is typing.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.PrivateTypingEvent"
+class='dotted'>PrivateTypingEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.typing_events.PrivateTypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PrivateTypingEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    user_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    timestamp: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+): ...</code></pre>
+<p>Event fired when a user starts typing in a guild channel.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.PRIVATE_MESSAGES'>PRIVATE_MESSAGES</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L188-L209" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class PrivateTypingEvent(TypingEvent):
+    &#34;&#34;&#34;Event fired when a user starts typing in a guild channel.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    channel_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    timestamp: datetime.datetime = attr.ib(repr=False)
+    # &lt;&lt;inherited docstring from TypingEvent&gt;&gt;.
+
+    if typing.TYPE_CHECKING:
+
+        async def fetch_channel(self) -&gt; channels.PrivateTextChannel:
+            ...</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.PrivateTypingEvent"
+class='dotted'>PrivateTypingEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></dt>
+<dd class="nested"><p>Base event fired when a user begins typing in a channel …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.events.typing_events.PrivateTypingEvent.fetch_channel" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_channel() -> <a href='../models/channels.html#hikari.models.channels.TextChannel'>channels.TextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></code>.<code><a title="fetch_channel -- Perform an API call to fetch an up-to-date image of this channel …" href="#hikari.events.typing_events.TypingEvent.fetch_channel"
+class='dotted'>fetch_channel</a></code>
+</p>
+<p>Perform an API call to fetch an up-to-date image of this channel.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.TextChannel'>TextChannel</a></code></dt>
+<dd>The channel.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.PrivateTypingEvent.fetch_user" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_user() -> <a href='../models/users.html#hikari.models.users.User'>users.User</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></code>.<code><a title="fetch_user -- Perform an API call to fetch an up-to-date image of this user …" href="#hikari.events.typing_events.TypingEvent.fetch_user"
+class='dotted'>fetch_user</a></code>
+</p>
+<p>Perform an API call to fetch an up-to-date image of this user.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html'>hikari.models.users.user</a></code></dt>
+<dd>The user.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.typing_events.PrivateTypingEvent.app" id="hikari.events.typing_events.PrivateTypingEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.PrivateTypingEvent.channel_id" id="hikari.events.typing_events.PrivateTypingEvent.channel_id" class='dotted'>channel_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the channel that this event concerns.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the channel that this event concerns.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.typing_events.PrivateTypingEvent.shard" id="hikari.events.typing_events.PrivateTypingEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.PrivateTypingEvent.timestamp" id="hikari.events.typing_events.PrivateTypingEvent.timestamp" class='dotted'>timestamp</a> : datetime.datetime</code></pre>
+</dt>
+<dd><p>Timestamp of when this typing event started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></dt>
+<dd>UTC timestamp of when the user started typing.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.PrivateTypingEvent.user_id" id="hikari.events.typing_events.PrivateTypingEvent.user_id" class='dotted'>user_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the user who triggered this typing event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>ID of the user who is typing.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.typing_events.TypingEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> TypingEvent: ...</code></pre>
+<p>Base event fired when a user begins typing in a channel.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_MESSAGE_TYPING'>GUILD_MESSAGE_TYPING</a></code></li>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.PRIVATE_MESSAGE_TYPING'>PRIVATE_MESSAGE_TYPING</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L53-L107" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class TypingEvent(shard_events.ShardEvent, abc.ABC):
+    &#34;&#34;&#34;Base event fired when a user begins typing in a channel.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def channel_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;ID of the channel that this event concerns.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The ID of the channel that this event concerns.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;ID of the user who triggered this typing event.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the user who is typing.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def timestamp(self) -&gt; datetime.datetime:
+        &#34;&#34;&#34;Timestamp of when this typing event started.
+
+        Returns
+        -------
+        datetime.datetime
+            UTC timestamp of when the user started typing.
+        &#34;&#34;&#34;
+
+    async def fetch_channel(self) -&gt; channels.TextChannel:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this channel.
+
+        Returns
+        -------
+        hikari.models.channels.TextChannel
+            The channel.
+        &#34;&#34;&#34;
+        return typing.cast(&#34;channels.TextChannel&#34;, await self.app.rest.fetch_channel(self.channel_id))
+
+    async def fetch_user(self) -&gt; users.User:
+        &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this user.
+
+        Returns
+        -------
+        hikari.models.users.user
+            The user.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_user(self.user_id)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.GuildTypingEvent"
+class='dotted'>GuildTypingEvent</a></dt>
+<dd class="nested"><p>Event fired when a user starts typing in a guild channel …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PrivateTypingEvent -- Event fired when a user starts typing in a guild channel …" href="#hikari.events.typing_events.PrivateTypingEvent"
+class='dotted'>PrivateTypingEvent</a></dt>
+<dd class="nested"><p>Event fired when a user starts typing in a guild channel …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.events.typing_events.TypingEvent.fetch_channel" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_channel() -> <a href='../models/channels.html#hikari.models.channels.TextChannel'>channels.TextChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Perform an API call to fetch an up-to-date image of this channel.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/channels.html#hikari.models.channels.TextChannel'>TextChannel</a></code></dt>
+<dd>The channel.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L89-L97" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_channel(self) -&gt; channels.TextChannel:
+    &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this channel.
+
+    Returns
+    -------
+    hikari.models.channels.TextChannel
+        The channel.
+    &#34;&#34;&#34;
+    return typing.cast(&#34;channels.TextChannel&#34;, await self.app.rest.fetch_channel(self.channel_id))</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.events.typing_events.TypingEvent.fetch_user" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_user() -> <a href='../models/users.html#hikari.models.users.User'>users.User</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Perform an API call to fetch an up-to-date image of this user.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html'>hikari.models.users.user</a></code></dt>
+<dd>The user.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/typing_events.py#L99-L107" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_user(self) -&gt; users.User:
+    &#34;&#34;&#34;Perform an API call to fetch an up-to-date image of this user.
+
+    Returns
+    -------
+    hikari.models.users.user
+        The user.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_user(self.user_id)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app" id="hikari.events.typing_events.TypingEvent.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- ID of the channel that this event concerns …" href="#hikari.events.typing_events.TypingEvent.channel_id" id="hikari.events.typing_events.TypingEvent.channel_id" class='dotted'>channel_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>ID of the channel that this event concerns.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the channel that this event concerns.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard" id="hikari.events.typing_events.TypingEvent.shard" class='dotted'>shard</a> : <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a></code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamp -- Timestamp of when this typing event started …" href="#hikari.events.typing_events.TypingEvent.timestamp" id="hikari.events.typing_events.TypingEvent.timestamp" class='dotted'>timestamp</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>Timestamp of when this typing event started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></dt>
+<dd>UTC timestamp of when the user started typing.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- ID of the user who triggered this typing event …" href="#hikari.events.typing_events.TypingEvent.user_id" id="hikari.events.typing_events.TypingEvent.user_id" class='dotted'>user_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>ID of the user who triggered this typing event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>ID of the user who is typing.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

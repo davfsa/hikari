@@ -1,0 +1,3233 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.impl.event_factory API documentation</title>
+<meta name="description" content="Implementation for a singleton bot event factory." />
+<meta property="og:title" content="hikari.impl.event_factory module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.impl.event_factory">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.impl -- Basic implementations of application components …" href="index.html"
+class='dotted'>impl</a></li>
+<li class="breadcrumb-item active"><a href="#">event_factory</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Implementation for a singleton bot event factory.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventFactoryImpl -- Implementation for a single-application bot event factory." href="#hikari.impl.event_factory.EventFactoryImpl"
+class='sidebar-nav-pill'>EventFactoryImpl</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_channel_create_event -- Parse a raw payload from Discord into a channel create event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_create_event"
+class='sidebar-nav-pill'>deserialize_channel_create_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_channel_delete_event -- Parse a raw payload from Discord into a channel delete event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_delete_event"
+class='sidebar-nav-pill'>deserialize_channel_delete_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_channel_pins_update_event -- Parse a raw payload from Discord into a channel pins update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_pins_update_event"
+class='sidebar-nav-pill'>deserialize_channel_pins_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_channel_update_event -- Parse a raw payload from Discord into a channel update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_update_event"
+class='sidebar-nav-pill'>deserialize_channel_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_ban_add_event -- Parse a raw payload from Discord into a guild ban add event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_ban_add_event"
+class='sidebar-nav-pill'>deserialize_guild_ban_add_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_ban_remove_event -- Parse a raw payload from Discord into a guild ban remove event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_ban_remove_event"
+class='sidebar-nav-pill'>deserialize_guild_ban_remove_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_create_event -- Parse a raw payload from Discord into a guild create event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_create_event"
+class='sidebar-nav-pill'>deserialize_guild_create_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_emojis_update_event -- Parse a raw payload from Discord into a guild emojis update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_emojis_update_event"
+class='sidebar-nav-pill'>deserialize_guild_emojis_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_integrations_update_event -- Parse a raw payload from Discord into a guilds integrations update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_integrations_update_event"
+class='sidebar-nav-pill'>deserialize_guild_integrations_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_leave_event -- Parse a raw payload from Discord into a guild leave event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_leave_event"
+class='sidebar-nav-pill'>deserialize_guild_leave_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_member_add_event -- Parse a raw payload from Discord into a guild member add event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_add_event"
+class='sidebar-nav-pill'>deserialize_guild_member_add_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_member_chunk_event -- Parse a raw payload from Discord into a member chunk event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_chunk_event"
+class='sidebar-nav-pill'>deserialize_guild_member_chunk_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_member_remove_event -- Parse a raw payload from Discord into a guild member remove event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_remove_event"
+class='sidebar-nav-pill'>deserialize_guild_member_remove_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_member_update_event -- Parse a raw payload from Discord into a guild member update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_update_event"
+class='sidebar-nav-pill'>deserialize_guild_member_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_role_create_event -- Parse a raw payload from Discord into a guild role create event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_create_event"
+class='sidebar-nav-pill'>deserialize_guild_role_create_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_role_delete_event -- Parse a raw payload from Discord into a guild role delete event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_delete_event"
+class='sidebar-nav-pill'>deserialize_guild_role_delete_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_role_update_event -- Parse a raw payload from Discord into a guild role update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_update_event"
+class='sidebar-nav-pill'>deserialize_guild_role_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_unavailable_event -- Parse a raw payload from Discord into a guild unavailable event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_unavailable_event"
+class='sidebar-nav-pill'>deserialize_guild_unavailable_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_guild_update_event -- Parse a raw payload from Discord into a guild update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_update_event"
+class='sidebar-nav-pill'>deserialize_guild_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_invite_create_event -- Parse a raw payload from Discord into an invite create event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_invite_create_event"
+class='sidebar-nav-pill'>deserialize_invite_create_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_invite_delete_event -- Parse a raw payload from Discord into an invite delete event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_invite_delete_event"
+class='sidebar-nav-pill'>deserialize_invite_delete_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_create_event -- Parse a raw payload from Discord into a message create event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_create_event"
+class='sidebar-nav-pill'>deserialize_message_create_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_delete_bulk_event -- Parse a raw payload from Discord into a message delete bulk event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_delete_bulk_event"
+class='sidebar-nav-pill'>deserialize_message_delete_bulk_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_delete_event -- Parse a raw payload from Discord into a message delete event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_delete_event"
+class='sidebar-nav-pill'>deserialize_message_delete_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_reaction_add_event -- Parse a raw payload from Discord into a message reaction add event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_add_event"
+class='sidebar-nav-pill'>deserialize_message_reaction_add_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_reaction_remove_all_event -- Parse a raw payload from Discord into a message reaction remove all event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_all_event"
+class='sidebar-nav-pill'>deserialize_message_reaction_remove_all_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_reaction_remove_emoji_event -- Parse a raw payload from Discord into a message reaction remove emoji event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_emoji_event"
+class='sidebar-nav-pill'>deserialize_message_reaction_remove_emoji_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_reaction_remove_event -- Parse a raw payload from Discord into a message reaction remove event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_event"
+class='sidebar-nav-pill'>deserialize_message_reaction_remove_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_message_update_event -- Parse a raw payload from Discord into a message update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_message_update_event"
+class='sidebar-nav-pill'>deserialize_message_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_own_user_update_event -- Parse a raw payload from Discord into a own user update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_own_user_update_event"
+class='sidebar-nav-pill'>deserialize_own_user_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_presence_update_event -- Parse a raw payload from Discord into a presence update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_presence_update_event"
+class='sidebar-nav-pill'>deserialize_presence_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_ready_event -- Parse a raw payload from Discord into a ready event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_ready_event"
+class='sidebar-nav-pill'>deserialize_ready_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_typing_start_event -- Parse a raw payload from Discord into a typing start event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_typing_start_event"
+class='sidebar-nav-pill'>deserialize_typing_start_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_voice_server_update_event -- Parse a raw payload from Discord into a voice server update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_voice_server_update_event"
+class='sidebar-nav-pill'>deserialize_voice_server_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_voice_state_update_event -- Parse a raw payload from Discord into a voice state update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_voice_state_update_event"
+class='sidebar-nav-pill'>deserialize_voice_state_update_event</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="deserialize_webhook_update_event -- Parse a raw payload from Discord into a webhook update event object …" href="#hikari.impl.event_factory.EventFactoryImpl.deserialize_webhook_update_event"
+class='sidebar-nav-pill'>deserialize_webhook_update_event</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L0-L543" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Implementation for a singleton bot event factory.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;EventFactoryImpl&#34;]
+
+import datetime
+import typing
+
+from hikari import traits
+from hikari.api import event_factory
+from hikari.api import shard as gateway_shard
+from hikari.events import channel_events
+from hikari.events import guild_events
+from hikari.events import member_events
+from hikari.events import message_events
+from hikari.events import reaction_events
+from hikari.events import role_events
+from hikari.events import shard_events
+from hikari.events import typing_events
+from hikari.events import user_events
+from hikari.events import voice_events
+from hikari.models import channels as channel_models
+from hikari.models import users as user_models
+from hikari.utilities import data_binding
+from hikari.utilities import date
+from hikari.utilities import snowflake
+from hikari.utilities import undefined
+
+
+class EventFactoryImpl(event_factory.EventFactory):
+    &#34;&#34;&#34;Implementation for a single-application bot event factory.&#34;&#34;&#34;
+
+    def __init__(self, app: traits.RESTAware) -&gt; None:
+        self._app = app
+
+    ##################
+    # CHANNEL EVENTS #
+    ##################
+
+    def deserialize_channel_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelCreateEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelUpdateEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelDeleteEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_pins_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.PinsUpdateEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+
+        # Turns out this _can_ be None or not present. Only set it if it is actually available.
+        if (raw := payload.get(&#34;last_pin_timestamp&#34;)) is not None:
+            last_pin_timestamp: typing.Optional[datetime.datetime] = date.iso8601_datetime_string_to_datetime(raw)
+        else:
+            last_pin_timestamp = None
+
+        if &#34;guild_id&#34; in payload:
+            return channel_events.GuildPinsUpdateEvent(
+                app=self._app,
+                shard=shard,
+                channel_id=channel_id,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                last_pin_timestamp=last_pin_timestamp,
+            )
+
+        return channel_events.PrivatePinsUpdateEvent(
+            app=self._app, shard=shard, channel_id=channel_id, last_pin_timestamp=last_pin_timestamp
+        )
+
+    def deserialize_webhook_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.WebhookUpdateEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        return channel_events.WebhookUpdateEvent(app=self._app, shard=shard, channel_id=channel_id, guild_id=guild_id,)
+
+    def deserialize_typing_start_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; typing_events.TypingEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        # Turns out that this endpoint uses seconds rather than milliseconds.
+        timestamp = date.unix_epoch_to_datetime(payload[&#34;timestamp&#34;], is_millis=False)
+
+        if &#34;guild_id&#34; in payload:
+            guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+            member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+            return typing_events.GuildTypingEvent(
+                app=self._app,
+                shard=shard,
+                channel_id=channel_id,
+                guild_id=guild_id,
+                user_id=user_id,
+                timestamp=timestamp,
+                member=member,
+            )
+
+        return typing_events.PrivateTypingEvent(
+            app=self._app, shard=shard, channel_id=channel_id, user_id=user_id, timestamp=timestamp
+        )
+
+    def deserialize_invite_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.InviteCreateEvent:
+        invite = self._app.entity_factory.deserialize_invite_with_metadata(payload)
+        return channel_events.InviteCreateEvent(app=self._app, shard=shard, invite=invite)
+
+    def deserialize_invite_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.InviteDeleteEvent:
+
+        if &#34;guild_id&#34; not in payload:
+            raise TypeError(&#34;Expected guild invite delete, but received unexpected payload&#34;)
+
+        return channel_events.InviteDeleteEvent(
+            app=self._app,
+            shard=shard,
+            code=payload[&#34;code&#34;],
+            channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+
+    ################
+    # GUILD EVENTS #
+    ################
+
+    def deserialize_guild_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildAvailableEvent:
+        guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+        assert guild_information.channels is not None
+        assert guild_information.members is not None
+        assert guild_information.presences is not None
+        assert guild_information.voice_states is not None
+        return guild_events.GuildAvailableEvent(
+            app=self._app,
+            shard=shard,
+            guild=guild_information.guild,
+            emojis=guild_information.emojis,
+            roles=guild_information.roles,
+            channels=guild_information.channels,
+            members=guild_information.members,
+            presences=guild_information.presences,
+            voice_states=guild_information.voice_states,
+        )
+
+    def deserialize_guild_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildUpdateEvent:
+        guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+        return guild_events.GuildUpdateEvent(
+            app=self._app,
+            shard=shard,
+            guild=guild_information.guild,
+            emojis=guild_information.emojis,
+            roles=guild_information.roles,
+        )
+
+    def deserialize_guild_leave_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildLeaveEvent:
+        return guild_events.GuildLeaveEvent(app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;]))
+
+    def deserialize_guild_unavailable_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildUnavailableEvent:
+        return guild_events.GuildUnavailableEvent(
+            app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;])
+        )
+
+    def deserialize_guild_ban_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.BanCreateEvent:
+        return guild_events.BanCreateEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+        )
+
+    def deserialize_guild_ban_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.BanDeleteEvent:
+        return guild_events.BanDeleteEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+        )
+
+    def deserialize_guild_emojis_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.EmojisUpdateEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        emojis = [
+            self._app.entity_factory.deserialize_known_custom_emoji(emoji, guild_id=guild_id)
+            for emoji in payload[&#34;emojis&#34;]
+        ]
+        return guild_events.EmojisUpdateEvent(app=self._app, shard=shard, guild_id=guild_id, emojis=emojis)
+
+    def deserialize_guild_integrations_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.IntegrationsUpdateEvent:
+        return guild_events.IntegrationsUpdateEvent(
+            app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+
+    def deserialize_guild_member_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberCreateEvent:
+        member = self._app.entity_factory.deserialize_member(payload)
+        return member_events.MemberCreateEvent(app=self._app, shard=shard, member=member)
+
+    def deserialize_guild_member_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberUpdateEvent:
+        member = self._app.entity_factory.deserialize_member(payload)
+        return member_events.MemberUpdateEvent(app=self._app, shard=shard, member=member)
+
+    def deserialize_guild_member_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberDeleteEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        user = self._app.entity_factory.deserialize_user(payload[&#34;user&#34;])
+        return member_events.MemberDeleteEvent(app=self._app, shard=shard, guild_id=guild_id, user=user)
+
+    def deserialize_guild_role_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleCreateEvent:
+        role = self._app.entity_factory.deserialize_role(
+            payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+        return role_events.RoleCreateEvent(app=self._app, shard=shard, role=role)
+
+    def deserialize_guild_role_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleUpdateEvent:
+        role = self._app.entity_factory.deserialize_role(
+            payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+        return role_events.RoleUpdateEvent(app=self._app, shard=shard, role=role)
+
+    def deserialize_guild_role_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleDeleteEvent:
+        return role_events.RoleDeleteEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            role_id=snowflake.Snowflake(payload[&#34;role_id&#34;]),
+        )
+
+    def deserialize_presence_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.PresenceUpdateEvent:
+        presence = self._app.entity_factory.deserialize_member_presence(payload)
+
+        user_payload = payload[&#34;user&#34;]
+        user: typing.Optional[user_models.PartialUser] = None
+        # Here we&#39;re told that the only guaranteed field is &#34;id&#34;, so if we only get 1 field in the user payload then
+        # then we&#39;ve only got an ID and there&#39;s no reason to form a user object.
+        if len(user_payload) &gt; 1:
+            # PartialUser
+            discriminator = user_payload[&#34;discriminator&#34;] if &#34;discriminator&#34; in user_payload else undefined.UNDEFINED
+            flags: undefined.UndefinedOr[user_models.UserFlag] = undefined.UNDEFINED
+            if &#34;public_flags&#34; in user_payload:
+                flags = user_models.UserFlag(user_payload[&#34;public_flags&#34;])
+
+            user = user_models.PartialUserImpl(
+                app=self._app,
+                id=snowflake.Snowflake(user_payload[&#34;id&#34;]),
+                discriminator=discriminator,
+                username=user_payload.get(&#34;username&#34;, undefined.UNDEFINED),
+                avatar_hash=user_payload.get(&#34;avatar&#34;, undefined.UNDEFINED),
+                is_bot=user_payload.get(&#34;bot&#34;, undefined.UNDEFINED),
+                is_system=user_payload.get(&#34;system&#34;, undefined.UNDEFINED),
+                flags=flags,
+            )
+            # noinspection PyArgumentList
+
+        return guild_events.PresenceUpdateEvent(app=self._app, shard=shard, presence=presence, user=user)
+
+    ##################
+    # MESSAGE EVENTS #
+    ##################
+
+    def deserialize_message_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageCreateEvent:
+        message = self._app.entity_factory.deserialize_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageCreateEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageCreateEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_update_event(  # noqa: CFQ001
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageUpdateEvent:
+        message = self._app.entity_factory.deserialize_partial_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageUpdateEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageUpdateEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageDeleteEvent:
+        message = self._app.entity_factory.deserialize_partial_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageDeleteEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageDeleteEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_delete_bulk_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageBulkDeleteEvent:
+        if &#34;guild_id&#34; not in payload:
+            raise NotImplementedError(&#34;No implementation for private message bulk delete events&#34;)
+
+        return message_events.GuildMessageBulkDeleteEvent(
+            app=self._app,
+            shard=shard,
+            channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            message_ids=[snowflake.Snowflake(message_id) for message_id in payload[&#34;ids&#34;]],
+        )
+
+    def deserialize_message_reaction_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionAddEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;member&#34; in payload:
+            guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+            member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+            return reaction_events.GuildReactionAddEvent(
+                app=self._app, shard=shard, member=member, channel_id=channel_id, message_id=message_id, emoji=emoji,
+            )
+
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        return reaction_events.PrivateReactionAddEvent(
+            app=self._app, shard=shard, channel_id=channel_id, message_id=message_id, user_id=user_id, emoji=emoji,
+        )
+
+    def deserialize_message_reaction_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteEvent(
+                app=self._app,
+                shard=shard,
+                user_id=user_id,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+                emoji=emoji,
+            )
+
+        return reaction_events.PrivateReactionDeleteEvent(
+            app=self._app, shard=shard, user_id=user_id, channel_id=channel_id, message_id=message_id, emoji=emoji,
+        )
+
+    def deserialize_message_reaction_remove_all_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteAllEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteAllEvent(
+                app=self._app,
+                shard=shard,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+            )
+
+        # TODO: check if this can even occur.
+        return reaction_events.PrivateReactionDeleteAllEvent(
+            app=self._app, shard=shard, channel_id=channel_id, message_id=message_id,
+        )
+
+    def deserialize_message_reaction_remove_emoji_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteEmojiEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteEmojiEvent(
+                app=self._app,
+                shard=shard,
+                emoji=emoji,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+            )
+
+        # TODO: check if this can even occur.
+        return reaction_events.PrivateReactionDeleteEmojiEvent(
+            app=self._app, shard=shard, emoji=emoji, channel_id=channel_id, message_id=message_id,
+        )
+
+    ################
+    # OTHER EVENTS #
+    ################
+
+    def deserialize_ready_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; shard_events.ShardReadyEvent:
+        gateway_version = int(payload[&#34;v&#34;])
+        my_user = self._app.entity_factory.deserialize_my_user(payload[&#34;user&#34;])
+        unavailable_guilds = [snowflake.Snowflake(guild[&#34;id&#34;]) for guild in payload[&#34;guilds&#34;]]
+        session_id = payload[&#34;session_id&#34;]
+
+        return shard_events.ShardReadyEvent(
+            app=self._app,
+            shard=shard,
+            actual_gateway_version=gateway_version,
+            session_id=session_id,
+            my_user=my_user,
+            unavailable_guilds=unavailable_guilds,
+        )
+
+    def deserialize_own_user_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; user_events.OwnUserUpdateEvent:
+        return user_events.OwnUserUpdateEvent(
+            app=self._app, shard=shard, user=self._app.entity_factory.deserialize_my_user(payload)
+        )
+
+    def deserialize_guild_member_chunk_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.MemberChunkEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        index = int(payload[&#34;chunk_index&#34;])
+        count = int(payload[&#34;chunk_count&#34;])
+        members = {
+            snowflake.Snowflake(m[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member(m, guild_id=guild_id)
+            for m in payload[&#34;members&#34;]
+        }
+        # Note, these IDs may be returned as ints or strings based on whether they&#39;re over a certain value.
+        not_found = [snowflake.Snowflake(sn) for sn in payload[&#34;not_found&#34;]] if &#34;not_found&#34; in payload else []
+
+        nonce = typing.cast(&#34;typing.Optional[str]&#34;, payload.get(&#34;nonce&#34;))
+
+        if (presence_payloads := payload.get(&#34;include_presences&#34;)) is not None:
+            presences = {
+                snowflake.Snowflake(p[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member_presence(
+                    p, guild_id=guild_id
+                )
+                for p in presence_payloads
+            }
+        else:
+            presences = {}
+
+        return guild_events.MemberChunkEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=guild_id,
+            members=members,
+            index=index,
+            count=count,
+            not_found=not_found,
+            presences=presences,
+            nonce=nonce,
+        )
+
+    ################
+    # VOICE EVENTS #
+    ################
+
+    def deserialize_voice_state_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; voice_events.VoiceStateUpdateEvent:
+        state = self._app.entity_factory.deserialize_voice_state(payload)
+        return voice_events.VoiceStateUpdateEvent(app=self._app, shard=shard, state=state)
+
+    def deserialize_voice_server_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; voice_events.VoiceServerUpdateEvent:
+        token = payload[&#34;token&#34;]
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        raw_endpoint = payload[&#34;endpoint&#34;]
+        return voice_events.VoiceServerUpdateEvent(
+            app=self._app, shard=shard, guild_id=guild_id, token=token, raw_endpoint=raw_endpoint
+        )</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventFactoryImpl -- Implementation for a single-application bot event factory." href="#hikari.impl.event_factory.EventFactoryImpl"
+class='dotted'>EventFactoryImpl</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EventFactoryImpl (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Implementation for a single-application bot event factory.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L52-L544" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EventFactoryImpl(event_factory.EventFactory):
+    &#34;&#34;&#34;Implementation for a single-application bot event factory.&#34;&#34;&#34;
+
+    def __init__(self, app: traits.RESTAware) -&gt; None:
+        self._app = app
+
+    ##################
+    # CHANNEL EVENTS #
+    ##################
+
+    def deserialize_channel_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelCreateEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelUpdateEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.ChannelDeleteEvent:
+        channel = self._app.entity_factory.deserialize_channel(payload)
+        if isinstance(channel, channel_models.GuildChannel):
+            return channel_events.GuildChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+        if isinstance(channel, channel_models.PrivateChannel):
+            return channel_events.PrivateChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+        raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)
+
+    def deserialize_channel_pins_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.PinsUpdateEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+
+        # Turns out this _can_ be None or not present. Only set it if it is actually available.
+        if (raw := payload.get(&#34;last_pin_timestamp&#34;)) is not None:
+            last_pin_timestamp: typing.Optional[datetime.datetime] = date.iso8601_datetime_string_to_datetime(raw)
+        else:
+            last_pin_timestamp = None
+
+        if &#34;guild_id&#34; in payload:
+            return channel_events.GuildPinsUpdateEvent(
+                app=self._app,
+                shard=shard,
+                channel_id=channel_id,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                last_pin_timestamp=last_pin_timestamp,
+            )
+
+        return channel_events.PrivatePinsUpdateEvent(
+            app=self._app, shard=shard, channel_id=channel_id, last_pin_timestamp=last_pin_timestamp
+        )
+
+    def deserialize_webhook_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.WebhookUpdateEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        return channel_events.WebhookUpdateEvent(app=self._app, shard=shard, channel_id=channel_id, guild_id=guild_id,)
+
+    def deserialize_typing_start_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; typing_events.TypingEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        # Turns out that this endpoint uses seconds rather than milliseconds.
+        timestamp = date.unix_epoch_to_datetime(payload[&#34;timestamp&#34;], is_millis=False)
+
+        if &#34;guild_id&#34; in payload:
+            guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+            member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+            return typing_events.GuildTypingEvent(
+                app=self._app,
+                shard=shard,
+                channel_id=channel_id,
+                guild_id=guild_id,
+                user_id=user_id,
+                timestamp=timestamp,
+                member=member,
+            )
+
+        return typing_events.PrivateTypingEvent(
+            app=self._app, shard=shard, channel_id=channel_id, user_id=user_id, timestamp=timestamp
+        )
+
+    def deserialize_invite_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.InviteCreateEvent:
+        invite = self._app.entity_factory.deserialize_invite_with_metadata(payload)
+        return channel_events.InviteCreateEvent(app=self._app, shard=shard, invite=invite)
+
+    def deserialize_invite_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; channel_events.InviteDeleteEvent:
+
+        if &#34;guild_id&#34; not in payload:
+            raise TypeError(&#34;Expected guild invite delete, but received unexpected payload&#34;)
+
+        return channel_events.InviteDeleteEvent(
+            app=self._app,
+            shard=shard,
+            code=payload[&#34;code&#34;],
+            channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+
+    ################
+    # GUILD EVENTS #
+    ################
+
+    def deserialize_guild_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildAvailableEvent:
+        guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+        assert guild_information.channels is not None
+        assert guild_information.members is not None
+        assert guild_information.presences is not None
+        assert guild_information.voice_states is not None
+        return guild_events.GuildAvailableEvent(
+            app=self._app,
+            shard=shard,
+            guild=guild_information.guild,
+            emojis=guild_information.emojis,
+            roles=guild_information.roles,
+            channels=guild_information.channels,
+            members=guild_information.members,
+            presences=guild_information.presences,
+            voice_states=guild_information.voice_states,
+        )
+
+    def deserialize_guild_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildUpdateEvent:
+        guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+        return guild_events.GuildUpdateEvent(
+            app=self._app,
+            shard=shard,
+            guild=guild_information.guild,
+            emojis=guild_information.emojis,
+            roles=guild_information.roles,
+        )
+
+    def deserialize_guild_leave_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildLeaveEvent:
+        return guild_events.GuildLeaveEvent(app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;]))
+
+    def deserialize_guild_unavailable_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.GuildUnavailableEvent:
+        return guild_events.GuildUnavailableEvent(
+            app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;])
+        )
+
+    def deserialize_guild_ban_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.BanCreateEvent:
+        return guild_events.BanCreateEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+        )
+
+    def deserialize_guild_ban_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.BanDeleteEvent:
+        return guild_events.BanDeleteEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+        )
+
+    def deserialize_guild_emojis_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.EmojisUpdateEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        emojis = [
+            self._app.entity_factory.deserialize_known_custom_emoji(emoji, guild_id=guild_id)
+            for emoji in payload[&#34;emojis&#34;]
+        ]
+        return guild_events.EmojisUpdateEvent(app=self._app, shard=shard, guild_id=guild_id, emojis=emojis)
+
+    def deserialize_guild_integrations_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.IntegrationsUpdateEvent:
+        return guild_events.IntegrationsUpdateEvent(
+            app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+
+    def deserialize_guild_member_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberCreateEvent:
+        member = self._app.entity_factory.deserialize_member(payload)
+        return member_events.MemberCreateEvent(app=self._app, shard=shard, member=member)
+
+    def deserialize_guild_member_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberUpdateEvent:
+        member = self._app.entity_factory.deserialize_member(payload)
+        return member_events.MemberUpdateEvent(app=self._app, shard=shard, member=member)
+
+    def deserialize_guild_member_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; member_events.MemberDeleteEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        user = self._app.entity_factory.deserialize_user(payload[&#34;user&#34;])
+        return member_events.MemberDeleteEvent(app=self._app, shard=shard, guild_id=guild_id, user=user)
+
+    def deserialize_guild_role_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleCreateEvent:
+        role = self._app.entity_factory.deserialize_role(
+            payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+        return role_events.RoleCreateEvent(app=self._app, shard=shard, role=role)
+
+    def deserialize_guild_role_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleUpdateEvent:
+        role = self._app.entity_factory.deserialize_role(
+            payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        )
+        return role_events.RoleUpdateEvent(app=self._app, shard=shard, role=role)
+
+    def deserialize_guild_role_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; role_events.RoleDeleteEvent:
+        return role_events.RoleDeleteEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            role_id=snowflake.Snowflake(payload[&#34;role_id&#34;]),
+        )
+
+    def deserialize_presence_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.PresenceUpdateEvent:
+        presence = self._app.entity_factory.deserialize_member_presence(payload)
+
+        user_payload = payload[&#34;user&#34;]
+        user: typing.Optional[user_models.PartialUser] = None
+        # Here we&#39;re told that the only guaranteed field is &#34;id&#34;, so if we only get 1 field in the user payload then
+        # then we&#39;ve only got an ID and there&#39;s no reason to form a user object.
+        if len(user_payload) &gt; 1:
+            # PartialUser
+            discriminator = user_payload[&#34;discriminator&#34;] if &#34;discriminator&#34; in user_payload else undefined.UNDEFINED
+            flags: undefined.UndefinedOr[user_models.UserFlag] = undefined.UNDEFINED
+            if &#34;public_flags&#34; in user_payload:
+                flags = user_models.UserFlag(user_payload[&#34;public_flags&#34;])
+
+            user = user_models.PartialUserImpl(
+                app=self._app,
+                id=snowflake.Snowflake(user_payload[&#34;id&#34;]),
+                discriminator=discriminator,
+                username=user_payload.get(&#34;username&#34;, undefined.UNDEFINED),
+                avatar_hash=user_payload.get(&#34;avatar&#34;, undefined.UNDEFINED),
+                is_bot=user_payload.get(&#34;bot&#34;, undefined.UNDEFINED),
+                is_system=user_payload.get(&#34;system&#34;, undefined.UNDEFINED),
+                flags=flags,
+            )
+            # noinspection PyArgumentList
+
+        return guild_events.PresenceUpdateEvent(app=self._app, shard=shard, presence=presence, user=user)
+
+    ##################
+    # MESSAGE EVENTS #
+    ##################
+
+    def deserialize_message_create_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageCreateEvent:
+        message = self._app.entity_factory.deserialize_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageCreateEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageCreateEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_update_event(  # noqa: CFQ001
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageUpdateEvent:
+        message = self._app.entity_factory.deserialize_partial_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageUpdateEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageUpdateEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_delete_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageDeleteEvent:
+        message = self._app.entity_factory.deserialize_partial_message(payload)
+
+        if message.guild_id is None:
+            return message_events.PrivateMessageDeleteEvent(app=self._app, shard=shard, message=message)
+
+        return message_events.GuildMessageDeleteEvent(app=self._app, shard=shard, message=message)
+
+    def deserialize_message_delete_bulk_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; message_events.MessageBulkDeleteEvent:
+        if &#34;guild_id&#34; not in payload:
+            raise NotImplementedError(&#34;No implementation for private message bulk delete events&#34;)
+
+        return message_events.GuildMessageBulkDeleteEvent(
+            app=self._app,
+            shard=shard,
+            channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            message_ids=[snowflake.Snowflake(message_id) for message_id in payload[&#34;ids&#34;]],
+        )
+
+    def deserialize_message_reaction_add_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionAddEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;member&#34; in payload:
+            guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+            member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+            return reaction_events.GuildReactionAddEvent(
+                app=self._app, shard=shard, member=member, channel_id=channel_id, message_id=message_id, emoji=emoji,
+            )
+
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        return reaction_events.PrivateReactionAddEvent(
+            app=self._app, shard=shard, channel_id=channel_id, message_id=message_id, user_id=user_id, emoji=emoji,
+        )
+
+    def deserialize_message_reaction_remove_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteEvent(
+                app=self._app,
+                shard=shard,
+                user_id=user_id,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+                emoji=emoji,
+            )
+
+        return reaction_events.PrivateReactionDeleteEvent(
+            app=self._app, shard=shard, user_id=user_id, channel_id=channel_id, message_id=message_id, emoji=emoji,
+        )
+
+    def deserialize_message_reaction_remove_all_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteAllEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteAllEvent(
+                app=self._app,
+                shard=shard,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+            )
+
+        # TODO: check if this can even occur.
+        return reaction_events.PrivateReactionDeleteAllEvent(
+            app=self._app, shard=shard, channel_id=channel_id, message_id=message_id,
+        )
+
+    def deserialize_message_reaction_remove_emoji_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; reaction_events.ReactionDeleteEmojiEvent:
+        channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+        message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+        emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+        if &#34;guild_id&#34; in payload:
+            return reaction_events.GuildReactionDeleteEmojiEvent(
+                app=self._app,
+                shard=shard,
+                emoji=emoji,
+                guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+                channel_id=channel_id,
+                message_id=message_id,
+            )
+
+        # TODO: check if this can even occur.
+        return reaction_events.PrivateReactionDeleteEmojiEvent(
+            app=self._app, shard=shard, emoji=emoji, channel_id=channel_id, message_id=message_id,
+        )
+
+    ################
+    # OTHER EVENTS #
+    ################
+
+    def deserialize_ready_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; shard_events.ShardReadyEvent:
+        gateway_version = int(payload[&#34;v&#34;])
+        my_user = self._app.entity_factory.deserialize_my_user(payload[&#34;user&#34;])
+        unavailable_guilds = [snowflake.Snowflake(guild[&#34;id&#34;]) for guild in payload[&#34;guilds&#34;]]
+        session_id = payload[&#34;session_id&#34;]
+
+        return shard_events.ShardReadyEvent(
+            app=self._app,
+            shard=shard,
+            actual_gateway_version=gateway_version,
+            session_id=session_id,
+            my_user=my_user,
+            unavailable_guilds=unavailable_guilds,
+        )
+
+    def deserialize_own_user_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; user_events.OwnUserUpdateEvent:
+        return user_events.OwnUserUpdateEvent(
+            app=self._app, shard=shard, user=self._app.entity_factory.deserialize_my_user(payload)
+        )
+
+    def deserialize_guild_member_chunk_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; guild_events.MemberChunkEvent:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        index = int(payload[&#34;chunk_index&#34;])
+        count = int(payload[&#34;chunk_count&#34;])
+        members = {
+            snowflake.Snowflake(m[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member(m, guild_id=guild_id)
+            for m in payload[&#34;members&#34;]
+        }
+        # Note, these IDs may be returned as ints or strings based on whether they&#39;re over a certain value.
+        not_found = [snowflake.Snowflake(sn) for sn in payload[&#34;not_found&#34;]] if &#34;not_found&#34; in payload else []
+
+        nonce = typing.cast(&#34;typing.Optional[str]&#34;, payload.get(&#34;nonce&#34;))
+
+        if (presence_payloads := payload.get(&#34;include_presences&#34;)) is not None:
+            presences = {
+                snowflake.Snowflake(p[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member_presence(
+                    p, guild_id=guild_id
+                )
+                for p in presence_payloads
+            }
+        else:
+            presences = {}
+
+        return guild_events.MemberChunkEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=guild_id,
+            members=members,
+            index=index,
+            count=count,
+            not_found=not_found,
+            presences=presences,
+            nonce=nonce,
+        )
+
+    ################
+    # VOICE EVENTS #
+    ################
+
+    def deserialize_voice_state_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; voice_events.VoiceStateUpdateEvent:
+        state = self._app.entity_factory.deserialize_voice_state(payload)
+        return voice_events.VoiceStateUpdateEvent(app=self._app, shard=shard, state=state)
+
+    def deserialize_voice_server_update_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -&gt; voice_events.VoiceServerUpdateEvent:
+        token = payload[&#34;token&#34;]
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        raw_endpoint = payload[&#34;endpoint&#34;]
+        return voice_events.VoiceServerUpdateEvent(
+            app=self._app, shard=shard, guild_id=guild_id, token=token, raw_endpoint=raw_endpoint
+        )</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="EventFactoryImpl -- Implementation for a single-application bot event factory." href="#hikari.impl.event_factory.EventFactoryImpl"
+class='dotted'>EventFactoryImpl</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></dt>
+<dd class="nested"><p>Interface for components that deserialize JSON events.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_create_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_channel_create_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.ChannelCreateEvent'>ChannelCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_channel_create_event -- Parse a raw payload from Discord into a channel create event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_channel_create_event"
+class='dotted'>deserialize_channel_create_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a channel create event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.ChannelCreateEvent'>ChannelCreateEvent</a></code></dt>
+<dd>The parsed channel create event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L62-L70" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_channel_create_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.ChannelCreateEvent:
+    channel = self._app.entity_factory.deserialize_channel(payload)
+    if isinstance(channel, channel_models.GuildChannel):
+        return channel_events.GuildChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+    if isinstance(channel, channel_models.PrivateChannel):
+        return channel_events.PrivateChannelCreateEvent(app=self._app, shard=shard, channel=channel)
+    raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_delete_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_channel_delete_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.ChannelDeleteEvent'>ChannelDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_channel_delete_event -- Parse a raw payload from Discord into a channel delete event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_channel_delete_event"
+class='dotted'>deserialize_channel_delete_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a channel delete event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.ChannelDeleteEvent'>ChannelDeleteEvent</a></code></dt>
+<dd>The parsed channel delete event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L82-L90" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_channel_delete_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.ChannelDeleteEvent:
+    channel = self._app.entity_factory.deserialize_channel(payload)
+    if isinstance(channel, channel_models.GuildChannel):
+        return channel_events.GuildChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+    if isinstance(channel, channel_models.PrivateChannel):
+        return channel_events.PrivateChannelDeleteEvent(app=self._app, shard=shard, channel=channel)
+    raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_pins_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_channel_pins_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.PinsUpdateEvent'>PinsUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_channel_pins_update_event -- Parse a raw payload from Discord into a channel pins update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_channel_pins_update_event"
+class='dotted'>deserialize_channel_pins_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a channel pins update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.PinsUpdateEvent'>PinsUpdateEvent</a></code></dt>
+<dd>The parsed channel pins update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L92-L114" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_channel_pins_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.PinsUpdateEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+
+    # Turns out this _can_ be None or not present. Only set it if it is actually available.
+    if (raw := payload.get(&#34;last_pin_timestamp&#34;)) is not None:
+        last_pin_timestamp: typing.Optional[datetime.datetime] = date.iso8601_datetime_string_to_datetime(raw)
+    else:
+        last_pin_timestamp = None
+
+    if &#34;guild_id&#34; in payload:
+        return channel_events.GuildPinsUpdateEvent(
+            app=self._app,
+            shard=shard,
+            channel_id=channel_id,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            last_pin_timestamp=last_pin_timestamp,
+        )
+
+    return channel_events.PrivatePinsUpdateEvent(
+        app=self._app, shard=shard, channel_id=channel_id, last_pin_timestamp=last_pin_timestamp
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_channel_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_channel_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.ChannelUpdateEvent'>ChannelUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_channel_update_event -- Parse a raw payload from Discord into a channel update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_channel_update_event"
+class='dotted'>deserialize_channel_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a channel update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.ChannelUpdateEvent'>ChannelUpdateEvent</a></code></dt>
+<dd>The parsed
+event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L72-L80" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_channel_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.ChannelUpdateEvent:
+    channel = self._app.entity_factory.deserialize_channel(payload)
+    if isinstance(channel, channel_models.GuildChannel):
+        return channel_events.GuildChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+    if isinstance(channel, channel_models.PrivateChannel):
+        return channel_events.PrivateChannelUpdateEvent(app=self._app, shard=shard, channel=channel)
+    raise TypeError(f&#34;Expected GuildChannel or PrivateChannel but received {type(channel).__name__}&#34;)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_ban_add_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_ban_add_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.BanCreateEvent'>BanCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_ban_add_event -- Parse a raw payload from Discord into a guild ban add event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_ban_add_event"
+class='dotted'>deserialize_guild_ban_add_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild ban add event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.BanCreateEvent'>BanCreateEvent</a></code></dt>
+<dd>The parsed guild ban add event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L217-L225" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_ban_add_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.BanCreateEvent:
+    return guild_events.BanCreateEvent(
+        app=self._app,
+        shard=shard,
+        guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_ban_remove_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_ban_remove_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.BanDeleteEvent'>BanDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_ban_remove_event -- Parse a raw payload from Discord into a guild ban remove event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_ban_remove_event"
+class='dotted'>deserialize_guild_ban_remove_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild ban remove event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.BanDeleteEvent'>BanDeleteEvent</a></code></dt>
+<dd>The parsed guild ban remove event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L227-L235" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_ban_remove_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.BanDeleteEvent:
+    return guild_events.BanDeleteEvent(
+        app=self._app,
+        shard=shard,
+        guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        user=self._app.entity_factory.deserialize_user(payload[&#34;user&#34;]),
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_create_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_create_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.GuildAvailableEvent'>GuildAvailableEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_create_event -- Parse a raw payload from Discord into a guild create event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_create_event"
+class='dotted'>deserialize_guild_create_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild create event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.GuildAvailableEvent'>GuildAvailableEvent</a></code></dt>
+<dd>The parsed guild create event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L173-L191" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_create_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.GuildAvailableEvent:
+    guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+    assert guild_information.channels is not None
+    assert guild_information.members is not None
+    assert guild_information.presences is not None
+    assert guild_information.voice_states is not None
+    return guild_events.GuildAvailableEvent(
+        app=self._app,
+        shard=shard,
+        guild=guild_information.guild,
+        emojis=guild_information.emojis,
+        roles=guild_information.roles,
+        channels=guild_information.channels,
+        members=guild_information.members,
+        presences=guild_information.presences,
+        voice_states=guild_information.voice_states,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_emojis_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_emojis_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.EmojisUpdateEvent'>EmojisUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_emojis_update_event -- Parse a raw payload from Discord into a guild emojis update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_emojis_update_event"
+class='dotted'>deserialize_guild_emojis_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild emojis update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html'>hikari.events.guild_events.EmojiUpdateEvent</a></code></dt>
+<dd>The parsed guild emojis update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L237-L245" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_emojis_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.EmojisUpdateEvent:
+    guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+    emojis = [
+        self._app.entity_factory.deserialize_known_custom_emoji(emoji, guild_id=guild_id)
+        for emoji in payload[&#34;emojis&#34;]
+    ]
+    return guild_events.EmojisUpdateEvent(app=self._app, shard=shard, guild_id=guild_id, emojis=emojis)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_integrations_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_integrations_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.IntegrationsUpdateEvent'>IntegrationsUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_integrations_update_event -- Parse a raw payload from Discord into a guilds integrations update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_integrations_update_event"
+class='dotted'>deserialize_guild_integrations_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guilds integrations update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.IntegrationsUpdateEvent'>IntegrationsUpdateEvent</a></code></dt>
+<dd>The parsed guilds integrations update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L247-L252" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_integrations_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.IntegrationsUpdateEvent:
+    return guild_events.IntegrationsUpdateEvent(
+        app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_leave_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_leave_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.GuildLeaveEvent'>GuildLeaveEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_leave_event -- Parse a raw payload from Discord into a guild leave event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_leave_event"
+class='dotted'>deserialize_guild_leave_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild leave event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.GuildLeaveEvent'>GuildLeaveEvent</a></code></dt>
+<dd>The parsed guild leave event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L205-L208" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_leave_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.GuildLeaveEvent:
+    return guild_events.GuildLeaveEvent(app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;]))</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_add_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_member_add_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/member_events.html#hikari.events.member_events.MemberCreateEvent'>MemberCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_member_add_event -- Parse a raw payload from Discord into a guild member add event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_member_add_event"
+class='dotted'>deserialize_guild_member_add_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild member add event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/member_events.html#hikari.events.member_events.MemberCreateEvent'>MemberCreateEvent</a></code></dt>
+<dd>The parsed guild member add event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L254-L258" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_member_add_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; member_events.MemberCreateEvent:
+    member = self._app.entity_factory.deserialize_member(payload)
+    return member_events.MemberCreateEvent(app=self._app, shard=shard, member=member)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_chunk_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_member_chunk_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.MemberChunkEvent'>MemberChunkEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_member_chunk_event -- Parse a raw payload from Discord into a member chunk event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_member_chunk_event"
+class='dotted'>deserialize_guild_member_chunk_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a member chunk event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/shard_events.html'>hikari.events.shard_events.MemberChunkEvent</a></code></dt>
+<dd>The parsed member chunk object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L489-L524" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_member_chunk_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.MemberChunkEvent:
+    guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+    index = int(payload[&#34;chunk_index&#34;])
+    count = int(payload[&#34;chunk_count&#34;])
+    members = {
+        snowflake.Snowflake(m[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member(m, guild_id=guild_id)
+        for m in payload[&#34;members&#34;]
+    }
+    # Note, these IDs may be returned as ints or strings based on whether they&#39;re over a certain value.
+    not_found = [snowflake.Snowflake(sn) for sn in payload[&#34;not_found&#34;]] if &#34;not_found&#34; in payload else []
+
+    nonce = typing.cast(&#34;typing.Optional[str]&#34;, payload.get(&#34;nonce&#34;))
+
+    if (presence_payloads := payload.get(&#34;include_presences&#34;)) is not None:
+        presences = {
+            snowflake.Snowflake(p[&#34;user&#34;][&#34;id&#34;]): self._app.entity_factory.deserialize_member_presence(
+                p, guild_id=guild_id
+            )
+            for p in presence_payloads
+        }
+    else:
+        presences = {}
+
+    return guild_events.MemberChunkEvent(
+        app=self._app,
+        shard=shard,
+        guild_id=guild_id,
+        members=members,
+        index=index,
+        count=count,
+        not_found=not_found,
+        presences=presences,
+        nonce=nonce,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_remove_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_member_remove_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/member_events.html#hikari.events.member_events.MemberDeleteEvent'>MemberDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_member_remove_event -- Parse a raw payload from Discord into a guild member remove event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_member_remove_event"
+class='dotted'>deserialize_guild_member_remove_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild member remove event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/member_events.html#hikari.events.member_events.MemberDeleteEvent'>MemberDeleteEvent</a></code></dt>
+<dd>The parsed guild member remove event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L266-L271" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_member_remove_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; member_events.MemberDeleteEvent:
+    guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+    user = self._app.entity_factory.deserialize_user(payload[&#34;user&#34;])
+    return member_events.MemberDeleteEvent(app=self._app, shard=shard, guild_id=guild_id, user=user)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_member_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_member_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/member_events.html#hikari.events.member_events.MemberUpdateEvent'>MemberUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_member_update_event -- Parse a raw payload from Discord into a guild member update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_member_update_event"
+class='dotted'>deserialize_guild_member_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild member update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/member_events.html#hikari.events.member_events.MemberUpdateEvent'>MemberUpdateEvent</a></code></dt>
+<dd>The parsed guild member update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L260-L264" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_member_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; member_events.MemberUpdateEvent:
+    member = self._app.entity_factory.deserialize_member(payload)
+    return member_events.MemberUpdateEvent(app=self._app, shard=shard, member=member)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_create_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_role_create_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/role_events.html#hikari.events.role_events.RoleCreateEvent'>RoleCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_role_create_event -- Parse a raw payload from Discord into a guild role create event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_role_create_event"
+class='dotted'>deserialize_guild_role_create_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild role create event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/role_events.html#hikari.events.role_events.RoleCreateEvent'>RoleCreateEvent</a></code></dt>
+<dd>The parsed guild role create event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L273-L279" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_role_create_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; role_events.RoleCreateEvent:
+    role = self._app.entity_factory.deserialize_role(
+        payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+    )
+    return role_events.RoleCreateEvent(app=self._app, shard=shard, role=role)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_delete_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_role_delete_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/role_events.html#hikari.events.role_events.RoleDeleteEvent'>RoleDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_role_delete_event -- Parse a raw payload from Discord into a guild role delete event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_role_delete_event"
+class='dotted'>deserialize_guild_role_delete_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild role delete event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/role_events.html#hikari.events.role_events.RoleDeleteEvent'>RoleDeleteEvent</a></code></dt>
+<dd>The parsed guild role delete event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L289-L297" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_role_delete_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; role_events.RoleDeleteEvent:
+    return role_events.RoleDeleteEvent(
+        app=self._app,
+        shard=shard,
+        guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        role_id=snowflake.Snowflake(payload[&#34;role_id&#34;]),
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_role_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_role_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/role_events.html#hikari.events.role_events.RoleUpdateEvent'>RoleUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_role_update_event -- Parse a raw payload from Discord into a guild role update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_role_update_event"
+class='dotted'>deserialize_guild_role_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild role update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/role_events.html#hikari.events.role_events.RoleUpdateEvent'>RoleUpdateEvent</a></code></dt>
+<dd>The parsed guild role update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L281-L287" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_role_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; role_events.RoleUpdateEvent:
+    role = self._app.entity_factory.deserialize_role(
+        payload[&#34;role&#34;], guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+    )
+    return role_events.RoleUpdateEvent(app=self._app, shard=shard, role=role)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_unavailable_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_unavailable_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.GuildUnavailableEvent'>GuildUnavailableEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_unavailable_event -- Parse a raw payload from Discord into a guild unavailable event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_unavailable_event"
+class='dotted'>deserialize_guild_unavailable_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild unavailable event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.GuildUnavailableEvent'>GuildUnavailableEvent</a></code></dt>
+<dd>The parsed guild unavailable event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L210-L215" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_unavailable_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.GuildUnavailableEvent:
+    return guild_events.GuildUnavailableEvent(
+        app=self._app, shard=shard, guild_id=snowflake.Snowflake(payload[&#34;id&#34;])
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_guild_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_guild_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.GuildUpdateEvent'>GuildUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_guild_update_event -- Parse a raw payload from Discord into a guild update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_guild_update_event"
+class='dotted'>deserialize_guild_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a guild update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.GuildUpdateEvent'>GuildUpdateEvent</a></code></dt>
+<dd>The parsed guild update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L193-L203" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_guild_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.GuildUpdateEvent:
+    guild_information = self._app.entity_factory.deserialize_gateway_guild(payload)
+    return guild_events.GuildUpdateEvent(
+        app=self._app,
+        shard=shard,
+        guild=guild_information.guild,
+        emojis=guild_information.emojis,
+        roles=guild_information.roles,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_invite_create_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_invite_create_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.InviteCreateEvent'>InviteCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_invite_create_event -- Parse a raw payload from Discord into an invite create event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_invite_create_event"
+class='dotted'>deserialize_invite_create_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into an invite create event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.InviteCreateEvent'>InviteCreateEvent</a></code></dt>
+<dd>The parsed invite create event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L148-L152" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_invite_create_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.InviteCreateEvent:
+    invite = self._app.entity_factory.deserialize_invite_with_metadata(payload)
+    return channel_events.InviteCreateEvent(app=self._app, shard=shard, invite=invite)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_invite_delete_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_invite_delete_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.InviteDeleteEvent'>InviteDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_invite_delete_event -- Parse a raw payload from Discord into an invite delete event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_invite_delete_event"
+class='dotted'>deserialize_invite_delete_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into an invite delete event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.InviteDeleteEvent'>InviteDeleteEvent</a></code></dt>
+<dd>The parsed invite delete event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L154-L167" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_invite_delete_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.InviteDeleteEvent:
+
+    if &#34;guild_id&#34; not in payload:
+        raise TypeError(&#34;Expected guild invite delete, but received unexpected payload&#34;)
+
+    return channel_events.InviteDeleteEvent(
+        app=self._app,
+        shard=shard,
+        code=payload[&#34;code&#34;],
+        channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+        guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_create_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_create_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/message_events.html#hikari.events.message_events.MessageCreateEvent'>MessageCreateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_create_event -- Parse a raw payload from Discord into a message create event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_create_event"
+class='dotted'>deserialize_message_create_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message create event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/message_events.html#hikari.events.message_events.MessageCreateEvent'>MessageCreateEvent</a></code></dt>
+<dd>The parsed message create event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L333-L341" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_create_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; message_events.MessageCreateEvent:
+    message = self._app.entity_factory.deserialize_message(payload)
+
+    if message.guild_id is None:
+        return message_events.PrivateMessageCreateEvent(app=self._app, shard=shard, message=message)
+
+    return message_events.GuildMessageCreateEvent(app=self._app, shard=shard, message=message)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_delete_bulk_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_delete_bulk_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/message_events.html#hikari.events.message_events.MessageBulkDeleteEvent'>MessageBulkDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_delete_bulk_event -- Parse a raw payload from Discord into a message delete bulk event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_delete_bulk_event"
+class='dotted'>deserialize_message_delete_bulk_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message delete bulk event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/message_events.html#hikari.events.message_events.MessageBulkDeleteEvent'>MessageBulkDeleteEvent</a></code></dt>
+<dd>The parsed message delete bulk event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L363-L375" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_delete_bulk_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; message_events.MessageBulkDeleteEvent:
+    if &#34;guild_id&#34; not in payload:
+        raise NotImplementedError(&#34;No implementation for private message bulk delete events&#34;)
+
+    return message_events.GuildMessageBulkDeleteEvent(
+        app=self._app,
+        shard=shard,
+        channel_id=snowflake.Snowflake(payload[&#34;channel_id&#34;]),
+        guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+        message_ids=[snowflake.Snowflake(message_id) for message_id in payload[&#34;ids&#34;]],
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_delete_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_delete_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/message_events.html#hikari.events.message_events.MessageDeleteEvent'>MessageDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_delete_event -- Parse a raw payload from Discord into a message delete event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_delete_event"
+class='dotted'>deserialize_message_delete_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message delete event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/message_events.html#hikari.events.message_events.MessageDeleteEvent'>MessageDeleteEvent</a></code></dt>
+<dd>The parsed message delete event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L353-L361" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_delete_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; message_events.MessageDeleteEvent:
+    message = self._app.entity_factory.deserialize_partial_message(payload)
+
+    if message.guild_id is None:
+        return message_events.PrivateMessageDeleteEvent(app=self._app, shard=shard, message=message)
+
+    return message_events.GuildMessageDeleteEvent(app=self._app, shard=shard, message=message)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_add_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_reaction_add_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionAddEvent'>ReactionAddEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_reaction_add_event -- Parse a raw payload from Discord into a message reaction add event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_reaction_add_event"
+class='dotted'>deserialize_message_reaction_add_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message reaction add event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionAddEvent'>ReactionAddEvent</a></code></dt>
+<dd>The parsed message reaction add event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L377-L394" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_reaction_add_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; reaction_events.ReactionAddEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+    emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+    if &#34;member&#34; in payload:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+        return reaction_events.GuildReactionAddEvent(
+            app=self._app, shard=shard, member=member, channel_id=channel_id, message_id=message_id, emoji=emoji,
+        )
+
+    user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+    return reaction_events.PrivateReactionAddEvent(
+        app=self._app, shard=shard, channel_id=channel_id, message_id=message_id, user_id=user_id, emoji=emoji,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_all_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_reaction_remove_all_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteAllEvent'>ReactionDeleteAllEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_reaction_remove_all_event -- Parse a raw payload from Discord into a message reaction remove all event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_reaction_remove_all_event"
+class='dotted'>deserialize_message_reaction_remove_all_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message reaction remove all event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteAllEvent'>ReactionDeleteAllEvent</a></code></dt>
+<dd>The parsed message reaction remove all event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L419-L437" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_reaction_remove_all_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; reaction_events.ReactionDeleteAllEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+
+    if &#34;guild_id&#34; in payload:
+        return reaction_events.GuildReactionDeleteAllEvent(
+            app=self._app,
+            shard=shard,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            channel_id=channel_id,
+            message_id=message_id,
+        )
+
+    # TODO: check if this can even occur.
+    return reaction_events.PrivateReactionDeleteAllEvent(
+        app=self._app, shard=shard, channel_id=channel_id, message_id=message_id,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_emoji_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_reaction_remove_emoji_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteEmojiEvent'>ReactionDeleteEmojiEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_reaction_remove_emoji_event -- Parse a raw payload from Discord into a message reaction remove emoji event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_reaction_remove_emoji_event"
+class='dotted'>deserialize_message_reaction_remove_emoji_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message reaction remove emoji event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteEmojiEvent'>ReactionDeleteEmojiEvent</a></code></dt>
+<dd>The parsed message reaction remove emoji event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L439-L459" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_reaction_remove_emoji_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; reaction_events.ReactionDeleteEmojiEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+    emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+    if &#34;guild_id&#34; in payload:
+        return reaction_events.GuildReactionDeleteEmojiEvent(
+            app=self._app,
+            shard=shard,
+            emoji=emoji,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            channel_id=channel_id,
+            message_id=message_id,
+        )
+
+    # TODO: check if this can even occur.
+    return reaction_events.PrivateReactionDeleteEmojiEvent(
+        app=self._app, shard=shard, emoji=emoji, channel_id=channel_id, message_id=message_id,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_reaction_remove_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_reaction_remove_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteEvent'>ReactionDeleteEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_reaction_remove_event -- Parse a raw payload from Discord into a message reaction remove event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_reaction_remove_event"
+class='dotted'>deserialize_message_reaction_remove_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message reaction remove event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/reaction_events.html#hikari.events.reaction_events.ReactionDeleteEvent'>ReactionDeleteEvent</a></code></dt>
+<dd>The parsed message reaction remove event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L396-L417" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_reaction_remove_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; reaction_events.ReactionDeleteEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    message_id = snowflake.Snowflake(payload[&#34;message_id&#34;])
+    user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+    emoji = self._app.entity_factory.deserialize_emoji(payload[&#34;emoji&#34;])
+
+    if &#34;guild_id&#34; in payload:
+        return reaction_events.GuildReactionDeleteEvent(
+            app=self._app,
+            shard=shard,
+            user_id=user_id,
+            guild_id=snowflake.Snowflake(payload[&#34;guild_id&#34;]),
+            channel_id=channel_id,
+            message_id=message_id,
+            emoji=emoji,
+        )
+
+    return reaction_events.PrivateReactionDeleteEvent(
+        app=self._app, shard=shard, user_id=user_id, channel_id=channel_id, message_id=message_id, emoji=emoji,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_message_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_message_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/message_events.html#hikari.events.message_events.MessageUpdateEvent'>MessageUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_message_update_event -- Parse a raw payload from Discord into a message update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_message_update_event"
+class='dotted'>deserialize_message_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a message update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/message_events.html#hikari.events.message_events.MessageUpdateEvent'>MessageUpdateEvent</a></code></dt>
+<dd>The parsed message update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L343-L351" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_message_update_event(  # noqa: CFQ001
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; message_events.MessageUpdateEvent:
+    message = self._app.entity_factory.deserialize_partial_message(payload)
+
+    if message.guild_id is None:
+        return message_events.PrivateMessageUpdateEvent(app=self._app, shard=shard, message=message)
+
+    return message_events.GuildMessageUpdateEvent(app=self._app, shard=shard, message=message)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_own_user_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_own_user_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/user_events.html#hikari.events.user_events.OwnUserUpdateEvent'>OwnUserUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_own_user_update_event -- Parse a raw payload from Discord into a own user update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_own_user_update_event"
+class='dotted'>deserialize_own_user_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a own user update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/user_events.html#hikari.events.user_events.OwnUserUpdateEvent'>OwnUserUpdateEvent</a></code></dt>
+<dd>The parsed own user update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L482-L487" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_own_user_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; user_events.OwnUserUpdateEvent:
+    return user_events.OwnUserUpdateEvent(
+        app=self._app, shard=shard, user=self._app.entity_factory.deserialize_my_user(payload)
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_presence_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_presence_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/guild_events.html#hikari.events.guild_events.PresenceUpdateEvent'>PresenceUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_presence_update_event -- Parse a raw payload from Discord into a presence update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_presence_update_event"
+class='dotted'>deserialize_presence_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a presence update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/guild_events.html#hikari.events.guild_events.PresenceUpdateEvent'>PresenceUpdateEvent</a></code></dt>
+<dd>The parsed presence update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L299-L327" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_presence_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; guild_events.PresenceUpdateEvent:
+    presence = self._app.entity_factory.deserialize_member_presence(payload)
+
+    user_payload = payload[&#34;user&#34;]
+    user: typing.Optional[user_models.PartialUser] = None
+    # Here we&#39;re told that the only guaranteed field is &#34;id&#34;, so if we only get 1 field in the user payload then
+    # then we&#39;ve only got an ID and there&#39;s no reason to form a user object.
+    if len(user_payload) &gt; 1:
+        # PartialUser
+        discriminator = user_payload[&#34;discriminator&#34;] if &#34;discriminator&#34; in user_payload else undefined.UNDEFINED
+        flags: undefined.UndefinedOr[user_models.UserFlag] = undefined.UNDEFINED
+        if &#34;public_flags&#34; in user_payload:
+            flags = user_models.UserFlag(user_payload[&#34;public_flags&#34;])
+
+        user = user_models.PartialUserImpl(
+            app=self._app,
+            id=snowflake.Snowflake(user_payload[&#34;id&#34;]),
+            discriminator=discriminator,
+            username=user_payload.get(&#34;username&#34;, undefined.UNDEFINED),
+            avatar_hash=user_payload.get(&#34;avatar&#34;, undefined.UNDEFINED),
+            is_bot=user_payload.get(&#34;bot&#34;, undefined.UNDEFINED),
+            is_system=user_payload.get(&#34;system&#34;, undefined.UNDEFINED),
+            flags=flags,
+        )
+        # noinspection PyArgumentList
+
+    return guild_events.PresenceUpdateEvent(app=self._app, shard=shard, presence=presence, user=user)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_ready_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_ready_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/shard_events.html#hikari.events.shard_events.ShardReadyEvent'>ShardReadyEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_ready_event -- Parse a raw payload from Discord into a ready event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_ready_event"
+class='dotted'>deserialize_ready_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a ready event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/shard_events.html#hikari.events.shard_events.ShardReadyEvent'>ShardReadyEvent</a></code></dt>
+<dd>The parsed ready event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L465-L480" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_ready_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; shard_events.ShardReadyEvent:
+    gateway_version = int(payload[&#34;v&#34;])
+    my_user = self._app.entity_factory.deserialize_my_user(payload[&#34;user&#34;])
+    unavailable_guilds = [snowflake.Snowflake(guild[&#34;id&#34;]) for guild in payload[&#34;guilds&#34;]]
+    session_id = payload[&#34;session_id&#34;]
+
+    return shard_events.ShardReadyEvent(
+        app=self._app,
+        shard=shard,
+        actual_gateway_version=gateway_version,
+        session_id=session_id,
+        my_user=my_user,
+        unavailable_guilds=unavailable_guilds,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_typing_start_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_typing_start_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/typing_events.html#hikari.events.typing_events.TypingEvent'>TypingEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_typing_start_event -- Parse a raw payload from Discord into a typing start event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_typing_start_event"
+class='dotted'>deserialize_typing_start_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a typing start event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/typing_events.html#hikari.events.typing_events.TypingEvent'>TypingEvent</a></code></dt>
+<dd>The parsed typing start event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L123-L146" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_typing_start_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; typing_events.TypingEvent:
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    user_id = snowflake.Snowflake(payload[&#34;user_id&#34;])
+    # Turns out that this endpoint uses seconds rather than milliseconds.
+    timestamp = date.unix_epoch_to_datetime(payload[&#34;timestamp&#34;], is_millis=False)
+
+    if &#34;guild_id&#34; in payload:
+        guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+        member = self._app.entity_factory.deserialize_member(payload[&#34;member&#34;], guild_id=guild_id)
+        return typing_events.GuildTypingEvent(
+            app=self._app,
+            shard=shard,
+            channel_id=channel_id,
+            guild_id=guild_id,
+            user_id=user_id,
+            timestamp=timestamp,
+            member=member,
+        )
+
+    return typing_events.PrivateTypingEvent(
+        app=self._app, shard=shard, channel_id=channel_id, user_id=user_id, timestamp=timestamp
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_voice_server_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_voice_server_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/voice_events.html#hikari.events.voice_events.VoiceServerUpdateEvent'>VoiceServerUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_voice_server_update_event -- Parse a raw payload from Discord into a voice server update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_voice_server_update_event"
+class='dotted'>deserialize_voice_server_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a voice server update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/voice_events.html#hikari.events.voice_events.VoiceServerUpdateEvent'>VoiceServerUpdateEvent</a></code></dt>
+<dd>The parsed voice server update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L536-L544" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_voice_server_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; voice_events.VoiceServerUpdateEvent:
+    token = payload[&#34;token&#34;]
+    guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+    raw_endpoint = payload[&#34;endpoint&#34;]
+    return voice_events.VoiceServerUpdateEvent(
+        app=self._app, shard=shard, guild_id=guild_id, token=token, raw_endpoint=raw_endpoint
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_voice_state_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_voice_state_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/voice_events.html#hikari.events.voice_events.VoiceStateUpdateEvent'>VoiceStateUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_voice_state_update_event -- Parse a raw payload from Discord into a voice state update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_voice_state_update_event"
+class='dotted'>deserialize_voice_state_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a voice state update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/voice_events.html#hikari.events.voice_events.VoiceStateUpdateEvent'>VoiceStateUpdateEvent</a></code></dt>
+<dd>The parsed voice state update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L530-L534" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_voice_state_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; voice_events.VoiceStateUpdateEvent:
+    state = self._app.entity_factory.deserialize_voice_state(payload)
+    return voice_events.VoiceStateUpdateEvent(app=self._app, shard=shard, state=state)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.impl.event_factory.EventFactoryImpl.deserialize_webhook_update_event" class="hljs python"><abbr title='A standard Python function.'>def</abbr> deserialize_webhook_update_event(
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    payload: <a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>data_binding.JSONObject</a>,
+) -> <a href='../events/channel_events.html#hikari.events.channel_events.WebhookUpdateEvent'>WebhookUpdateEvent</a>: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="EventFactory -- Interface for components that deserialize JSON events." href="../api/event_factory.html#hikari.api.event_factory.EventFactory"
+class='dotted'>EventFactory</a></code>.<code><a title="deserialize_webhook_update_event -- Parse a raw payload from Discord into a webhook update event object …" href="../api/event_factory.html#hikari.api.event_factory.EventFactory.deserialize_webhook_update_event"
+class='dotted'>deserialize_webhook_update_event</a></code>
+</p>
+<p>Parse a raw payload from Discord into a webhook update event object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>shard</code></strong> :&ensp;<code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that emitted this event.</dd>
+<dt><strong><code>payload</code></strong> :&ensp;<code><a href='../utilities/data_binding.html#hikari.utilities.data_binding.JSONObject'>JSONObject</a></code></dt>
+<dd>The dict payload to parse.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../events/channel_events.html#hikari.events.channel_events.WebhookUpdateEvent'>WebhookUpdateEvent</a></code></dt>
+<dd>The parsed webhook update event object.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/event_factory.py#L116-L121" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def deserialize_webhook_update_event(
+    self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+) -&gt; channel_events.WebhookUpdateEvent:
+    guild_id = snowflake.Snowflake(payload[&#34;guild_id&#34;])
+    channel_id = snowflake.Snowflake(payload[&#34;channel_id&#34;])
+    return channel_events.WebhookUpdateEvent(app=self._app, shard=shard, channel_id=channel_id, guild_id=guild_id,)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

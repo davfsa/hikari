@@ -1,0 +1,1952 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.emojis API documentation</title>
+<meta name="description" content="Application and entities that are used to describe emojis on Discord." />
+<meta property="og:title" content="hikari.models.emojis module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.emojis">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">emojis</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe emojis on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="Emojiish -- Type hint representing a string emoji or an `Emoji`-derived object …" href="#hikari.models.emojis.Emojiish"
+class='sidebar-nav-pill'>Emojiish</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='sidebar-nav-pill'>CustomEmoji</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.emojis.CustomEmoji.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="#hikari.models.emojis.CustomEmoji.filename"
+class='sidebar-nav-pill'>filename</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.emojis.CustomEmoji.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_animated -- Whether the emoji is animated …" href="#hikari.models.emojis.CustomEmoji.is_animated"
+class='sidebar-nav-pill'>is_animated</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.CustomEmoji.is_mentionable"
+class='sidebar-nav-pill'>is_mentionable</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.CustomEmoji.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the emoji." href="#hikari.models.emojis.CustomEmoji.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='sidebar-nav-pill'>stream</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.CustomEmoji.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.CustomEmoji.url_name"
+class='sidebar-nav-pill'>url_name</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='sidebar-nav-pill'>Emoji</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="../utilities/files.html#hikari.utilities.files.Resource.filename"
+class='sidebar-nav-pill'>filename</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.Emoji.is_mentionable"
+class='sidebar-nav-pill'>is_mentionable</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.Emoji.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- Return the generic name/representation for this emoji." href="#hikari.models.emojis.Emoji.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='sidebar-nav-pill'>stream</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.Emoji.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.Emoji.url_name"
+class='sidebar-nav-pill'>url_name</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="KnownCustomEmoji -- Represents an emoji that is known from a guild the bot is in …" href="#hikari.models.emojis.KnownCustomEmoji"
+class='sidebar-nav-pill'>KnownCustomEmoji</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.emojis.KnownCustomEmoji.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="#hikari.models.emojis.CustomEmoji.filename"
+class='sidebar-nav-pill'>filename</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this emoji belongs to." href="#hikari.models.emojis.KnownCustomEmoji.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.emojis.KnownCustomEmoji.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_animated -- Whether the emoji is animated …" href="#hikari.models.emojis.KnownCustomEmoji.is_animated"
+class='sidebar-nav-pill'>is_animated</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_available -- Whether this emoji can currently be used …" href="#hikari.models.emojis.KnownCustomEmoji.is_available"
+class='sidebar-nav-pill'>is_available</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_colons_required -- Whether this emoji must be wrapped in colons." href="#hikari.models.emojis.KnownCustomEmoji.is_colons_required"
+class='sidebar-nav-pill'>is_colons_required</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_managed -- Whether the emoji is managed by an integration." href="#hikari.models.emojis.KnownCustomEmoji.is_managed"
+class='sidebar-nav-pill'>is_managed</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.CustomEmoji.is_mentionable"
+class='sidebar-nav-pill'>is_mentionable</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.CustomEmoji.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the emoji." href="#hikari.models.emojis.KnownCustomEmoji.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_ids -- The IDs of the roles that are whitelisted to use this emoji …" href="#hikari.models.emojis.KnownCustomEmoji.role_ids"
+class='sidebar-nav-pill'>role_ids</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='sidebar-nav-pill'>stream</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.CustomEmoji.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.CustomEmoji.url_name"
+class='sidebar-nav-pill'>url_name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- The user that created the emoji …" href="#hikari.models.emojis.KnownCustomEmoji.user"
+class='sidebar-nav-pill'>user</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnicodeEmoji -- Represents a unicode emoji …" href="#hikari.models.emojis.UnicodeEmoji"
+class='sidebar-nav-pill'>UnicodeEmoji</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="codepoints -- Integer codepoints that make up this emoji, as UTF-8." href="#hikari.models.emojis.UnicodeEmoji.codepoints"
+class='sidebar-nav-pill'>codepoints</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename to use if re-uploading this emoji's PNG." href="#hikari.models.emojis.UnicodeEmoji.filename"
+class='sidebar-nav-pill'>filename</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="from_codepoints -- Create a unicode emoji from one or more UTF-32 codepoints." href="#hikari.models.emojis.UnicodeEmoji.from_codepoints"
+class='sidebar-nav-pill'>from_codepoints</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="from_emoji -- Create a unicode emoji from a raw emoji." href="#hikari.models.emojis.UnicodeEmoji.from_emoji"
+class='sidebar-nav-pill'>from_emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="from_unicode_escape -- Create a unicode emoji from a unicode escape string." href="#hikari.models.emojis.UnicodeEmoji.from_unicode_escape"
+class='sidebar-nav-pill'>from_unicode_escape</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.Emoji.is_mentionable"
+class='sidebar-nav-pill'>is_mentionable</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.UnicodeEmoji.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The code points that form the emoji." href="#hikari.models.emojis.UnicodeEmoji.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='sidebar-nav-pill'>stream</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unicode_escape -- Get the unicode escape string for this emoji." href="#hikari.models.emojis.UnicodeEmoji.unicode_escape"
+class='sidebar-nav-pill'>unicode_escape</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unicode_names -- Get the unicode name of the emoji as a sequence …" href="#hikari.models.emojis.UnicodeEmoji.unicode_names"
+class='sidebar-nav-pill'>unicode_names</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- Get the URL of the PNG rendition of this emoji …" href="#hikari.models.emojis.UnicodeEmoji.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.UnicodeEmoji.url_name"
+class='sidebar-nav-pill'>url_name</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L0-L330" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe emojis on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;Emoji&#34;, &#34;UnicodeEmoji&#34;, &#34;CustomEmoji&#34;, &#34;KnownCustomEmoji&#34;, &#34;Emojiish&#34;]
+
+import abc
+import typing
+import unicodedata
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import constants
+from hikari.utilities import files
+from hikari.utilities import routes
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.models import users
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class Emoji(files.WebResource, abc.ABC):
+    &#34;&#34;&#34;Base class for all emojis.
+
+    Any emoji implementation supports being used as a
+    `hikari.utilities.files.Resource` when uploading an attachment to the API.
+    This is achieved in the same way as using a
+    `hikari.utilities.files.WebResource` would achieve this.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def name(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the generic name/representation for this emoji.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def url(self) -&gt; str:
+        &#34;&#34;&#34;URL of the emoji image to display in clients.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def url_name(self) -&gt; str:
+        &#34;&#34;&#34;Name of the part of the emoji to use in requests.&#34;&#34;&#34;
+
+    @property
+    def is_mentionable(self) -&gt; bool:
+        &#34;&#34;&#34;Whether the emoji can be mentioned or not.&#34;&#34;&#34;
+        return True
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Mention string to use to mention the emoji with.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(hash=True, init=True, kw_only=False, slots=True, eq=False, weakref_slot=False)
+class UnicodeEmoji(Emoji):
+    &#34;&#34;&#34;Represents a unicode emoji.
+
+    !!! warning
+        A word of warning if you try to upload this emoji as a file attachment.
+
+        While this emoji type can be used to upload the Twemoji representations
+        of this emoji as a PNG, this is NOT foolproof. The mapping between
+        Discord&#39;s implementation and official Twemoji bindings is very flaky.
+        Responsible implementations relying on this behaviour will be
+        implemented to expect this behaviour in the form of
+        `hikari.errors.NotFound` exceptions being raised when a mismatch may
+        occur. It is also likely that this will change in the future without
+        notice, so you will likely be relying on flaky behaviour.
+
+        If this is proven to be too unstable, this functionality will be
+        removed in a future release after a deprecation period.
+    &#34;&#34;&#34;
+
+    name: str = attr.ib(repr=True, hash=True)
+    &#34;&#34;&#34;The code points that form the emoji.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+    def __eq__(self, other: typing.Any) -&gt; bool:
+        if isinstance(other, Emoji):
+            return self.name == other.name
+        if isinstance(other, str):
+            return self.name == other
+        return False
+
+    @property
+    @typing.final
+    def url_name(self) -&gt; str:
+        return self.name
+
+    @property
+    def mention(self) -&gt; str:
+        return self.name
+
+    @property
+    @typing.final
+    def codepoints(self) -&gt; typing.Sequence[int]:
+        &#34;&#34;&#34;Integer codepoints that make up this emoji, as UTF-8.&#34;&#34;&#34;
+        return [ord(c) for c in self.name]
+
+    @property
+    def filename(self) -&gt; str:
+        &#34;&#34;&#34;Filename to use if re-uploading this emoji&#39;s PNG.&#34;&#34;&#34;
+        codepoints = self.codepoints
+        # It looks like the rule is to delete character #2 if the value
+        # of this is 0xfe0f and the character is 4 characters long.
+        # Other than that, the mapping is 1-to-1. I&#39;ll set up a CI task to
+        # double check this each day so we know when Discord breaks it again.
+        # The gay-pride flag is an outlier, for god knows what reason. I don&#39;t
+        # care that much but if Discord start breaking this regularly I might
+        # need to ask for a more permanent solution.
+        # This is provisionally provided. If we find it breaks in other ways, I
+        # will just revoke this functionality in a future update.
+        if codepoints[1:2] == [0xFE0F] and len(codepoints) &lt;= 4 and codepoints != [0x1F3F3, 0xFE0F, 0x200D, 0x1F308]:
+            codepoints = [codepoints[0], *codepoints[2:]]
+
+        return &#34;-&#34;.join(hex(c)[2:] for c in codepoints) + &#34;.png&#34;
+
+    @property
+    def url(self) -&gt; str:
+        &#34;&#34;&#34;Get the URL of the PNG rendition of this emoji.
+
+        This will use the official Twitter &#34;twemoji&#34; repository to fetch
+        this information, as Discord only stores this in a hashed format
+        that uses SVG files, which is not usually of any use.
+
+        Since this uses &#34;twemoji&#34; directly, the emojis may not directly
+        match what is on Discord if Discord have failed to keep their emoji
+        packs up-to-date with this repository.
+
+        Example
+        -------
+            https://github.com/twitter/twemoji/raw/master/assets/72x72/1f004.png
+        &#34;&#34;&#34;
+        return constants.TWEMOJI_PNG_BASE_URL + self.filename
+
+    @property
+    @typing.final
+    def unicode_names(self) -&gt; typing.Sequence[str]:
+        &#34;&#34;&#34;Get the unicode name of the emoji as a sequence.
+
+        This returns the name of each codepoint. If only one codepoint exists,
+        then this will only have one item in the resulting sequence.
+        &#34;&#34;&#34;
+        return [unicodedata.name(c) for c in self.name]
+
+    @property
+    @typing.final
+    def unicode_escape(self) -&gt; str:
+        &#34;&#34;&#34;Get the unicode escape string for this emoji.&#34;&#34;&#34;
+        return bytes(self.name, &#34;unicode_escape&#34;).decode(&#34;utf-8&#34;)
+
+    @classmethod
+    @typing.final
+    def from_codepoints(cls, codepoint: int, *codepoints: int) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from one or more UTF-32 codepoints.&#34;&#34;&#34;
+        return cls(name=&#34;&#34;.join(map(chr, (codepoint, *codepoints))))
+
+    @classmethod
+    @typing.final
+    def from_emoji(cls, emoji: str) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from a raw emoji.&#34;&#34;&#34;
+        return cls(name=emoji)
+
+    @classmethod
+    @typing.final
+    def from_unicode_escape(cls, escape: str) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from a unicode escape string.&#34;&#34;&#34;
+        return cls(name=str(escape.encode(&#34;utf-8&#34;), &#34;unicode_escape&#34;))
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class CustomEmoji(snowflake.Unique, Emoji):
+    &#34;&#34;&#34;Represents a custom emoji.
+
+    This is a custom emoji that is from a guild you might not be part of.
+
+    All CustomEmoji objects and their derivatives act as valid
+    `hikari.utilities.files.Resource` objects. This means you can use them as a
+    file when sending a message.
+
+        &gt;&gt;&gt; emojis = await bot.rest.fetch_guild_emojis(12345)
+        &gt;&gt;&gt; picks = random.choices(emojis, 5)
+        &gt;&gt;&gt; await event.reply(files=picks)
+
+    !!! warning
+        Discord will not provide information on whether these emojis are
+        animated or not when a reaction is removed and an event is fired. This
+        is problematic if you need to try and determine the emoji that was
+        removed. The side effect of this means that mentions for animated emojis
+        will not be correct.
+
+        This will not be changed as stated here:
+        https://github.com/discord/discord-api-docs/issues/1614#issuecomment-628548913
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(
+        repr=False, eq=False, hash=False, init=True, metadata={attr_extensions.SKIP_DEEP_COPY: True}
+    )
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    # TODO: document when this is None, or fix it to not be optional?
+    name: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of the emoji.&#34;&#34;&#34;
+
+    is_animated: typing.Optional[bool] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether the emoji is animated.
+
+    Will be `builtins.None` when received in Message Reaction Remove and Message
+    Reaction Remove Emoji events.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name if self.name is not None else f&#34;Unnamed emoji ID {self.id}&#34;
+
+    @property
+    def filename(self) -&gt; str:
+        return str(self.id) + (&#34;.gif&#34; if self.is_animated else &#34;.png&#34;)
+
+    @property
+    @typing.final
+    def url_name(self) -&gt; str:
+        return f&#34;{self.name}:{self.id}&#34;
+
+    @property
+    @typing.final
+    def mention(self) -&gt; str:
+        return f&#34;&lt;{&#39;a&#39; if self.is_animated else &#39;&#39;}:{self.url_name}&gt;&#34;
+
+    @property
+    def is_mentionable(self) -&gt; bool:
+        return self.is_animated is not None
+
+    @property
+    @typing.final
+    def url(self) -&gt; str:
+        ext = &#34;gif&#34; if self.is_animated else &#34;png&#34;
+
+        return routes.CDN_CUSTOM_EMOJI.compile(constants.CDN_URL, emoji_id=self.id, file_format=ext)
+
+
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class KnownCustomEmoji(CustomEmoji):
+    &#34;&#34;&#34;Represents an emoji that is known from a guild the bot is in.
+
+    This is a specialization of `CustomEmoji` that is from a guild that you
+    _are_ part of. As a result, it contains a lot more information with it.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The ID of the guild this emoji belongs to.&#34;&#34;&#34;
+
+    role_ids: typing.Sequence[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The IDs of the roles that are whitelisted to use this emoji.
+
+    If this is empty then any user can use this emoji regardless of their roles.
+    &#34;&#34;&#34;
+
+    user: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user that created the emoji.
+
+    !!! note
+        This will be `builtins.None` if you are missing the `MANAGE_EMOJIS`
+        permission in the server the emoji is from.
+    &#34;&#34;&#34;
+
+    is_animated: bool = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether the emoji is animated.
+
+    Unlike in `CustomEmoji`, this information is always known, and will thus
+    never be `builtins.None`.
+    &#34;&#34;&#34;
+
+    is_colons_required: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this emoji must be wrapped in colons.&#34;&#34;&#34;
+
+    is_managed: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the emoji is managed by an integration.&#34;&#34;&#34;
+
+    is_available: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this emoji can currently be used.
+
+    May be `builtins.False` due to a loss of Sever Boosts on the emoji&#39;s guild.
+    &#34;&#34;&#34;
+
+
+Emojiish = typing.Union[str, Emoji]
+&#34;&#34;&#34;Type hint representing a string emoji or an `Emoji`-derived object.
+
+Examples include:
+
+- Unicode emoji strings, such as `&#34;\N{OK HAND SIGN}&#34;`, `&#34;\\N{OK HAND SIGN}&#34;`,
+    `&#34;\\U0001f44c&#34;`.
+- Custom emoji names in the format `name:id`, such as
+    `&#34;rosaThonk:733073048646713364&#34;`.
+- Derivative instances of `Emoji`, i.e. `UnicodeEmoji`, `CustomEmoji` and
+    `KnownCustomEmoji`.
+&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="Emojiish -- Type hint representing a string emoji or an `Emoji`-derived object …" href="#hikari.models.emojis.Emojiish" id="hikari.models.emojis.Emojiish" class='dotted'>Emojiish</a> = typing.Union[str, hikari.models.emojis.Emoji]</code></pre>
+</dt>
+<dd><p>Type hint representing a string emoji or an <code><a href='#hikari.models.emojis.Emoji'>Emoji</a></code>-derived object.</p>
+<p>Examples include:</p>
+<ul>
+<li>Unicode emoji strings, such as <code>"👌"</code>, <code>"\N{OK HAND SIGN}"</code>,
+<code>"\U0001f44c"</code>.</li>
+<li>Custom emoji names in the format <code><a href='https://docs.python.org/3/reference/introduction.html#grammar-token-name'>name</a>:<a href='https://docs.python.org/3/library/functions.html#id'>id</a></code>, such as
+<code>"rosaThonk:733073048646713364"</code>.</li>
+<li>Derivative instances of <code><a href='#hikari.models.emojis.Emoji'>Emoji</a></code>, i.e. <code><a href='#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a></code>, <code><a href='#hikari.models.emojis.CustomEmoji'>CustomEmoji</a></code> and
+<code><a href='#hikari.models.emojis.KnownCustomEmoji'>KnownCustomEmoji</a></code>.</li>
+</ul></dd>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='dotted'>CustomEmoji</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.emojis.CustomEmoji" class="hljs python"><abbr title='A standard Python type.'>class</abbr> CustomEmoji (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Represents a custom emoji.</p>
+<p>This is a custom emoji that is from a guild you might not be part of.</p>
+<p>All CustomEmoji objects and their derivatives act as valid
+<code><a href='../utilities/files.html#hikari.utilities.files.Resource'>Resource</a></code> objects. This means you can use them as a
+file when sending a message.</p>
+<pre><code>&gt;&gt;&gt; emojis = await bot.rest.fetch_guild_emojis(12345)
+&gt;&gt;&gt; picks = random.choices(emojis, 5)
+&gt;&gt;&gt; await event.reply(files=picks)
+</code></pre>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>Discord will not provide information on whether these emojis are
+animated or not when a reaction is removed and an event is fired. This
+is problematic if you need to try and determine the emoji that was
+removed. The side effect of this means that mentions for animated emojis
+will not be correct.</p>
+<p>This will not be changed as stated here:
+<a href="https://github.com/discord/discord-api-docs/issues/1614#issuecomment-628548913">https://github.com/discord/discord-api-docs/issues/1614#issuecomment-628548913</a></p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L203-L272" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class CustomEmoji(snowflake.Unique, Emoji):
+    &#34;&#34;&#34;Represents a custom emoji.
+
+    This is a custom emoji that is from a guild you might not be part of.
+
+    All CustomEmoji objects and their derivatives act as valid
+    `hikari.utilities.files.Resource` objects. This means you can use them as a
+    file when sending a message.
+
+        &gt;&gt;&gt; emojis = await bot.rest.fetch_guild_emojis(12345)
+        &gt;&gt;&gt; picks = random.choices(emojis, 5)
+        &gt;&gt;&gt; await event.reply(files=picks)
+
+    !!! warning
+        Discord will not provide information on whether these emojis are
+        animated or not when a reaction is removed and an event is fired. This
+        is problematic if you need to try and determine the emoji that was
+        removed. The side effect of this means that mentions for animated emojis
+        will not be correct.
+
+        This will not be changed as stated here:
+        https://github.com/discord/discord-api-docs/issues/1614#issuecomment-628548913
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(
+        repr=False, eq=False, hash=False, init=True, metadata={attr_extensions.SKIP_DEEP_COPY: True}
+    )
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    # TODO: document when this is None, or fix it to not be optional?
+    name: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of the emoji.&#34;&#34;&#34;
+
+    is_animated: typing.Optional[bool] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether the emoji is animated.
+
+    Will be `builtins.None` when received in Message Reaction Remove and Message
+    Reaction Remove Emoji events.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name if self.name is not None else f&#34;Unnamed emoji ID {self.id}&#34;
+
+    @property
+    def filename(self) -&gt; str:
+        return str(self.id) + (&#34;.gif&#34; if self.is_animated else &#34;.png&#34;)
+
+    @property
+    @typing.final
+    def url_name(self) -&gt; str:
+        return f&#34;{self.name}:{self.id}&#34;
+
+    @property
+    @typing.final
+    def mention(self) -&gt; str:
+        return f&#34;&lt;{&#39;a&#39; if self.is_animated else &#39;&#39;}:{self.url_name}&gt;&#34;
+
+    @property
+    def is_mentionable(self) -&gt; bool:
+        return self.is_animated is not None
+
+    @property
+    @typing.final
+    def url(self) -&gt; str:
+        ext = &#34;gif&#34; if self.is_animated else &#34;png&#34;
+
+        return routes.CDN_CUSTOM_EMOJI.compile(constants.CDN_URL, emoji_id=self.id, file_format=ext)</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="KnownCustomEmoji -- Represents an emoji that is known from a guild the bot is in …" href="#hikari.models.emojis.KnownCustomEmoji"
+class='dotted'>KnownCustomEmoji</a></dt>
+<dd class="nested"><p>Represents an emoji that is known from a guild the bot is in …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='dotted'>CustomEmoji</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></dt>
+<dd class="nested"><p>Base class for all emojis …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="WebResource -- Base class for a resource that resides on the internet …" href="../utilities/files.html#hikari.utilities.files.WebResource"
+class='dotted'>WebResource</a></dt>
+<dd class="nested"><p>Base class for a resource that resides on the internet …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Resource -- Base for any uploadable or downloadable representation of information …" href="../utilities/files.html#hikari.utilities.files.Resource"
+class='dotted'>Resource</a></dt>
+<dd class="nested"><p>Base for any uploadable or downloadable representation of information …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.emojis.CustomEmoji.stream" class="hljs python"><abbr title='A standard Python function.'>def</abbr> stream(
+    *,
+    executor: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>] = None,
+    head_only: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+) -> <a href='#hikari.utilities.files.AsyncReaderContextManager'>AsyncReaderContextManager</a>[<a href='#hikari.utilities.files.WebReader'>WebReader</a>]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></code>.<code><a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='dotted'>stream</a></code>
+</p>
+<p>Start streaming the content into memory by downloading it.</p>
+<p>You can use this to fetch the entire resource, parts of the resource,
+or just to view any metadata that may be provided.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>executor</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Not used. Provided only to match the underlying interface.</dd>
+<dt><strong><code>head_only</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Defaults to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>. If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the
+implementation may only retrieve HEAD information if supported.
+This currently only has any effect for web requests.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>Downloading an entire resource at once into memory:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data = await stream.read()
+</code></pre>
+<p>Checking the metadata:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    mimetype = stream.mimetype
+
+if mimetype is None:
+    ...
+elif mimetype not in whitelisted_mimetypes:
+    ...
+else:
+    ...
+</code></pre>
+<p>Fetching the data-uri of a resource:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data_uri = await stream.data_uri()
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AsyncReaderContextManager[WebReader]</code></dt>
+<dd>An async context manager that when entered, produces the
+data stream.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If a 400 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If a 401 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If a 403 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If a 404 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ClientHTTPErrorResponse</a></code></dt>
+<dd>If any other 4xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ServerHTTPErrorResponse</a></code></dt>
+<dd>If any other 5xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.HTTPErrorResponse</a></code></dt>
+<dd>If any other unexpected response code is returned.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.emojis.CustomEmoji.app" id="hikari.models.emojis.CustomEmoji.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.emojis.CustomEmoji.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="#hikari.models.emojis.CustomEmoji.filename" id="hikari.models.emojis.CustomEmoji.filename" class='dotted'>filename</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Filename of the resource.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.emojis.CustomEmoji.id" id="hikari.models.emojis.CustomEmoji.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_animated -- Whether the emoji is animated …" href="#hikari.models.emojis.CustomEmoji.is_animated" id="hikari.models.emojis.CustomEmoji.is_animated" class='dotted'>is_animated</a> : typing.Optional[bool]</code></pre>
+</dt>
+<dd><p>Whether the emoji is animated.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> when received in Message Reaction Remove and Message
+Reaction Remove Emoji events.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.CustomEmoji.is_mentionable" id="hikari.models.emojis.CustomEmoji.is_mentionable" class='dotted'>is_mentionable</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether the emoji can be mentioned or not.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.CustomEmoji.mention" id="hikari.models.emojis.CustomEmoji.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Mention string to use to mention the emoji with.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the emoji." href="#hikari.models.emojis.CustomEmoji.name" id="hikari.models.emojis.CustomEmoji.name" class='dotted'>name</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The name of the emoji.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.CustomEmoji.url" id="hikari.models.emojis.CustomEmoji.url" class='dotted'>url</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>URL of the emoji image to display in clients.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.CustomEmoji.url_name" id="hikari.models.emojis.CustomEmoji.url_name" class='dotted'>url_name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Name of the part of the emoji to use in requests.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.emojis.Emoji" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Emoji (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Base class for all emojis.</p>
+<p>Any emoji implementation supports being used as a
+<code><a href='../utilities/files.html#hikari.utilities.files.Resource'>Resource</a></code> when uploading an attachment to the API.
+This is achieved in the same way as using a
+<code><a href='../utilities/files.html#hikari.utilities.files.WebResource'>WebResource</a></code> would achieve this.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L46-L78" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Emoji(files.WebResource, abc.ABC):
+    &#34;&#34;&#34;Base class for all emojis.
+
+    Any emoji implementation supports being used as a
+    `hikari.utilities.files.Resource` when uploading an attachment to the API.
+    This is achieved in the same way as using a
+    `hikari.utilities.files.WebResource` would achieve this.
+    &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def name(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the generic name/representation for this emoji.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def url(self) -&gt; str:
+        &#34;&#34;&#34;URL of the emoji image to display in clients.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def url_name(self) -&gt; str:
+        &#34;&#34;&#34;Name of the part of the emoji to use in requests.&#34;&#34;&#34;
+
+    @property
+    def is_mentionable(self) -&gt; bool:
+        &#34;&#34;&#34;Whether the emoji can be mentioned or not.&#34;&#34;&#34;
+        return True
+
+    @property
+    @abc.abstractmethod
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Mention string to use to mention the emoji with.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='dotted'>CustomEmoji</a></dt>
+<dd class="nested"><p>Represents a custom emoji …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnicodeEmoji -- Represents a unicode emoji …" href="#hikari.models.emojis.UnicodeEmoji"
+class='dotted'>UnicodeEmoji</a></dt>
+<dd class="nested"><p>Represents a unicode emoji …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="WebResource -- Base class for a resource that resides on the internet …" href="../utilities/files.html#hikari.utilities.files.WebResource"
+class='dotted'>WebResource</a></dt>
+<dd class="nested"><p>Base class for a resource that resides on the internet …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Resource -- Base for any uploadable or downloadable representation of information …" href="../utilities/files.html#hikari.utilities.files.Resource"
+class='dotted'>Resource</a></dt>
+<dd class="nested"><p>Base for any uploadable or downloadable representation of information …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.emojis.Emoji.stream" class="hljs python"><abbr title='A standard Python function.'>def</abbr> stream(
+    *,
+    executor: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>] = None,
+    head_only: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+) -> <a href='#hikari.utilities.files.AsyncReaderContextManager'>AsyncReaderContextManager</a>[<a href='#hikari.utilities.files.WebReader'>WebReader</a>]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="WebResource -- Base class for a resource that resides on the internet …" href="../utilities/files.html#hikari.utilities.files.WebResource"
+class='dotted'>WebResource</a></code>.<code><a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='dotted'>stream</a></code>
+</p>
+<p>Start streaming the content into memory by downloading it.</p>
+<p>You can use this to fetch the entire resource, parts of the resource,
+or just to view any metadata that may be provided.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>executor</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Not used. Provided only to match the underlying interface.</dd>
+<dt><strong><code>head_only</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Defaults to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>. If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the
+implementation may only retrieve HEAD information if supported.
+This currently only has any effect for web requests.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>Downloading an entire resource at once into memory:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data = await stream.read()
+</code></pre>
+<p>Checking the metadata:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    mimetype = stream.mimetype
+
+if mimetype is None:
+    ...
+elif mimetype not in whitelisted_mimetypes:
+    ...
+else:
+    ...
+</code></pre>
+<p>Fetching the data-uri of a resource:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data_uri = await stream.data_uri()
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AsyncReaderContextManager[WebReader]</code></dt>
+<dd>An async context manager that when entered, produces the
+data stream.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If a 400 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If a 401 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If a 403 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If a 404 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ClientHTTPErrorResponse</a></code></dt>
+<dd>If any other 4xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ServerHTTPErrorResponse</a></code></dt>
+<dd>If any other 5xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.HTTPErrorResponse</a></code></dt>
+<dd>If any other unexpected response code is returned.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="../utilities/files.html#hikari.utilities.files.Resource.filename" id="hikari.models.emojis.Emoji.filename" class='dotted'>filename</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Filename of the resource.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.Emoji.is_mentionable" id="hikari.models.emojis.Emoji.is_mentionable" class='dotted'>is_mentionable</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether the emoji can be mentioned or not.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.Emoji.mention" id="hikari.models.emojis.Emoji.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Mention string to use to mention the emoji with.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- Return the generic name/representation for this emoji." href="#hikari.models.emojis.Emoji.name" id="hikari.models.emojis.Emoji.name" class='dotted'>name</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>Return the generic name/representation for this emoji.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.Emoji.url" id="hikari.models.emojis.Emoji.url" class='dotted'>url</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>URL of the emoji image to display in clients.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.Emoji.url_name" id="hikari.models.emojis.Emoji.url_name" class='dotted'>url_name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Name of the part of the emoji to use in requests.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="KnownCustomEmoji -- Represents an emoji that is known from a guild the bot is in …" href="#hikari.models.emojis.KnownCustomEmoji"
+class='dotted'>KnownCustomEmoji</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.emojis.KnownCustomEmoji" class="hljs python"><abbr title='A standard Python type.'>class</abbr> KnownCustomEmoji (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Represents an emoji that is known from a guild the bot is in.</p>
+<p>This is a specialization of <code><a href='#hikari.models.emojis.CustomEmoji'>CustomEmoji</a></code> that is from a guild that you
+<em>are</em> part of. As a result, it contains a lot more information with it.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L276-L317" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class KnownCustomEmoji(CustomEmoji):
+    &#34;&#34;&#34;Represents an emoji that is known from a guild the bot is in.
+
+    This is a specialization of `CustomEmoji` that is from a guild that you
+    _are_ part of. As a result, it contains a lot more information with it.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The ID of the guild this emoji belongs to.&#34;&#34;&#34;
+
+    role_ids: typing.Sequence[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The IDs of the roles that are whitelisted to use this emoji.
+
+    If this is empty then any user can use this emoji regardless of their roles.
+    &#34;&#34;&#34;
+
+    user: typing.Optional[users.User] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The user that created the emoji.
+
+    !!! note
+        This will be `builtins.None` if you are missing the `MANAGE_EMOJIS`
+        permission in the server the emoji is from.
+    &#34;&#34;&#34;
+
+    is_animated: bool = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;Whether the emoji is animated.
+
+    Unlike in `CustomEmoji`, this information is always known, and will thus
+    never be `builtins.None`.
+    &#34;&#34;&#34;
+
+    is_colons_required: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this emoji must be wrapped in colons.&#34;&#34;&#34;
+
+    is_managed: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether the emoji is managed by an integration.&#34;&#34;&#34;
+
+    is_available: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this emoji can currently be used.
+
+    May be `builtins.False` due to a loss of Sever Boosts on the emoji&#39;s guild.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="KnownCustomEmoji -- Represents an emoji that is known from a guild the bot is in …" href="#hikari.models.emojis.KnownCustomEmoji"
+class='dotted'>KnownCustomEmoji</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='dotted'>CustomEmoji</a></dt>
+<dd class="nested"><p>Represents a custom emoji …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></dt>
+<dd class="nested"><p>Base class for all emojis …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="WebResource -- Base class for a resource that resides on the internet …" href="../utilities/files.html#hikari.utilities.files.WebResource"
+class='dotted'>WebResource</a></dt>
+<dd class="nested"><p>Base class for a resource that resides on the internet …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Resource -- Base for any uploadable or downloadable representation of information …" href="../utilities/files.html#hikari.utilities.files.Resource"
+class='dotted'>Resource</a></dt>
+<dd class="nested"><p>Base for any uploadable or downloadable representation of information …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.emojis.KnownCustomEmoji.stream" class="hljs python"><abbr title='A standard Python function.'>def</abbr> stream(
+    *,
+    executor: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>] = None,
+    head_only: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+) -> <a href='#hikari.utilities.files.AsyncReaderContextManager'>AsyncReaderContextManager</a>[<a href='#hikari.utilities.files.WebReader'>WebReader</a>]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="CustomEmoji -- Represents a custom emoji …" href="#hikari.models.emojis.CustomEmoji"
+class='dotted'>CustomEmoji</a></code>.<code><a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='dotted'>stream</a></code>
+</p>
+<p>Start streaming the content into memory by downloading it.</p>
+<p>You can use this to fetch the entire resource, parts of the resource,
+or just to view any metadata that may be provided.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>executor</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Not used. Provided only to match the underlying interface.</dd>
+<dt><strong><code>head_only</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Defaults to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>. If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the
+implementation may only retrieve HEAD information if supported.
+This currently only has any effect for web requests.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>Downloading an entire resource at once into memory:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data = await stream.read()
+</code></pre>
+<p>Checking the metadata:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    mimetype = stream.mimetype
+
+if mimetype is None:
+    ...
+elif mimetype not in whitelisted_mimetypes:
+    ...
+else:
+    ...
+</code></pre>
+<p>Fetching the data-uri of a resource:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data_uri = await stream.data_uri()
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AsyncReaderContextManager[WebReader]</code></dt>
+<dd>An async context manager that when entered, produces the
+data stream.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If a 400 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If a 401 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If a 403 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If a 404 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ClientHTTPErrorResponse</a></code></dt>
+<dd>If any other 4xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ServerHTTPErrorResponse</a></code></dt>
+<dd>If any other 5xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.HTTPErrorResponse</a></code></dt>
+<dd>If any other unexpected response code is returned.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.emojis.KnownCustomEmoji.app" id="hikari.models.emojis.KnownCustomEmoji.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.emojis.KnownCustomEmoji.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename of the resource." href="#hikari.models.emojis.CustomEmoji.filename" id="hikari.models.emojis.KnownCustomEmoji.filename" class='dotted'>filename</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Filename of the resource.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this emoji belongs to." href="#hikari.models.emojis.KnownCustomEmoji.guild_id" id="hikari.models.emojis.KnownCustomEmoji.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the guild this emoji belongs to.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.emojis.KnownCustomEmoji.id" id="hikari.models.emojis.KnownCustomEmoji.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_animated -- Whether the emoji is animated …" href="#hikari.models.emojis.KnownCustomEmoji.is_animated" id="hikari.models.emojis.KnownCustomEmoji.is_animated" class='dotted'>is_animated</a> : bool</code></pre>
+</dt>
+<dd><p>Whether the emoji is animated.</p>
+<p>Unlike in <code><a href='#hikari.models.emojis.CustomEmoji'>CustomEmoji</a></code>, this information is always known, and will thus
+never be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_available -- Whether this emoji can currently be used …" href="#hikari.models.emojis.KnownCustomEmoji.is_available" id="hikari.models.emojis.KnownCustomEmoji.is_available" class='dotted'>is_available</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this emoji can currently be used.</p>
+<p>May be <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> due to a loss of Sever Boosts on the emoji's guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_colons_required -- Whether this emoji must be wrapped in colons." href="#hikari.models.emojis.KnownCustomEmoji.is_colons_required" id="hikari.models.emojis.KnownCustomEmoji.is_colons_required" class='dotted'>is_colons_required</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this emoji must be wrapped in colons.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_managed -- Whether the emoji is managed by an integration." href="#hikari.models.emojis.KnownCustomEmoji.is_managed" id="hikari.models.emojis.KnownCustomEmoji.is_managed" class='dotted'>is_managed</a> : bool</code></pre>
+</dt>
+<dd><p>Whether the emoji is managed by an integration.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.CustomEmoji.is_mentionable" id="hikari.models.emojis.KnownCustomEmoji.is_mentionable" class='dotted'>is_mentionable</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether the emoji can be mentioned or not.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.CustomEmoji.mention" id="hikari.models.emojis.KnownCustomEmoji.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Mention string to use to mention the emoji with.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the emoji." href="#hikari.models.emojis.KnownCustomEmoji.name" id="hikari.models.emojis.KnownCustomEmoji.name" class='dotted'>name</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The name of the emoji.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_ids -- The IDs of the roles that are whitelisted to use this emoji …" href="#hikari.models.emojis.KnownCustomEmoji.role_ids" id="hikari.models.emojis.KnownCustomEmoji.role_ids" class='dotted'>role_ids</a> : typing.Sequence[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The IDs of the roles that are whitelisted to use this emoji.</p>
+<p>If this is empty then any user can use this emoji regardless of their roles.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- URL of the emoji image to display in clients." href="#hikari.models.emojis.CustomEmoji.url" id="hikari.models.emojis.KnownCustomEmoji.url" class='dotted'>url</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>URL of the emoji image to display in clients.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.CustomEmoji.url_name" id="hikari.models.emojis.KnownCustomEmoji.url_name" class='dotted'>url_name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Name of the part of the emoji to use in requests.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- The user that created the emoji …" href="#hikari.models.emojis.KnownCustomEmoji.user" id="hikari.models.emojis.KnownCustomEmoji.user" class='dotted'>user</a> : typing.Optional[users.User]</code></pre>
+</dt>
+<dd><p>The user that created the emoji.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if you are missing the <code>MANAGE_EMOJIS</code>
+permission in the server the emoji is from.</p>
+</div></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnicodeEmoji -- Represents a unicode emoji …" href="#hikari.models.emojis.UnicodeEmoji"
+class='dotted'>UnicodeEmoji</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.emojis.UnicodeEmoji" class="hljs python"><abbr title='A standard Python type.'>class</abbr> UnicodeEmoji (
+    *args,
+    **kwds,
+): ...</code></pre>
+<p>Represents a unicode emoji.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>A word of warning if you try to upload this emoji as a file attachment.</p>
+<p>While this emoji type can be used to upload the Twemoji representations
+of this emoji as a PNG, this is NOT foolproof. The mapping between
+Discord's implementation and official Twemoji bindings is very flaky.
+Responsible implementations relying on this behaviour will be
+implemented to expect this behaviour in the form of
+<code><a href='../errors.html'>hikari.errors.NotFound</a></code> exceptions being raised when a mismatch may
+occur. It is also likely that this will change in the future without
+notice, so you will likely be relying on flaky behaviour.</p>
+<p>If this is proven to be too unstable, this functionality will be
+removed in a future release after a deprecation period.</p>
+</div>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L83-L198" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class UnicodeEmoji(Emoji):
+    &#34;&#34;&#34;Represents a unicode emoji.
+
+    !!! warning
+        A word of warning if you try to upload this emoji as a file attachment.
+
+        While this emoji type can be used to upload the Twemoji representations
+        of this emoji as a PNG, this is NOT foolproof. The mapping between
+        Discord&#39;s implementation and official Twemoji bindings is very flaky.
+        Responsible implementations relying on this behaviour will be
+        implemented to expect this behaviour in the form of
+        `hikari.errors.NotFound` exceptions being raised when a mismatch may
+        occur. It is also likely that this will change in the future without
+        notice, so you will likely be relying on flaky behaviour.
+
+        If this is proven to be too unstable, this functionality will be
+        removed in a future release after a deprecation period.
+    &#34;&#34;&#34;
+
+    name: str = attr.ib(repr=True, hash=True)
+    &#34;&#34;&#34;The code points that form the emoji.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+    def __eq__(self, other: typing.Any) -&gt; bool:
+        if isinstance(other, Emoji):
+            return self.name == other.name
+        if isinstance(other, str):
+            return self.name == other
+        return False
+
+    @property
+    @typing.final
+    def url_name(self) -&gt; str:
+        return self.name
+
+    @property
+    def mention(self) -&gt; str:
+        return self.name
+
+    @property
+    @typing.final
+    def codepoints(self) -&gt; typing.Sequence[int]:
+        &#34;&#34;&#34;Integer codepoints that make up this emoji, as UTF-8.&#34;&#34;&#34;
+        return [ord(c) for c in self.name]
+
+    @property
+    def filename(self) -&gt; str:
+        &#34;&#34;&#34;Filename to use if re-uploading this emoji&#39;s PNG.&#34;&#34;&#34;
+        codepoints = self.codepoints
+        # It looks like the rule is to delete character #2 if the value
+        # of this is 0xfe0f and the character is 4 characters long.
+        # Other than that, the mapping is 1-to-1. I&#39;ll set up a CI task to
+        # double check this each day so we know when Discord breaks it again.
+        # The gay-pride flag is an outlier, for god knows what reason. I don&#39;t
+        # care that much but if Discord start breaking this regularly I might
+        # need to ask for a more permanent solution.
+        # This is provisionally provided. If we find it breaks in other ways, I
+        # will just revoke this functionality in a future update.
+        if codepoints[1:2] == [0xFE0F] and len(codepoints) &lt;= 4 and codepoints != [0x1F3F3, 0xFE0F, 0x200D, 0x1F308]:
+            codepoints = [codepoints[0], *codepoints[2:]]
+
+        return &#34;-&#34;.join(hex(c)[2:] for c in codepoints) + &#34;.png&#34;
+
+    @property
+    def url(self) -&gt; str:
+        &#34;&#34;&#34;Get the URL of the PNG rendition of this emoji.
+
+        This will use the official Twitter &#34;twemoji&#34; repository to fetch
+        this information, as Discord only stores this in a hashed format
+        that uses SVG files, which is not usually of any use.
+
+        Since this uses &#34;twemoji&#34; directly, the emojis may not directly
+        match what is on Discord if Discord have failed to keep their emoji
+        packs up-to-date with this repository.
+
+        Example
+        -------
+            https://github.com/twitter/twemoji/raw/master/assets/72x72/1f004.png
+        &#34;&#34;&#34;
+        return constants.TWEMOJI_PNG_BASE_URL + self.filename
+
+    @property
+    @typing.final
+    def unicode_names(self) -&gt; typing.Sequence[str]:
+        &#34;&#34;&#34;Get the unicode name of the emoji as a sequence.
+
+        This returns the name of each codepoint. If only one codepoint exists,
+        then this will only have one item in the resulting sequence.
+        &#34;&#34;&#34;
+        return [unicodedata.name(c) for c in self.name]
+
+    @property
+    @typing.final
+    def unicode_escape(self) -&gt; str:
+        &#34;&#34;&#34;Get the unicode escape string for this emoji.&#34;&#34;&#34;
+        return bytes(self.name, &#34;unicode_escape&#34;).decode(&#34;utf-8&#34;)
+
+    @classmethod
+    @typing.final
+    def from_codepoints(cls, codepoint: int, *codepoints: int) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from one or more UTF-32 codepoints.&#34;&#34;&#34;
+        return cls(name=&#34;&#34;.join(map(chr, (codepoint, *codepoints))))
+
+    @classmethod
+    @typing.final
+    def from_emoji(cls, emoji: str) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from a raw emoji.&#34;&#34;&#34;
+        return cls(name=emoji)
+
+    @classmethod
+    @typing.final
+    def from_unicode_escape(cls, escape: str) -&gt; UnicodeEmoji:
+        &#34;&#34;&#34;Create a unicode emoji from a unicode escape string.&#34;&#34;&#34;
+        return cls(name=str(escape.encode(&#34;utf-8&#34;), &#34;unicode_escape&#34;))</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="UnicodeEmoji -- Represents a unicode emoji …" href="#hikari.models.emojis.UnicodeEmoji"
+class='dotted'>UnicodeEmoji</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></dt>
+<dd class="nested"><p>Base class for all emojis …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="WebResource -- Base class for a resource that resides on the internet …" href="../utilities/files.html#hikari.utilities.files.WebResource"
+class='dotted'>WebResource</a></dt>
+<dd class="nested"><p>Base class for a resource that resides on the internet …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Resource -- Base for any uploadable or downloadable representation of information …" href="../utilities/files.html#hikari.utilities.files.Resource"
+class='dotted'>Resource</a></dt>
+<dd class="nested"><p>Base for any uploadable or downloadable representation of information …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.emojis.UnicodeEmoji.stream" class="hljs python"><abbr title='A standard Python function.'>def</abbr> stream(
+    *,
+    executor: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>] = None,
+    head_only: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+) -> <a href='#hikari.utilities.files.AsyncReaderContextManager'>AsyncReaderContextManager</a>[<a href='#hikari.utilities.files.WebReader'>WebReader</a>]: ...</code></pre>
+</dt>
+<dd>
+<p class="inheritance">
+<em><small>Inherited from:</small></em>
+<code><a title="Emoji -- Base class for all emojis …" href="#hikari.models.emojis.Emoji"
+class='dotted'>Emoji</a></code>.<code><a title="stream -- Start streaming the content into memory by downloading it …" href="../utilities/files.html#hikari.utilities.files.WebResource.stream"
+class='dotted'>stream</a></code>
+</p>
+<p>Start streaming the content into memory by downloading it.</p>
+<p>You can use this to fetch the entire resource, parts of the resource,
+or just to view any metadata that may be provided.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>executor</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>Not used. Provided only to match the underlying interface.</dd>
+<dt><strong><code>head_only</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>Defaults to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>. If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, then the
+implementation may only retrieve HEAD information if supported.
+This currently only has any effect for web requests.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>Downloading an entire resource at once into memory:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data = await stream.read()
+</code></pre>
+<p>Checking the metadata:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    mimetype = stream.mimetype
+
+if mimetype is None:
+    ...
+elif mimetype not in whitelisted_mimetypes:
+    ...
+else:
+    ...
+</code></pre>
+<p>Fetching the data-uri of a resource:</p>
+<pre><code class="py">async with obj.stream() as stream:
+    data_uri = await stream.data_uri()
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>AsyncReaderContextManager[WebReader]</code></dt>
+<dd>An async context manager that when entered, produces the
+data stream.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If a 400 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If a 401 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If a 403 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If a 404 is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ClientHTTPErrorResponse</a></code></dt>
+<dd>If any other 4xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.ServerHTTPErrorResponse</a></code></dt>
+<dd>If any other 5xx is returned.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.HTTPErrorResponse</a></code></dt>
+<dd>If any other unexpected response code is returned.</dd>
+</dl>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.emojis.UnicodeEmoji.from_codepoints" class="hljs python"><abbr title='A standard Python function.'>def</abbr> from_codepoints(
+    codepoint: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    *codepoints: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+) -> <a href='#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a unicode emoji from one or more UTF-32 codepoints.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L182-L186" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+@typing.final
+def from_codepoints(cls, codepoint: int, *codepoints: int) -&gt; UnicodeEmoji:
+    &#34;&#34;&#34;Create a unicode emoji from one or more UTF-32 codepoints.&#34;&#34;&#34;
+    return cls(name=&#34;&#34;.join(map(chr, (codepoint, *codepoints))))</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.emojis.UnicodeEmoji.from_emoji" class="hljs python"><abbr title='A standard Python function.'>def</abbr> from_emoji(
+    emoji: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+) -> <a href='#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a unicode emoji from a raw emoji.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L188-L192" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+@typing.final
+def from_emoji(cls, emoji: str) -&gt; UnicodeEmoji:
+    &#34;&#34;&#34;Create a unicode emoji from a raw emoji.&#34;&#34;&#34;
+    return cls(name=emoji)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.emojis.UnicodeEmoji.from_unicode_escape" class="hljs python"><abbr title='A standard Python function.'>def</abbr> from_unicode_escape(
+    escape: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+) -> <a href='#hikari.models.emojis.UnicodeEmoji'>UnicodeEmoji</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Create a unicode emoji from a unicode escape string.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/emojis.py#L194-L198" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@classmethod
+@typing.final
+def from_unicode_escape(cls, escape: str) -&gt; UnicodeEmoji:
+    &#34;&#34;&#34;Create a unicode emoji from a unicode escape string.&#34;&#34;&#34;
+    return cls(name=str(escape.encode(&#34;utf-8&#34;), &#34;unicode_escape&#34;))</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="codepoints -- Integer codepoints that make up this emoji, as UTF-8." href="#hikari.models.emojis.UnicodeEmoji.codepoints" id="hikari.models.emojis.UnicodeEmoji.codepoints" class='dotted'>codepoints</a> : Sequence[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>]</code></pre>
+</dt>
+<dd><p>Integer codepoints that make up this emoji, as UTF-8.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="filename -- Filename to use if re-uploading this emoji's PNG." href="#hikari.models.emojis.UnicodeEmoji.filename" id="hikari.models.emojis.UnicodeEmoji.filename" class='dotted'>filename</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Filename to use if re-uploading this emoji's PNG.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_mentionable -- Whether the emoji can be mentioned or not." href="#hikari.models.emojis.Emoji.is_mentionable" id="hikari.models.emojis.UnicodeEmoji.is_mentionable" class='dotted'>is_mentionable</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether the emoji can be mentioned or not.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Mention string to use to mention the emoji with." href="#hikari.models.emojis.UnicodeEmoji.mention" id="hikari.models.emojis.UnicodeEmoji.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Mention string to use to mention the emoji with.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The code points that form the emoji." href="#hikari.models.emojis.UnicodeEmoji.name" id="hikari.models.emojis.UnicodeEmoji.name" class='dotted'>name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The code points that form the emoji.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unicode_escape -- Get the unicode escape string for this emoji." href="#hikari.models.emojis.UnicodeEmoji.unicode_escape" id="hikari.models.emojis.UnicodeEmoji.unicode_escape" class='dotted'>unicode_escape</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Get the unicode escape string for this emoji.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unicode_names -- Get the unicode name of the emoji as a sequence …" href="#hikari.models.emojis.UnicodeEmoji.unicode_names" id="hikari.models.emojis.UnicodeEmoji.unicode_names" class='dotted'>unicode_names</a> : Sequence[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></pre>
+</dt>
+<dd><p>Get the unicode name of the emoji as a sequence.</p>
+<p>This returns the name of each codepoint. If only one codepoint exists,
+then this will only have one item in the resulting sequence.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- Get the URL of the PNG rendition of this emoji …" href="#hikari.models.emojis.UnicodeEmoji.url" id="hikari.models.emojis.UnicodeEmoji.url" class='dotted'>url</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Get the URL of the PNG rendition of this emoji.</p>
+<p>This will use the official Twitter "twemoji" repository to fetch
+this information, as Discord only stores this in a hashed format
+that uses SVG files, which is not usually of any use.</p>
+<p>Since this uses "twemoji" directly, the emojis may not directly
+match what is on Discord if Discord have failed to keep their emoji
+packs up-to-date with this repository.</p>
+<h2 id="example">Example</h2>
+<pre><code>&lt;https://github.com/twitter/twemoji/raw/master/assets/72x72/1f004.png&gt;
+</code></pre></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url_name -- Name of the part of the emoji to use in requests." href="#hikari.models.emojis.UnicodeEmoji.url_name" id="hikari.models.emojis.UnicodeEmoji.url_name" class='dotted'>url_name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Name of the part of the emoji to use in requests.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

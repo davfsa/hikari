@@ -1,0 +1,1777 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.api.shard API documentation</title>
+<meta name="description" content="Provides an interface for gateway shard implementations to conform to." />
+<meta property="og:title" content="hikari.api.shard module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.api.shard">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.api -- Interfaces for components that make up Hikari applications …" href="index.html"
+class='dotted'>api</a></li>
+<li class="breadcrumb-item active"><a href="#">shard</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Provides an interface for gateway shard implementations to conform to.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayCompression -- Types of gateway compression that may be supported." href="#hikari.api.shard.GatewayCompression"
+class='sidebar-nav-pill'>GatewayCompression</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PAYLOAD_ZLIB_STREAM -- Payload compression using ZLIB." href="#hikari.api.shard.GatewayCompression.PAYLOAD_ZLIB_STREAM"
+class='sidebar-nav-pill'>PAYLOAD_ZLIB_STREAM</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TRANSPORT_ZLIB_STREAM -- Transport compression using ZLIB." href="#hikari.api.shard.GatewayCompression.TRANSPORT_ZLIB_STREAM"
+class='sidebar-nav-pill'>TRANSPORT_ZLIB_STREAM</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayDataFormat -- Format of inbound gateway payloads." href="#hikari.api.shard.GatewayDataFormat"
+class='sidebar-nav-pill'>GatewayDataFormat</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ETF -- Erlang transmission format." href="#hikari.api.shard.GatewayDataFormat.ETF"
+class='sidebar-nav-pill'>ETF</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JSON -- Javascript serialized object notation." href="#hikari.api.shard.GatewayDataFormat.JSON"
+class='sidebar-nav-pill'>JSON</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="GatewayShard -- Interface for a definition of a V6/V7 compatible websocket gateway …" href="#hikari.api.shard.GatewayShard"
+class='sidebar-nav-pill'>GatewayShard</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="close -- Close the websocket if it is connected, otherwise do nothing." href="#hikari.api.shard.GatewayShard.close"
+class='sidebar-nav-pill'>close</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="compression -- Return the compression being used …" href="#hikari.api.shard.GatewayShard.compression"
+class='sidebar-nav-pill'>compression</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="connection_uptime -- Return the uptime of the connected shard …" href="#hikari.api.shard.GatewayShard.connection_uptime"
+class='sidebar-nav-pill'>connection_uptime</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="data_format -- Return name of the data format for inbound payloads …" href="#hikari.api.shard.GatewayShard.data_format"
+class='sidebar-nav-pill'>data_format</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="get_user_id -- Return the user ID …" href="#hikari.api.shard.GatewayShard.get_user_id"
+class='sidebar-nav-pill'>get_user_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_interval -- Return the heartbeat interval for this shard …" href="#hikari.api.shard.GatewayShard.heartbeat_interval"
+class='sidebar-nav-pill'>heartbeat_interval</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the shard's most recent heartbeat latency …" href="#hikari.api.shard.GatewayShard.heartbeat_latency"
+class='sidebar-nav-pill'>heartbeat_latency</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use for this shard …" href="#hikari.api.shard.GatewayShard.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the shard ID for this shard …" href="#hikari.api.shard.GatewayShard.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents set on this shard …" href="#hikari.api.shard.GatewayShard.intents"
+class='sidebar-nav-pill'>intents</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_alive -- Return `builtins.True` if the shard is alive and connected …" href="#hikari.api.shard.GatewayShard.is_alive"
+class='sidebar-nav-pill'>is_alive</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use for this shard …" href="#hikari.api.shard.GatewayShard.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="request_guild_members -- Request for a guild chunk …" href="#hikari.api.shard.GatewayShard.request_guild_members"
+class='sidebar-nav-pill'>request_guild_members</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="sequence -- Return the sequence number for this shard …" href="#hikari.api.shard.GatewayShard.sequence"
+class='sidebar-nav-pill'>sequence</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- Return the session ID for this shard …" href="#hikari.api.shard.GatewayShard.session_id"
+class='sidebar-nav-pill'>session_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_uptime -- Return the time that the session has been active for …" href="#hikari.api.shard.GatewayShard.session_uptime"
+class='sidebar-nav-pill'>session_uptime</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the total number of shards expected in the entire application …" href="#hikari.api.shard.GatewayShard.shard_count"
+class='sidebar-nav-pill'>shard_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="start -- Start the shard, wait for it to become ready …" href="#hikari.api.shard.GatewayShard.start"
+class='sidebar-nav-pill'>start</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="update_presence -- Update the presence of the shard user …" href="#hikari.api.shard.GatewayShard.update_presence"
+class='sidebar-nav-pill'>update_presence</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="update_voice_state -- Update the voice state for this shard in a given guild …" href="#hikari.api.shard.GatewayShard.update_voice_state"
+class='sidebar-nav-pill'>update_voice_state</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="version -- Return the gateway API version in use …" href="#hikari.api.shard.GatewayShard.version"
+class='sidebar-nav-pill'>version</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L0-L393" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Provides an interface for gateway shard implementations to conform to.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;GatewayDataFormat&#34;, &#34;GatewayCompression&#34;, &#34;GatewayShard&#34;]
+
+import abc
+import enum
+import typing
+
+from hikari.utilities import undefined
+
+if typing.TYPE_CHECKING:
+    import asyncio
+    import datetime
+
+    from hikari import config
+    from hikari.models import channels
+    from hikari.models import guilds
+    from hikari.models import intents as intents_
+    from hikari.models import presences
+    from hikari.models import users
+    from hikari.utilities import snowflake
+
+
+@enum.unique
+@typing.final
+class GatewayDataFormat(str, enum.Enum):
+    &#34;&#34;&#34;Format of inbound gateway payloads.&#34;&#34;&#34;
+
+    JSON = &#34;json&#34;
+    &#34;&#34;&#34;Javascript serialized object notation.&#34;&#34;&#34;
+    ETF = &#34;etf&#34;
+    &#34;&#34;&#34;Erlang transmission format.&#34;&#34;&#34;
+
+
+@enum.unique
+@typing.final
+class GatewayCompression(str, enum.Enum):
+    &#34;&#34;&#34;Types of gateway compression that may be supported.&#34;&#34;&#34;
+
+    TRANSPORT_ZLIB_STREAM = &#34;transport_zlib_stream&#34;
+    &#34;&#34;&#34;Transport compression using ZLIB.&#34;&#34;&#34;
+    PAYLOAD_ZLIB_STREAM = &#34;payload_zlib_stream&#34;
+    &#34;&#34;&#34;Payload compression using ZLIB.&#34;&#34;&#34;
+
+
+class GatewayShard(abc.ABC):
+    &#34;&#34;&#34;Interface for a definition of a V6/V7 compatible websocket gateway.
+
+    Each instance should represent a single shard.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    @abc.abstractmethod
+    def compression(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the compression being used.
+
+        This may be one of `GatewayCompression`, or may be a custom
+        format for custom implementations in the future.
+
+        Returns
+        -------
+        builtins.str or builtins.None
+            The name of the compression method being used. Will be
+            `builtins.None` if no compression is being used.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def connection_uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the uptime of the connected shard.
+
+        If the shard is not yet connected, this will be 0.
+
+        This is measured as the time since the last disconnect, whether the
+        session has been kept alive or not.
+
+        Returns
+        -------
+        builtins.float
+            Uptime of this shard.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def data_format(self) -&gt; str:
+        &#34;&#34;&#34;Return name of the data format for inbound payloads.
+
+        This may be a value in `GatewayDataFormat`, or it may
+        be a custom name in custom implementations.
+
+        Returns
+        -------
+        builtins.str
+            The name of the data format being used on this shard.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def heartbeat_interval(self) -&gt; float:
+        &#34;&#34;&#34;Return the heartbeat interval for this shard.
+
+        Returns
+        -------
+        builtins.float
+            How often the shard will send a heartbeat in seconds. If the
+            information is not yet available, this returns `float(&#39;nan&#39;)`
+            instead.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def heartbeat_latency(self) -&gt; float:
+        &#34;&#34;&#34;Return the shard&#39;s most recent heartbeat latency.
+
+        Returns
+        -------
+        builtins.float
+            Heartbeat latency measured in seconds. If the information is
+            not yet available, then this will be `float(&#39;nan&#39;)` instead.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def http_settings(self) -&gt; config.HTTPSettings:
+        &#34;&#34;&#34;Return the HTTP settings in use for this shard.
+
+        Returns
+        -------
+        hikari.config.HTTPSettings
+            The HTTP settings in-use.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def id(self) -&gt; int:
+        &#34;&#34;&#34;Return the shard ID for this shard.
+
+        Returns
+        -------
+        builtins.int
+            The integer 0-based shard ID.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        &#34;&#34;&#34;Return the intents set on this shard.
+
+        Returns
+        -------
+        hikari.models.intents.Intents or builtins.None
+            The intents being used on this shard. This may be
+            `builtins.None` if intents were not specified.
+
+        !!! warning
+            As of October 2020, Intents will become mandatory,
+            at which point this API will be changed to always
+            return a value here.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_alive(self) -&gt; bool:
+        &#34;&#34;&#34;Return `builtins.True` if the shard is alive and connected.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if connected, or `builtins.False` if not.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        &#34;&#34;&#34;Return the proxy settings in use for this shard.
+
+        Returns
+        -------
+        hikari.config.ProxySettings
+            The proxy settings in-use.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def sequence(self) -&gt; typing.Optional[int]:
+        &#34;&#34;&#34;Return the sequence number for this shard.
+
+        This roughly corresponds to how many payloads have been
+        received since the current session started.
+
+        Returns
+        -------
+        builtins.int or builtins.None
+            The session sequence, or `builtins.None` if no session is active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def session_id(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the session ID for this shard.
+
+        Returns
+        -------
+        builtins.str or builtins.None
+            The session ID, or `builtins.None` if no session is active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def session_uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the time that the session has been active for.
+
+        This will be measured in monotonic time.
+
+        Returns
+        -------
+        builtins.float
+            The session uptime, or `0` if no session is
+            active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def shard_count(self) -&gt; int:
+        &#34;&#34;&#34;Return the total number of shards expected in the entire application.
+
+        Returns
+        -------
+        builtins.int
+            A number of shards greater than or equal to 1.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def version(self) -&gt; int:
+        &#34;&#34;&#34;Return the gateway API version in use.
+
+        Returns
+        -------
+        builtins.int
+            The gateway API version being used.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def get_user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Return the user ID.
+
+        If the shard has not connected fully yet, this should wait until the ID
+        is set before returning.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The user ID for the application user.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def start(self) -&gt; asyncio.Task[None]:
+        &#34;&#34;&#34;Start the shard, wait for it to become ready.
+
+        Returns
+        -------
+        asyncio.Task[builtins.None]
+            The task containing the shard running logic. Awaiting this will
+            wait until the shard has shut down before returning.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def close(self) -&gt; None:
+        &#34;&#34;&#34;Close the websocket if it is connected, otherwise do nothing.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def update_presence(
+        self,
+        *,
+        idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the presence of the shard user.
+
+        If the shard is not alive, no physical data will be sent, however,
+        the new presence settings will be remembered for when the shard
+        does connect.
+
+        Parameters
+        ----------
+        idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+            The datetime that the user started being idle. If undefined, this
+            will not be changed.
+        afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the user is marked as AFK. If `builtins.False`,
+            the user is marked as being active. If undefined, this will not be
+            changed.
+        activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
+            The activity to appear to be playing. If undefined, this will not be
+            changed.
+        status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
+            The web status to show. If undefined, this will not be changed.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def update_voice_state(
+        self,
+        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        channel: typing.Optional[snowflake.SnowflakeishOr[channels.GuildVoiceChannel]],
+        *,
+        self_mute: bool = False,
+        self_deaf: bool = False,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the voice state for this shard in a given guild.
+
+        Parameters
+        ----------
+        guild : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialGuild]
+            The guild or guild ID to update the voice state for.
+        channel : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.GuildVoiceChannel] or builtins.None
+            The channel or channel ID to update the voice state for. If `builtins.None`
+            then the bot will leave the voice channel that it is in for the
+            given guild.
+        self_mute : builtins.bool
+            If `builtins.True`, the bot will mute itself in that voice channel. If
+            `builtins.False`, then it will unmute itself.
+        self_deaf : builtins.bool
+            If `builtins.True`, the bot will deafen itself in that voice channel. If
+            `builtins.False`, then it will undeafen itself.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def request_guild_members(
+        self,
+        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        *,
+        include_presences: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        query: str = &#34;&#34;,
+        limit: int = 0,
+        user_ids: undefined.UndefinedOr[typing.Sequence[snowflake.SnowflakeishOr[users.User]]] = undefined.UNDEFINED,
+        nonce: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Request for a guild chunk.
+
+        Parameters
+        ----------
+        guild: hikari.models.guilds.Guild
+            The guild to request chunk for.
+        include_presences: hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If specified, whether to request include_presences.
+        query: builtins.str
+            If not `builtins.None`, request the members which username starts with the string.
+        limit: builtins.int
+            Maximum number of members to send matching the query.
+        user_ids: hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.User]]]
+            If specified, the users to request for.
+        nonce: hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the nonce to be sent with guild chunks.
+
+        !!! note
+            To request the full list of members, set `query` to `builtins.None` or `&#34;&#34;`
+            (empty string) and `limit` to 0.
+
+        Raises
+        ------
+        ValueError
+            When trying to specify `users` with `query`/`limit`, if `limit` is not between
+            0 and 100, both inclusive or if `users` length is over 100.
+        hikari.errors.MisingIntent
+            When trying to request include_presences without the `GUILD_MEMBERS` or when trying to
+            request the full list of members without `GUILD_PRESENCES`.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayCompression -- Types of gateway compression that may be supported." href="#hikari.api.shard.GatewayCompression"
+class='dotted'>GatewayCompression</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.shard.GatewayCompression" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayCompression (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Types of gateway compression that may be supported.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L59-L65" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayCompression(str, enum.Enum):
+    &#34;&#34;&#34;Types of gateway compression that may be supported.&#34;&#34;&#34;
+
+    TRANSPORT_ZLIB_STREAM = &#34;transport_zlib_stream&#34;
+    &#34;&#34;&#34;Transport compression using ZLIB.&#34;&#34;&#34;
+    PAYLOAD_ZLIB_STREAM = &#34;payload_zlib_stream&#34;
+    &#34;&#34;&#34;Payload compression using ZLIB.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayCompression -- Types of gateway compression that may be supported." href="#hikari.api.shard.GatewayCompression"
+class='dotted'>GatewayCompression</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.str -- str(object='') -> str
+str(bytes_or_buffer[, encoding[, errors]]) -> str …" href="https://docs.python.org/3/library/stdtypes.html#str"
+class='dotted'>str</a></dt>
+<dd class="nested"><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PAYLOAD_ZLIB_STREAM -- Payload compression using ZLIB." href="#hikari.api.shard.GatewayCompression.PAYLOAD_ZLIB_STREAM" id="hikari.api.shard.GatewayCompression.PAYLOAD_ZLIB_STREAM" class='dotted'>PAYLOAD_ZLIB_STREAM</a> = GatewayCompression.PAYLOAD_ZLIB_STREAM</code></pre>
+</dt>
+<dd><p>Payload compression using ZLIB.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="TRANSPORT_ZLIB_STREAM -- Transport compression using ZLIB." href="#hikari.api.shard.GatewayCompression.TRANSPORT_ZLIB_STREAM" id="hikari.api.shard.GatewayCompression.TRANSPORT_ZLIB_STREAM" class='dotted'>TRANSPORT_ZLIB_STREAM</a> = GatewayCompression.TRANSPORT_ZLIB_STREAM</code></pre>
+</dt>
+<dd><p>Transport compression using ZLIB.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayDataFormat -- Format of inbound gateway payloads." href="#hikari.api.shard.GatewayDataFormat"
+class='dotted'>GatewayDataFormat</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.shard.GatewayDataFormat" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayDataFormat (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Format of inbound gateway payloads.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L48-L54" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayDataFormat(str, enum.Enum):
+    &#34;&#34;&#34;Format of inbound gateway payloads.&#34;&#34;&#34;
+
+    JSON = &#34;json&#34;
+    &#34;&#34;&#34;Javascript serialized object notation.&#34;&#34;&#34;
+    ETF = &#34;etf&#34;
+    &#34;&#34;&#34;Erlang transmission format.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="GatewayDataFormat -- Format of inbound gateway payloads." href="#hikari.api.shard.GatewayDataFormat"
+class='dotted'>GatewayDataFormat</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.str -- str(object='') -> str
+str(bytes_or_buffer[, encoding[, errors]]) -> str …" href="https://docs.python.org/3/library/stdtypes.html#str"
+class='dotted'>str</a></dt>
+<dd class="nested"><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ETF -- Erlang transmission format." href="#hikari.api.shard.GatewayDataFormat.ETF" id="hikari.api.shard.GatewayDataFormat.ETF" class='dotted'>ETF</a> = GatewayDataFormat.ETF</code></pre>
+</dt>
+<dd><p>Erlang transmission format.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JSON -- Javascript serialized object notation." href="#hikari.api.shard.GatewayDataFormat.JSON" id="hikari.api.shard.GatewayDataFormat.JSON" class='dotted'>JSON</a> = GatewayDataFormat.JSON</code></pre>
+</dt>
+<dd><p>Javascript serialized object notation.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="GatewayShard -- Interface for a definition of a V6/V7 compatible websocket gateway …" href="#hikari.api.shard.GatewayShard"
+class='dotted'>GatewayShard</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.api.shard.GatewayShard" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GatewayShard: ...</code></pre>
+<p>Interface for a definition of a V6/V7 compatible websocket gateway.</p>
+<p>Each instance should represent a single shard.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L68-L394" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GatewayShard(abc.ABC):
+    &#34;&#34;&#34;Interface for a definition of a V6/V7 compatible websocket gateway.
+
+    Each instance should represent a single shard.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    @abc.abstractmethod
+    def compression(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the compression being used.
+
+        This may be one of `GatewayCompression`, or may be a custom
+        format for custom implementations in the future.
+
+        Returns
+        -------
+        builtins.str or builtins.None
+            The name of the compression method being used. Will be
+            `builtins.None` if no compression is being used.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def connection_uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the uptime of the connected shard.
+
+        If the shard is not yet connected, this will be 0.
+
+        This is measured as the time since the last disconnect, whether the
+        session has been kept alive or not.
+
+        Returns
+        -------
+        builtins.float
+            Uptime of this shard.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def data_format(self) -&gt; str:
+        &#34;&#34;&#34;Return name of the data format for inbound payloads.
+
+        This may be a value in `GatewayDataFormat`, or it may
+        be a custom name in custom implementations.
+
+        Returns
+        -------
+        builtins.str
+            The name of the data format being used on this shard.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def heartbeat_interval(self) -&gt; float:
+        &#34;&#34;&#34;Return the heartbeat interval for this shard.
+
+        Returns
+        -------
+        builtins.float
+            How often the shard will send a heartbeat in seconds. If the
+            information is not yet available, this returns `float(&#39;nan&#39;)`
+            instead.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def heartbeat_latency(self) -&gt; float:
+        &#34;&#34;&#34;Return the shard&#39;s most recent heartbeat latency.
+
+        Returns
+        -------
+        builtins.float
+            Heartbeat latency measured in seconds. If the information is
+            not yet available, then this will be `float(&#39;nan&#39;)` instead.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def http_settings(self) -&gt; config.HTTPSettings:
+        &#34;&#34;&#34;Return the HTTP settings in use for this shard.
+
+        Returns
+        -------
+        hikari.config.HTTPSettings
+            The HTTP settings in-use.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def id(self) -&gt; int:
+        &#34;&#34;&#34;Return the shard ID for this shard.
+
+        Returns
+        -------
+        builtins.int
+            The integer 0-based shard ID.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        &#34;&#34;&#34;Return the intents set on this shard.
+
+        Returns
+        -------
+        hikari.models.intents.Intents or builtins.None
+            The intents being used on this shard. This may be
+            `builtins.None` if intents were not specified.
+
+        !!! warning
+            As of October 2020, Intents will become mandatory,
+            at which point this API will be changed to always
+            return a value here.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def is_alive(self) -&gt; bool:
+        &#34;&#34;&#34;Return `builtins.True` if the shard is alive and connected.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if connected, or `builtins.False` if not.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        &#34;&#34;&#34;Return the proxy settings in use for this shard.
+
+        Returns
+        -------
+        hikari.config.ProxySettings
+            The proxy settings in-use.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def sequence(self) -&gt; typing.Optional[int]:
+        &#34;&#34;&#34;Return the sequence number for this shard.
+
+        This roughly corresponds to how many payloads have been
+        received since the current session started.
+
+        Returns
+        -------
+        builtins.int or builtins.None
+            The session sequence, or `builtins.None` if no session is active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def session_id(self) -&gt; typing.Optional[str]:
+        &#34;&#34;&#34;Return the session ID for this shard.
+
+        Returns
+        -------
+        builtins.str or builtins.None
+            The session ID, or `builtins.None` if no session is active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def session_uptime(self) -&gt; float:
+        &#34;&#34;&#34;Return the time that the session has been active for.
+
+        This will be measured in monotonic time.
+
+        Returns
+        -------
+        builtins.float
+            The session uptime, or `0` if no session is
+            active.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def shard_count(self) -&gt; int:
+        &#34;&#34;&#34;Return the total number of shards expected in the entire application.
+
+        Returns
+        -------
+        builtins.int
+            A number of shards greater than or equal to 1.
+        &#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def version(self) -&gt; int:
+        &#34;&#34;&#34;Return the gateway API version in use.
+
+        Returns
+        -------
+        builtins.int
+            The gateway API version being used.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def get_user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Return the user ID.
+
+        If the shard has not connected fully yet, this should wait until the ID
+        is set before returning.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The user ID for the application user.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def start(self) -&gt; asyncio.Task[None]:
+        &#34;&#34;&#34;Start the shard, wait for it to become ready.
+
+        Returns
+        -------
+        asyncio.Task[builtins.None]
+            The task containing the shard running logic. Awaiting this will
+            wait until the shard has shut down before returning.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def close(self) -&gt; None:
+        &#34;&#34;&#34;Close the websocket if it is connected, otherwise do nothing.&#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def update_presence(
+        self,
+        *,
+        idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+        status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the presence of the shard user.
+
+        If the shard is not alive, no physical data will be sent, however,
+        the new presence settings will be remembered for when the shard
+        does connect.
+
+        Parameters
+        ----------
+        idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+            The datetime that the user started being idle. If undefined, this
+            will not be changed.
+        afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If `builtins.True`, the user is marked as AFK. If `builtins.False`,
+            the user is marked as being active. If undefined, this will not be
+            changed.
+        activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
+            The activity to appear to be playing. If undefined, this will not be
+            changed.
+        status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
+            The web status to show. If undefined, this will not be changed.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def update_voice_state(
+        self,
+        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        channel: typing.Optional[snowflake.SnowflakeishOr[channels.GuildVoiceChannel]],
+        *,
+        self_mute: bool = False,
+        self_deaf: bool = False,
+    ) -&gt; None:
+        &#34;&#34;&#34;Update the voice state for this shard in a given guild.
+
+        Parameters
+        ----------
+        guild : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialGuild]
+            The guild or guild ID to update the voice state for.
+        channel : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.GuildVoiceChannel] or builtins.None
+            The channel or channel ID to update the voice state for. If `builtins.None`
+            then the bot will leave the voice channel that it is in for the
+            given guild.
+        self_mute : builtins.bool
+            If `builtins.True`, the bot will mute itself in that voice channel. If
+            `builtins.False`, then it will unmute itself.
+        self_deaf : builtins.bool
+            If `builtins.True`, the bot will deafen itself in that voice channel. If
+            `builtins.False`, then it will undeafen itself.
+        &#34;&#34;&#34;
+
+    @abc.abstractmethod
+    async def request_guild_members(
+        self,
+        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        *,
+        include_presences: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        query: str = &#34;&#34;,
+        limit: int = 0,
+        user_ids: undefined.UndefinedOr[typing.Sequence[snowflake.SnowflakeishOr[users.User]]] = undefined.UNDEFINED,
+        nonce: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    ) -&gt; None:
+        &#34;&#34;&#34;Request for a guild chunk.
+
+        Parameters
+        ----------
+        guild: hikari.models.guilds.Guild
+            The guild to request chunk for.
+        include_presences: hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If specified, whether to request include_presences.
+        query: builtins.str
+            If not `builtins.None`, request the members which username starts with the string.
+        limit: builtins.int
+            Maximum number of members to send matching the query.
+        user_ids: hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.User]]]
+            If specified, the users to request for.
+        nonce: hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the nonce to be sent with guild chunks.
+
+        !!! note
+            To request the full list of members, set `query` to `builtins.None` or `&#34;&#34;`
+            (empty string) and `limit` to 0.
+
+        Raises
+        ------
+        ValueError
+            When trying to specify `users` with `query`/`limit`, if `limit` is not between
+            0 and 100, both inclusive or if `users` length is over 100.
+        hikari.errors.MisingIntent
+            When trying to request include_presences without the `GUILD_MEMBERS` or when trying to
+            request the full list of members without `GUILD_PRESENCES`.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="GatewayShardImpl -- Implementation of a V6 and V7 compatible gateway …" href="../impl/shard.html#hikari.impl.shard.GatewayShardImplV6"
+class='dotted'>GatewayShardImpl</a></dt>
+<dd class="nested"><p>Implementation of a V6 and V7 compatible gateway …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="GatewayShard -- Interface for a definition of a V6/V7 compatible websocket gateway …" href="#hikari.api.shard.GatewayShard"
+class='dotted'>GatewayShard</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.close" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> close() -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Close the websocket if it is connected, otherwise do nothing.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L292-L294" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def close(self) -&gt; None:
+    &#34;&#34;&#34;Close the websocket if it is connected, otherwise do nothing.&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.get_user_id" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> get_user_id() -> <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Return the user ID.</p>
+<p>If the shard has not connected fully yet, this should wait until the ID
+is set before returning.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The user ID for the application user.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L268-L279" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def get_user_id(self) -&gt; snowflake.Snowflake:
+    &#34;&#34;&#34;Return the user ID.
+
+    If the shard has not connected fully yet, this should wait until the ID
+    is set before returning.
+
+    Returns
+    -------
+    hikari.utilities.snowflake.Snowflake
+        The user ID for the application user.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.request_guild_members" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> request_guild_members(
+    guild: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='../models/guilds.html#hikari.models.guilds.PartialGuild'>guilds.PartialGuild</a>],
+    *,
+    include_presences: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    query: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    limit: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 0,
+    user_ids: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='../models/users.html#hikari.models.users.User'>users.User</a>]]] = UNDEFINED,
+    nonce: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+) -> <a href='https://docs.python.org/3/library/constants.html#None'>None</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Request for a guild chunk.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>guild</code></strong> :&ensp;<code><a href='../models/guilds.html#hikari.models.guilds.Guild'>Guild</a></code></dt>
+<dd>The guild to request chunk for.</dd>
+<dt><strong><code>include_presences</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If specified, whether to request include_presences.</dd>
+<dt><strong><code>query</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>If not <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, request the members which username starts with the string.</dd>
+<dt><strong><code>limit</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>Maximum number of members to send matching the query.</dd>
+<dt><strong><code>user_ids</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>SnowflakeishOr</a>[<a href='../models/users.html#hikari.models.users.User'>User</a>]]]</code></dt>
+<dd>If specified, the users to request for.</dd>
+<dt><strong><code>nonce</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the nonce to be sent with guild chunks.</dd>
+</dl>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>To request the full list of members, set <code>query</code> to <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> or <code>""</code>
+(empty string) and <code>limit</code> to 0.</p>
+</div>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>When trying to specify <code>users</code> with <code>query</code>/<code>limit</code>, if <code>limit</code> is not between
+0 and 100, both inclusive or if <code>users</code> length is over 100.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.MisingIntent</a></code></dt>
+<dd>When trying to request include_presences without the <code>GUILD_MEMBERS</code> or when trying to
+request the full list of members without <code>GUILD_PRESENCES</code>.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L354-L394" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def request_guild_members(
+    self,
+    guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+    *,
+    include_presences: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    query: str = &#34;&#34;,
+    limit: int = 0,
+    user_ids: undefined.UndefinedOr[typing.Sequence[snowflake.SnowflakeishOr[users.User]]] = undefined.UNDEFINED,
+    nonce: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+) -&gt; None:
+    &#34;&#34;&#34;Request for a guild chunk.
+
+    Parameters
+    ----------
+    guild: hikari.models.guilds.Guild
+        The guild to request chunk for.
+    include_presences: hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If specified, whether to request include_presences.
+    query: builtins.str
+        If not `builtins.None`, request the members which username starts with the string.
+    limit: builtins.int
+        Maximum number of members to send matching the query.
+    user_ids: hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.User]]]
+        If specified, the users to request for.
+    nonce: hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the nonce to be sent with guild chunks.
+
+    !!! note
+        To request the full list of members, set `query` to `builtins.None` or `&#34;&#34;`
+        (empty string) and `limit` to 0.
+
+    Raises
+    ------
+    ValueError
+        When trying to specify `users` with `query`/`limit`, if `limit` is not between
+        0 and 100, both inclusive or if `users` length is over 100.
+    hikari.errors.MisingIntent
+        When trying to request include_presences without the `GUILD_MEMBERS` or when trying to
+        request the full list of members without `GUILD_PRESENCES`.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.start" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> start() -> <a href='https://docs.python.org/3/library/asyncio-task.html#asyncio.Task'>Task</a>[<a href='https://docs.python.org/3/library/constants.html#None'>None</a>]: ...</code></pre>
+</dt>
+<dd>
+<p>Start the shard, wait for it to become ready.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>asyncio.Task[builtins.None]</code></dt>
+<dd>The task containing the shard running logic. Awaiting this will
+wait until the shard has shut down before returning.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L281-L290" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def start(self) -&gt; asyncio.Task[None]:
+    &#34;&#34;&#34;Start the shard, wait for it to become ready.
+
+    Returns
+    -------
+    asyncio.Task[builtins.None]
+        The task containing the shard running logic. Awaiting this will
+        wait until the shard has shut down before returning.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.update_presence" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> update_presence(
+    *,
+    idle_since: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>] = UNDEFINED,
+    afk: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    activity: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='../models/presences.html#hikari.models.presences.Activity'>presences.Activity</a>] = UNDEFINED,
+    status: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../models/presences.html#hikari.models.presences.Status'>presences.Status</a>] = UNDEFINED,
+) -> <a href='https://docs.python.org/3/library/constants.html#None'>None</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Update the presence of the shard user.</p>
+<p>If the shard is not alive, no physical data will be sent, however,
+the new presence settings will be remembered for when the shard
+does connect.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>idle_since</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>]</code></dt>
+<dd>The datetime that the user started being idle. If undefined, this
+will not be changed.</dd>
+<dt><strong><code>afk</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the user is marked as AFK. If <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>,
+the user is marked as being active. If undefined, this will not be
+changed.</dd>
+<dt><strong><code>activity</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>UndefinedNoneOr</a>[<a href='../models/index.html'>hikari.models.include_presences.Activity</a>]</code></dt>
+<dd>The activity to appear to be playing. If undefined, this will not be
+changed.</dd>
+<dt><strong><code>status</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../models/index.html'>hikari.models.include_presences.Status</a>]</code></dt>
+<dd>The web status to show. If undefined, this will not be changed.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L296-L325" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def update_presence(
+    self,
+    *,
+    idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+    afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
+    status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
+) -&gt; None:
+    &#34;&#34;&#34;Update the presence of the shard user.
+
+    If the shard is not alive, no physical data will be sent, however,
+    the new presence settings will be remembered for when the shard
+    does connect.
+
+    Parameters
+    ----------
+    idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
+        The datetime that the user started being idle. If undefined, this
+        will not be changed.
+    afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If `builtins.True`, the user is marked as AFK. If `builtins.False`,
+        the user is marked as being active. If undefined, this will not be
+        changed.
+    activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
+        The activity to appear to be playing. If undefined, this will not be
+        changed.
+    status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
+        The web status to show. If undefined, this will not be changed.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.api.shard.GatewayShard.update_voice_state" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> update_voice_state(
+    guild: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='../models/guilds.html#hikari.models.guilds.PartialGuild'>guilds.PartialGuild</a>],
+    channel: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='../models/channels.html#hikari.models.channels.GuildVoiceChannel'>channels.GuildVoiceChannel</a>]],
+    *,
+    self_mute: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+    self_deaf: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a> = False,
+) -> <a href='https://docs.python.org/3/library/constants.html#None'>None</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Update the voice state for this shard in a given guild.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>guild</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>SnowflakeishOr</a>[<a href='../models/guilds.html#hikari.models.guilds.PartialGuild'>PartialGuild</a>]</code></dt>
+<dd>The guild or guild ID to update the voice state for.</dd>
+<dt><strong><code>channel</code></strong> :&ensp;<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>SnowflakeishOr</a>[<a href='../models/channels.html#hikari.models.channels.GuildVoiceChannel'>GuildVoiceChannel</a>]</code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The channel or channel ID to update the voice state for. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>
+then the bot will leave the voice channel that it is in for the
+given guild.</dd>
+<dt><strong><code>self_mute</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the bot will mute itself in that voice channel. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then it will unmute itself.</dd>
+<dt><strong><code>self_deaf</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd>If <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, the bot will deafen itself in that voice channel. If
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, then it will undeafen itself.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/api/shard.py#L327-L352" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+async def update_voice_state(
+    self,
+    guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+    channel: typing.Optional[snowflake.SnowflakeishOr[channels.GuildVoiceChannel]],
+    *,
+    self_mute: bool = False,
+    self_deaf: bool = False,
+) -&gt; None:
+    &#34;&#34;&#34;Update the voice state for this shard in a given guild.
+
+    Parameters
+    ----------
+    guild : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialGuild]
+        The guild or guild ID to update the voice state for.
+    channel : hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.GuildVoiceChannel] or builtins.None
+        The channel or channel ID to update the voice state for. If `builtins.None`
+        then the bot will leave the voice channel that it is in for the
+        given guild.
+    self_mute : builtins.bool
+        If `builtins.True`, the bot will mute itself in that voice channel. If
+        `builtins.False`, then it will unmute itself.
+    self_deaf : builtins.bool
+        If `builtins.True`, the bot will deafen itself in that voice channel. If
+        `builtins.False`, then it will undeafen itself.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="compression -- Return the compression being used …" href="#hikari.api.shard.GatewayShard.compression" id="hikari.api.shard.GatewayShard.compression" class='dotted'>compression</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>Return the compression being used.</p>
+<p>This may be one of <code><a href='#hikari.api.shard.GatewayCompression'>GatewayCompression</a></code>, or may be a custom
+format for custom implementations in the future.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The name of the compression method being used. Will be
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no compression is being used.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="connection_uptime -- Return the uptime of the connected shard …" href="#hikari.api.shard.GatewayShard.connection_uptime" id="hikari.api.shard.GatewayShard.connection_uptime" class='dotted'>connection_uptime</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the uptime of the connected shard.</p>
+<p>If the shard is not yet connected, this will be 0.</p>
+<p>This is measured as the time since the last disconnect, whether the
+session has been kept alive or not.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>Uptime of this shard.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="data_format -- Return name of the data format for inbound payloads …" href="#hikari.api.shard.GatewayShard.data_format" id="hikari.api.shard.GatewayShard.data_format" class='dotted'>data_format</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Return name of the data format for inbound payloads.</p>
+<p>This may be a value in <code><a href='#hikari.api.shard.GatewayDataFormat'>GatewayDataFormat</a></code>, or it may
+be a custom name in custom implementations.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The name of the data format being used on this shard.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_interval -- Return the heartbeat interval for this shard …" href="#hikari.api.shard.GatewayShard.heartbeat_interval" id="hikari.api.shard.GatewayShard.heartbeat_interval" class='dotted'>heartbeat_interval</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the heartbeat interval for this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>How often the shard will send a heartbeat in seconds. If the
+information is not yet available, this returns <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>
+instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the shard's most recent heartbeat latency …" href="#hikari.api.shard.GatewayShard.heartbeat_latency" id="hikari.api.shard.GatewayShard.heartbeat_latency" class='dotted'>heartbeat_latency</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the shard's most recent heartbeat latency.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>Heartbeat latency measured in seconds. If the information is
+not yet available, then this will be <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code> instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use for this shard …" href="#hikari.api.shard.GatewayShard.http_settings" id="hikari.api.shard.GatewayShard.http_settings" class='dotted'>http_settings</a> : <a href='../config.html#hikari.config.HTTPSettings'>config.HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use for this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in-use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- Return the shard ID for this shard …" href="#hikari.api.shard.GatewayShard.id" id="hikari.api.shard.GatewayShard.id" class='dotted'>id</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the shard ID for this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The integer 0-based shard ID.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents set on this shard …" href="#hikari.api.shard.GatewayShard.intents" id="hikari.api.shard.GatewayShard.intents" class='dotted'>intents</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../models/intents.html#hikari.models.intents.Intents'>intents_.Intents</a>]</code></pre>
+</dt>
+<dd><p>Return the intents set on this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/intents.html#hikari.models.intents.Intents'>Intents</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The intents being used on this shard. This may be
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if intents were not specified.</dd>
+</dl>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>As of October 2020, Intents will become mandatory,
+at which point this API will be changed to always
+return a value here.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_alive -- Return `builtins.True` if the shard is alive and connected …" href="#hikari.api.shard.GatewayShard.is_alive" id="hikari.api.shard.GatewayShard.is_alive" class='dotted'>is_alive</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Return <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if the shard is alive and connected.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></dt>
+<dd><code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if connected, or <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> if not.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use for this shard …" href="#hikari.api.shard.GatewayShard.proxy_settings" id="hikari.api.shard.GatewayShard.proxy_settings" class='dotted'>proxy_settings</a> : <a href='../config.html#hikari.config.ProxySettings'>config.ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use for this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in-use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="sequence -- Return the sequence number for this shard …" href="#hikari.api.shard.GatewayShard.sequence" id="hikari.api.shard.GatewayShard.sequence" class='dotted'>sequence</a> : Union[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, None]</code></pre>
+</dt>
+<dd><p>Return the sequence number for this shard.</p>
+<p>This roughly corresponds to how many payloads have been
+received since the current session started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The session sequence, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no session is active.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- Return the session ID for this shard …" href="#hikari.api.shard.GatewayShard.session_id" id="hikari.api.shard.GatewayShard.session_id" class='dotted'>session_id</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>Return the session ID for this shard.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The session ID, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no session is active.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_uptime -- Return the time that the session has been active for …" href="#hikari.api.shard.GatewayShard.session_uptime" id="hikari.api.shard.GatewayShard.session_uptime" class='dotted'>session_uptime</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the time that the session has been active for.</p>
+<p>This will be measured in monotonic time.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>The session uptime, or <code>0</code> if no session is
+active.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the total number of shards expected in the entire application …" href="#hikari.api.shard.GatewayShard.shard_count" id="hikari.api.shard.GatewayShard.shard_count" class='dotted'>shard_count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the total number of shards expected in the entire application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>A number of shards greater than or equal to 1.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="version -- Return the gateway API version in use …" href="#hikari.api.shard.GatewayShard.version" id="hikari.api.shard.GatewayShard.version" class='dotted'>version</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the gateway API version in use.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The gateway API version being used.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,1827 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.presences API documentation</title>
+<meta name="description" content="Application and entities that are used to describe guilds on Discord." />
+<meta property="og:title" content="hikari.models.presences module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.presences">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">presences</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe guilds on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Activity -- Represents a regular activity that can be associated with a presence." href="#hikari.models.presences.Activity"
+class='sidebar-nav-pill'>Activity</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The activity name." href="#hikari.models.presences.Activity.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The activity type." href="#hikari.models.presences.Activity.type"
+class='sidebar-nav-pill'>type</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The activity URL. Only valid for `STREAMING` activities." href="#hikari.models.presences.Activity.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityAssets -- Used to represent possible assets for an activity." href="#hikari.models.presences.ActivityAssets"
+class='sidebar-nav-pill'>ActivityAssets</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="large_image -- The ID of the asset's large image, if set." href="#hikari.models.presences.ActivityAssets.large_image"
+class='sidebar-nav-pill'>large_image</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="large_text -- The text that'll appear when hovering over the large image, if set." href="#hikari.models.presences.ActivityAssets.large_text"
+class='sidebar-nav-pill'>large_text</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="small_image -- The ID of the asset's small image, if set." href="#hikari.models.presences.ActivityAssets.small_image"
+class='sidebar-nav-pill'>small_image</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="small_text -- The text that'll appear when hovering over the small image, if set." href="#hikari.models.presences.ActivityAssets.small_text"
+class='sidebar-nav-pill'>small_text</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="ActivityFlag -- Flags that describe what an activity includes …" href="#hikari.models.presences.ActivityFlag"
+class='sidebar-nav-pill'>ActivityFlag</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INSTANCE -- Instance" href="#hikari.models.presences.ActivityFlag.INSTANCE"
+class='sidebar-nav-pill'>INSTANCE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JOIN -- Join" href="#hikari.models.presences.ActivityFlag.JOIN"
+class='sidebar-nav-pill'>JOIN</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JOIN_REQUEST -- Join Request" href="#hikari.models.presences.ActivityFlag.JOIN_REQUEST"
+class='sidebar-nav-pill'>JOIN_REQUEST</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PLAY -- Play" href="#hikari.models.presences.ActivityFlag.PLAY"
+class='sidebar-nav-pill'>PLAY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPECTATE -- Spectate" href="#hikari.models.presences.ActivityFlag.SPECTATE"
+class='sidebar-nav-pill'>SPECTATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYNC -- Sync" href="#hikari.models.presences.ActivityFlag.SYNC"
+class='sidebar-nav-pill'>SYNC</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityParty -- Used to represent activity groups of users." href="#hikari.models.presences.ActivityParty"
+class='sidebar-nav-pill'>ActivityParty</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="current_size -- Current size of this party, if applicable." href="#hikari.models.presences.ActivityParty.current_size"
+class='sidebar-nav-pill'>current_size</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The string id of this party instance, if set." href="#hikari.models.presences.ActivityParty.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_size -- Maximum size of this party, if applicable." href="#hikari.models.presences.ActivityParty.max_size"
+class='sidebar-nav-pill'>max_size</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivitySecret -- The secrets used for interacting with an activity party." href="#hikari.models.presences.ActivitySecret"
+class='sidebar-nav-pill'>ActivitySecret</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="join -- The secret used for joining a party, if applicable." href="#hikari.models.presences.ActivitySecret.join"
+class='sidebar-nav-pill'>join</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="match -- The secret used for matching a party, if applicable." href="#hikari.models.presences.ActivitySecret.match"
+class='sidebar-nav-pill'>match</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="spectate -- The secret used for spectating a party, if applicable." href="#hikari.models.presences.ActivitySecret.spectate"
+class='sidebar-nav-pill'>spectate</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityTimestamps -- The datetimes for the start and/or end of an activity session." href="#hikari.models.presences.ActivityTimestamps"
+class='sidebar-nav-pill'>ActivityTimestamps</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="end -- When this activity's session will end, if applicable." href="#hikari.models.presences.ActivityTimestamps.end"
+class='sidebar-nav-pill'>end</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="start -- When this activity's session was started, if applicable." href="#hikari.models.presences.ActivityTimestamps.start"
+class='sidebar-nav-pill'>start</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ActivityType -- The activity type." href="#hikari.models.presences.ActivityType"
+class='sidebar-nav-pill'>ActivityType</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CUSTOM -- A custom status …" href="#hikari.models.presences.ActivityType.CUSTOM"
+class='sidebar-nav-pill'>CUSTOM</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="LISTENING -- Shows up as `Listening to <name>`." href="#hikari.models.presences.ActivityType.LISTENING"
+class='sidebar-nav-pill'>LISTENING</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PLAYING -- Shows up as `Playing <name>`" href="#hikari.models.presences.ActivityType.PLAYING"
+class='sidebar-nav-pill'>PLAYING</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAMING -- Shows up as `Streaming` and links to a Twitch or YouTube stream/video." href="#hikari.models.presences.ActivityType.STREAMING"
+class='sidebar-nav-pill'>STREAMING</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WATCHING -- Shows up as `Watching <name>` …" href="#hikari.models.presences.ActivityType.WATCHING"
+class='sidebar-nav-pill'>WATCHING</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientStatus -- The client statuses for this member." href="#hikari.models.presences.ClientStatus"
+class='sidebar-nav-pill'>ClientStatus</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="desktop -- The status of the target user's desktop session." href="#hikari.models.presences.ClientStatus.desktop"
+class='sidebar-nav-pill'>desktop</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mobile -- The status of the target user's mobile session." href="#hikari.models.presences.ClientStatus.mobile"
+class='sidebar-nav-pill'>mobile</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="web -- The status of the target user's web session." href="#hikari.models.presences.ClientStatus.web"
+class='sidebar-nav-pill'>web</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPresence -- Used to represent a guild member's presence." href="#hikari.models.presences.MemberPresence"
+class='sidebar-nav-pill'>MemberPresence</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="activities -- An array of the user's activities, with the top one will being
+prioritised by the client." href="#hikari.models.presences.MemberPresence.activities"
+class='sidebar-nav-pill'>activities</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.presences.MemberPresence.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="client_status -- An object of the target user's client statuses." href="#hikari.models.presences.MemberPresence.client_status"
+class='sidebar-nav-pill'>client_status</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this presence belongs to." href="#hikari.models.presences.MemberPresence.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="nickname -- This member's nickname, if set." href="#hikari.models.presences.MemberPresence.nickname"
+class='sidebar-nav-pill'>nickname</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="premium_since -- The datetime of when this member started "boosting" this guild …" href="#hikari.models.presences.MemberPresence.premium_since"
+class='sidebar-nav-pill'>premium_since</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_ids -- The IDs of the user's current roles in the guild this presence belongs to …" href="#hikari.models.presences.MemberPresence.role_ids"
+class='sidebar-nav-pill'>role_ids</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user this presence belongs to." href="#hikari.models.presences.MemberPresence.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="visible_status -- This user's current status being displayed by the client." href="#hikari.models.presences.MemberPresence.visible_status"
+class='sidebar-nav-pill'>visible_status</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RichActivity -- Represents a rich activity that can be associated with a presence." href="#hikari.models.presences.RichActivity"
+class='sidebar-nav-pill'>RichActivity</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="application_id -- The ID of the application this activity is for, if applicable." href="#hikari.models.presences.RichActivity.application_id"
+class='sidebar-nav-pill'>application_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="assets -- Images and their hover over text for the activity." href="#hikari.models.presences.RichActivity.assets"
+class='sidebar-nav-pill'>assets</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When this activity was added to the user's session." href="#hikari.models.presences.RichActivity.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="details -- The text that describes what the activity's target is doing, if set." href="#hikari.models.presences.RichActivity.details"
+class='sidebar-nav-pill'>details</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emoji -- The emoji of this activity, if it is a custom status and set." href="#hikari.models.presences.RichActivity.emoji"
+class='sidebar-nav-pill'>emoji</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flags that describe what the activity includes, if present." href="#hikari.models.presences.RichActivity.flags"
+class='sidebar-nav-pill'>flags</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_instance -- Whether this activity is an instanced game session." href="#hikari.models.presences.RichActivity.is_instance"
+class='sidebar-nav-pill'>is_instance</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The activity name." href="#hikari.models.presences.RichActivity.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="party -- Information about the party associated with this activity, if set." href="#hikari.models.presences.RichActivity.party"
+class='sidebar-nav-pill'>party</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="secrets -- Secrets for Rich Presence joining and spectating." href="#hikari.models.presences.RichActivity.secrets"
+class='sidebar-nav-pill'>secrets</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="state -- The current status of this activity's target, if set." href="#hikari.models.presences.RichActivity.state"
+class='sidebar-nav-pill'>state</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamps -- The timestamps for when this activity's current state will start and
+end, if applicable." href="#hikari.models.presences.RichActivity.timestamps"
+class='sidebar-nav-pill'>timestamps</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The activity type." href="#hikari.models.presences.RichActivity.type"
+class='sidebar-nav-pill'>type</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The activity URL. Only valid for `STREAMING` activities." href="#hikari.models.presences.RichActivity.url"
+class='sidebar-nav-pill'>url</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="Status -- The status of a member." href="#hikari.models.presences.Status"
+class='sidebar-nav-pill'>Status</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DO_NOT_DISTURB -- Do not disturb/red." href="#hikari.models.presences.Status.DO_NOT_DISTURB"
+class='sidebar-nav-pill'>DO_NOT_DISTURB</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="IDLE -- Idle/yellow." href="#hikari.models.presences.Status.IDLE"
+class='sidebar-nav-pill'>IDLE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="OFFLINE -- Offline or invisible/grey." href="#hikari.models.presences.Status.OFFLINE"
+class='sidebar-nav-pill'>OFFLINE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ONLINE -- Online/green." href="#hikari.models.presences.Status.ONLINE"
+class='sidebar-nav-pill'>ONLINE</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L0-L311" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe guilds on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;Activity&#34;,
+    &#34;ActivityAssets&#34;,
+    &#34;ActivityFlag&#34;,
+    &#34;ActivitySecret&#34;,
+    &#34;ActivityTimestamps&#34;,
+    &#34;ActivityType&#34;,
+    &#34;ActivityParty&#34;,
+    &#34;ClientStatus&#34;,
+    &#34;MemberPresence&#34;,
+    &#34;RichActivity&#34;,
+    &#34;Status&#34;,
+]
+
+import enum
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import flag
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    import datetime
+
+    from hikari import traits
+    from hikari.models import emojis as emojis_
+
+
+@enum.unique
+@typing.final
+class ActivityType(enum.IntEnum):
+    &#34;&#34;&#34;The activity type.&#34;&#34;&#34;
+
+    PLAYING = 0
+    &#34;&#34;&#34;Shows up as `Playing &lt;name&gt;`&#34;&#34;&#34;
+
+    STREAMING = 1
+    &#34;&#34;&#34;Shows up as `Streaming` and links to a Twitch or YouTube stream/video.&#34;&#34;&#34;
+
+    LISTENING = 2
+    &#34;&#34;&#34;Shows up as `Listening to &lt;name&gt;`.&#34;&#34;&#34;
+
+    WATCHING = 3
+    &#34;&#34;&#34;Shows up as `Watching &lt;name&gt;`.
+
+    !!! note
+        this is not officially documented, so will be likely removed in the near
+        future.
+    &#34;&#34;&#34;
+
+    CUSTOM = 4
+    &#34;&#34;&#34;A custom status.
+
+    To set an emoji with the status, place a unicode emoji or Discord emoji
+    (`:smiley:`) as the first part of the status activity name.
+
+    !!! warning
+        Bots currently do not support setting custom statuses.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ActivityTimestamps:
+    &#34;&#34;&#34;The datetimes for the start and/or end of an activity session.&#34;&#34;&#34;
+
+    start: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+    &#34;&#34;&#34;When this activity&#39;s session was started, if applicable.&#34;&#34;&#34;
+
+    end: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+    &#34;&#34;&#34;When this activity&#39;s session will end, if applicable.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ActivityParty:
+    &#34;&#34;&#34;Used to represent activity groups of users.&#34;&#34;&#34;
+
+    id: typing.Optional[str] = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string id of this party instance, if set.&#34;&#34;&#34;
+
+    current_size: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Current size of this party, if applicable.&#34;&#34;&#34;
+
+    max_size: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Maximum size of this party, if applicable.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ActivityAssets:
+    &#34;&#34;&#34;Used to represent possible assets for an activity.&#34;&#34;&#34;
+
+    large_image: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the asset&#39;s large image, if set.&#34;&#34;&#34;
+
+    large_text: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that&#39;ll appear when hovering over the large image, if set.&#34;&#34;&#34;
+
+    small_image: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the asset&#39;s small image, if set.&#34;&#34;&#34;
+
+    small_text: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that&#39;ll appear when hovering over the small image, if set.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ActivitySecret:
+    &#34;&#34;&#34;The secrets used for interacting with an activity party.&#34;&#34;&#34;
+
+    join: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for joining a party, if applicable.&#34;&#34;&#34;
+
+    spectate: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for spectating a party, if applicable.&#34;&#34;&#34;
+
+    match: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for matching a party, if applicable.&#34;&#34;&#34;
+
+
+@enum.unique
+@typing.final
+class ActivityFlag(flag.Flag):
+    &#34;&#34;&#34;Flags that describe what an activity includes.
+
+    This can be more than one using bitwise-combinations.
+    &#34;&#34;&#34;
+
+    INSTANCE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Instance&#34;&#34;&#34;
+
+    JOIN = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Join&#34;&#34;&#34;
+
+    SPECTATE = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Spectate&#34;&#34;&#34;
+
+    JOIN_REQUEST = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Join Request&#34;&#34;&#34;
+
+    SYNC = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Sync&#34;&#34;&#34;
+
+    PLAY = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Play&#34;&#34;&#34;
+
+
+# TODO: add strict type checking to gateway for this type in an invariant way.
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class Activity:
+    &#34;&#34;&#34;Represents a regular activity that can be associated with a presence.&#34;&#34;&#34;
+
+    name: str = attr.ib()
+    &#34;&#34;&#34;The activity name.&#34;&#34;&#34;
+
+    url: typing.Optional[str] = attr.ib(default=None, repr=False)
+    &#34;&#34;&#34;The activity URL. Only valid for `STREAMING` activities.&#34;&#34;&#34;
+
+    type: ActivityType = attr.ib(converter=ActivityType, default=ActivityType.PLAYING)
+    &#34;&#34;&#34;The activity type.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class RichActivity(Activity):
+    &#34;&#34;&#34;Represents a rich activity that can be associated with a presence.&#34;&#34;&#34;
+
+    created_at: datetime.datetime = attr.ib(repr=False)
+    &#34;&#34;&#34;When this activity was added to the user&#39;s session.&#34;&#34;&#34;
+
+    timestamps: typing.Optional[ActivityTimestamps] = attr.ib(repr=False)
+    &#34;&#34;&#34;The timestamps for when this activity&#39;s current state will start and
+    end, if applicable.
+    &#34;&#34;&#34;
+
+    application_id: typing.Optional[snowflake.Snowflake] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the application this activity is for, if applicable.&#34;&#34;&#34;
+
+    details: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that describes what the activity&#39;s target is doing, if set.&#34;&#34;&#34;
+
+    state: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The current status of this activity&#39;s target, if set.&#34;&#34;&#34;
+
+    emoji: typing.Optional[emojis_.Emoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;The emoji of this activity, if it is a custom status and set.&#34;&#34;&#34;
+
+    party: typing.Optional[ActivityParty] = attr.ib(repr=False)
+    &#34;&#34;&#34;Information about the party associated with this activity, if set.&#34;&#34;&#34;
+
+    assets: typing.Optional[ActivityAssets] = attr.ib(repr=False)
+    &#34;&#34;&#34;Images and their hover over text for the activity.&#34;&#34;&#34;
+
+    secrets: typing.Optional[ActivitySecret] = attr.ib(repr=False)
+    &#34;&#34;&#34;Secrets for Rich Presence joining and spectating.&#34;&#34;&#34;
+
+    is_instance: typing.Optional[bool] = attr.ib(repr=False)
+    &#34;&#34;&#34;Whether this activity is an instanced game session.&#34;&#34;&#34;
+
+    flags: typing.Optional[ActivityFlag] = attr.ib(repr=False)
+    &#34;&#34;&#34;Flags that describe what the activity includes, if present.&#34;&#34;&#34;
+
+
+@typing.final
+class Status(str, enum.Enum):
+    &#34;&#34;&#34;The status of a member.&#34;&#34;&#34;
+
+    ONLINE = &#34;online&#34;
+    &#34;&#34;&#34;Online/green.&#34;&#34;&#34;
+
+    IDLE = &#34;idle&#34;
+    &#34;&#34;&#34;Idle/yellow.&#34;&#34;&#34;
+
+    DO_NOT_DISTURB = &#34;dnd&#34;
+    &#34;&#34;&#34;Do not disturb/red.&#34;&#34;&#34;
+
+    OFFLINE = &#34;offline&#34;
+    &#34;&#34;&#34;Offline or invisible/grey.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=False, init=True, kw_only=True, slots=True, weakref_slot=False)
+class ClientStatus:
+    &#34;&#34;&#34;The client statuses for this member.&#34;&#34;&#34;
+
+    desktop: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s desktop session.&#34;&#34;&#34;
+
+    mobile: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s mobile session.&#34;&#34;&#34;
+
+    web: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s web session.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class MemberPresence:
+    &#34;&#34;&#34;Used to represent a guild member&#39;s presence.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True, eq=False, hash=True)
+    &#34;&#34;&#34;The ID of the user this presence belongs to.&#34;&#34;&#34;
+
+    role_ids: typing.Optional[typing.Sequence[snowflake.Snowflake]] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The IDs of the user&#39;s current roles in the guild this presence belongs to.
+
+    !!! info
+        If this is `builtins.None` then this information wasn&#39;t provided and is unknown.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of the guild this presence belongs to.&#34;&#34;&#34;
+
+    visible_status: Status = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;This user&#39;s current status being displayed by the client.&#34;&#34;&#34;
+
+    activities: typing.Sequence[RichActivity] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;An array of the user&#39;s activities, with the top one will being
+    prioritised by the client.
+    &#34;&#34;&#34;
+
+    client_status: ClientStatus = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;An object of the target user&#39;s client statuses.&#34;&#34;&#34;
+
+    premium_since: typing.Optional[datetime.datetime] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The datetime of when this member started &#34;boosting&#34; this guild.
+
+    This will be `builtins.None` if they aren&#39;t boosting.
+    &#34;&#34;&#34;
+
+    nickname: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;This member&#39;s nickname, if set.&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Activity -- Represents a regular activity that can be associated with a presence." href="#hikari.models.presences.Activity"
+class='dotted'>Activity</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.Activity" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Activity (
+    *,
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    url: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    type=PLAYING,
+): ...</code></pre>
+<p>Represents a regular activity that can be associated with a presence.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L182-L195" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Activity:
+    &#34;&#34;&#34;Represents a regular activity that can be associated with a presence.&#34;&#34;&#34;
+
+    name: str = attr.ib()
+    &#34;&#34;&#34;The activity name.&#34;&#34;&#34;
+
+    url: typing.Optional[str] = attr.ib(default=None, repr=False)
+    &#34;&#34;&#34;The activity URL. Only valid for `STREAMING` activities.&#34;&#34;&#34;
+
+    type: ActivityType = attr.ib(converter=ActivityType, default=ActivityType.PLAYING)
+    &#34;&#34;&#34;The activity type.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RichActivity -- Represents a rich activity that can be associated with a presence." href="#hikari.models.presences.RichActivity"
+class='dotted'>RichActivity</a></dt>
+<dd class="nested"><p>Represents a rich activity that can be associated with a presence.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The activity name." href="#hikari.models.presences.Activity.name" id="hikari.models.presences.Activity.name" class='dotted'>name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The activity name.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The activity type." href="#hikari.models.presences.Activity.type" id="hikari.models.presences.Activity.type" class='dotted'>type</a> : <a href='#hikari.models.presences.ActivityType'>ActivityType</a></code></pre>
+</dt>
+<dd><p>The activity type.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The activity URL. Only valid for `STREAMING` activities." href="#hikari.models.presences.Activity.url" id="hikari.models.presences.Activity.url" class='dotted'>url</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The activity URL. Only valid for <code>STREAMING</code> activities.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityAssets -- Used to represent possible assets for an activity." href="#hikari.models.presences.ActivityAssets"
+class='dotted'>ActivityAssets</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivityAssets" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivityAssets (
+    *,
+    large_image: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    large_text: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    small_image: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    small_text: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Used to represent possible assets for an activity.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L121-L134" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivityAssets:
+    &#34;&#34;&#34;Used to represent possible assets for an activity.&#34;&#34;&#34;
+
+    large_image: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the asset&#39;s large image, if set.&#34;&#34;&#34;
+
+    large_text: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that&#39;ll appear when hovering over the large image, if set.&#34;&#34;&#34;
+
+    small_image: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the asset&#39;s small image, if set.&#34;&#34;&#34;
+
+    small_text: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that&#39;ll appear when hovering over the small image, if set.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="large_image -- The ID of the asset's large image, if set." href="#hikari.models.presences.ActivityAssets.large_image" id="hikari.models.presences.ActivityAssets.large_image" class='dotted'>large_image</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The ID of the asset's large image, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="large_text -- The text that'll appear when hovering over the large image, if set." href="#hikari.models.presences.ActivityAssets.large_text" id="hikari.models.presences.ActivityAssets.large_text" class='dotted'>large_text</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The text that'll appear when hovering over the large image, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="small_image -- The ID of the asset's small image, if set." href="#hikari.models.presences.ActivityAssets.small_image" id="hikari.models.presences.ActivityAssets.small_image" class='dotted'>small_image</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The ID of the asset's small image, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="small_text -- The text that'll appear when hovering over the small image, if set." href="#hikari.models.presences.ActivityAssets.small_text" id="hikari.models.presences.ActivityAssets.small_text" class='dotted'>small_text</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The text that'll appear when hovering over the small image, if set.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="ActivityFlag -- Flags that describe what an activity includes …" href="#hikari.models.presences.ActivityFlag"
+class='dotted'>ActivityFlag</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivityFlag" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivityFlag (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Flags that describe what an activity includes.</p>
+<p>This can be more than one using bitwise-combinations.</p>
+<p>This flag type has several additional operations that can be used
+compared to normal enum types. These are applied to instances of
+this enum directly, or can be used as a class method by passing the
+flag as the first parameter.</p>
+<ul>
+<li><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> split() -&gt; <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.presences.ActivityFlag'>ActivityFlag</a>]: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Will split the combined flag up into individual atomic flags and
+return them in a <code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a></code>.</li>
+</ul>
+<pre><code class="py">&gt;&gt;&gt; (FOO | BAR | BAZ).split()
+[FOO, BAR, BAZ]
+</code></pre>
+<ul>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_any(*flags: <a href='#hikari.models.presences.ActivityFlag'>ActivityFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if any of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_all(*flags: <a href='#hikari.models.presences.ActivityFlag'>ActivityFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if all of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_none(*flags: <a href='#hikari.models.presences.ActivityFlag'>ActivityFlag</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if none of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+</ul>
+<p>In addition, new operators are overloaded. <code>+</code> will combine flags
+in the same way <code>|</code> would usually, and <code>-</code> will remove specific
+flags from this instance. This is equivalent to using the <code>&amp;</code> operator.</p>
+<p>Finally, combined flag types can be iterated across as if they
+were a collection.</p>
+<pre><code class="py">&gt;&gt;&gt; for f in FOO | BAR | BAZ:
+...     print(f)
+FOO
+BAR
+BAZ
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L154-L176" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivityFlag(flag.Flag):
+    &#34;&#34;&#34;Flags that describe what an activity includes.
+
+    This can be more than one using bitwise-combinations.
+    &#34;&#34;&#34;
+
+    INSTANCE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Instance&#34;&#34;&#34;
+
+    JOIN = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Join&#34;&#34;&#34;
+
+    SPECTATE = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Spectate&#34;&#34;&#34;
+
+    JOIN_REQUEST = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Join Request&#34;&#34;&#34;
+
+    SYNC = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Sync&#34;&#34;&#34;
+
+    PLAY = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Play&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="ActivityFlag -- Flags that describe what an activity includes …" href="#hikari.models.presences.ActivityFlag"
+class='dotted'>ActivityFlag</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="../utilities/flag.html#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></dt>
+<dd class="nested"><p>Base type for an enum integer flag in Hikari …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntFlag -- Support for integer-based Flags" href="https://docs.python.org/3/library/enum.html#enum.IntFlag"
+class='dotted'>enum.IntFlag</a></dt>
+<dd class="nested"><p>Support for integer-based Flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Flag -- Support for flags" href="https://docs.python.org/3/library/enum.html#enum.Flag"
+class='dotted'>enum.Flag</a></dt>
+<dd class="nested"><p>Support for flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INSTANCE -- Instance" href="#hikari.models.presences.ActivityFlag.INSTANCE" id="hikari.models.presences.ActivityFlag.INSTANCE" class='dotted'>INSTANCE</a> = INSTANCE</code></pre>
+</dt>
+<dd><p>Instance</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JOIN -- Join" href="#hikari.models.presences.ActivityFlag.JOIN" id="hikari.models.presences.ActivityFlag.JOIN" class='dotted'>JOIN</a> = JOIN</code></pre>
+</dt>
+<dd><p>Join</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="JOIN_REQUEST -- Join Request" href="#hikari.models.presences.ActivityFlag.JOIN_REQUEST" id="hikari.models.presences.ActivityFlag.JOIN_REQUEST" class='dotted'>JOIN_REQUEST</a> = JOIN_REQUEST</code></pre>
+</dt>
+<dd><p>Join Request</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PLAY -- Play" href="#hikari.models.presences.ActivityFlag.PLAY" id="hikari.models.presences.ActivityFlag.PLAY" class='dotted'>PLAY</a> = PLAY</code></pre>
+</dt>
+<dd><p>Play</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPECTATE -- Spectate" href="#hikari.models.presences.ActivityFlag.SPECTATE" id="hikari.models.presences.ActivityFlag.SPECTATE" class='dotted'>SPECTATE</a> = SPECTATE</code></pre>
+</dt>
+<dd><p>Spectate</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SYNC -- Sync" href="#hikari.models.presences.ActivityFlag.SYNC" id="hikari.models.presences.ActivityFlag.SYNC" class='dotted'>SYNC</a> = SYNC</code></pre>
+</dt>
+<dd><p>Sync</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityParty -- Used to represent activity groups of users." href="#hikari.models.presences.ActivityParty"
+class='dotted'>ActivityParty</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivityParty" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivityParty (
+    *,
+    id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    current_size: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+    max_size: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>],
+): ...</code></pre>
+<p>Used to represent activity groups of users.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L106-L116" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivityParty:
+    &#34;&#34;&#34;Used to represent activity groups of users.&#34;&#34;&#34;
+
+    id: typing.Optional[str] = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string id of this party instance, if set.&#34;&#34;&#34;
+
+    current_size: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Current size of this party, if applicable.&#34;&#34;&#34;
+
+    max_size: typing.Optional[int] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Maximum size of this party, if applicable.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="current_size -- Current size of this party, if applicable." href="#hikari.models.presences.ActivityParty.current_size" id="hikari.models.presences.ActivityParty.current_size" class='dotted'>current_size</a> : Union[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, None]</code></pre>
+</dt>
+<dd><p>Current size of this party, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The string id of this party instance, if set." href="#hikari.models.presences.ActivityParty.id" id="hikari.models.presences.ActivityParty.id" class='dotted'>id</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The string id of this party instance, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="max_size -- Maximum size of this party, if applicable." href="#hikari.models.presences.ActivityParty.max_size" id="hikari.models.presences.ActivityParty.max_size" class='dotted'>max_size</a> : Union[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, None]</code></pre>
+</dt>
+<dd><p>Maximum size of this party, if applicable.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivitySecret -- The secrets used for interacting with an activity party." href="#hikari.models.presences.ActivitySecret"
+class='dotted'>ActivitySecret</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivitySecret" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivitySecret (
+    *,
+    join: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    spectate: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    match: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>The secrets used for interacting with an activity party.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L139-L149" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivitySecret:
+    &#34;&#34;&#34;The secrets used for interacting with an activity party.&#34;&#34;&#34;
+
+    join: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for joining a party, if applicable.&#34;&#34;&#34;
+
+    spectate: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for spectating a party, if applicable.&#34;&#34;&#34;
+
+    match: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The secret used for matching a party, if applicable.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="join -- The secret used for joining a party, if applicable." href="#hikari.models.presences.ActivitySecret.join" id="hikari.models.presences.ActivitySecret.join" class='dotted'>join</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The secret used for joining a party, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="match -- The secret used for matching a party, if applicable." href="#hikari.models.presences.ActivitySecret.match" id="hikari.models.presences.ActivitySecret.match" class='dotted'>match</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The secret used for matching a party, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="spectate -- The secret used for spectating a party, if applicable." href="#hikari.models.presences.ActivitySecret.spectate" id="hikari.models.presences.ActivitySecret.spectate" class='dotted'>spectate</a> : Union[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, None]</code></pre>
+</dt>
+<dd><p>The secret used for spectating a party, if applicable.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ActivityTimestamps -- The datetimes for the start and/or end of an activity session." href="#hikari.models.presences.ActivityTimestamps"
+class='dotted'>ActivityTimestamps</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivityTimestamps" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivityTimestamps (
+    *,
+    start: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>],
+    end: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>],
+): ...</code></pre>
+<p>The datetimes for the start and/or end of an activity session.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L94-L101" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivityTimestamps:
+    &#34;&#34;&#34;The datetimes for the start and/or end of an activity session.&#34;&#34;&#34;
+
+    start: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+    &#34;&#34;&#34;When this activity&#39;s session was started, if applicable.&#34;&#34;&#34;
+
+    end: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+    &#34;&#34;&#34;When this activity&#39;s session will end, if applicable.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="end -- When this activity's session will end, if applicable." href="#hikari.models.presences.ActivityTimestamps.end" id="hikari.models.presences.ActivityTimestamps.end" class='dotted'>end</a> : typing.Optional[datetime.datetime]</code></pre>
+</dt>
+<dd><p>When this activity's session will end, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="start -- When this activity's session was started, if applicable." href="#hikari.models.presences.ActivityTimestamps.start" id="hikari.models.presences.ActivityTimestamps.start" class='dotted'>start</a> : typing.Optional[datetime.datetime]</code></pre>
+</dt>
+<dd><p>When this activity's session was started, if applicable.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ActivityType -- The activity type." href="#hikari.models.presences.ActivityType"
+class='dotted'>ActivityType</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ActivityType" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ActivityType (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The activity type.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L58-L89" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ActivityType(enum.IntEnum):
+    &#34;&#34;&#34;The activity type.&#34;&#34;&#34;
+
+    PLAYING = 0
+    &#34;&#34;&#34;Shows up as `Playing &lt;name&gt;`&#34;&#34;&#34;
+
+    STREAMING = 1
+    &#34;&#34;&#34;Shows up as `Streaming` and links to a Twitch or YouTube stream/video.&#34;&#34;&#34;
+
+    LISTENING = 2
+    &#34;&#34;&#34;Shows up as `Listening to &lt;name&gt;`.&#34;&#34;&#34;
+
+    WATCHING = 3
+    &#34;&#34;&#34;Shows up as `Watching &lt;name&gt;`.
+
+    !!! note
+        this is not officially documented, so will be likely removed in the near
+        future.
+    &#34;&#34;&#34;
+
+    CUSTOM = 4
+    &#34;&#34;&#34;A custom status.
+
+    To set an emoji with the status, place a unicode emoji or Discord emoji
+    (`:smiley:`) as the first part of the status activity name.
+
+    !!! warning
+        Bots currently do not support setting custom statuses.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="ActivityType -- The activity type." href="#hikari.models.presences.ActivityType"
+class='dotted'>ActivityType</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CUSTOM -- A custom status …" href="#hikari.models.presences.ActivityType.CUSTOM" id="hikari.models.presences.ActivityType.CUSTOM" class='dotted'>CUSTOM</a> = CUSTOM</code></pre>
+</dt>
+<dd><p>A custom status.</p>
+<p>To set an emoji with the status, place a unicode emoji or Discord emoji
+(<code>:smiley:</code>) as the first part of the status activity name.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>Bots currently do not support setting custom statuses.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="LISTENING -- Shows up as `Listening to <name>`." href="#hikari.models.presences.ActivityType.LISTENING" id="hikari.models.presences.ActivityType.LISTENING" class='dotted'>LISTENING</a> = LISTENING</code></pre>
+</dt>
+<dd><p>Shows up as <code>Listening to <name></code>.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PLAYING -- Shows up as `Playing <name>`" href="#hikari.models.presences.ActivityType.PLAYING" id="hikari.models.presences.ActivityType.PLAYING" class='dotted'>PLAYING</a> = PLAYING</code></pre>
+</dt>
+<dd><p>Shows up as <code>Playing <name></code></p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAMING -- Shows up as `Streaming` and links to a Twitch or YouTube stream/video." href="#hikari.models.presences.ActivityType.STREAMING" id="hikari.models.presences.ActivityType.STREAMING" class='dotted'>STREAMING</a> = STREAMING</code></pre>
+</dt>
+<dd><p>Shows up as <code>Streaming</code> and links to a Twitch or YouTube stream/video.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="WATCHING -- Shows up as `Watching <name>` …" href="#hikari.models.presences.ActivityType.WATCHING" id="hikari.models.presences.ActivityType.WATCHING" class='dotted'>WATCHING</a> = WATCHING</code></pre>
+</dt>
+<dd><p>Shows up as <code>Watching <name></code>.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>this is not officially documented, so will be likely removed in the near
+future.</p>
+</div></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ClientStatus -- The client statuses for this member." href="#hikari.models.presences.ClientStatus"
+class='dotted'>ClientStatus</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.ClientStatus" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ClientStatus (
+    *,
+    desktop: <a href='#hikari.models.presences.Status'>Status</a>,
+    mobile: <a href='#hikari.models.presences.Status'>Status</a>,
+    web: <a href='#hikari.models.presences.Status'>Status</a>,
+): ...</code></pre>
+<p>The client statuses for this member.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L260-L270" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ClientStatus:
+    &#34;&#34;&#34;The client statuses for this member.&#34;&#34;&#34;
+
+    desktop: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s desktop session.&#34;&#34;&#34;
+
+    mobile: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s mobile session.&#34;&#34;&#34;
+
+    web: Status = attr.ib(repr=True)
+    &#34;&#34;&#34;The status of the target user&#39;s web session.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="desktop -- The status of the target user's desktop session." href="#hikari.models.presences.ClientStatus.desktop" id="hikari.models.presences.ClientStatus.desktop" class='dotted'>desktop</a> : <a href='#hikari.models.presences.Status'>Status</a></code></pre>
+</dt>
+<dd><p>The status of the target user's desktop session.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mobile -- The status of the target user's mobile session." href="#hikari.models.presences.ClientStatus.mobile" id="hikari.models.presences.ClientStatus.mobile" class='dotted'>mobile</a> : <a href='#hikari.models.presences.Status'>Status</a></code></pre>
+</dt>
+<dd><p>The status of the target user's mobile session.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="web -- The status of the target user's web session." href="#hikari.models.presences.ClientStatus.web" id="hikari.models.presences.ClientStatus.web" class='dotted'>web</a> : <a href='#hikari.models.presences.Status'>Status</a></code></pre>
+</dt>
+<dd><p>The status of the target user's web session.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberPresence -- Used to represent a guild member's presence." href="#hikari.models.presences.MemberPresence"
+class='dotted'>MemberPresence</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.MemberPresence" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberPresence (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    user_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    role_ids: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>]],
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    visible_status: <a href='#hikari.models.presences.Status'>Status</a>,
+    activities: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.presences.RichActivity'>RichActivity</a>],
+    client_status: <a href='#hikari.models.presences.ClientStatus'>ClientStatus</a>,
+    premium_since: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>],
+    nickname: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Used to represent a guild member's presence.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L275-L312" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MemberPresence:
+    &#34;&#34;&#34;Used to represent a guild member&#39;s presence.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    user_id: snowflake.Snowflake = attr.ib(repr=True, eq=False, hash=True)
+    &#34;&#34;&#34;The ID of the user this presence belongs to.&#34;&#34;&#34;
+
+    role_ids: typing.Optional[typing.Sequence[snowflake.Snowflake]] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The IDs of the user&#39;s current roles in the guild this presence belongs to.
+
+    !!! info
+        If this is `builtins.None` then this information wasn&#39;t provided and is unknown.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of the guild this presence belongs to.&#34;&#34;&#34;
+
+    visible_status: Status = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;This user&#39;s current status being displayed by the client.&#34;&#34;&#34;
+
+    activities: typing.Sequence[RichActivity] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;An array of the user&#39;s activities, with the top one will being
+    prioritised by the client.
+    &#34;&#34;&#34;
+
+    client_status: ClientStatus = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;An object of the target user&#39;s client statuses.&#34;&#34;&#34;
+
+    premium_since: typing.Optional[datetime.datetime] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The datetime of when this member started &#34;boosting&#34; this guild.
+
+    This will be `builtins.None` if they aren&#39;t boosting.
+    &#34;&#34;&#34;
+
+    nickname: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;This member&#39;s nickname, if set.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="activities -- An array of the user's activities, with the top one will being
+prioritised by the client." href="#hikari.models.presences.MemberPresence.activities" id="hikari.models.presences.MemberPresence.activities" class='dotted'>activities</a> : typing.Sequence[RichActivity]</code></pre>
+</dt>
+<dd><p>An array of the user's activities, with the top one will being
+prioritised by the client.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.presences.MemberPresence.app" id="hikari.models.presences.MemberPresence.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="client_status -- An object of the target user's client statuses." href="#hikari.models.presences.MemberPresence.client_status" id="hikari.models.presences.MemberPresence.client_status" class='dotted'>client_status</a> : ClientStatus</code></pre>
+</dt>
+<dd><p>An object of the target user's client statuses.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this presence belongs to." href="#hikari.models.presences.MemberPresence.guild_id" id="hikari.models.presences.MemberPresence.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the guild this presence belongs to.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="nickname -- This member's nickname, if set." href="#hikari.models.presences.MemberPresence.nickname" id="hikari.models.presences.MemberPresence.nickname" class='dotted'>nickname</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>This member's nickname, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="premium_since -- The datetime of when this member started "boosting" this guild …" href="#hikari.models.presences.MemberPresence.premium_since" id="hikari.models.presences.MemberPresence.premium_since" class='dotted'>premium_since</a> : typing.Optional[datetime.datetime]</code></pre>
+</dt>
+<dd><p>The datetime of when this member started "boosting" this guild.</p>
+<p>This will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if they aren't boosting.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="role_ids -- The IDs of the user's current roles in the guild this presence belongs to …" href="#hikari.models.presences.MemberPresence.role_ids" id="hikari.models.presences.MemberPresence.role_ids" class='dotted'>role_ids</a> : typing.Optional[typing.Sequence[snowflake.Snowflake]]</code></pre>
+</dt>
+<dd><p>The IDs of the user's current roles in the guild this presence belongs to.</p>
+<div class="alert alert-primary">
+<p class="admonition-title">Info</p>
+<p>If this is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> then this information wasn't provided and is unknown.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user this presence belongs to." href="#hikari.models.presences.MemberPresence.user_id" id="hikari.models.presences.MemberPresence.user_id" class='dotted'>user_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the user this presence belongs to.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="visible_status -- This user's current status being displayed by the client." href="#hikari.models.presences.MemberPresence.visible_status" id="hikari.models.presences.MemberPresence.visible_status" class='dotted'>visible_status</a> : Status</code></pre>
+</dt>
+<dd><p>This user's current status being displayed by the client.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RichActivity -- Represents a rich activity that can be associated with a presence." href="#hikari.models.presences.RichActivity"
+class='dotted'>RichActivity</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.RichActivity" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RichActivity (
+    *,
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    url: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = None,
+    type=PLAYING,
+    created_at: <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a>,
+    timestamps: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.presences.ActivityTimestamps'>ActivityTimestamps</a>],
+    application_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    details: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    state: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    emoji: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='emojis.html#hikari.models.emojis.Emoji'>emojis_.Emoji</a>],
+    party: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.presences.ActivityParty'>ActivityParty</a>],
+    assets: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.presences.ActivityAssets'>ActivityAssets</a>],
+    secrets: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.presences.ActivitySecret'>ActivitySecret</a>],
+    is_instance: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>],
+    flags: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='#hikari.models.presences.ActivityFlag'>ActivityFlag</a>],
+): ...</code></pre>
+<p>Represents a rich activity that can be associated with a presence.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L199-L235" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class RichActivity(Activity):
+    &#34;&#34;&#34;Represents a rich activity that can be associated with a presence.&#34;&#34;&#34;
+
+    created_at: datetime.datetime = attr.ib(repr=False)
+    &#34;&#34;&#34;When this activity was added to the user&#39;s session.&#34;&#34;&#34;
+
+    timestamps: typing.Optional[ActivityTimestamps] = attr.ib(repr=False)
+    &#34;&#34;&#34;The timestamps for when this activity&#39;s current state will start and
+    end, if applicable.
+    &#34;&#34;&#34;
+
+    application_id: typing.Optional[snowflake.Snowflake] = attr.ib(repr=False)
+    &#34;&#34;&#34;The ID of the application this activity is for, if applicable.&#34;&#34;&#34;
+
+    details: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The text that describes what the activity&#39;s target is doing, if set.&#34;&#34;&#34;
+
+    state: typing.Optional[str] = attr.ib(repr=False)
+    &#34;&#34;&#34;The current status of this activity&#39;s target, if set.&#34;&#34;&#34;
+
+    emoji: typing.Optional[emojis_.Emoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;The emoji of this activity, if it is a custom status and set.&#34;&#34;&#34;
+
+    party: typing.Optional[ActivityParty] = attr.ib(repr=False)
+    &#34;&#34;&#34;Information about the party associated with this activity, if set.&#34;&#34;&#34;
+
+    assets: typing.Optional[ActivityAssets] = attr.ib(repr=False)
+    &#34;&#34;&#34;Images and their hover over text for the activity.&#34;&#34;&#34;
+
+    secrets: typing.Optional[ActivitySecret] = attr.ib(repr=False)
+    &#34;&#34;&#34;Secrets for Rich Presence joining and spectating.&#34;&#34;&#34;
+
+    is_instance: typing.Optional[bool] = attr.ib(repr=False)
+    &#34;&#34;&#34;Whether this activity is an instanced game session.&#34;&#34;&#34;
+
+    flags: typing.Optional[ActivityFlag] = attr.ib(repr=False)
+    &#34;&#34;&#34;Flags that describe what the activity includes, if present.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RichActivity -- Represents a rich activity that can be associated with a presence." href="#hikari.models.presences.RichActivity"
+class='dotted'>RichActivity</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Activity -- Represents a regular activity that can be associated with a presence." href="#hikari.models.presences.Activity"
+class='dotted'>Activity</a></dt>
+<dd class="nested"><p>Represents a regular activity that can be associated with a presence.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="application_id -- The ID of the application this activity is for, if applicable." href="#hikari.models.presences.RichActivity.application_id" id="hikari.models.presences.RichActivity.application_id" class='dotted'>application_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the application this activity is for, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="assets -- Images and their hover over text for the activity." href="#hikari.models.presences.RichActivity.assets" id="hikari.models.presences.RichActivity.assets" class='dotted'>assets</a> : typing.Optional[ActivityAssets]</code></pre>
+</dt>
+<dd><p>Images and their hover over text for the activity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When this activity was added to the user's session." href="#hikari.models.presences.RichActivity.created_at" id="hikari.models.presences.RichActivity.created_at" class='dotted'>created_at</a> : datetime.datetime</code></pre>
+</dt>
+<dd><p>When this activity was added to the user's session.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="details -- The text that describes what the activity's target is doing, if set." href="#hikari.models.presences.RichActivity.details" id="hikari.models.presences.RichActivity.details" class='dotted'>details</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The text that describes what the activity's target is doing, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emoji -- The emoji of this activity, if it is a custom status and set." href="#hikari.models.presences.RichActivity.emoji" id="hikari.models.presences.RichActivity.emoji" class='dotted'>emoji</a> : typing.Optional[emojis_.Emoji]</code></pre>
+</dt>
+<dd><p>The emoji of this activity, if it is a custom status and set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="flags -- Flags that describe what the activity includes, if present." href="#hikari.models.presences.RichActivity.flags" id="hikari.models.presences.RichActivity.flags" class='dotted'>flags</a> : typing.Optional[ActivityFlag]</code></pre>
+</dt>
+<dd><p>Flags that describe what the activity includes, if present.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_instance -- Whether this activity is an instanced game session." href="#hikari.models.presences.RichActivity.is_instance" id="hikari.models.presences.RichActivity.is_instance" class='dotted'>is_instance</a> : typing.Optional[bool]</code></pre>
+</dt>
+<dd><p>Whether this activity is an instanced game session.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The activity name." href="#hikari.models.presences.RichActivity.name" id="hikari.models.presences.RichActivity.name" class='dotted'>name</a> : str</code></pre>
+</dt>
+<dd><p>The activity name.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="party -- Information about the party associated with this activity, if set." href="#hikari.models.presences.RichActivity.party" id="hikari.models.presences.RichActivity.party" class='dotted'>party</a> : typing.Optional[ActivityParty]</code></pre>
+</dt>
+<dd><p>Information about the party associated with this activity, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="secrets -- Secrets for Rich Presence joining and spectating." href="#hikari.models.presences.RichActivity.secrets" id="hikari.models.presences.RichActivity.secrets" class='dotted'>secrets</a> : typing.Optional[ActivitySecret]</code></pre>
+</dt>
+<dd><p>Secrets for Rich Presence joining and spectating.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="state -- The current status of this activity's target, if set." href="#hikari.models.presences.RichActivity.state" id="hikari.models.presences.RichActivity.state" class='dotted'>state</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The current status of this activity's target, if set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="timestamps -- The timestamps for when this activity's current state will start and
+end, if applicable." href="#hikari.models.presences.RichActivity.timestamps" id="hikari.models.presences.RichActivity.timestamps" class='dotted'>timestamps</a> : typing.Optional[ActivityTimestamps]</code></pre>
+</dt>
+<dd><p>The timestamps for when this activity's current state will start and
+end, if applicable.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The activity type." href="#hikari.models.presences.RichActivity.type" id="hikari.models.presences.RichActivity.type" class='dotted'>type</a> : ActivityType</code></pre>
+</dt>
+<dd><p>The activity type.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="url -- The activity URL. Only valid for `STREAMING` activities." href="#hikari.models.presences.RichActivity.url" id="hikari.models.presences.RichActivity.url" class='dotted'>url</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The activity URL. Only valid for <code>STREAMING</code> activities.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="Status -- The status of a member." href="#hikari.models.presences.Status"
+class='dotted'>Status</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.presences.Status" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Status (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>The status of a member.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/presences.py#L239-L255" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Status(str, enum.Enum):
+    &#34;&#34;&#34;The status of a member.&#34;&#34;&#34;
+
+    ONLINE = &#34;online&#34;
+    &#34;&#34;&#34;Online/green.&#34;&#34;&#34;
+
+    IDLE = &#34;idle&#34;
+    &#34;&#34;&#34;Idle/yellow.&#34;&#34;&#34;
+
+    DO_NOT_DISTURB = &#34;dnd&#34;
+    &#34;&#34;&#34;Do not disturb/red.&#34;&#34;&#34;
+
+    OFFLINE = &#34;offline&#34;
+    &#34;&#34;&#34;Offline or invisible/grey.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="Status -- The status of a member." href="#hikari.models.presences.Status"
+class='dotted'>Status</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.str -- str(object='') -> str
+str(bytes_or_buffer[, encoding[, errors]]) -> str …" href="https://docs.python.org/3/library/stdtypes.html#str"
+class='dotted'>str</a></dt>
+<dd class="nested"><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DO_NOT_DISTURB -- Do not disturb/red." href="#hikari.models.presences.Status.DO_NOT_DISTURB" id="hikari.models.presences.Status.DO_NOT_DISTURB" class='dotted'>DO_NOT_DISTURB</a> = DO_NOT_DISTURB</code></pre>
+</dt>
+<dd><p>Do not disturb/red.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="IDLE -- Idle/yellow." href="#hikari.models.presences.Status.IDLE" id="hikari.models.presences.Status.IDLE" class='dotted'>IDLE</a> = IDLE</code></pre>
+</dt>
+<dd><p>Idle/yellow.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="OFFLINE -- Offline or invisible/grey." href="#hikari.models.presences.Status.OFFLINE" id="hikari.models.presences.Status.OFFLINE" class='dotted'>OFFLINE</a> = OFFLINE</code></pre>
+</dt>
+<dd><p>Offline or invisible/grey.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ONLINE -- Online/green." href="#hikari.models.presences.Status.ONLINE" id="hikari.models.presences.Status.ONLINE" class='dotted'>ONLINE</a> = ONLINE</code></pre>
+</dt>
+<dd><p>Online/green.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

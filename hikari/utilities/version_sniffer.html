@@ -1,0 +1,637 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.utilities.version_sniffer API documentation</title>
+<meta name="description" content="Checks PyPI for a newer release of the library." />
+<meta property="og:title" content="hikari.utilities.version_sniffer module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.utilities.version_sniffer">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.utilities -- Package containing internal utilities used within this API." href="index.html"
+class='dotted'>utilities</a></li>
+<li class="breadcrumb-item active"><a href="#">version_sniffer</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Checks PyPI for a newer release of the library.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_version_info_from_pypi -- Fetch the info about updates to this library on PyPI …" href="#hikari.utilities.version_sniffer.fetch_version_info_from_pypi"
+class='sidebar-nav-pill'>fetch_version_info_from_pypi</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="log_available_updates -- Log if any updates are available for the library …" href="#hikari.utilities.version_sniffer.log_available_updates"
+class='sidebar-nav-pill'>log_available_updates</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VersionInfo -- PyPI release info." href="#hikari.utilities.version_sniffer.VersionInfo"
+class='sidebar-nav-pill'>VersionInfo</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="latest -- Latest version. May contain breaking API changes." href="#hikari.utilities.version_sniffer.VersionInfo.latest"
+class='sidebar-nav-pill'>latest</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="latest_compatible -- Latest compatible version with no breaking API changes." href="#hikari.utilities.version_sniffer.VersionInfo.latest_compatible"
+class='sidebar-nav-pill'>latest_compatible</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="this -- This version." href="#hikari.utilities.version_sniffer.VersionInfo.this"
+class='sidebar-nav-pill'>this</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/version_sniffer.py#L0-L141" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Checks PyPI for a newer release of the library.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;VersionInfo&#34;,
+    &#34;fetch_version_info_from_pypi&#34;,
+    &#34;log_available_updates&#34;,
+]
+
+import logging
+import typing
+from distutils import version as distutils_version
+
+import aiohttp
+import attr
+
+from hikari import _about
+from hikari.utilities import attr_extensions
+
+if typing.TYPE_CHECKING:
+    from hikari.utilities import data_binding
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class VersionInfo:
+    &#34;&#34;&#34;PyPI release info.&#34;&#34;&#34;
+
+    this: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;This version.&#34;&#34;&#34;
+
+    latest_compatible: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;Latest compatible version with no breaking API changes.&#34;&#34;&#34;
+
+    latest: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;Latest version. May contain breaking API changes.&#34;&#34;&#34;
+
+
+async def _fetch_all_releases() -&gt; typing.Sequence[distutils_version.LooseVersion]:
+    # Make a client session, it is easier to stub.
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(
+            &#34;https://pypi.org/pypi/hikari/json&#34;, raise_for_status=True, timeout=aiohttp.ClientTimeout(total=3.0),
+        ) as resp:
+            data: data_binding.JSONObject = await resp.json()
+
+    releases: typing.List[distutils_version.LooseVersion] = []
+
+    for release_string, artifacts in data[&#34;releases&#34;].items():
+        if not all(artifact[&#34;yanked&#34;] for artifact in artifacts):
+            releases.append(distutils_version.LooseVersion(release_string))
+
+    releases.sort()
+
+    return releases
+
+
+async def fetch_version_info_from_pypi() -&gt; VersionInfo:
+    &#34;&#34;&#34;Fetch the info about updates to this library on PyPI.
+
+    If this is a development release, then development releases will be taken
+    into account when collecting this data. Otherwise, development releases
+    will be ignored.
+
+    Returns
+    -------
+    VersionInfo
+        Version information.
+    &#34;&#34;&#34;
+    releases = await _fetch_all_releases()
+
+    this = distutils_version.LooseVersion(_about.__version__)
+
+    same_compatible_releases = [v for v in releases if v.version[:2] == this.version[:2] and v &gt; this] or [this]
+
+    if &#34;dev&#34; not in this.vstring:
+        # Remove dev releases if we are not on a dev release.
+        same_compatible_releases = [v for v in same_compatible_releases if &#34;dev&#34; not in v.version] or [this]
+        newer_releases = [v for v in releases if &#34;dev&#34; not in v.version if v &gt; this] or [this]
+        latest = max(newer_releases)
+    else:
+        latest = max(releases) if releases else this
+
+    latest_compatible = max(same_compatible_releases)
+
+    return VersionInfo(this=this, latest_compatible=latest_compatible, latest=latest,)
+
+
+async def log_available_updates(logger: logging.Logger) -&gt; None:
+    &#34;&#34;&#34;Log if any updates are available for the library.
+
+    Parameters
+    ----------
+    logger : logging.Logger
+        The logger to write to.
+    &#34;&#34;&#34;
+    try:
+        version_info = await fetch_version_info_from_pypi()
+
+        if version_info.this == version_info.latest:
+            logger.info(&#34;package is up to date!&#34;)
+            return
+
+        if version_info.this != version_info.latest_compatible:
+            logger.warning(
+                &#34;non-breaking updates are available for hikari, update from v%s to v%s!&#34;,
+                version_info.this,
+                version_info.latest_compatible,
+            )
+            return
+
+        # We can only get here if there are breaking changes available
+        logger.info(
+            &#34;breaking updates are available for hikari, consider upgrading from v%s to v%s!&#34;,
+            version_info.this,
+            version_info.latest,
+        )
+
+    except Exception as ex:
+        logger.debug(&#34;Error occurred fetching version info&#34;, exc_info=ex)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="functions-heading">Functions</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code id="hikari.utilities.version_sniffer.fetch_version_info_from_pypi" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_version_info_from_pypi() -> <a href='#hikari.utilities.version_sniffer.VersionInfo'>VersionInfo</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Fetch the info about updates to this library on PyPI.</p>
+<p>If this is a development release, then development releases will be taken
+into account when collecting this data. Otherwise, development releases
+will be ignored.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='#hikari.utilities.version_sniffer.VersionInfo'>VersionInfo</a></code></dt>
+<dd>Version information.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/version_sniffer.py#L80-L108" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_version_info_from_pypi() -&gt; VersionInfo:
+    &#34;&#34;&#34;Fetch the info about updates to this library on PyPI.
+
+    If this is a development release, then development releases will be taken
+    into account when collecting this data. Otherwise, development releases
+    will be ignored.
+
+    Returns
+    -------
+    VersionInfo
+        Version information.
+    &#34;&#34;&#34;
+    releases = await _fetch_all_releases()
+
+    this = distutils_version.LooseVersion(_about.__version__)
+
+    same_compatible_releases = [v for v in releases if v.version[:2] == this.version[:2] and v &gt; this] or [this]
+
+    if &#34;dev&#34; not in this.vstring:
+        # Remove dev releases if we are not on a dev release.
+        same_compatible_releases = [v for v in same_compatible_releases if &#34;dev&#34; not in v.version] or [this]
+        newer_releases = [v for v in releases if &#34;dev&#34; not in v.version if v &gt; this] or [this]
+        latest = max(newer_releases)
+    else:
+        latest = max(releases) if releases else this
+
+    latest_compatible = max(same_compatible_releases)
+
+    return VersionInfo(this=this, latest_compatible=latest_compatible, latest=latest,)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.utilities.version_sniffer.log_available_updates" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> log_available_updates(
+    logger: <a href='https://docs.python.org/3/library/logging.html#logging.Logger'>logging.Logger</a>,
+) -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Log if any updates are available for the library.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>logger</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/logging.html#logging.Logger'>logging.Logger</a></code></dt>
+<dd>The logger to write to.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/version_sniffer.py#L111-L142" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def log_available_updates(logger: logging.Logger) -&gt; None:
+    &#34;&#34;&#34;Log if any updates are available for the library.
+
+    Parameters
+    ----------
+    logger : logging.Logger
+        The logger to write to.
+    &#34;&#34;&#34;
+    try:
+        version_info = await fetch_version_info_from_pypi()
+
+        if version_info.this == version_info.latest:
+            logger.info(&#34;package is up to date!&#34;)
+            return
+
+        if version_info.this != version_info.latest_compatible:
+            logger.warning(
+                &#34;non-breaking updates are available for hikari, update from v%s to v%s!&#34;,
+                version_info.this,
+                version_info.latest_compatible,
+            )
+            return
+
+        # We can only get here if there are breaking changes available
+        logger.info(
+            &#34;breaking updates are available for hikari, consider upgrading from v%s to v%s!&#34;,
+            version_info.this,
+            version_info.latest,
+        )
+
+    except Exception as ex:
+        logger.debug(&#34;Error occurred fetching version info&#34;, exc_info=ex)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VersionInfo -- PyPI release info." href="#hikari.utilities.version_sniffer.VersionInfo"
+class='dotted'>VersionInfo</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.utilities.version_sniffer.VersionInfo" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VersionInfo (
+    *,
+    this: distutils_version.LooseVersion,
+    latest_compatible: distutils_version.LooseVersion,
+    latest: distutils_version.LooseVersion,
+): ...</code></pre>
+<p>PyPI release info.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/version_sniffer.py#L48-L58" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VersionInfo:
+    &#34;&#34;&#34;PyPI release info.&#34;&#34;&#34;
+
+    this: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;This version.&#34;&#34;&#34;
+
+    latest_compatible: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;Latest compatible version with no breaking API changes.&#34;&#34;&#34;
+
+    latest: distutils_version.LooseVersion = attr.ib()
+    &#34;&#34;&#34;Latest version. May contain breaking API changes.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="latest -- Latest version. May contain breaking API changes." href="#hikari.utilities.version_sniffer.VersionInfo.latest" id="hikari.utilities.version_sniffer.VersionInfo.latest" class='dotted'>latest</a> : distutils.version.LooseVersion</code></pre>
+</dt>
+<dd><p>Latest version. May contain breaking API changes.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="latest_compatible -- Latest compatible version with no breaking API changes." href="#hikari.utilities.version_sniffer.VersionInfo.latest_compatible" id="hikari.utilities.version_sniffer.VersionInfo.latest_compatible" class='dotted'>latest_compatible</a> : distutils.version.LooseVersion</code></pre>
+</dt>
+<dd><p>Latest compatible version with no breaking API changes.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="this -- This version." href="#hikari.utilities.version_sniffer.VersionInfo.this" id="hikari.utilities.version_sniffer.VersionInfo.this" class='dotted'>this</a> : distutils.version.LooseVersion</code></pre>
+</dt>
+<dd><p>This version.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

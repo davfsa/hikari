@@ -1,0 +1,1130 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.events.shard_events API documentation</title>
+<meta name="description" content="Events relating to specific shards connecting and disconnecting." />
+<meta property="og:title" content="hikari.events.shard_events module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.events.shard_events">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.events -- Events that can be fired by Hikari's gateway implementation." href="index.html"
+class='dotted'>events</a></li>
+<li class="breadcrumb-item active"><a href="#">shard_events</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Events relating to specific shards connecting and disconnecting.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="#hikari.events.shard_events.ShardConnectedEvent"
+class='sidebar-nav-pill'>ShardConnectedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardConnectedEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardConnectedEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="#hikari.events.shard_events.ShardDisconnectedEvent"
+class='sidebar-nav-pill'>ShardDisconnectedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardDisconnectedEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardDisconnectedEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='sidebar-nav-pill'>ShardEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="#hikari.events.shard_events.ShardReadyEvent"
+class='sidebar-nav-pill'>ShardReadyEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="actual_gateway_version -- Actual gateway version being used …" href="#hikari.events.shard_events.ShardReadyEvent.actual_gateway_version"
+class='sidebar-nav-pill'>actual_gateway_version</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardReadyEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="my_user -- User for the current bot account this connection is authenticated with …" href="#hikari.events.shard_events.ShardReadyEvent.my_user"
+class='sidebar-nav-pill'>my_user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- ID for this session …" href="#hikari.events.shard_events.ShardReadyEvent.session_id"
+class='sidebar-nav-pill'>session_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardReadyEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unavailable_guilds -- Sequence of the IDs for all guilds this bot is currently in …" href="#hikari.events.shard_events.ShardReadyEvent.unavailable_guilds"
+class='sidebar-nav-pill'>unavailable_guilds</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="#hikari.events.shard_events.ShardResumedEvent"
+class='sidebar-nav-pill'>ShardResumedEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardResumedEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardResumedEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='sidebar-nav-pill'>ShardStateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L0-L157" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Events relating to specific shards connecting and disconnecting.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;ShardEvent&#34;,
+    &#34;ShardStateEvent&#34;,
+    &#34;ShardConnectedEvent&#34;,
+    &#34;ShardDisconnectedEvent&#34;,
+    &#34;ShardReadyEvent&#34;,
+    &#34;ShardResumedEvent&#34;,
+]
+
+import abc
+import typing
+
+import attr
+
+from hikari.events import base_events
+from hikari.utilities import attr_extensions
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.api import shard as gateway_shard
+    from hikari.models import users
+    from hikari.utilities import snowflake
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardEvent(base_events.Event, abc.ABC):
+    &#34;&#34;&#34;Base class for any event that was shard-specific.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def shard(self) -&gt; gateway_shard.GatewayShard:
+        &#34;&#34;&#34;Shard that received this event.
+
+        Returns
+        -------
+        hikari.api.shard.GatewayShard
+            The shard that triggered the event.
+        &#34;&#34;&#34;
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardStateEvent(ShardEvent, abc.ABC):
+    &#34;&#34;&#34;Base class for any event concerning the state/connectivity of a shard.
+
+    This currently wraps connection/disconnection/ready/resumed events only.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardConnectedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard connects.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardDisconnectedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard disconnects.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardReadyEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard declares it is ready.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    actual_gateway_version: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Actual gateway version being used.
+
+    Returns
+    -------
+    builtins.int
+        The actual gateway version we are actively using for this protocol.
+    &#34;&#34;&#34;
+
+    session_id: str = attr.ib(repr=True)
+    &#34;&#34;&#34;ID for this session.
+
+    Returns
+    -------
+    builtins.str
+        The session ID for this gateway session.
+    &#34;&#34;&#34;
+
+    my_user: users.OwnUser = attr.ib(repr=True)
+    &#34;&#34;&#34;User for the current bot account this connection is authenticated with.
+
+    Returns
+    -------
+    hikari.models.users.OwnUser
+        This bot&#39;s user.
+    &#34;&#34;&#34;
+
+    unavailable_guilds: typing.Sequence[snowflake.Snowflake] = attr.ib(repr=False)
+    &#34;&#34;&#34;Sequence of the IDs for all guilds this bot is currently in.
+
+    All guilds will start off &#34;unavailable&#34; and should become available after
+    a few seconds of connecting one-by-one.
+
+    Returns
+    -------
+    typing.Sequence[hikari.utilities.snowflake.Snowflake]
+        All guild IDs that the bot is in for this shard.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class ShardResumedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard resumes an existing session.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="#hikari.events.shard_events.ShardConnectedEvent"
+class='dotted'>ShardConnectedEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardConnectedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardConnectedEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+): ...</code></pre>
+<p>Event fired when a shard connects.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L76-L82" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardConnectedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard connects.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="#hikari.events.shard_events.ShardConnectedEvent"
+class='dotted'>ShardConnectedEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><p>Base class for any event concerning the state/connectivity of a shard …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardConnectedEvent.app" id="hikari.events.shard_events.ShardConnectedEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardConnectedEvent.shard" id="hikari.events.shard_events.ShardConnectedEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="#hikari.events.shard_events.ShardDisconnectedEvent"
+class='dotted'>ShardDisconnectedEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardDisconnectedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardDisconnectedEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+): ...</code></pre>
+<p>Event fired when a shard disconnects.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L88-L94" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardDisconnectedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard disconnects.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="#hikari.events.shard_events.ShardDisconnectedEvent"
+class='dotted'>ShardDisconnectedEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><p>Base class for any event concerning the state/connectivity of a shard …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardDisconnectedEvent.app" id="hikari.events.shard_events.ShardDisconnectedEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardDisconnectedEvent.shard" id="hikari.events.shard_events.ShardDisconnectedEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardEvent: ...</code></pre>
+<p>Base class for any event that was shard-specific.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L51-L63" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardEvent(base_events.Event, abc.ABC):
+    &#34;&#34;&#34;Base class for any event that was shard-specific.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def shard(self) -&gt; gateway_shard.GatewayShard:
+        &#34;&#34;&#34;Shard that received this event.
+
+        Returns
+        -------
+        hikari.api.shard.GatewayShard
+            The shard that triggered the event.
+        &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ChannelEvent -- Event base for any channel-bound event in guilds or private messages …" href="channel_events.html#hikari.events.channel_events.ChannelEvent"
+class='dotted'>ChannelEvent</a></dt>
+<dd class="nested"><p>Event base for any channel-bound event in guilds or private messages …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="guild_events.html#hikari.events.guild_events.MemberChunkEvent"
+class='dotted'>MemberChunkEvent</a></dt>
+<dd class="nested"><p>Used to represent the response to Guild Request Members.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="guild_events.html#hikari.events.guild_events.PresenceUpdateEvent"
+class='dotted'>PresenceUpdateEvent</a></dt>
+<dd class="nested"><p>Event fired when a user in a guild updates their presence in a guild …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberEvent -- Event base for any events that concern guild members …" href="member_events.html#hikari.events.member_events.MemberEvent"
+class='dotted'>MemberEvent</a></dt>
+<dd class="nested"><p>Event base for any events that concern guild members …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MessagesEvent -- Event base for any message-bound event …" href="message_events.html#hikari.events.message_events.MessagesEvent"
+class='dotted'>MessagesEvent</a></dt>
+<dd class="nested"><p>Event base for any message-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ReactionEvent -- Event base for any message reaction event …" href="reaction_events.html#hikari.events.reaction_events.ReactionEvent"
+class='dotted'>ReactionEvent</a></dt>
+<dd class="nested"><p>Event base for any message reaction event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="RoleEvent -- Event base for any event that involves guild roles …" href="role_events.html#hikari.events.role_events.RoleEvent"
+class='dotted'>RoleEvent</a></dt>
+<dd class="nested"><p>Event base for any event that involves guild roles …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><p>Base class for any event concerning the state/connectivity of a shard …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="TypingEvent -- Base event fired when a user begins typing in a channel …" href="typing_events.html#hikari.events.typing_events.TypingEvent"
+class='dotted'>TypingEvent</a></dt>
+<dd class="nested"><p>Base event fired when a user begins typing in a channel …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="OwnUserUpdateEvent -- Event fired when the account user is updated." href="user_events.html#hikari.events.user_events.OwnUserUpdateEvent"
+class='dotted'>OwnUserUpdateEvent</a></dt>
+<dd class="nested"><p>Event fired when the account user is updated.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceEvent -- Base for any voice-related event." href="voice_events.html#hikari.events.voice_events.VoiceEvent"
+class='dotted'>VoiceEvent</a></dt>
+<dd class="nested"><p>Base for any voice-related event.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app" id="hikari.events.shard_events.ShardEvent.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardEvent.shard" id="hikari.events.shard_events.ShardEvent.shard" class='dotted'>shard</a> : <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a></code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="#hikari.events.shard_events.ShardReadyEvent"
+class='dotted'>ShardReadyEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardReadyEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardReadyEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    actual_gateway_version: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    session_id: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    my_user: <a href='../models/users.html#hikari.models.users.OwnUser'>users.OwnUser</a>,
+    unavailable_guilds: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+): ...</code></pre>
+<p>Event fired when a shard declares it is ready.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L100-L146" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardReadyEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard declares it is ready.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    actual_gateway_version: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Actual gateway version being used.
+
+    Returns
+    -------
+    builtins.int
+        The actual gateway version we are actively using for this protocol.
+    &#34;&#34;&#34;
+
+    session_id: str = attr.ib(repr=True)
+    &#34;&#34;&#34;ID for this session.
+
+    Returns
+    -------
+    builtins.str
+        The session ID for this gateway session.
+    &#34;&#34;&#34;
+
+    my_user: users.OwnUser = attr.ib(repr=True)
+    &#34;&#34;&#34;User for the current bot account this connection is authenticated with.
+
+    Returns
+    -------
+    hikari.models.users.OwnUser
+        This bot&#39;s user.
+    &#34;&#34;&#34;
+
+    unavailable_guilds: typing.Sequence[snowflake.Snowflake] = attr.ib(repr=False)
+    &#34;&#34;&#34;Sequence of the IDs for all guilds this bot is currently in.
+
+    All guilds will start off &#34;unavailable&#34; and should become available after
+    a few seconds of connecting one-by-one.
+
+    Returns
+    -------
+    typing.Sequence[hikari.utilities.snowflake.Snowflake]
+        All guild IDs that the bot is in for this shard.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="#hikari.events.shard_events.ShardReadyEvent"
+class='dotted'>ShardReadyEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><p>Base class for any event concerning the state/connectivity of a shard …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="actual_gateway_version -- Actual gateway version being used …" href="#hikari.events.shard_events.ShardReadyEvent.actual_gateway_version" id="hikari.events.shard_events.ShardReadyEvent.actual_gateway_version" class='dotted'>actual_gateway_version</a> : int</code></pre>
+</dt>
+<dd><p>Actual gateway version being used.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The actual gateway version we are actively using for this protocol.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardReadyEvent.app" id="hikari.events.shard_events.ShardReadyEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="my_user -- User for the current bot account this connection is authenticated with …" href="#hikari.events.shard_events.ShardReadyEvent.my_user" id="hikari.events.shard_events.ShardReadyEvent.my_user" class='dotted'>my_user</a> : users.OwnUser</code></pre>
+</dt>
+<dd><p>User for the current bot account this connection is authenticated with.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.OwnUser'>OwnUser</a></code></dt>
+<dd>This bot's user.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- ID for this session …" href="#hikari.events.shard_events.ShardReadyEvent.session_id" id="hikari.events.shard_events.ShardReadyEvent.session_id" class='dotted'>session_id</a> : str</code></pre>
+</dt>
+<dd><p>ID for this session.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The session ID for this gateway session.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardReadyEvent.shard" id="hikari.events.shard_events.ShardReadyEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="unavailable_guilds -- Sequence of the IDs for all guilds this bot is currently in …" href="#hikari.events.shard_events.ShardReadyEvent.unavailable_guilds" id="hikari.events.shard_events.ShardReadyEvent.unavailable_guilds" class='dotted'>unavailable_guilds</a> : typing.Sequence[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>Sequence of the IDs for all guilds this bot is currently in.</p>
+<p>All guilds will start off "unavailable" and should become available after
+a few seconds of connecting one-by-one.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>All guild IDs that the bot is in for this shard.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="#hikari.events.shard_events.ShardResumedEvent"
+class='dotted'>ShardResumedEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardResumedEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardResumedEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+): ...</code></pre>
+<p>Event fired when a shard resumes an existing session.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L151-L157" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardResumedEvent(ShardStateEvent):
+    &#34;&#34;&#34;Event fired when a shard resumes an existing session.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="#hikari.events.shard_events.ShardResumedEvent"
+class='dotted'>ShardResumedEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><p>Base class for any event concerning the state/connectivity of a shard …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.shard_events.ShardResumedEvent.app" id="hikari.events.shard_events.ShardResumedEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardResumedEvent.shard" id="hikari.events.shard_events.ShardResumedEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.shard_events.ShardStateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardStateEvent: ...</code></pre>
+<p>Base class for any event concerning the state/connectivity of a shard.</p>
+<p>This currently wraps connection/disconnection/ready/resumed events only.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/shard_events.py#L67-L71" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardStateEvent(ShardEvent, abc.ABC):
+    &#34;&#34;&#34;Base class for any event concerning the state/connectivity of a shard.
+
+    This currently wraps connection/disconnection/ready/resumed events only.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardConnectedEvent -- Event fired when a shard connects." href="#hikari.events.shard_events.ShardConnectedEvent"
+class='dotted'>ShardConnectedEvent</a></dt>
+<dd class="nested"><p>Event fired when a shard connects.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardDisconnectedEvent -- Event fired when a shard disconnects." href="#hikari.events.shard_events.ShardDisconnectedEvent"
+class='dotted'>ShardDisconnectedEvent</a></dt>
+<dd class="nested"><p>Event fired when a shard disconnects.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardReadyEvent -- Event fired when a shard declares it is ready." href="#hikari.events.shard_events.ShardReadyEvent"
+class='dotted'>ShardReadyEvent</a></dt>
+<dd class="nested"><p>Event fired when a shard declares it is ready.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardResumedEvent -- Event fired when a shard resumes an existing session." href="#hikari.events.shard_events.ShardResumedEvent"
+class='dotted'>ShardResumedEvent</a></dt>
+<dd class="nested"><p>Event fired when a shard resumes an existing session.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardStateEvent -- Base class for any event concerning the state/connectivity of a shard …" href="#hikari.events.shard_events.ShardStateEvent"
+class='dotted'>ShardStateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app" id="hikari.events.shard_events.ShardStateEvent.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.shard_events.ShardEvent.shard" id="hikari.events.shard_events.ShardStateEvent.shard" class='dotted'>shard</a> : <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a></code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

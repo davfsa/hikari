@@ -1,0 +1,760 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.voices API documentation</title>
+<meta name="description" content="Application and entities that are used to describe voice state on Discord." />
+<meta property="og:title" content="hikari.models.voices module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.voices">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">voices</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe voice state on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="VoiceRegionish -- Type hint for a voice region or name of a voice region …" href="#hikari.models.voices.VoiceRegionish"
+class='sidebar-nav-pill'>VoiceRegionish</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceRegion -- Represents a voice region server." href="#hikari.models.voices.VoiceRegion"
+class='sidebar-nav-pill'>VoiceRegion</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The string ID of this region …" href="#hikari.models.voices.VoiceRegion.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_custom -- Whether this region is custom (e.g. used for events)." href="#hikari.models.voices.VoiceRegion.is_custom"
+class='sidebar-nav-pill'>is_custom</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_deprecated -- Whether this region is deprecated." href="#hikari.models.voices.VoiceRegion.is_deprecated"
+class='sidebar-nav-pill'>is_deprecated</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_optimal_location -- Whether this region's server is closest to the current user's client." href="#hikari.models.voices.VoiceRegion.is_optimal_location"
+class='sidebar-nav-pill'>is_optimal_location</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_vip -- Whether this region is vip-only." href="#hikari.models.voices.VoiceRegion.is_vip"
+class='sidebar-nav-pill'>is_vip</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of this region." href="#hikari.models.voices.VoiceRegion.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceState -- Represents a user's voice connection status." href="#hikari.models.voices.VoiceState"
+class='sidebar-nav-pill'>VoiceState</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.voices.VoiceState.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this user is connected to …" href="#hikari.models.voices.VoiceState.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this voice state is in." href="#hikari.models.voices.VoiceState.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_guild_deafened -- Whether this user is deafened by the guild." href="#hikari.models.voices.VoiceState.is_guild_deafened"
+class='sidebar-nav-pill'>is_guild_deafened</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_guild_muted -- Whether this user is muted by the guild." href="#hikari.models.voices.VoiceState.is_guild_muted"
+class='sidebar-nav-pill'>is_guild_muted</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_self_deafened -- Whether this user is deafened by their client." href="#hikari.models.voices.VoiceState.is_self_deafened"
+class='sidebar-nav-pill'>is_self_deafened</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_self_muted -- Whether this user is muted by their client." href="#hikari.models.voices.VoiceState.is_self_muted"
+class='sidebar-nav-pill'>is_self_muted</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_streaming -- Whether this user is streaming using "Go Live"." href="#hikari.models.voices.VoiceState.is_streaming"
+class='sidebar-nav-pill'>is_streaming</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_suppressed -- Whether this user is muted by the current user." href="#hikari.models.voices.VoiceState.is_suppressed"
+class='sidebar-nav-pill'>is_suppressed</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_video_enabled -- Whether this user's camera is enabled." href="#hikari.models.voices.VoiceState.is_video_enabled"
+class='sidebar-nav-pill'>is_video_enabled</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="member -- The guild member this voice state is for." href="#hikari.models.voices.VoiceState.member"
+class='sidebar-nav-pill'>member</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- The string ID of this voice state's session." href="#hikari.models.voices.VoiceState.session_id"
+class='sidebar-nav-pill'>session_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user this voice state is for." href="#hikari.models.voices.VoiceState.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/voices.py#L0-L123" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe voice state on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;VoiceRegion&#34;, &#34;VoiceState&#34;, &#34;VoiceRegionish&#34;]
+
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.models import guilds
+    from hikari.utilities import snowflake
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class VoiceState:
+    &#34;&#34;&#34;Represents a user&#39;s voice connection status.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    channel_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the channel this user is connected to.
+
+    This will be `builtins.None` if they are leaving voice.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the guild this voice state is in.&#34;&#34;&#34;
+
+    is_guild_deafened: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is deafened by the guild.&#34;&#34;&#34;
+
+    is_guild_muted: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by the guild.&#34;&#34;&#34;
+
+    is_self_deafened: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is deafened by their client.&#34;&#34;&#34;
+
+    is_self_muted: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by their client.&#34;&#34;&#34;
+
+    is_streaming: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is streaming using &#34;Go Live&#34;.&#34;&#34;&#34;
+
+    is_suppressed: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by the current user.&#34;&#34;&#34;
+
+    is_video_enabled: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user&#39;s camera is enabled.&#34;&#34;&#34;
+
+    user_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the user this voice state is for.&#34;&#34;&#34;
+
+    member: guilds.Member = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The guild member this voice state is for.&#34;&#34;&#34;
+
+    session_id: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string ID of this voice state&#39;s session.&#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class VoiceRegion:
+    &#34;&#34;&#34;Represents a voice region server.&#34;&#34;&#34;
+
+    id: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string ID of this region.
+
+    !!! note
+        Unlike most parts of this API, this ID will always be a string type.
+        This is intentional.
+    &#34;&#34;&#34;
+
+    name: str = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of this region.&#34;&#34;&#34;
+
+    is_vip: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is vip-only.&#34;&#34;&#34;
+
+    is_optimal_location: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region&#39;s server is closest to the current user&#39;s client.&#34;&#34;&#34;
+
+    is_deprecated: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is deprecated.&#34;&#34;&#34;
+
+    is_custom: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is custom (e.g. used for events).&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.id
+
+
+VoiceRegionish = typing.Union[str, VoiceRegion]
+&#34;&#34;&#34;Type hint for a voice region or name of a voice region.
+
+Must be either a `VoiceRegion` or `builtins.str`.
+&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A type hint that is usable by static-type checkers like MyPy, but otherwise serves no functional purpose.'>type hint</abbr> </em></small> <a title="VoiceRegionish -- Type hint for a voice region or name of a voice region …" href="#hikari.models.voices.VoiceRegionish" id="hikari.models.voices.VoiceRegionish" class='dotted'>VoiceRegionish</a> = typing.Union[str, hikari.models.voices.VoiceRegion]</code></pre>
+</dt>
+<dd><p>Type hint for a voice region or name of a voice region.</p>
+<p>Must be either a <code><a href='#hikari.models.voices.VoiceRegion'>VoiceRegion</a></code> or <code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code>.</p></dd>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceRegion -- Represents a voice region server." href="#hikari.models.voices.VoiceRegion"
+class='dotted'>VoiceRegion</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.voices.VoiceRegion" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceRegion (
+    *,
+    id: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    name: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+    is_vip: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_optimal_location: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_deprecated: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_custom: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+): ...</code></pre>
+<p>Represents a voice region server.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/voices.py#L90-L117" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VoiceRegion:
+    &#34;&#34;&#34;Represents a voice region server.&#34;&#34;&#34;
+
+    id: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string ID of this region.
+
+    !!! note
+        Unlike most parts of this API, this ID will always be a string type.
+        This is intentional.
+    &#34;&#34;&#34;
+
+    name: str = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of this region.&#34;&#34;&#34;
+
+    is_vip: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is vip-only.&#34;&#34;&#34;
+
+    is_optimal_location: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region&#39;s server is closest to the current user&#39;s client.&#34;&#34;&#34;
+
+    is_deprecated: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is deprecated.&#34;&#34;&#34;
+
+    is_custom: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this region is custom (e.g. used for events).&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.id</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The string ID of this region …" href="#hikari.models.voices.VoiceRegion.id" id="hikari.models.voices.VoiceRegion.id" class='dotted'>id</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The string ID of this region.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>Unlike most parts of this API, this ID will always be a string type.
+This is intentional.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_custom -- Whether this region is custom (e.g. used for events)." href="#hikari.models.voices.VoiceRegion.is_custom" id="hikari.models.voices.VoiceRegion.is_custom" class='dotted'>is_custom</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether this region is custom (e.g. used for events).</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_deprecated -- Whether this region is deprecated." href="#hikari.models.voices.VoiceRegion.is_deprecated" id="hikari.models.voices.VoiceRegion.is_deprecated" class='dotted'>is_deprecated</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether this region is deprecated.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_optimal_location -- Whether this region's server is closest to the current user's client." href="#hikari.models.voices.VoiceRegion.is_optimal_location" id="hikari.models.voices.VoiceRegion.is_optimal_location" class='dotted'>is_optimal_location</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether this region's server is closest to the current user's client.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_vip -- Whether this region is vip-only." href="#hikari.models.voices.VoiceRegion.is_vip" id="hikari.models.voices.VoiceRegion.is_vip" class='dotted'>is_vip</a> : <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a></code></pre>
+</dt>
+<dd><p>Whether this region is vip-only.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of this region." href="#hikari.models.voices.VoiceRegion.name" id="hikari.models.voices.VoiceRegion.name" class='dotted'>name</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>The name of this region.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="VoiceState -- Represents a user's voice connection status." href="#hikari.models.voices.VoiceState"
+class='dotted'>VoiceState</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.voices.VoiceState" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceState (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    channel_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    is_guild_deafened: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_guild_muted: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_self_deafened: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_self_muted: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_streaming: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_suppressed: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    is_video_enabled: <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>,
+    user_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    member: <a href='guilds.html#hikari.models.guilds.Member'>guilds.Member</a>,
+    session_id: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>,
+): ...</code></pre>
+<p>Represents a user's voice connection status.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/voices.py#L42-L85" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VoiceState:
+    &#34;&#34;&#34;Represents a user&#39;s voice connection status.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    channel_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the channel this user is connected to.
+
+    This will be `builtins.None` if they are leaving voice.
+    &#34;&#34;&#34;
+
+    guild_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the guild this voice state is in.&#34;&#34;&#34;
+
+    is_guild_deafened: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is deafened by the guild.&#34;&#34;&#34;
+
+    is_guild_muted: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by the guild.&#34;&#34;&#34;
+
+    is_self_deafened: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is deafened by their client.&#34;&#34;&#34;
+
+    is_self_muted: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by their client.&#34;&#34;&#34;
+
+    is_streaming: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is streaming using &#34;Go Live&#34;.&#34;&#34;&#34;
+
+    is_suppressed: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user is muted by the current user.&#34;&#34;&#34;
+
+    is_video_enabled: bool = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;Whether this user&#39;s camera is enabled.&#34;&#34;&#34;
+
+    user_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The ID of the user this voice state is for.&#34;&#34;&#34;
+
+    member: guilds.Member = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The guild member this voice state is for.&#34;&#34;&#34;
+
+    session_id: str = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The string ID of this voice state&#39;s session.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.voices.VoiceState.app" id="hikari.models.voices.VoiceState.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The ID of the channel this user is connected to …" href="#hikari.models.voices.VoiceState.channel_id" id="hikari.models.voices.VoiceState.channel_id" class='dotted'>channel_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The ID of the channel this user is connected to.</p>
+<p>This will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if they are leaving voice.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The ID of the guild this voice state is in." href="#hikari.models.voices.VoiceState.guild_id" id="hikari.models.voices.VoiceState.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the guild this voice state is in.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_guild_deafened -- Whether this user is deafened by the guild." href="#hikari.models.voices.VoiceState.is_guild_deafened" id="hikari.models.voices.VoiceState.is_guild_deafened" class='dotted'>is_guild_deafened</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is deafened by the guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_guild_muted -- Whether this user is muted by the guild." href="#hikari.models.voices.VoiceState.is_guild_muted" id="hikari.models.voices.VoiceState.is_guild_muted" class='dotted'>is_guild_muted</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is muted by the guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_self_deafened -- Whether this user is deafened by their client." href="#hikari.models.voices.VoiceState.is_self_deafened" id="hikari.models.voices.VoiceState.is_self_deafened" class='dotted'>is_self_deafened</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is deafened by their client.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_self_muted -- Whether this user is muted by their client." href="#hikari.models.voices.VoiceState.is_self_muted" id="hikari.models.voices.VoiceState.is_self_muted" class='dotted'>is_self_muted</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is muted by their client.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_streaming -- Whether this user is streaming using "Go Live"." href="#hikari.models.voices.VoiceState.is_streaming" id="hikari.models.voices.VoiceState.is_streaming" class='dotted'>is_streaming</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is streaming using "Go Live".</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_suppressed -- Whether this user is muted by the current user." href="#hikari.models.voices.VoiceState.is_suppressed" id="hikari.models.voices.VoiceState.is_suppressed" class='dotted'>is_suppressed</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user is muted by the current user.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="is_video_enabled -- Whether this user's camera is enabled." href="#hikari.models.voices.VoiceState.is_video_enabled" id="hikari.models.voices.VoiceState.is_video_enabled" class='dotted'>is_video_enabled</a> : bool</code></pre>
+</dt>
+<dd><p>Whether this user's camera is enabled.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="member -- The guild member this voice state is for." href="#hikari.models.voices.VoiceState.member" id="hikari.models.voices.VoiceState.member" class='dotted'>member</a> : guilds.Member</code></pre>
+</dt>
+<dd><p>The guild member this voice state is for.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="session_id -- The string ID of this voice state's session." href="#hikari.models.voices.VoiceState.session_id" id="hikari.models.voices.VoiceState.session_id" class='dotted'>session_id</a> : str</code></pre>
+</dt>
+<dd><p>The string ID of this voice state's session.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- The ID of the user this voice state is for." href="#hikari.models.voices.VoiceState.user_id" id="hikari.models.voices.VoiceState.user_id" class='dotted'>user_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of the user this voice state is for.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

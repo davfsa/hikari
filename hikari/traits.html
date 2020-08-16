@@ -1,0 +1,2254 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.traits API documentation</title>
+<meta name="description" content="Core app interface for application implementations." />
+<meta property="og:title" content="hikari.traits module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.traits">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item active"><a href="#">traits</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Core app interface for application implementations.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="AsyncCallbackT -- Type-hint for an asynchronous coroutine function event callback …" href="#hikari.traits.AsyncCallbackT"
+class='sidebar-nav-pill'>AsyncCallbackT</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="EventT_co -- Type-hint for a covariant event implementation instance …" href="#hikari.traits.EventT_co"
+class='sidebar-nav-pill'>EventT_co</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="EventT_inv -- Type-hint for an invariant event implementation instance …" href="#hikari.traits.EventT_inv"
+class='sidebar-nav-pill'>EventT_inv</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="PredicateT -- Type-hint for an event waiter predicate …" href="#hikari.traits.PredicateT"
+class='sidebar-nav-pill'>PredicateT</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='sidebar-nav-pill'>BotAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache"
+class='sidebar-nav-pill'>cache</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker"
+class='sidebar-nav-pill'>chunker</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.traits.DispatcherAware.dispatcher"
+class='sidebar-nav-pill'>dispatcher</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory"
+class='sidebar-nav-pill'>entity_factory</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.traits.EventFactoryAware.event_factory"
+class='sidebar-nav-pill'>event_factory</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor"
+class='sidebar-nav-pill'>executor</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.traits.ShardAware.heartbeat_latencies"
+class='sidebar-nav-pill'>heartbeat_latencies</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.traits.ShardAware.heartbeat_latency"
+class='sidebar-nav-pill'>heartbeat_latency</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.traits.ShardAware.intents"
+class='sidebar-nav-pill'>intents</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.traits.ShardAware.me"
+class='sidebar-nav-pill'>me</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.traits.RESTAware.rest"
+class='sidebar-nav-pill'>rest</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.traits.ShardAware.shard_count"
+class='sidebar-nav-pill'>shard_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.traits.ShardAware.shards"
+class='sidebar-nav-pill'>shards</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice"
+class='sidebar-nav-pill'>voice</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='sidebar-nav-pill'>CacheAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache"
+class='sidebar-nav-pill'>cache</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="#hikari.traits.ChunkerAware"
+class='sidebar-nav-pill'>ChunkerAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker"
+class='sidebar-nav-pill'>chunker</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="DispatcherAware -- Structural supertype for a dispatcher-aware object …" href="#hikari.traits.DispatcherAware"
+class='sidebar-nav-pill'>DispatcherAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.traits.DispatcherAware.dispatcher"
+class='sidebar-nav-pill'>dispatcher</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="#hikari.traits.EntityFactoryAware"
+class='sidebar-nav-pill'>EntityFactoryAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory"
+class='sidebar-nav-pill'>entity_factory</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactoryAware -- Structural supertype for an event factory-aware object …" href="#hikari.traits.EventFactoryAware"
+class='sidebar-nav-pill'>EventFactoryAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.traits.EventFactoryAware.event_factory"
+class='sidebar-nav-pill'>event_factory</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='sidebar-nav-pill'>ExecutorAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor"
+class='sidebar-nav-pill'>executor</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='sidebar-nav-pill'>NetworkSettingsAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='sidebar-nav-pill'>RESTAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache"
+class='sidebar-nav-pill'>cache</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory"
+class='sidebar-nav-pill'>entity_factory</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor"
+class='sidebar-nav-pill'>executor</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.traits.RESTAware.rest"
+class='sidebar-nav-pill'>rest</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='sidebar-nav-pill'>ShardAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache"
+class='sidebar-nav-pill'>cache</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker"
+class='sidebar-nav-pill'>chunker</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor"
+class='sidebar-nav-pill'>executor</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.traits.ShardAware.heartbeat_latencies"
+class='sidebar-nav-pill'>heartbeat_latencies</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.traits.ShardAware.heartbeat_latency"
+class='sidebar-nav-pill'>heartbeat_latency</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings"
+class='sidebar-nav-pill'>http_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.traits.ShardAware.intents"
+class='sidebar-nav-pill'>intents</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.traits.ShardAware.me"
+class='sidebar-nav-pill'>me</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings"
+class='sidebar-nav-pill'>proxy_settings</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.traits.ShardAware.shard_count"
+class='sidebar-nav-pill'>shard_count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.traits.ShardAware.shards"
+class='sidebar-nav-pill'>shards</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice"
+class='sidebar-nav-pill'>voice</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="#hikari.traits.VoiceAware"
+class='sidebar-nav-pill'>VoiceAware</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice"
+class='sidebar-nav-pill'>voice</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L0-L400" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Core app interface for application implementations.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;AsyncCallbackT&#34;,
+    &#34;EventT_co&#34;,
+    &#34;EventT_inv&#34;,
+    &#34;PredicateT&#34;,
+    &#34;CacheAware&#34;,
+    &#34;DispatcherAware&#34;,
+    &#34;EntityFactoryAware&#34;,
+    &#34;EventFactoryAware&#34;,
+    &#34;ExecutorAware&#34;,
+    &#34;ChunkerAware&#34;,
+    &#34;NetworkSettingsAware&#34;,
+    &#34;RESTAware&#34;,
+    &#34;ShardAware&#34;,
+    &#34;VoiceAware&#34;,
+    &#34;BotAware&#34;,
+]
+
+import typing
+
+if typing.TYPE_CHECKING:
+    import concurrent.futures
+
+    from hikari import config
+    from hikari.api import cache as cache_
+    from hikari.api import chunker as chunker_
+    from hikari.api import entity_factory as entity_factory_
+    from hikari.api import event_dispatcher
+    from hikari.api import event_factory as event_factory_
+    from hikari.api import rest as rest_
+    from hikari.api import shard as gateway_shard
+    from hikari.api import voice as voice_
+
+    # noinspection PyUnresolvedReferences
+    from hikari.events import base_events  # noqa F401 - Imported but unused (false positive)
+    from hikari.models import intents as intents_
+    from hikari.models import users
+
+
+EventT_co = typing.TypeVar(&#34;EventT_co&#34;, bound=&#34;base_events.Event&#34;, covariant=True)
+&#34;&#34;&#34;Type-hint for a covariant event implementation instance.
+
+This will bind to the bound event type, or any subclass of that type.
+&#34;&#34;&#34;
+
+EventT_inv = typing.TypeVar(&#34;EventT_inv&#34;, bound=&#34;base_events.Event&#34;)
+&#34;&#34;&#34;Type-hint for an invariant event implementation instance.
+
+This will bind to the bound event type only. Subclasses and superclasses will
+not be matched.
+&#34;&#34;&#34;
+
+PredicateT = typing.Callable[[EventT_co], typing.Union[bool, typing.Coroutine[typing.Any, typing.Any, bool]]]
+&#34;&#34;&#34;Type-hint for an event waiter predicate.
+
+This should be a function or coroutine function that consumes a covariant
+instance of the bound event type and returns a boolean that matches
+`builtins.True` if the event is a match for the waiter, or `builtins.False`
+otherwise.
+&#34;&#34;&#34;
+
+# Fixme: shouldn&#39;t this be using covariance instead of invariance?
+AsyncCallbackT = typing.Callable[[EventT_inv], typing.Coroutine[typing.Any, typing.Any, None]]
+&#34;&#34;&#34;Type-hint for an asynchronous coroutine function event callback.
+
+This should consume a single argument: the event that was dispatched.
+
+This is not expected to return anything.
+&#34;&#34;&#34;
+
+
+class NetworkSettingsAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for any component aware of network settings.&#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def http_settings(self) -&gt; config.HTTPSettings:
+        &#34;&#34;&#34;Return the HTTP settings in use by this component.
+
+        Returns
+        -------
+        hikari.config.HTTPSettings
+            The HTTP settings in use.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        &#34;&#34;&#34;Return the proxy settings in use by this component.
+
+        Returns
+        -------
+        hikari.config.ProxySettings
+            The proxy settings in use.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class CacheAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a cache-aware object.
+
+    Any cache-aware objects are able to access the Discord application cache.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def cache(self) -&gt; cache_.Cache:
+        &#34;&#34;&#34;Return the immutable cache implementation for this object.
+
+        Returns
+        -------
+        hikari.api.cache.Cache
+            The cache component for this object.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class DispatcherAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a dispatcher-aware object.
+
+    Dispatcher-aware components are able to register and dispatch
+    event listeners and waiters.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def dispatcher(self) -&gt; event_dispatcher.EventDispatcher:
+        &#34;&#34;&#34;Return the event dispatcher for this object.
+
+        Returns
+        -------
+        hikari.api.event_dispatcher.EventDispatcher
+            The event dispatcher component.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class EntityFactoryAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an entity factory-aware object.
+
+    These components will be able to construct library entities.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def entity_factory(self) -&gt; entity_factory_.EntityFactory:
+        &#34;&#34;&#34;Return the entity factory implementation for this object.
+
+        Returns
+        -------
+        hikari.api.entity_factory.EntityFactory
+            The entity factory component.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class ExecutorAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an executor-aware object.
+
+    These components will contain an `executor` attribute that may return
+    a `concurrent.futures.Executor` or `builtins.None` if the
+    default `asyncio` thread pool for the event loop is used.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def executor(self) -&gt; typing.Optional[concurrent.futures.Executor]:
+        &#34;&#34;&#34;Return the executor to use for blocking operations.
+
+        This may return `builtins.None` if the default `asyncio` thread pool
+        should be used instead.
+
+        Returns
+        -------
+        concurrent.futures.Executor or builtins.None
+            The executor to use, or `builtins.None` to use the `asyncio` default
+            instead.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class EventFactoryAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an event factory-aware object.
+
+    These components are able to construct library events.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def event_factory(self) -&gt; event_factory_.EventFactory:
+        &#34;&#34;&#34;Return the event factory component.
+
+        Returns
+        -------
+        hikari.api.event_factory.EventFactory
+            The event factory component.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class ChunkerAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a guild chunker-aware object.
+
+    These are able to request member chunks for guilds via the gateway to
+    retrieve mass member and presence information in bulk.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def chunker(self) -&gt; chunker_.GuildChunker:
+        &#34;&#34;&#34;Return the guild chunker component.
+
+        Returns
+        -------
+        hikari.api.chunker.GuildChunker
+            The guild chunker component.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class RESTAware(EntityFactoryAware, NetworkSettingsAware, ExecutorAware, CacheAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a REST-aware object.
+
+    These are able to perform REST API calls.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def rest(self) -&gt; rest_.RESTClient:
+        &#34;&#34;&#34;Return the REST client to use for HTTP requests.
+
+        Returns
+        -------
+        hikari.api.rest.RESTClient
+            The REST client to use.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class VoiceAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a voice-aware object.
+
+    This is an object that provides a `voice` property to allow the creation
+    of custom voice client instances.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def voice(self) -&gt; voice_.VoiceComponent:
+        &#34;&#34;&#34;Return the voice connection manager component for this application.
+
+        Returns
+        -------
+        hikari.api.voice.VoiceComponent
+            The voice component for the application.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class ShardAware(NetworkSettingsAware, ExecutorAware, CacheAware, ChunkerAware, VoiceAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a shard-aware object.
+
+    These will expose a mapping of shards, the intents in use
+    and the bot user object.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def heartbeat_latencies(self) -&gt; typing.Mapping[int, float]:
+        &#34;&#34;&#34;Return a mapping of shard ID to heartbeat latency.
+
+        Any shards that are not yet started will be `float(&#39;nan&#39;)`.
+
+        Returns
+        -------
+        typing.Mapping[builtins.int, builtins.float]
+            Each shard ID mapped to the corresponding heartbeat latency in
+            seconds.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def heartbeat_latency(self) -&gt; float:
+        &#34;&#34;&#34;Return the average heartbeat latency of all started shards.
+
+        If no shards are started, this will return `float(&#39;nan&#39;)`.
+
+        Returns
+        -------
+        builtins.float
+            The average heartbeat latency of all started shards, or
+            `float(&#39;nan&#39;)` if no shards are started.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        &#34;&#34;&#34;Return the intents registered for the application.
+
+        If no intents are in use, `builtins.None` is returned instead.
+
+        Returns
+        -------
+        hikari.models.intents.Intent or builtins.None
+            The intents registered on this application.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def me(self) -&gt; typing.Optional[users.OwnUser]:
+        &#34;&#34;&#34;Return the bot user, if known.
+
+        This should be available as soon as the bot has fired the
+        `hikari.events.lifetime_events.StartingEvent`.
+
+        Until then, this may or may not be `builtins.None`.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser or builtins.None
+            The bot user, if known, otherwise `builtins.None`.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def shards(self) -&gt; typing.Mapping[int, gateway_shard.GatewayShard]:
+        &#34;&#34;&#34;Return a mapping of shards in this application instance.
+
+        Each shard ID is mapped to the corresponding shard instance.
+
+        If the application has not started, it is acceptable to assume the
+        result of this call will be an empty mapping.
+
+        Returns
+        -------
+        typing.Mapping[int, hikari.api.shard.GatewayShard]
+            The shard mapping.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def shard_count(self) -&gt; int:
+        &#34;&#34;&#34;Return the number of shards in the total application.
+
+        This may not be the same as the size of `shards`. If the application
+        is auto-sharded, this may be `0` until the shards are started.
+
+        Returns
+        -------
+        builtins.int
+            The number of shards in the total application.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+
+@typing.runtime_checkable
+class BotAware(RESTAware, ShardAware, EventFactoryAware, DispatcherAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a component that is aware of all internals.&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="AsyncCallbackT -- Type-hint for an asynchronous coroutine function event callback …" href="#hikari.traits.AsyncCallbackT" id="hikari.traits.AsyncCallbackT" class='dotted'>AsyncCallbackT</a></code></pre>
+</dt>
+<dd><p>Type-hint for an asynchronous coroutine function event callback.</p>
+<p>This should consume a single argument: the event that was dispatched.</p>
+<p>This is not expected to return anything.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="EventT_co -- Type-hint for a covariant event implementation instance …" href="#hikari.traits.EventT_co" id="hikari.traits.EventT_co" class='dotted'>EventT_co</a></code></pre>
+</dt>
+<dd><p>Type-hint for a covariant event implementation instance.</p>
+<p>This will bind to the bound event type, or any subclass of that type.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="EventT_inv -- Type-hint for an invariant event implementation instance …" href="#hikari.traits.EventT_inv" id="hikari.traits.EventT_inv" class='dotted'>EventT_inv</a></code></pre>
+</dt>
+<dd><p>Type-hint for an invariant event implementation instance.</p>
+<p>This will bind to the bound event type only. Subclasses and superclasses will
+not be matched.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A standard variable'>var</abbr></em></small> <a title="PredicateT -- Type-hint for an event waiter predicate …" href="#hikari.traits.PredicateT" id="hikari.traits.PredicateT" class='dotted'>PredicateT</a></code></pre>
+</dt>
+<dd><p>Type-hint for an event waiter predicate.</p>
+<p>This should be a function or coroutine function that consumes a covariant
+instance of the bound event type and returns a boolean that matches
+<code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if the event is a match for the waiter, or <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>
+otherwise.</p></dd>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.BotAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BotAware: ...</code></pre>
+<p>Structural supertype for a component that is aware of all internals.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L400-L401" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BotAware(RESTAware, ShardAware, EventFactoryAware, DispatcherAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a component that is aware of all internals.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="#hikari.traits.EntityFactoryAware"
+class='dotted'>EntityFactoryAware</a></dt>
+<dd class="nested"><p>Structural supertype for an entity factory-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></dt>
+<dd class="nested"><p>Structural supertype for any component aware of network settings.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></dt>
+<dd class="nested"><p>Structural supertype for an executor-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></dt>
+<dd class="nested"><p>Structural supertype for a cache-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="#hikari.traits.ChunkerAware"
+class='dotted'>ChunkerAware</a></dt>
+<dd class="nested"><p>Structural supertype for a guild chunker-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="#hikari.traits.VoiceAware"
+class='dotted'>VoiceAware</a></dt>
+<dd class="nested"><p>Structural supertype for a voice-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactoryAware -- Structural supertype for an event factory-aware object …" href="#hikari.traits.EventFactoryAware"
+class='dotted'>EventFactoryAware</a></dt>
+<dd class="nested"><p>Structural supertype for an event factory-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="DispatcherAware -- Structural supertype for a dispatcher-aware object …" href="#hikari.traits.DispatcherAware"
+class='dotted'>DispatcherAware</a></dt>
+<dd class="nested"><p>Structural supertype for a dispatcher-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache" id="hikari.traits.BotAware.cache" class='dotted'>cache</a> : <a href='api/cache.html#hikari.api.cache.Cache'>cache_.Cache</a></code></pre>
+</dt>
+<dd><p>Return the immutable cache implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/cache.html#hikari.api.cache.Cache'>Cache</a></code></dt>
+<dd>The cache component for this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker" id="hikari.traits.BotAware.chunker" class='dotted'>chunker</a> : <a href='api/chunker.html#hikari.api.chunker.GuildChunker'>chunker_.GuildChunker</a></code></pre>
+</dt>
+<dd><p>Return the guild chunker component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/chunker.html#hikari.api.chunker.GuildChunker'>GuildChunker</a></code></dt>
+<dd>The guild chunker component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.traits.DispatcherAware.dispatcher" id="hikari.traits.BotAware.dispatcher" class='dotted'>dispatcher</a> : <a href='api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>event_dispatcher.EventDispatcher</a></code></pre>
+</dt>
+<dd><p>Return the event dispatcher for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>EventDispatcher</a></code></dt>
+<dd>The event dispatcher component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory" id="hikari.traits.BotAware.entity_factory" class='dotted'>entity_factory</a> : <a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>entity_factory_.EntityFactory</a></code></pre>
+</dt>
+<dd><p>Return the entity factory implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>EntityFactory</a></code></dt>
+<dd>The entity factory component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.traits.EventFactoryAware.event_factory" id="hikari.traits.BotAware.event_factory" class='dotted'>event_factory</a> : <a href='api/event_factory.html#hikari.api.event_factory.EventFactory'>event_factory_.EventFactory</a></code></pre>
+</dt>
+<dd><p>Return the event factory component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/event_factory.html#hikari.api.event_factory.EventFactory'>EventFactory</a></code></dt>
+<dd>The event factory component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor" id="hikari.traits.BotAware.executor" class='dotted'>executor</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>]</code></pre>
+</dt>
+<dd><p>Return the executor to use for blocking operations.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool
+should be used instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The executor to use, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> to use the <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> default
+instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.traits.ShardAware.heartbeat_latencies" id="hikari.traits.BotAware.heartbeat_latencies" class='dotted'>heartbeat_latencies</a> : Mapping[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shard ID to heartbeat latency.</p>
+<p>Any shards that are not yet started will be <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></dt>
+<dd>Each shard ID mapped to the corresponding heartbeat latency in
+seconds.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.traits.ShardAware.heartbeat_latency" id="hikari.traits.BotAware.heartbeat_latency" class='dotted'>heartbeat_latency</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the average heartbeat latency of all started shards.</p>
+<p>If no shards are started, this will return <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>The average heartbeat latency of all started shards, or
+<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code> if no shards are started.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings" id="hikari.traits.BotAware.http_settings" class='dotted'>http_settings</a> : <a href='config.html#hikari.config.HTTPSettings'>config.HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.traits.ShardAware.intents" id="hikari.traits.BotAware.intents" class='dotted'>intents</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='models/intents.html#hikari.models.intents.Intents'>intents_.Intents</a>]</code></pre>
+</dt>
+<dd><p>Return the intents registered for the application.</p>
+<p>If no intents are in use, <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> is returned instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='models/intents.html'>hikari.models.intents.Intent</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The intents registered on this application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.traits.ShardAware.me" id="hikari.traits.BotAware.me" class='dotted'>me</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='models/users.html#hikari.models.users.OwnUser'>users.OwnUser</a>]</code></pre>
+</dt>
+<dd><p>Return the bot user, if known.</p>
+<p>This should be available as soon as the bot has fired the
+<code><a href='events/lifetime_events.html#hikari.events.lifetime_events.StartingEvent'>StartingEvent</a></code>.</p>
+<p>Until then, this may or may not be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='models/users.html#hikari.models.users.OwnUser'>OwnUser</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The bot user, if known, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings" id="hikari.traits.BotAware.proxy_settings" class='dotted'>proxy_settings</a> : <a href='config.html#hikari.config.ProxySettings'>config.ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.traits.RESTAware.rest" id="hikari.traits.BotAware.rest" class='dotted'>rest</a> : <a href='api/rest.html#hikari.api.rest.RESTClient'>rest_.RESTClient</a></code></pre>
+</dt>
+<dd><p>Return the REST client to use for HTTP requests.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/rest.html#hikari.api.rest.RESTClient'>RESTClient</a></code></dt>
+<dd>The REST client to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.traits.ShardAware.shard_count" id="hikari.traits.BotAware.shard_count" class='dotted'>shard_count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the number of shards in the total application.</p>
+<p>This may not be the same as the size of <code>shards</code>. If the application
+is auto-sharded, this may be <code>0</code> until the shards are started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The number of shards in the total application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.traits.ShardAware.shards" id="hikari.traits.BotAware.shards" class='dotted'>shards</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shards in this application instance.</p>
+<p>Each shard ID is mapped to the corresponding shard instance.</p>
+<p>If the application has not started, it is acceptable to assume the
+result of this call will be an empty mapping.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a>]</code></dt>
+<dd>The shard mapping.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice" id="hikari.traits.BotAware.voice" class='dotted'>voice</a> : <a href='api/voice.html#hikari.api.voice.VoiceComponent'>voice_.VoiceComponent</a></code></pre>
+</dt>
+<dd><p>Return the voice connection manager component for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/voice.html#hikari.api.voice.VoiceComponent'>VoiceComponent</a></code></dt>
+<dd>The voice component for the application.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.CacheAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> CacheAware: ...</code></pre>
+<p>Structural supertype for a cache-aware object.</p>
+<p>Any cache-aware objects are able to access the Discord application cache.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L125-L142" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class CacheAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a cache-aware object.
+
+    Any cache-aware objects are able to access the Discord application cache.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def cache(self) -&gt; cache_.Cache:
+        &#34;&#34;&#34;Return the immutable cache implementation for this object.
+
+        Returns
+        -------
+        hikari.api.cache.Cache
+            The cache component for this object.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache" id="hikari.traits.CacheAware.cache" class='dotted'>cache</a> : <a href='api/cache.html#hikari.api.cache.Cache'>cache_.Cache</a></code></pre>
+</dt>
+<dd><p>Return the immutable cache implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/cache.html#hikari.api.cache.Cache'>Cache</a></code></dt>
+<dd>The cache component for this object.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="#hikari.traits.ChunkerAware"
+class='dotted'>ChunkerAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.ChunkerAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ChunkerAware: ...</code></pre>
+<p>Structural supertype for a guild chunker-aware object.</p>
+<p>These are able to request member chunks for guilds via the gateway to
+retrieve mass member and presence information in bulk.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L237-L255" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ChunkerAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a guild chunker-aware object.
+
+    These are able to request member chunks for guilds via the gateway to
+    retrieve mass member and presence information in bulk.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def chunker(self) -&gt; chunker_.GuildChunker:
+        &#34;&#34;&#34;Return the guild chunker component.
+
+        Returns
+        -------
+        hikari.api.chunker.GuildChunker
+            The guild chunker component.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="#hikari.traits.ChunkerAware"
+class='dotted'>ChunkerAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker" id="hikari.traits.ChunkerAware.chunker" class='dotted'>chunker</a> : <a href='api/chunker.html#hikari.api.chunker.GuildChunker'>chunker_.GuildChunker</a></code></pre>
+</dt>
+<dd><p>Return the guild chunker component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/chunker.html#hikari.api.chunker.GuildChunker'>GuildChunker</a></code></dt>
+<dd>The guild chunker component.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="DispatcherAware -- Structural supertype for a dispatcher-aware object …" href="#hikari.traits.DispatcherAware"
+class='dotted'>DispatcherAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.DispatcherAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> DispatcherAware: ...</code></pre>
+<p>Structural supertype for a dispatcher-aware object.</p>
+<p>Dispatcher-aware components are able to register and dispatch
+event listeners and waiters.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L146-L164" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class DispatcherAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a dispatcher-aware object.
+
+    Dispatcher-aware components are able to register and dispatch
+    event listeners and waiters.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def dispatcher(self) -&gt; event_dispatcher.EventDispatcher:
+        &#34;&#34;&#34;Return the event dispatcher for this object.
+
+        Returns
+        -------
+        hikari.api.event_dispatcher.EventDispatcher
+            The event dispatcher component.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="impl/bot.html#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><p>Implementation of an auto-sharded single-instance bot application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></dt>
+<dd class="nested"><p>Structural supertype for a component that is aware of all internals.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="DispatcherAware -- Structural supertype for a dispatcher-aware object …" href="#hikari.traits.DispatcherAware"
+class='dotted'>DispatcherAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="dispatcher -- Return the event dispatcher for this object …" href="#hikari.traits.DispatcherAware.dispatcher" id="hikari.traits.DispatcherAware.dispatcher" class='dotted'>dispatcher</a> : <a href='api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>event_dispatcher.EventDispatcher</a></code></pre>
+</dt>
+<dd><p>Return the event dispatcher for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/event_dispatcher.html#hikari.api.event_dispatcher.EventDispatcher'>EventDispatcher</a></code></dt>
+<dd>The event dispatcher component.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="#hikari.traits.EntityFactoryAware"
+class='dotted'>EntityFactoryAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.EntityFactoryAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EntityFactoryAware: ...</code></pre>
+<p>Structural supertype for an entity factory-aware object.</p>
+<p>These components will be able to construct library entities.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L168-L185" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EntityFactoryAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an entity factory-aware object.
+
+    These components will be able to construct library entities.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def entity_factory(self) -&gt; entity_factory_.EntityFactory:
+        &#34;&#34;&#34;Return the entity factory implementation for this object.
+
+        Returns
+        -------
+        hikari.api.entity_factory.EntityFactory
+            The entity factory component.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="#hikari.traits.EntityFactoryAware"
+class='dotted'>EntityFactoryAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory" id="hikari.traits.EntityFactoryAware.entity_factory" class='dotted'>entity_factory</a> : <a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>entity_factory_.EntityFactory</a></code></pre>
+</dt>
+<dd><p>Return the entity factory implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>EntityFactory</a></code></dt>
+<dd>The entity factory component.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactoryAware -- Structural supertype for an event factory-aware object …" href="#hikari.traits.EventFactoryAware"
+class='dotted'>EventFactoryAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.EventFactoryAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EventFactoryAware: ...</code></pre>
+<p>Structural supertype for an event factory-aware object.</p>
+<p>These components are able to construct library events.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L216-L233" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EventFactoryAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an event factory-aware object.
+
+    These components are able to construct library events.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def event_factory(self) -&gt; event_factory_.EventFactory:
+        &#34;&#34;&#34;Return the event factory component.
+
+        Returns
+        -------
+        hikari.api.event_factory.EventFactory
+            The event factory component.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="impl/bot.html#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><p>Implementation of an auto-sharded single-instance bot application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></dt>
+<dd class="nested"><p>Structural supertype for a component that is aware of all internals.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EventFactoryAware -- Structural supertype for an event factory-aware object …" href="#hikari.traits.EventFactoryAware"
+class='dotted'>EventFactoryAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="event_factory -- Return the event factory component …" href="#hikari.traits.EventFactoryAware.event_factory" id="hikari.traits.EventFactoryAware.event_factory" class='dotted'>event_factory</a> : <a href='api/event_factory.html#hikari.api.event_factory.EventFactory'>event_factory_.EventFactory</a></code></pre>
+</dt>
+<dd><p>Return the event factory component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/event_factory.html#hikari.api.event_factory.EventFactory'>EventFactory</a></code></dt>
+<dd>The event factory component.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.ExecutorAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ExecutorAware: ...</code></pre>
+<p>Structural supertype for an executor-aware object.</p>
+<p>These components will contain an <code>executor</code> attribute that may return
+a <code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the
+default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool for the event loop is used.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L189-L212" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ExecutorAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for an executor-aware object.
+
+    These components will contain an `executor` attribute that may return
+    a `concurrent.futures.Executor` or `builtins.None` if the
+    default `asyncio` thread pool for the event loop is used.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def executor(self) -&gt; typing.Optional[concurrent.futures.Executor]:
+        &#34;&#34;&#34;Return the executor to use for blocking operations.
+
+        This may return `builtins.None` if the default `asyncio` thread pool
+        should be used instead.
+
+        Returns
+        -------
+        concurrent.futures.Executor or builtins.None
+            The executor to use, or `builtins.None` to use the `asyncio` default
+            instead.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="RESTApp -- The base for a HTTP-only Discord application …" href="impl/rest.html#hikari.impl.rest.RESTApp"
+class='dotted'>RESTApp</a></dt>
+<dd class="nested"><p>The base for a HTTP-only Discord application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor" id="hikari.traits.ExecutorAware.executor" class='dotted'>executor</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>]</code></pre>
+</dt>
+<dd><p>Return the executor to use for blocking operations.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool
+should be used instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The executor to use, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> to use the <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> default
+instead.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.NetworkSettingsAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> NetworkSettingsAware: ...</code></pre>
+<p>Structural supertype for any component aware of network settings.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L96-L121" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class NetworkSettingsAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for any component aware of network settings.&#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def http_settings(self) -&gt; config.HTTPSettings:
+        &#34;&#34;&#34;Return the HTTP settings in use by this component.
+
+        Returns
+        -------
+        hikari.config.HTTPSettings
+            The HTTP settings in use.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def proxy_settings(self) -&gt; config.ProxySettings:
+        &#34;&#34;&#34;Return the proxy settings in use by this component.
+
+        Returns
+        -------
+        hikari.config.ProxySettings
+            The proxy settings in use.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="RESTClient -- Interface for functionality that a REST API implementation provides." href="api/rest.html#hikari.api.rest.RESTClient"
+class='dotted'>RESTClient</a></dt>
+<dd class="nested"><p>Interface for functionality that a REST API implementation provides.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><p>Structural supertype for a REST-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings" id="hikari.traits.NetworkSettingsAware.http_settings" class='dotted'>http_settings</a> : <a href='config.html#hikari.config.HTTPSettings'>config.HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings" id="hikari.traits.NetworkSettingsAware.proxy_settings" class='dotted'>proxy_settings</a> : <a href='config.html#hikari.config.ProxySettings'>config.ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in use.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.RESTAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> RESTAware: ...</code></pre>
+<p>Structural supertype for a REST-aware object.</p>
+<p>These are able to perform REST API calls.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L259-L276" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class RESTAware(EntityFactoryAware, NetworkSettingsAware, ExecutorAware, CacheAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a REST-aware object.
+
+    These are able to perform REST API calls.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def rest(self) -&gt; rest_.RESTClient:
+        &#34;&#34;&#34;Return the REST client to use for HTTP requests.
+
+        Returns
+        -------
+        hikari.api.rest.RESTClient
+            The REST client to use.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="impl/bot.html#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><p>Implementation of an auto-sharded single-instance bot application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></dt>
+<dd class="nested"><p>Structural supertype for a component that is aware of all internals.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="RESTAware -- Structural supertype for a REST-aware object …" href="#hikari.traits.RESTAware"
+class='dotted'>RESTAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="EntityFactoryAware -- Structural supertype for an entity factory-aware object …" href="#hikari.traits.EntityFactoryAware"
+class='dotted'>EntityFactoryAware</a></dt>
+<dd class="nested"><p>Structural supertype for an entity factory-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></dt>
+<dd class="nested"><p>Structural supertype for any component aware of network settings.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></dt>
+<dd class="nested"><p>Structural supertype for an executor-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></dt>
+<dd class="nested"><p>Structural supertype for a cache-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache" id="hikari.traits.RESTAware.cache" class='dotted'>cache</a> : <a href='api/cache.html#hikari.api.cache.Cache'>cache_.Cache</a></code></pre>
+</dt>
+<dd><p>Return the immutable cache implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/cache.html#hikari.api.cache.Cache'>Cache</a></code></dt>
+<dd>The cache component for this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="entity_factory -- Return the entity factory implementation for this object …" href="#hikari.traits.EntityFactoryAware.entity_factory" id="hikari.traits.RESTAware.entity_factory" class='dotted'>entity_factory</a> : <a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>entity_factory_.EntityFactory</a></code></pre>
+</dt>
+<dd><p>Return the entity factory implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/entity_factory.html#hikari.api.entity_factory.EntityFactory'>EntityFactory</a></code></dt>
+<dd>The entity factory component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor" id="hikari.traits.RESTAware.executor" class='dotted'>executor</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>]</code></pre>
+</dt>
+<dd><p>Return the executor to use for blocking operations.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool
+should be used instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The executor to use, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> to use the <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> default
+instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings" id="hikari.traits.RESTAware.http_settings" class='dotted'>http_settings</a> : <a href='config.html#hikari.config.HTTPSettings'>config.HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings" id="hikari.traits.RESTAware.proxy_settings" class='dotted'>proxy_settings</a> : <a href='config.html#hikari.config.ProxySettings'>config.ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="rest -- Return the REST client to use for HTTP requests …" href="#hikari.traits.RESTAware.rest" id="hikari.traits.RESTAware.rest" class='dotted'>rest</a> : <a href='api/rest.html#hikari.api.rest.RESTClient'>rest_.RESTClient</a></code></pre>
+</dt>
+<dd><p>Return the REST client to use for HTTP requests.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/rest.html#hikari.api.rest.RESTClient'>RESTClient</a></code></dt>
+<dd>The REST client to use.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.ShardAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ShardAware: ...</code></pre>
+<p>Structural supertype for a shard-aware object.</p>
+<p>These will expose a mapping of shards, the intents in use
+and the bot user object.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L302-L396" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ShardAware(NetworkSettingsAware, ExecutorAware, CacheAware, ChunkerAware, VoiceAware, typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a shard-aware object.
+
+    These will expose a mapping of shards, the intents in use
+    and the bot user object.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def heartbeat_latencies(self) -&gt; typing.Mapping[int, float]:
+        &#34;&#34;&#34;Return a mapping of shard ID to heartbeat latency.
+
+        Any shards that are not yet started will be `float(&#39;nan&#39;)`.
+
+        Returns
+        -------
+        typing.Mapping[builtins.int, builtins.float]
+            Each shard ID mapped to the corresponding heartbeat latency in
+            seconds.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def heartbeat_latency(self) -&gt; float:
+        &#34;&#34;&#34;Return the average heartbeat latency of all started shards.
+
+        If no shards are started, this will return `float(&#39;nan&#39;)`.
+
+        Returns
+        -------
+        builtins.float
+            The average heartbeat latency of all started shards, or
+            `float(&#39;nan&#39;)` if no shards are started.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def intents(self) -&gt; typing.Optional[intents_.Intents]:
+        &#34;&#34;&#34;Return the intents registered for the application.
+
+        If no intents are in use, `builtins.None` is returned instead.
+
+        Returns
+        -------
+        hikari.models.intents.Intent or builtins.None
+            The intents registered on this application.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def me(self) -&gt; typing.Optional[users.OwnUser]:
+        &#34;&#34;&#34;Return the bot user, if known.
+
+        This should be available as soon as the bot has fired the
+        `hikari.events.lifetime_events.StartingEvent`.
+
+        Until then, this may or may not be `builtins.None`.
+
+        Returns
+        -------
+        hikari.models.users.OwnUser or builtins.None
+            The bot user, if known, otherwise `builtins.None`.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def shards(self) -&gt; typing.Mapping[int, gateway_shard.GatewayShard]:
+        &#34;&#34;&#34;Return a mapping of shards in this application instance.
+
+        Each shard ID is mapped to the corresponding shard instance.
+
+        If the application has not started, it is acceptable to assume the
+        result of this call will be an empty mapping.
+
+        Returns
+        -------
+        typing.Mapping[int, hikari.api.shard.GatewayShard]
+            The shard mapping.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+
+    @property
+    def shard_count(self) -&gt; int:
+        &#34;&#34;&#34;Return the number of shards in the total application.
+
+        This may not be the same as the size of `shards`. If the application
+        is auto-sharded, this may be `0` until the shards are started.
+
+        Returns
+        -------
+        builtins.int
+            The number of shards in the total application.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type.'>class</abbr></em></small> <a title="BotApp -- Implementation of an auto-sharded single-instance bot application …" href="impl/bot.html#hikari.impl.bot.BotApp"
+class='dotted'>BotApp</a></dt>
+<dd class="nested"><p>Implementation of an auto-sharded single-instance bot application …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="BotAware -- Structural supertype for a component that is aware of all internals." href="#hikari.traits.BotAware"
+class='dotted'>BotAware</a></dt>
+<dd class="nested"><p>Structural supertype for a component that is aware of all internals.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="NetworkSettingsAware -- Structural supertype for any component aware of network settings." href="#hikari.traits.NetworkSettingsAware"
+class='dotted'>NetworkSettingsAware</a></dt>
+<dd class="nested"><p>Structural supertype for any component aware of network settings.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ExecutorAware -- Structural supertype for an executor-aware object …" href="#hikari.traits.ExecutorAware"
+class='dotted'>ExecutorAware</a></dt>
+<dd class="nested"><p>Structural supertype for an executor-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="CacheAware -- Structural supertype for a cache-aware object …" href="#hikari.traits.CacheAware"
+class='dotted'>CacheAware</a></dt>
+<dd class="nested"><p>Structural supertype for a cache-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ChunkerAware -- Structural supertype for a guild chunker-aware object …" href="#hikari.traits.ChunkerAware"
+class='dotted'>ChunkerAware</a></dt>
+<dd class="nested"><p>Structural supertype for a guild chunker-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="#hikari.traits.VoiceAware"
+class='dotted'>VoiceAware</a></dt>
+<dd class="nested"><p>Structural supertype for a voice-aware object …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="cache -- Return the immutable cache implementation for this object …" href="#hikari.traits.CacheAware.cache" id="hikari.traits.ShardAware.cache" class='dotted'>cache</a> : <a href='api/cache.html#hikari.api.cache.Cache'>cache_.Cache</a></code></pre>
+</dt>
+<dd><p>Return the immutable cache implementation for this object.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/cache.html#hikari.api.cache.Cache'>Cache</a></code></dt>
+<dd>The cache component for this object.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="chunker -- Return the guild chunker component …" href="#hikari.traits.ChunkerAware.chunker" id="hikari.traits.ShardAware.chunker" class='dotted'>chunker</a> : <a href='api/chunker.html#hikari.api.chunker.GuildChunker'>chunker_.GuildChunker</a></code></pre>
+</dt>
+<dd><p>Return the guild chunker component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/chunker.html#hikari.api.chunker.GuildChunker'>GuildChunker</a></code></dt>
+<dd>The guild chunker component.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="executor -- Return the executor to use for blocking operations …" href="#hikari.traits.ExecutorAware.executor" id="hikari.traits.ShardAware.executor" class='dotted'>executor</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a>]</code></pre>
+</dt>
+<dd><p>Return the executor to use for blocking operations.</p>
+<p>This may return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the default <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> thread pool
+should be used instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.Executor'>concurrent.futures.Executor</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The executor to use, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> to use the <code><a href='https://docs.aiohttp.org/en/stable/glossary.html#term-asyncio'>asyncio</a></code> default
+instead.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latencies -- Return a mapping of shard ID to heartbeat latency …" href="#hikari.traits.ShardAware.heartbeat_latencies" id="hikari.traits.ShardAware.heartbeat_latencies" class='dotted'>heartbeat_latencies</a> : Mapping[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shard ID to heartbeat latency.</p>
+<p>Any shards that are not yet started will be <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='https://docs.python.org/3/library/functions.html#float'>float</a>]</code></dt>
+<dd>Each shard ID mapped to the corresponding heartbeat latency in
+seconds.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="heartbeat_latency -- Return the average heartbeat latency of all started shards …" href="#hikari.traits.ShardAware.heartbeat_latency" id="hikari.traits.ShardAware.heartbeat_latency" class='dotted'>heartbeat_latency</a> : <a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></pre>
+</dt>
+<dd><p>Return the average heartbeat latency of all started shards.</p>
+<p>If no shards are started, this will return <code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#float'>float</a></code></dt>
+<dd>The average heartbeat latency of all started shards, or
+<code><a href='https://docs.python.org/3/library/functions.html#float'>float</a>('<a href='https://docs.python.org/3/library/functions.html#grammar-token-nan'>nan</a>')</code> if no shards are started.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="http_settings -- Return the HTTP settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.http_settings" id="hikari.traits.ShardAware.http_settings" class='dotted'>http_settings</a> : <a href='config.html#hikari.config.HTTPSettings'>config.HTTPSettings</a></code></pre>
+</dt>
+<dd><p>Return the HTTP settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.HTTPSettings'>HTTPSettings</a></code></dt>
+<dd>The HTTP settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="intents -- Return the intents registered for the application …" href="#hikari.traits.ShardAware.intents" id="hikari.traits.ShardAware.intents" class='dotted'>intents</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='models/intents.html#hikari.models.intents.Intents'>intents_.Intents</a>]</code></pre>
+</dt>
+<dd><p>Return the intents registered for the application.</p>
+<p>If no intents are in use, <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> is returned instead.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='models/intents.html'>hikari.models.intents.Intent</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The intents registered on this application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="me -- Return the bot user, if known …" href="#hikari.traits.ShardAware.me" id="hikari.traits.ShardAware.me" class='dotted'>me</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='models/users.html#hikari.models.users.OwnUser'>users.OwnUser</a>]</code></pre>
+</dt>
+<dd><p>Return the bot user, if known.</p>
+<p>This should be available as soon as the bot has fired the
+<code><a href='events/lifetime_events.html#hikari.events.lifetime_events.StartingEvent'>StartingEvent</a></code>.</p>
+<p>Until then, this may or may not be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='models/users.html#hikari.models.users.OwnUser'>OwnUser</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The bot user, if known, otherwise <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="proxy_settings -- Return the proxy settings in use by this component …" href="#hikari.traits.NetworkSettingsAware.proxy_settings" id="hikari.traits.ShardAware.proxy_settings" class='dotted'>proxy_settings</a> : <a href='config.html#hikari.config.ProxySettings'>config.ProxySettings</a></code></pre>
+</dt>
+<dd><p>Return the proxy settings in use by this component.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='config.html#hikari.config.ProxySettings'>ProxySettings</a></code></dt>
+<dd>The proxy settings in use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard_count -- Return the number of shards in the total application …" href="#hikari.traits.ShardAware.shard_count" id="hikari.traits.ShardAware.shard_count" class='dotted'>shard_count</a> : <a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></pre>
+</dt>
+<dd><p>Return the number of shards in the total application.</p>
+<p>This may not be the same as the size of <code>shards</code>. If the application
+is auto-sharded, this may be <code>0</code> until the shards are started.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The number of shards in the total application.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shards -- Return a mapping of shards in this application instance …" href="#hikari.traits.ShardAware.shards" id="hikari.traits.ShardAware.shards" class='dotted'>shards</a> : <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>]</code></pre>
+</dt>
+<dd><p>Return a mapping of shards in this application instance.</p>
+<p>Each shard ID is mapped to the corresponding shard instance.</p>
+<p>If the application has not started, it is acceptable to assume the
+result of this call will be an empty mapping.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/functions.html#int'>int</a>, <a href='api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a>]</code></dt>
+<dd>The shard mapping.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice" id="hikari.traits.ShardAware.voice" class='dotted'>voice</a> : <a href='api/voice.html#hikari.api.voice.VoiceComponent'>voice_.VoiceComponent</a></code></pre>
+</dt>
+<dd><p>Return the voice connection manager component for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/voice.html#hikari.api.voice.VoiceComponent'>VoiceComponent</a></code></dt>
+<dd>The voice component for the application.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="#hikari.traits.VoiceAware"
+class='dotted'>VoiceAware</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.traits.VoiceAware" class="hljs python"><abbr title='A standard Python type.'>class</abbr> VoiceAware: ...</code></pre>
+<p>Structural supertype for a voice-aware object.</p>
+<p>This is an object that provides a <code>voice</code> property to allow the creation
+of custom voice client instances.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/traits.py#L280-L298" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class VoiceAware(typing.Protocol):
+    &#34;&#34;&#34;Structural supertype for a voice-aware object.
+
+    This is an object that provides a `voice` property to allow the creation
+    of custom voice client instances.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    def voice(self) -&gt; voice_.VoiceComponent:
+        &#34;&#34;&#34;Return the voice connection manager component for this application.
+
+        Returns
+        -------
+        hikari.api.voice.VoiceComponent
+            The voice component for the application.
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="ShardAware -- Structural supertype for a shard-aware object …" href="#hikari.traits.ShardAware"
+class='dotted'>ShardAware</a></dt>
+<dd class="nested"><p>Structural supertype for a shard-aware object …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A structural supertype (similar to an ABC, but with implicit inheritance)'>trait</abbr></em></small> <a title="VoiceAware -- Structural supertype for a voice-aware object …" href="#hikari.traits.VoiceAware"
+class='dotted'>VoiceAware</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Protocol -- Base class for protocol classes …" href="https://docs.python.org/3/library/typing.html#typing.Protocol"
+class='dotted'>Protocol</a></dt>
+<dd class="nested"><p>Base class for protocol classes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="typing.Generic -- Abstract base class for generic types …" href="https://docs.python.org/3/library/typing.html#typing.Generic"
+class='dotted'>Generic</a></dt>
+<dd class="nested"><p>Abstract base class for generic types …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice -- Return the voice connection manager component for this application …" href="#hikari.traits.VoiceAware.voice" id="hikari.traits.VoiceAware.voice" class='dotted'>voice</a> : <a href='api/voice.html#hikari.api.voice.VoiceComponent'>voice_.VoiceComponent</a></code></pre>
+</dt>
+<dd><p>Return the voice connection manager component for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='api/voice.html#hikari.api.voice.VoiceComponent'>VoiceComponent</a></code></dt>
+<dd>The voice component for the application.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

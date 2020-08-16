@@ -1,0 +1,718 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.utilities.flag API documentation</title>
+<meta name="description" content="Stuff to make working with enum flags a bit easier." />
+<meta property="og:title" content="hikari.utilities.flag module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.utilities.flag">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.utilities -- Package containing internal utilities used within this API." href="index.html"
+class='dotted'>utilities</a></li>
+<li class="breadcrumb-item active"><a href="#">flag</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Stuff to make working with enum flags a bit easier.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="#hikari.utilities.flag.Flag"
+class='sidebar-nav-pill'>Flag</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/flag.py#L0-L168" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Stuff to make working with enum flags a bit easier.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.List[str] = [&#34;Flag&#34;]
+
+import enum
+import inspect
+import math
+import typing
+
+FlagT = typing.TypeVar(&#34;FlagT&#34;, bound=&#34;Flag&#34;)
+
+
+class Flag(enum.IntFlag):
+    &#34;&#34;&#34;Base type for an enum integer flag in Hikari.
+
+    Provides a consistent way of producing human-readable strings, extra
+    inspection utilities, and injects some boilerplate documentation. This
+    should make the concept of using flags a little less daunting to those
+    who are not yet used to the idea.
+
+    Example
+    -------
+
+    ```py
+    &gt;&gt;&gt; class Permission(Flag):
+    ...     CREATE = enum.auto()
+    ...     READ = enum.auto()
+    ...     UPDATE = enum.auto()
+    ...     DELETE = enum.auto()
+
+    &gt;&gt;&gt; perms = Permissions.CREATE | Permissions.READ
+    &gt;&gt;&gt; print(perms.split())
+    [Permissions.CREATE, Permissions.READ]
+    ```
+
+    This also provides two operators for clearer semantics of combining and
+    removing flag members.
+
+    ```py
+    perms = Permissions.CREATE + Permissions.READ
+    assert perms  == Permissions.CREATE | Permissions.READ
+
+    perms -= Permissions.CREATE
+    assert perms == Permissions.READ
+    ```
+
+    Members will be iterable if you wish to inspect each individual flag.
+
+    ```py
+    for p in Permissions.CREATE + Permissions.READ:
+        print(p)
+    ```
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    def __init_subclass__(cls, **kwargs: typing.Any) -&gt; None:
+        doc = inspect.getdoc(cls) or &#34;&#34;
+
+        doc += &#34;\n&#34;.join(
+            (
+                &#34;&#34;,
+                &#34;&#34;,
+                &#34;This flag type has several additional operations that can be used&#34;,
+                &#34;compared to normal enum types. These are applied to instances of&#34;,
+                &#34;this enum directly, or can be used as a class method by passing the&#34;,
+                &#34;flag as the first parameter.&#34;,
+                &#34;&#34;,
+                f&#34; - `def split() -&gt; typing.Sequence[{cls.__name__}]: ...`&lt;br/&gt;&#34;,
+                &#34;   Will split the combined flag up into individual atomic flags and&#34;,
+                &#34;   return them in a `typing.Sequence`.&#34;,
+                &#34;```py&#34;,
+                &#34;&gt;&gt;&gt; (FOO | BAR | BAZ).split()&#34;,
+                &#34;[FOO, BAR, BAZ]&#34;,
+                &#34;```&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_any(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if any of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_all(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if all of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_none(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if none of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                &#34;In addition, new operators are overloaded. `+` will combine flags&#34;,
+                &#34;in the same way `|` would usually, and `-` will remove specific &#34;,
+                &#34;flags from this instance. This is equivalent to using the `&amp;` &#34; &#34;operator.&#34;,
+                &#34;&#34;,
+                &#34;Finally, combined flag types can be iterated across as if they&#34;,
+                &#34;were a collection.&#34;,
+                &#34;```py&#34;,
+                &#34;&gt;&gt;&gt; for f in FOO | BAR | BAZ:&#34;,
+                &#34;...     print(f)&#34;,
+                &#34;FOO&#34;,
+                &#34;BAR&#34;,
+                &#34;BAZ&#34;,
+                &#34;```&#34;,
+            )
+        )
+        cls.__doc__ = doc
+
+    def split(self: FlagT) -&gt; typing.Sequence[FlagT]:
+        &#34;&#34;&#34;Return a list of all atomic values for this flag.&#34;&#34;&#34;
+        members: typing.List[FlagT] = []
+
+        for member in type(self).__members__.values():
+            # Don&#39;t show `NONE` values, it breaks stuff and makes no sense here.
+            if not member.value:
+                continue
+
+            # If it is not a combined value, and it is contained in the bitfield:
+            if math.log2(member.value).is_integer() and member &amp; self:
+                members.append(member)
+
+        return sorted(members, key=lambda m: m.name)
+
+    def has_any(self, *flags: FlagT) -&gt; bool:
+        return any((flag &amp; self) == flag for flag in flags)
+
+    def has_all(self, *flags: FlagT) -&gt; bool:
+        return all((flag &amp; self) == flag for flag in flags)
+
+    def has_none(self, *flags: FlagT) -&gt; bool:
+        return not self.has_any(*flags)
+
+    def __add__(self: FlagT, other: typing.Union[int, FlagT]) -&gt; FlagT:
+        return type(self)(self | other)
+
+    __radd__ = __add__
+
+    def __sub__(self: FlagT, other: typing.Union[int, FlagT]) -&gt; FlagT:
+        return type(self)(self &amp; ~other)
+
+    def __str__(self) -&gt; str:
+        if hasattr(self, &#34;name&#34;) and self.name is not None:
+            return self.name
+        return &#34; | &#34;.join(m.name for m in self.split())
+
+    def __iter__(self: FlagT) -&gt; typing.Iterator[FlagT]:
+        return iter(self.split())</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.utilities.flag.Flag" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Flag (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Base type for an enum integer flag in Hikari.</p>
+<p>Provides a consistent way of producing human-readable strings, extra
+inspection utilities, and injects some boilerplate documentation. This
+should make the concept of using flags a little less daunting to those
+who are not yet used to the idea.</p>
+<h2 id="example">Example</h2>
+<pre><code class="py">&gt;&gt;&gt; class Permission(Flag):
+...     CREATE = enum.auto()
+...     READ = enum.auto()
+...     UPDATE = enum.auto()
+...     DELETE = enum.auto()
+
+&gt;&gt;&gt; perms = Permissions.CREATE | Permissions.READ
+&gt;&gt;&gt; print(perms.split())
+[Permissions.CREATE, Permissions.READ]
+</code></pre>
+<p>This also provides two operators for clearer semantics of combining and
+removing flag members.</p>
+<pre><code class="py">perms = Permissions.CREATE + Permissions.READ
+assert perms  == Permissions.CREATE | Permissions.READ
+
+perms -= Permissions.CREATE
+assert perms == Permissions.READ
+</code></pre>
+<p>Members will be iterable if you wish to inspect each individual flag.</p>
+<pre><code class="py">for p in Permissions.CREATE + Permissions.READ:
+    print(p)
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/flag.py#L35-L169" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Flag(enum.IntFlag):
+    &#34;&#34;&#34;Base type for an enum integer flag in Hikari.
+
+    Provides a consistent way of producing human-readable strings, extra
+    inspection utilities, and injects some boilerplate documentation. This
+    should make the concept of using flags a little less daunting to those
+    who are not yet used to the idea.
+
+    Example
+    -------
+
+    ```py
+    &gt;&gt;&gt; class Permission(Flag):
+    ...     CREATE = enum.auto()
+    ...     READ = enum.auto()
+    ...     UPDATE = enum.auto()
+    ...     DELETE = enum.auto()
+
+    &gt;&gt;&gt; perms = Permissions.CREATE | Permissions.READ
+    &gt;&gt;&gt; print(perms.split())
+    [Permissions.CREATE, Permissions.READ]
+    ```
+
+    This also provides two operators for clearer semantics of combining and
+    removing flag members.
+
+    ```py
+    perms = Permissions.CREATE + Permissions.READ
+    assert perms  == Permissions.CREATE | Permissions.READ
+
+    perms -= Permissions.CREATE
+    assert perms == Permissions.READ
+    ```
+
+    Members will be iterable if you wish to inspect each individual flag.
+
+    ```py
+    for p in Permissions.CREATE + Permissions.READ:
+        print(p)
+    ```
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = ()
+
+    def __init_subclass__(cls, **kwargs: typing.Any) -&gt; None:
+        doc = inspect.getdoc(cls) or &#34;&#34;
+
+        doc += &#34;\n&#34;.join(
+            (
+                &#34;&#34;,
+                &#34;&#34;,
+                &#34;This flag type has several additional operations that can be used&#34;,
+                &#34;compared to normal enum types. These are applied to instances of&#34;,
+                &#34;this enum directly, or can be used as a class method by passing the&#34;,
+                &#34;flag as the first parameter.&#34;,
+                &#34;&#34;,
+                f&#34; - `def split() -&gt; typing.Sequence[{cls.__name__}]: ...`&lt;br/&gt;&#34;,
+                &#34;   Will split the combined flag up into individual atomic flags and&#34;,
+                &#34;   return them in a `typing.Sequence`.&#34;,
+                &#34;```py&#34;,
+                &#34;&gt;&gt;&gt; (FOO | BAR | BAZ).split()&#34;,
+                &#34;[FOO, BAR, BAZ]&#34;,
+                &#34;```&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_any(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if any of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_all(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if all of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                f&#34; - `def has_none(*flags: {cls.__name__}) -&gt; bool: ...`&lt;br/&gt;&#34;,
+                &#34;   Returns `builtins.True` if none of the given flags are present&#34;,
+                &#34;   in the combined flag this is applied to. Otherwise, returns&#34;,
+                &#34;   `builtins.False` instead.&#34;,
+                &#34;&#34;,
+                &#34;In addition, new operators are overloaded. `+` will combine flags&#34;,
+                &#34;in the same way `|` would usually, and `-` will remove specific &#34;,
+                &#34;flags from this instance. This is equivalent to using the `&amp;` &#34; &#34;operator.&#34;,
+                &#34;&#34;,
+                &#34;Finally, combined flag types can be iterated across as if they&#34;,
+                &#34;were a collection.&#34;,
+                &#34;```py&#34;,
+                &#34;&gt;&gt;&gt; for f in FOO | BAR | BAZ:&#34;,
+                &#34;...     print(f)&#34;,
+                &#34;FOO&#34;,
+                &#34;BAR&#34;,
+                &#34;BAZ&#34;,
+                &#34;```&#34;,
+            )
+        )
+        cls.__doc__ = doc
+
+    def split(self: FlagT) -&gt; typing.Sequence[FlagT]:
+        &#34;&#34;&#34;Return a list of all atomic values for this flag.&#34;&#34;&#34;
+        members: typing.List[FlagT] = []
+
+        for member in type(self).__members__.values():
+            # Don&#39;t show `NONE` values, it breaks stuff and makes no sense here.
+            if not member.value:
+                continue
+
+            # If it is not a combined value, and it is contained in the bitfield:
+            if math.log2(member.value).is_integer() and member &amp; self:
+                members.append(member)
+
+        return sorted(members, key=lambda m: m.name)
+
+    def has_any(self, *flags: FlagT) -&gt; bool:
+        return any((flag &amp; self) == flag for flag in flags)
+
+    def has_all(self, *flags: FlagT) -&gt; bool:
+        return all((flag &amp; self) == flag for flag in flags)
+
+    def has_none(self, *flags: FlagT) -&gt; bool:
+        return not self.has_any(*flags)
+
+    def __add__(self: FlagT, other: typing.Union[int, FlagT]) -&gt; FlagT:
+        return type(self)(self | other)
+
+    __radd__ = __add__
+
+    def __sub__(self: FlagT, other: typing.Union[int, FlagT]) -&gt; FlagT:
+        return type(self)(self &amp; ~other)
+
+    def __str__(self) -&gt; str:
+        if hasattr(self, &#34;name&#34;) and self.name is not None:
+            return self.name
+        return &#34; | &#34;.join(m.name for m in self.split())
+
+    def __iter__(self: FlagT) -&gt; typing.Iterator[FlagT]:
+        return iter(self.split())</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="GuildSystemChannelFlag -- Defines which features are suppressed in the system channel …" href="../models/guilds.html#hikari.models.guilds.GuildSystemChannelFlag"
+class='dotted'>GuildSystemChannelFlag</a></dt>
+<dd class="nested"><p>Defines which features are suppressed in the system channel …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Intents -- Represents an intent on the gateway …" href="../models/intents.html#hikari.models.intents.Intents"
+class='dotted'>Intents</a></dt>
+<dd class="nested"><p>Represents an intent on the gateway …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="MessageFlag -- Additional flags for message options …" href="../models/messages.html#hikari.models.messages.MessageFlag"
+class='dotted'>MessageFlag</a></dt>
+<dd class="nested"><p>Additional flags for message options …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Permissions -- Represents the permissions available in a given channel or guild …" href="../models/permissions.html#hikari.models.permissions.Permissions"
+class='dotted'>Permissions</a></dt>
+<dd class="nested"><p>Represents the permissions available in a given channel or guild …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="ActivityFlag -- Flags that describe what an activity includes …" href="../models/presences.html#hikari.models.presences.ActivityFlag"
+class='dotted'>ActivityFlag</a></dt>
+<dd class="nested"><p>Flags that describe what an activity includes …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="UserFlag -- The known user flags that represent account badges …" href="../models/users.html#hikari.models.users.UserFlag"
+class='dotted'>UserFlag</a></dt>
+<dd class="nested"><p>The known user flags that represent account badges …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntFlag -- Support for integer-based Flags" href="https://docs.python.org/3/library/enum.html#enum.IntFlag"
+class='dotted'>enum.IntFlag</a></dt>
+<dd class="nested"><p>Support for integer-based Flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Flag -- Support for flags" href="https://docs.python.org/3/library/enum.html#enum.Flag"
+class='dotted'>enum.Flag</a></dt>
+<dd class="nested"><p>Support for flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,2712 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.events.guild_events API documentation</title>
+<meta name="description" content="Events that fire when something occurs within a guild." />
+<meta property="og:title" content="hikari.events.guild_events module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.events.guild_events">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.events -- Events that can be fired by Hikari's gateway implementation." href="index.html"
+class='dotted'>events</a></li>
+<li class="breadcrumb-item active"><a href="#">guild_events</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Events that fire when something occurs within a guild.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="#hikari.events.guild_events.BanCreateEvent"
+class='sidebar-nav-pill'>BanCreateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.BanCreateEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.BanCreateEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.BanCreateEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanCreateEvent.user"
+class='sidebar-nav-pill'>user</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="#hikari.events.guild_events.BanDeleteEvent"
+class='sidebar-nav-pill'>BanDeleteEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.BanDeleteEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.BanDeleteEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.BanDeleteEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanDeleteEvent.user"
+class='sidebar-nav-pill'>user</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="#hikari.events.guild_events.BanEvent"
+class='sidebar-nav-pill'>BanEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanEvent.user"
+class='sidebar-nav-pill'>user</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="#hikari.events.guild_events.EmojisUpdateEvent"
+class='sidebar-nav-pill'>EmojisUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.EmojisUpdateEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Sequence of all emojis in this guild …" href="#hikari.events.guild_events.EmojisUpdateEvent.emojis"
+class='sidebar-nav-pill'>emojis</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.EmojisUpdateEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.EmojisUpdateEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="#hikari.events.guild_events.GuildAvailableEvent"
+class='sidebar-nav-pill'>GuildAvailableEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildAvailableEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channels -- Mapping of channel IDs to the channels in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.channels"
+class='sidebar-nav-pill'>channels</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Mapping of emoji IDs to the emojis in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.emojis"
+class='sidebar-nav-pill'>emojis</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- Guild that just became available …" href="#hikari.events.guild_events.GuildAvailableEvent.guild"
+class='sidebar-nav-pill'>guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildAvailableEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members -- Mapping of user IDs to the members in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.members"
+class='sidebar-nav-pill'>members</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presences -- Mapping of user IDs to the include_presences for the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.presences"
+class='sidebar-nav-pill'>presences</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="roles -- Mapping of role IDs to the roles in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.roles"
+class='sidebar-nav-pill'>roles</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildAvailableEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice_states -- Mapping of user IDs to the voice states active in this guild …" href="#hikari.events.guild_events.GuildAvailableEvent.voice_states"
+class='sidebar-nav-pill'>voice_states</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="#hikari.events.guild_events.GuildLeaveEvent"
+class='sidebar-nav-pill'>GuildLeaveEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildLeaveEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildLeaveEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildLeaveEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="#hikari.events.guild_events.GuildUnavailableEvent"
+class='sidebar-nav-pill'>GuildUnavailableEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildUnavailableEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildUnavailableEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildUnavailableEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="#hikari.events.guild_events.GuildUpdateEvent"
+class='sidebar-nav-pill'>GuildUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildUpdateEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Mapping of emoji IDs to the emojis in the guild …" href="#hikari.events.guild_events.GuildUpdateEvent.emojis"
+class='sidebar-nav-pill'>emojis</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- Guild that was just updated …" href="#hikari.events.guild_events.GuildUpdateEvent.guild"
+class='sidebar-nav-pill'>guild</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildUpdateEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="roles -- Mapping of role IDs to the roles in the guild …" href="#hikari.events.guild_events.GuildUpdateEvent.roles"
+class='sidebar-nav-pill'>roles</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildUpdateEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='sidebar-nav-pill'>GuildVisibilityEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='sidebar-nav-pill'>IntegrationsUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="#hikari.events.guild_events.MemberChunkEvent"
+class='sidebar-nav-pill'>MemberChunkEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.MemberChunkEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- Total number of expected chunks for the request this is associated with …" href="#hikari.events.guild_events.MemberChunkEvent.count"
+class='sidebar-nav-pill'>count</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- Return an attribute of instance, which is of type owner." href="#hikari.events.guild_events.MemberChunkEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="index -- Zero-indexed position of this within the queued up chunks for this request …" href="#hikari.events.guild_events.MemberChunkEvent.index"
+class='sidebar-nav-pill'>index</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members -- Mapping of user IDs to the objects of the members in this chunk …" href="#hikari.events.guild_events.MemberChunkEvent.members"
+class='sidebar-nav-pill'>members</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="nonce -- String nonce used to identify the request member chunks are associated with …" href="#hikari.events.guild_events.MemberChunkEvent.nonce"
+class='sidebar-nav-pill'>nonce</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="not_found -- Sequence of the snowflakes that were not found while making this request …" href="#hikari.events.guild_events.MemberChunkEvent.not_found"
+class='sidebar-nav-pill'>not_found</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presences -- Mapping of user IDs to found member presence objects …" href="#hikari.events.guild_events.MemberChunkEvent.presences"
+class='sidebar-nav-pill'>presences</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.MemberChunkEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="#hikari.events.guild_events.PresenceUpdateEvent"
+class='sidebar-nav-pill'>PresenceUpdateEvent</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.PresenceUpdateEvent.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- Guild ID that the presence was updated in …" href="#hikari.events.guild_events.PresenceUpdateEvent.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presence -- Member presence …" href="#hikari.events.guild_events.PresenceUpdateEvent.presence"
+class='sidebar-nav-pill'>presence</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.PresenceUpdateEvent.shard"
+class='sidebar-nav-pill'>shard</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that was updated …" href="#hikari.events.guild_events.PresenceUpdateEvent.user"
+class='sidebar-nav-pill'>user</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- User ID of the user that updated their presence …" href="#hikari.events.guild_events.PresenceUpdateEvent.user_id"
+class='sidebar-nav-pill'>user_id</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L0-L515" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Events that fire when something occurs within a guild.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [
+    &#34;GuildVisibilityEvent&#34;,
+    &#34;GuildAvailableEvent&#34;,
+    &#34;GuildUnavailableEvent&#34;,
+    &#34;GuildLeaveEvent&#34;,
+    &#34;GuildUpdateEvent&#34;,
+    &#34;BanEvent&#34;,
+    &#34;BanCreateEvent&#34;,
+    &#34;BanDeleteEvent&#34;,
+    &#34;EmojisUpdateEvent&#34;,
+    &#34;IntegrationsUpdateEvent&#34;,
+    &#34;PresenceUpdateEvent&#34;,
+    &#34;MemberChunkEvent&#34;,
+]
+
+import abc
+import typing
+
+import attr
+
+from hikari.events import base_events
+from hikari.events import shard_events
+from hikari.models import intents
+from hikari.utilities import attr_extensions
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.api import shard as gateway_shard
+    from hikari.models import channels as channels_
+    from hikari.models import emojis as emojis_
+    from hikari.models import guilds
+    from hikari.models import presences as presences_
+    from hikari.models import users
+    from hikari.models import voices
+    from hikari.utilities import snowflake
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(
+    intents.Intents.GUILDS, intents.Intents.GUILD_BANS, intents.Intents.GUILD_EMOJIS, intents.Intents.GUILD_PRESENCES
+)
+class GuildEvent(shard_events.ShardEvent, abc.ABC):
+    &#34;&#34;&#34;Event base for any guild-bound event.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;ID of the guild that this event relates to.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            The ID of the guild that relates to this event.
+        &#34;&#34;&#34;
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILDS)
+class GuildVisibilityEvent(GuildEvent, abc.ABC):
+    &#34;&#34;&#34;Event base for any event that changes the visibility of a guild.
+
+    This includes when a guild becomes available after an outage, when a
+    guild becomes available on startup, when a guild becomes unavailable due
+    to an outage, when the user is kicked/banned/leaves a guild, or when
+    the user joins a new guild.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILDS)
+class GuildAvailableEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when a guild becomes available.
+
+    This will occur on startup, after outages, and if the bot joins a new guild.
+
+    !!! note
+        Some fields like `members` and `include_presences` are included here but not on
+        the other `GuildUpdateEvent` and `GuildUnavailableEvent` guild visibility
+        event models.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild: guilds.GatewayGuild = attr.ib()
+    &#34;&#34;&#34;Guild that just became available.
+
+    Returns
+    -------
+    hikari.models.guilds.Guild
+        The guild that relates to this event.
+    &#34;&#34;&#34;
+
+    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of emoji IDs to the emojis in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+        The emojis in the guild.
+    &#34;&#34;&#34;
+
+    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of role IDs to the roles in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+        The roles in the guild.
+    &#34;&#34;&#34;
+
+    channels: typing.Mapping[snowflake.Snowflake, channels_.GuildChannel] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of channel IDs to the channels in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.channels.GuildChannel]
+        The channels in the guild.
+    &#34;&#34;&#34;
+
+    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the members in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
+        The members in the guild.
+    &#34;&#34;&#34;
+
+    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the include_presences for the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
+        The member include_presences in the guild.
+    &#34;&#34;&#34;
+
+    voice_states: typing.Mapping[snowflake.Snowflake, voices.VoiceState] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the voice states active in this guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.voices.VoiceState]
+        The voice states active in the guild.
+    &#34;&#34;&#34;
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+        return self.guild.id
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILDS)
+class GuildLeaveEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when the bot is banned/kicked/leaves a guild.
+
+    This will also fire if the guild was deleted.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILDS)
+class GuildUnavailableEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when a guild becomes unavailable because of an outage.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILDS)
+class GuildUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event fired when an existing guild is updated.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild: guilds.GatewayGuild = attr.ib()
+    &#34;&#34;&#34;Guild that was just updated.
+
+    Returns
+    -------
+    hikari.models.guilds.Guild
+        The guild that relates to this event.
+    &#34;&#34;&#34;
+
+    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of emoji IDs to the emojis in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+        The emojis in the guild.
+    &#34;&#34;&#34;
+
+    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of role IDs to the roles in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+        The roles in the guild.
+    &#34;&#34;&#34;
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+        return self.guild.id
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_BANS)
+class BanEvent(GuildEvent, abc.ABC):
+    &#34;&#34;&#34;Event base for any guild ban or unban.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def user(self) -&gt; users.User:
+        &#34;&#34;&#34;User that this ban event affects.
+
+        Returns
+        -------
+        hikari.models.users.User
+            The user that this event concerns.
+        &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_BANS)
+class BanCreateEvent(BanEvent):
+    &#34;&#34;&#34;Event that is fired when a user is banned from a guild.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    user: users.User = attr.ib()
+    # &lt;&lt;inherited docstring from BanEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_BANS)
+class BanDeleteEvent(BanEvent):
+    &#34;&#34;&#34;Event that is fired when a user is unbanned from a guild.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    user: users.User = attr.ib()
+    # &lt;&lt;inherited docstring from BanEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_EMOJIS)
+class EmojisUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event that is fired when the emojis in a guild are updated.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    emojis: typing.Sequence[emojis_.KnownCustomEmoji] = attr.ib()
+    &#34;&#34;&#34;Sequence of all emojis in this guild.
+
+    Returns
+    -------
+    typing.Sequence[emojis_.KnownCustomEmoji]
+        All emojis in the guild.
+    &#34;&#34;&#34;
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_EMOJIS)
+class IntegrationsUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event that is fired when the integrations in a guild are changed.
+
+    This may occur when integrations are created, updated, or deleted.
+
+    !!! note
+        This event is similar to
+        `hikari.events.channel_events.WebhookUpdateEvent` in that Discord
+        does not provide any information on what was actually changed, nor
+        how it was changed. The only way you will be able to determine this is
+        to keep a cache of this information manually up to date by fetching
+        it using REST API calls. This is a limitation of Discord&#39;s design.
+        We agree that it is not overly helpful to you.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_PRESENCES)
+class PresenceUpdateEvent(shard_events.ShardEvent):
+    &#34;&#34;&#34;Event fired when a user in a guild updates their presence in a guild.
+
+    Sent when a guild member changes their presence in a specific guild.
+
+    If the user is changed (e.g. new username), then this may fire many times
+    (once for every guild the bot is part of). This is a limitation of how
+    Discord implements their event system, unfortunately.
+
+    Furthermore, if the target user is a bot and the bot only updates their
+    presence on specific shards, this will only fire for the corresponding
+    shards that saw the presence update.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    presence: presences_.MemberPresence = attr.ib()
+    &#34;&#34;&#34;Member presence.
+
+    Returns
+    -------
+    hikari.models.include_presences.MemberPresence
+        Presence for the user in this guild.
+    &#34;&#34;&#34;
+
+    user: typing.Optional[users.PartialUser] = attr.ib()
+    &#34;&#34;&#34;User that was updated.
+
+    This is a partial user object that only contains the fields that were
+    updated on the user profile.
+
+    Will be `builtins.None` if the user itself did not change.
+    This is always the case if the user only updated their member
+    representation and did not change their user profile directly.
+
+    Returns
+    -------
+    hikari.models.users.PartialUser or builtins.None
+        The partial user containing the updated fields.
+    &#34;&#34;&#34;
+
+    @property
+    def user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;User ID of the user that updated their presence.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the user the event concerns.
+        &#34;&#34;&#34;
+        return self.presence.user_id
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Guild ID that the presence was updated in.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the guild the event occurred in.
+        &#34;&#34;&#34;
+        return self.presence.guild_id
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+class MemberChunkEvent(shard_events.ShardEvent):
+    &#34;&#34;&#34;Used to represent the response to Guild Request Members.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the objects of the members in this chunk.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
+        Mapping of user IDs to corresponding member objects.
+    &#34;&#34;&#34;
+
+    index: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Zero-indexed position of this within the queued up chunks for this request.
+
+    Returns
+    -------
+    builtins.int
+        The sequence index for this chunk.
+    &#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Total number of expected chunks for the request this is associated with.
+
+    Returns
+    -------
+    builtins.int
+        Total number of chunks to be expected.
+    &#34;&#34;&#34;
+
+    not_found: typing.Sequence[snowflake.Snowflake] = attr.ib(repr=True)
+    &#34;&#34;&#34;Sequence of the snowflakes that were not found while making this request.
+
+    This is only applicable when user IDs are specified while making the
+    member request the chunk is associated with.
+
+    Returns
+    -------
+    typing.Sequence[hikari.utilities.snowflake.Snowflake]
+        Sequence of user IDs that were not found.
+    &#34;&#34;&#34;
+
+    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to found member presence objects.
+
+    This will be empty if no include_presences are found or `include_presences` is not passed as
+    `True` while requesting the member chunks.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
+        Mapping of user IDs to corresponding include_presences.
+    &#34;&#34;&#34;
+
+    nonce: typing.Optional[str] = attr.ib(repr=True)
+    &#34;&#34;&#34;String nonce used to identify the request member chunks are associated with.
+
+    This is the nonce value passed while requesting member chunks.
+
+    Returns
+    -------
+    builtins.str or builtins.None
+        The request nonce if specified, or `builtins.None` otherwise.
+    &#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="#hikari.events.guild_events.BanCreateEvent"
+class='dotted'>BanCreateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.BanCreateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanCreateEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    user: <a href='../models/users.html#hikari.models.users.User'>users.User</a>,
+): ...</code></pre>
+<p>Event that is fired when a user is banned from a guild.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_BANS'>GUILD_BANS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L283-L295" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BanCreateEvent(BanEvent):
+    &#34;&#34;&#34;Event that is fired when a user is banned from a guild.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    user: users.User = attr.ib()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="#hikari.events.guild_events.BanCreateEvent"
+class='dotted'>BanCreateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="#hikari.events.guild_events.BanEvent"
+class='dotted'>BanEvent</a></dt>
+<dd class="nested"><p>Event base for any guild ban or unban …</p></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.BanCreateEvent.app" id="hikari.events.guild_events.BanCreateEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.BanCreateEvent.guild_id" id="hikari.events.guild_events.BanCreateEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.BanCreateEvent.shard" id="hikari.events.guild_events.BanCreateEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanCreateEvent.user" id="hikari.events.guild_events.BanCreateEvent.user" class='dotted'>user</a> : users.User</code></pre>
+</dt>
+<dd><p>User that this ban event affects.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.User'>User</a></code></dt>
+<dd>The user that this event concerns.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="#hikari.events.guild_events.BanDeleteEvent"
+class='dotted'>BanDeleteEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.BanDeleteEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanDeleteEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    user: <a href='../models/users.html#hikari.models.users.User'>users.User</a>,
+): ...</code></pre>
+<p>Event that is fired when a user is unbanned from a guild.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_BANS'>GUILD_BANS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L302-L314" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BanDeleteEvent(BanEvent):
+    &#34;&#34;&#34;Event that is fired when a user is unbanned from a guild.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    user: users.User = attr.ib()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="#hikari.events.guild_events.BanDeleteEvent"
+class='dotted'>BanDeleteEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="#hikari.events.guild_events.BanEvent"
+class='dotted'>BanEvent</a></dt>
+<dd class="nested"><p>Event base for any guild ban or unban …</p></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.BanDeleteEvent.app" id="hikari.events.guild_events.BanDeleteEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.BanDeleteEvent.guild_id" id="hikari.events.guild_events.BanDeleteEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.BanDeleteEvent.shard" id="hikari.events.guild_events.BanDeleteEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanDeleteEvent.user" id="hikari.events.guild_events.BanDeleteEvent.user" class='dotted'>user</a> : users.User</code></pre>
+</dt>
+<dd><p>User that this ban event affects.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.User'>User</a></code></dt>
+<dd>The user that this event concerns.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="#hikari.events.guild_events.BanEvent"
+class='dotted'>BanEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.BanEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> BanEvent: ...</code></pre>
+<p>Event base for any guild ban or unban.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_BANS'>GUILD_BANS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L265-L277" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class BanEvent(GuildEvent, abc.ABC):
+    &#34;&#34;&#34;Event base for any guild ban or unban.&#34;&#34;&#34;
+
+    @property
+    @abc.abstractmethod
+    def user(self) -&gt; users.User:
+        &#34;&#34;&#34;User that this ban event affects.
+
+        Returns
+        -------
+        hikari.models.users.User
+            The user that this event concerns.
+        &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanCreateEvent -- Event that is fired when a user is banned from a guild …" href="#hikari.events.guild_events.BanCreateEvent"
+class='dotted'>BanCreateEvent</a></dt>
+<dd class="nested"><p>Event that is fired when a user is banned from a guild …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanDeleteEvent -- Event that is fired when a user is unbanned from a guild …" href="#hikari.events.guild_events.BanDeleteEvent"
+class='dotted'>BanDeleteEvent</a></dt>
+<dd class="nested"><p>Event that is fired when a user is unbanned from a guild …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="BanEvent -- Event base for any guild ban or unban …" href="#hikari.events.guild_events.BanEvent"
+class='dotted'>BanEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app" id="hikari.events.guild_events.BanEvent.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard" id="hikari.events.guild_events.BanEvent.shard" class='dotted'>shard</a> : <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a></code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that this ban event affects …" href="#hikari.events.guild_events.BanEvent.user" id="hikari.events.guild_events.BanEvent.user" class='dotted'>user</a> : <a href='../models/users.html#hikari.models.users.User'>users.User</a></code></pre>
+</dt>
+<dd><p>User that this ban event affects.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.User'>User</a></code></dt>
+<dd>The user that this event concerns.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="#hikari.events.guild_events.EmojisUpdateEvent"
+class='dotted'>EmojisUpdateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.EmojisUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> EmojisUpdateEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>emojis_.KnownCustomEmoji</a>],
+): ...</code></pre>
+<p>Event that is fired when the emojis in a guild are updated.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_EMOJIS'>GUILD_EMOJIS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L321-L340" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class EmojisUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event that is fired when the emojis in a guild are updated.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()
+    # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+
+    emojis: typing.Sequence[emojis_.KnownCustomEmoji] = attr.ib()
+    &#34;&#34;&#34;Sequence of all emojis in this guild.
+
+    Returns
+    -------
+    typing.Sequence[emojis_.KnownCustomEmoji]
+        All emojis in the guild.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="EmojisUpdateEvent -- Event that is fired when the emojis in a guild are updated …" href="#hikari.events.guild_events.EmojisUpdateEvent"
+class='dotted'>EmojisUpdateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.EmojisUpdateEvent.app" id="hikari.events.guild_events.EmojisUpdateEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Sequence of all emojis in this guild …" href="#hikari.events.guild_events.EmojisUpdateEvent.emojis" id="hikari.events.guild_events.EmojisUpdateEvent.emojis" class='dotted'>emojis</a> : typing.Sequence[emojis_.KnownCustomEmoji]</code></pre>
+</dt>
+<dd><p>Sequence of all emojis in this guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>emojis_.KnownCustomEmoji</a>]</code></dt>
+<dd>All emojis in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.EmojisUpdateEvent.guild_id" id="hikari.events.guild_events.EmojisUpdateEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.EmojisUpdateEvent.shard" id="hikari.events.guild_events.EmojisUpdateEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="#hikari.events.guild_events.GuildAvailableEvent"
+class='dotted'>GuildAvailableEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.GuildAvailableEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildAvailableEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild: <a href='../models/guilds.html#hikari.models.guilds.GatewayGuild'>guilds.GatewayGuild</a>,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>emojis_.KnownCustomEmoji</a>],
+    roles: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Role'>guilds.Role</a>],
+    channels: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/channels.html#hikari.models.channels.GuildChannel'>channels_.GuildChannel</a>],
+    members: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Member'>guilds.Member</a>],
+    presences: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/presences.html#hikari.models.presences.MemberPresence'>presences_.MemberPresence</a>],
+    voice_states: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/voices.html#hikari.models.voices.VoiceState'>voices.VoiceState</a>],
+): ...</code></pre>
+<p>Event fired when a guild becomes available.</p>
+<p>This will occur on startup, after outages, and if the bot joins a new guild.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>Some fields like <code>members</code> and <code>include_presences</code> are included here but not on
+the other <code><a href='#hikari.events.guild_events.GuildUpdateEvent'>GuildUpdateEvent</a></code> and <code><a href='#hikari.events.guild_events.GuildUnavailableEvent'>GuildUnavailableEvent</a></code> guild visibility
+event models.</p>
+</div>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILDS'>GUILDS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L97-L180" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildAvailableEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when a guild becomes available.
+
+    This will occur on startup, after outages, and if the bot joins a new guild.
+
+    !!! note
+        Some fields like `members` and `include_presences` are included here but not on
+        the other `GuildUpdateEvent` and `GuildUnavailableEvent` guild visibility
+        event models.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild: guilds.GatewayGuild = attr.ib()
+    &#34;&#34;&#34;Guild that just became available.
+
+    Returns
+    -------
+    hikari.models.guilds.Guild
+        The guild that relates to this event.
+    &#34;&#34;&#34;
+
+    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of emoji IDs to the emojis in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+        The emojis in the guild.
+    &#34;&#34;&#34;
+
+    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of role IDs to the roles in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+        The roles in the guild.
+    &#34;&#34;&#34;
+
+    channels: typing.Mapping[snowflake.Snowflake, channels_.GuildChannel] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of channel IDs to the channels in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.channels.GuildChannel]
+        The channels in the guild.
+    &#34;&#34;&#34;
+
+    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the members in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
+        The members in the guild.
+    &#34;&#34;&#34;
+
+    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the include_presences for the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
+        The member include_presences in the guild.
+    &#34;&#34;&#34;
+
+    voice_states: typing.Mapping[snowflake.Snowflake, voices.VoiceState] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the voice states active in this guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.voices.VoiceState]
+        The voice states active in the guild.
+    &#34;&#34;&#34;
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+        return self.guild.id</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="#hikari.events.guild_events.GuildAvailableEvent"
+class='dotted'>GuildAvailableEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></dt>
+<dd class="nested"><p>Event base for any event that changes the visibility of a guild …</p></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildAvailableEvent.app" id="hikari.events.guild_events.GuildAvailableEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channels -- Mapping of channel IDs to the channels in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.channels" id="hikari.events.guild_events.GuildAvailableEvent.channels" class='dotted'>channels</a> : typing.Mapping[snowflake.Snowflake, channels_.GuildChannel]</code></pre>
+</dt>
+<dd><p>Mapping of channel IDs to the channels in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/channels.html#hikari.models.channels.GuildChannel'>GuildChannel</a>]</code></dt>
+<dd>The channels in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Mapping of emoji IDs to the emojis in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.emojis" id="hikari.events.guild_events.GuildAvailableEvent.emojis" class='dotted'>emojis</a> : typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji]</code></pre>
+</dt>
+<dd><p>Mapping of emoji IDs to the emojis in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>KnownCustomEmoji</a>]</code></dt>
+<dd>The emojis in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- Guild that just became available …" href="#hikari.events.guild_events.GuildAvailableEvent.guild" id="hikari.events.guild_events.GuildAvailableEvent.guild" class='dotted'>guild</a> : guilds.GatewayGuild</code></pre>
+</dt>
+<dd><p>Guild that just became available.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Guild'>Guild</a></code></dt>
+<dd>The guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildAvailableEvent.guild_id" id="hikari.events.guild_events.GuildAvailableEvent.guild_id" class='dotted'>guild_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members -- Mapping of user IDs to the members in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.members" id="hikari.events.guild_events.GuildAvailableEvent.members" class='dotted'>members</a> : typing.Mapping[snowflake.Snowflake, guilds.Member]</code></pre>
+</dt>
+<dd><p>Mapping of user IDs to the members in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a>]</code></dt>
+<dd>The members in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presences -- Mapping of user IDs to the include_presences for the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.presences" id="hikari.events.guild_events.GuildAvailableEvent.presences" class='dotted'>presences</a> : typing.Mapping[snowflake.Snowflake, presences_.MemberPresence]</code></pre>
+</dt>
+<dd><p>Mapping of user IDs to the include_presences for the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/index.html'>hikari.models.include_presences.MemberPresence</a>]</code></dt>
+<dd>The member include_presences in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="roles -- Mapping of role IDs to the roles in the guild …" href="#hikari.events.guild_events.GuildAvailableEvent.roles" id="hikari.events.guild_events.GuildAvailableEvent.roles" class='dotted'>roles</a> : typing.Mapping[snowflake.Snowflake, guilds.Role]</code></pre>
+</dt>
+<dd><p>Mapping of role IDs to the roles in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Role'>Role</a>]</code></dt>
+<dd>The roles in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildAvailableEvent.shard" id="hikari.events.guild_events.GuildAvailableEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="voice_states -- Mapping of user IDs to the voice states active in this guild …" href="#hikari.events.guild_events.GuildAvailableEvent.voice_states" id="hikari.events.guild_events.GuildAvailableEvent.voice_states" class='dotted'>voice_states</a> : typing.Mapping[snowflake.Snowflake, voices.VoiceState]</code></pre>
+</dt>
+<dd><p>Mapping of user IDs to the voice states active in this guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/voices.html#hikari.models.voices.VoiceState'>VoiceState</a>]</code></dt>
+<dd>The voice states active in the guild.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="#hikari.events.guild_events.GuildLeaveEvent"
+class='dotted'>GuildLeaveEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.GuildLeaveEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildLeaveEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>Event fired when the bot is banned/kicked/leaves a guild.</p>
+<p>This will also fire if the guild was deleted.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILDS'>GUILDS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L186-L198" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildLeaveEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when the bot is banned/kicked/leaves a guild.
+
+    This will also fire if the guild was deleted.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="#hikari.events.guild_events.GuildLeaveEvent"
+class='dotted'>GuildLeaveEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></dt>
+<dd class="nested"><p>Event base for any event that changes the visibility of a guild …</p></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildLeaveEvent.app" id="hikari.events.guild_events.GuildLeaveEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildLeaveEvent.guild_id" id="hikari.events.guild_events.GuildLeaveEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildLeaveEvent.shard" id="hikari.events.guild_events.GuildLeaveEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="#hikari.events.guild_events.GuildUnavailableEvent"
+class='dotted'>GuildUnavailableEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.GuildUnavailableEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildUnavailableEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>Event fired when a guild becomes unavailable because of an outage.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILDS'>GUILDS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L205-L214" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildUnavailableEvent(GuildVisibilityEvent):
+    &#34;&#34;&#34;Event fired when a guild becomes unavailable because of an outage.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="#hikari.events.guild_events.GuildUnavailableEvent"
+class='dotted'>GuildUnavailableEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></dt>
+<dd class="nested"><p>Event base for any event that changes the visibility of a guild …</p></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildUnavailableEvent.app" id="hikari.events.guild_events.GuildUnavailableEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildUnavailableEvent.guild_id" id="hikari.events.guild_events.GuildUnavailableEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildUnavailableEvent.shard" id="hikari.events.guild_events.GuildUnavailableEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="#hikari.events.guild_events.GuildUpdateEvent"
+class='dotted'>GuildUpdateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.GuildUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildUpdateEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild: <a href='../models/guilds.html#hikari.models.guilds.GatewayGuild'>guilds.GatewayGuild</a>,
+    emojis: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>emojis_.KnownCustomEmoji</a>],
+    roles: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Role'>guilds.Role</a>],
+): ...</code></pre>
+<p>Event fired when an existing guild is updated.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILDS'>GUILDS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L221-L260" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event fired when an existing guild is updated.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild: guilds.GatewayGuild = attr.ib()
+    &#34;&#34;&#34;Guild that was just updated.
+
+    Returns
+    -------
+    hikari.models.guilds.Guild
+        The guild that relates to this event.
+    &#34;&#34;&#34;
+
+    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of emoji IDs to the emojis in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+        The emojis in the guild.
+    &#34;&#34;&#34;
+
+    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of role IDs to the roles in the guild.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+        The roles in the guild.
+    &#34;&#34;&#34;
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        # &lt;&lt;inherited docstring from GuildEvent&gt;&gt;.
+        return self.guild.id</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUpdateEvent -- Event fired when an existing guild is updated …" href="#hikari.events.guild_events.GuildUpdateEvent"
+class='dotted'>GuildUpdateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.GuildUpdateEvent.app" id="hikari.events.guild_events.GuildUpdateEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="emojis -- Mapping of emoji IDs to the emojis in the guild …" href="#hikari.events.guild_events.GuildUpdateEvent.emojis" id="hikari.events.guild_events.GuildUpdateEvent.emojis" class='dotted'>emojis</a> : typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji]</code></pre>
+</dt>
+<dd><p>Mapping of emoji IDs to the emojis in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/emojis.html#hikari.models.emojis.KnownCustomEmoji'>KnownCustomEmoji</a>]</code></dt>
+<dd>The emojis in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild -- Guild that was just updated …" href="#hikari.events.guild_events.GuildUpdateEvent.guild" id="hikari.events.guild_events.GuildUpdateEvent.guild" class='dotted'>guild</a> : guilds.GatewayGuild</code></pre>
+</dt>
+<dd><p>Guild that was just updated.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/guilds.html#hikari.models.guilds.Guild'>Guild</a></code></dt>
+<dd>The guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.GuildUpdateEvent.guild_id" id="hikari.events.guild_events.GuildUpdateEvent.guild_id" class='dotted'>guild_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="roles -- Mapping of role IDs to the roles in the guild …" href="#hikari.events.guild_events.GuildUpdateEvent.roles" id="hikari.events.guild_events.GuildUpdateEvent.roles" class='dotted'>roles</a> : typing.Mapping[snowflake.Snowflake, guilds.Role]</code></pre>
+</dt>
+<dd><p>Mapping of role IDs to the roles in the guild.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Role'>Role</a>]</code></dt>
+<dd>The roles in the guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.GuildUpdateEvent.shard" id="hikari.events.guild_events.GuildUpdateEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.GuildVisibilityEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> GuildVisibilityEvent: ...</code></pre>
+<p>Event base for any event that changes the visibility of a guild.</p>
+<p>This includes when a guild becomes available after an outage, when a
+guild becomes available on startup, when a guild becomes unavailable due
+to an outage, when the user is kicked/banned/leaves a guild, or when
+the user joins a new guild.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILDS'>GUILDS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L84-L91" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class GuildVisibilityEvent(GuildEvent, abc.ABC):
+    &#34;&#34;&#34;Event base for any event that changes the visibility of a guild.
+
+    This includes when a guild becomes available after an outage, when a
+    guild becomes available on startup, when a guild becomes unavailable due
+    to an outage, when the user is kicked/banned/leaves a guild, or when
+    the user joins a new guild.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Subclasses</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildAvailableEvent -- Event fired when a guild becomes available …" href="#hikari.events.guild_events.GuildAvailableEvent"
+class='dotted'>GuildAvailableEvent</a></dt>
+<dd class="nested"><p>Event fired when a guild becomes available …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildLeaveEvent -- Event fired when the bot is banned/kicked/leaves a guild …" href="#hikari.events.guild_events.GuildLeaveEvent"
+class='dotted'>GuildLeaveEvent</a></dt>
+<dd class="nested"><p>Event fired when the bot is banned/kicked/leaves a guild …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildUnavailableEvent -- Event fired when a guild becomes unavailable because of an outage …" href="#hikari.events.guild_events.GuildUnavailableEvent"
+class='dotted'>GuildUnavailableEvent</a></dt>
+<dd class="nested"><p>Event fired when a guild becomes unavailable because of an outage …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="GuildVisibilityEvent -- Event base for any event that changes the visibility of a guild …" href="#hikari.events.guild_events.GuildVisibilityEvent"
+class='dotted'>GuildVisibilityEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="base_events.html#hikari.events.base_events.Event.app" id="hikari.events.guild_events.GuildVisibilityEvent.app" class='dotted'>app</a> : <a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='An abstract method or property that must be overridden in a derived class.'>abstract</abbr> <abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="shard_events.html#hikari.events.shard_events.ShardEvent.shard" id="hikari.events.guild_events.GuildVisibilityEvent.shard" class='dotted'>shard</a> : <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a></code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='dotted'>IntegrationsUpdateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.IntegrationsUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> IntegrationsUpdateEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+): ...</code></pre>
+<p>Event that is fired when the integrations in a guild are changed.</p>
+<p>This may occur when integrations are created, updated, or deleted.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This event is similar to
+<code><a href='channel_events.html#hikari.events.channel_events.WebhookUpdateEvent'>WebhookUpdateEvent</a></code> in that Discord
+does not provide any information on what was actually changed, nor
+how it was changed. The only way you will be able to determine this is
+to keep a cache of this information manually up to date by fetching
+it using REST API calls. This is a limitation of Discord's design.
+We agree that it is not overly helpful to you.</p>
+</div>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_EMOJIS'>GUILD_EMOJIS</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L346-L367" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class IntegrationsUpdateEvent(GuildEvent):
+    &#34;&#34;&#34;Event that is fired when the integrations in a guild are changed.
+
+    This may occur when integrations are created, updated, or deleted.
+
+    !!! note
+        This event is similar to
+        `hikari.events.channel_events.WebhookUpdateEvent` in that Discord
+        does not provide any information on what was actually changed, nor
+        how it was changed. The only way you will be able to determine this is
+        to keep a cache of this information manually up to date by fetching
+        it using REST API calls. This is a limitation of Discord&#39;s design.
+        We agree that it is not overly helpful to you.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib()</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="IntegrationsUpdateEvent -- Event that is fired when the integrations in a guild are changed …" href="#hikari.events.guild_events.IntegrationsUpdateEvent"
+class='dotted'>IntegrationsUpdateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested">hikari.events.guild_events.GuildEvent</dt>
+<dd class="nested"><p>Event base for any guild-bound event …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.app" id="hikari.events.guild_events.IntegrationsUpdateEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- ID of the guild that this event relates to …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.guild_id" id="hikari.events.guild_events.IntegrationsUpdateEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>ID of the guild that this event relates to.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>The ID of the guild that relates to this event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.IntegrationsUpdateEvent.shard" id="hikari.events.guild_events.IntegrationsUpdateEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="#hikari.events.guild_events.MemberChunkEvent"
+class='dotted'>MemberChunkEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.MemberChunkEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> MemberChunkEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    guild_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    members: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Member'>guilds.Member</a>],
+    index: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    count: <a href='https://docs.python.org/3/library/functions.html#int'>int</a>,
+    not_found: <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    presences: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>, <a href='../models/presences.html#hikari.models.presences.MemberPresence'>presences_.MemberPresence</a>],
+    nonce: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Used to represent the response to Guild Request Members.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L444-L516" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class MemberChunkEvent(shard_events.ShardEvent):
+    &#34;&#34;&#34;Used to represent the response to Guild Request Members.&#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    guild_id: snowflake.Snowflake = attr.ib(repr=True)
+    # &lt;&lt;docstring inherited from ShardEvent&gt;&gt;.
+
+    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to the objects of the members in this chunk.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
+        Mapping of user IDs to corresponding member objects.
+    &#34;&#34;&#34;
+
+    index: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Zero-indexed position of this within the queued up chunks for this request.
+
+    Returns
+    -------
+    builtins.int
+        The sequence index for this chunk.
+    &#34;&#34;&#34;
+
+    count: int = attr.ib(repr=True)
+    &#34;&#34;&#34;Total number of expected chunks for the request this is associated with.
+
+    Returns
+    -------
+    builtins.int
+        Total number of chunks to be expected.
+    &#34;&#34;&#34;
+
+    not_found: typing.Sequence[snowflake.Snowflake] = attr.ib(repr=True)
+    &#34;&#34;&#34;Sequence of the snowflakes that were not found while making this request.
+
+    This is only applicable when user IDs are specified while making the
+    member request the chunk is associated with.
+
+    Returns
+    -------
+    typing.Sequence[hikari.utilities.snowflake.Snowflake]
+        Sequence of user IDs that were not found.
+    &#34;&#34;&#34;
+
+    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
+    &#34;&#34;&#34;Mapping of user IDs to found member presence objects.
+
+    This will be empty if no include_presences are found or `include_presences` is not passed as
+    `True` while requesting the member chunks.
+
+    Returns
+    -------
+    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
+        Mapping of user IDs to corresponding include_presences.
+    &#34;&#34;&#34;
+
+    nonce: typing.Optional[str] = attr.ib(repr=True)
+    &#34;&#34;&#34;String nonce used to identify the request member chunks are associated with.
+
+    This is the nonce value passed while requesting member chunks.
+
+    Returns
+    -------
+    builtins.str or builtins.None
+        The request nonce if specified, or `builtins.None` otherwise.
+    &#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="MemberChunkEvent -- Used to represent the response to Guild Request Members." href="#hikari.events.guild_events.MemberChunkEvent"
+class='dotted'>MemberChunkEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.MemberChunkEvent.app" id="hikari.events.guild_events.MemberChunkEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="count -- Total number of expected chunks for the request this is associated with …" href="#hikari.events.guild_events.MemberChunkEvent.count" id="hikari.events.guild_events.MemberChunkEvent.count" class='dotted'>count</a> : int</code></pre>
+</dt>
+<dd><p>Total number of expected chunks for the request this is associated with.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>Total number of chunks to be expected.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- Return an attribute of instance, which is of type owner." href="#hikari.events.guild_events.MemberChunkEvent.guild_id" id="hikari.events.guild_events.MemberChunkEvent.guild_id" class='dotted'>guild_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>Return an attribute of instance, which is of type owner.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="index -- Zero-indexed position of this within the queued up chunks for this request …" href="#hikari.events.guild_events.MemberChunkEvent.index" id="hikari.events.guild_events.MemberChunkEvent.index" class='dotted'>index</a> : int</code></pre>
+</dt>
+<dd><p>Zero-indexed position of this within the queued up chunks for this request.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The sequence index for this chunk.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="members -- Mapping of user IDs to the objects of the members in this chunk …" href="#hikari.events.guild_events.MemberChunkEvent.members" id="hikari.events.guild_events.MemberChunkEvent.members" class='dotted'>members</a> : typing.Mapping[snowflake.Snowflake, guilds.Member]</code></pre>
+</dt>
+<dd><p>Mapping of user IDs to the objects of the members in this chunk.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/guilds.html#hikari.models.guilds.Member'>Member</a>]</code></dt>
+<dd>Mapping of user IDs to corresponding member objects.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="nonce -- String nonce used to identify the request member chunks are associated with …" href="#hikari.events.guild_events.MemberChunkEvent.nonce" id="hikari.events.guild_events.MemberChunkEvent.nonce" class='dotted'>nonce</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>String nonce used to identify the request member chunks are associated with.</p>
+<p>This is the nonce value passed while requesting member chunks.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The request nonce if specified, or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> otherwise.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="not_found -- Sequence of the snowflakes that were not found while making this request …" href="#hikari.events.guild_events.MemberChunkEvent.not_found" id="hikari.events.guild_events.MemberChunkEvent.not_found" class='dotted'>not_found</a> : typing.Sequence[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>Sequence of the snowflakes that were not found while making this request.</p>
+<p>This is only applicable when user IDs are specified while making the
+member request the chunk is associated with.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>]</code></dt>
+<dd>Sequence of user IDs that were not found.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presences -- Mapping of user IDs to found member presence objects …" href="#hikari.events.guild_events.MemberChunkEvent.presences" id="hikari.events.guild_events.MemberChunkEvent.presences" class='dotted'>presences</a> : typing.Mapping[snowflake.Snowflake, presences_.MemberPresence]</code></pre>
+</dt>
+<dd><p>Mapping of user IDs to found member presence objects.</p>
+<p>This will be empty if no include_presences are found or <code>include_presences</code> is not passed as
+<code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> while requesting the member chunks.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a>, <a href='../models/index.html'>hikari.models.include_presences.MemberPresence</a>]</code></dt>
+<dd>Mapping of user IDs to corresponding include_presences.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.MemberChunkEvent.shard" id="hikari.events.guild_events.MemberChunkEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="#hikari.events.guild_events.PresenceUpdateEvent"
+class='dotted'>PresenceUpdateEvent</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.events.guild_events.PresenceUpdateEvent" class="hljs python"><abbr title='A standard Python type.'>class</abbr> PresenceUpdateEvent (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    shard: <a href='../api/shard.html#hikari.api.shard.GatewayShard'>gateway_shard.GatewayShard</a>,
+    presence: <a href='../models/presences.html#hikari.models.presences.MemberPresence'>presences_.MemberPresence</a>,
+    user: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../models/users.html#hikari.models.users.PartialUser'>users.PartialUser</a>],
+): ...</code></pre>
+<p>Event fired when a user in a guild updates their presence in a guild.</p>
+<p>Sent when a guild member changes their presence in a specific guild.</p>
+<p>If the user is changed (e.g. new username), then this may fire many times
+(once for every guild the bot is part of). This is a limitation of how
+Discord implements their event system, unfortunately.</p>
+<p>Furthermore, if the target user is a bot and the bot only updates their
+presence on specific shards, this will only fire for the corresponding
+shards that saw the presence update.</p>
+<p>This requires one of the following combinations of intents in order to be dispatched:</p>
+<ul>
+<li><code><a href='../models/intents.html#hikari.models.intents.Intents.GUILD_PRESENCES'>GUILD_PRESENCES</a></code></li>
+</ul>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/events/guild_events.py#L374-L439" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class PresenceUpdateEvent(shard_events.ShardEvent):
+    &#34;&#34;&#34;Event fired when a user in a guild updates their presence in a guild.
+
+    Sent when a guild member changes their presence in a specific guild.
+
+    If the user is changed (e.g. new username), then this may fire many times
+    (once for every guild the bot is part of). This is a limitation of how
+    Discord implements their event system, unfortunately.
+
+    Furthermore, if the target user is a bot and the bot only updates their
+    presence on specific shards, this will only fire for the corresponding
+    shards that saw the presence update.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from Event&gt;&gt;.
+
+    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # &lt;&lt;inherited docstring from ShardEvent&gt;&gt;.
+
+    presence: presences_.MemberPresence = attr.ib()
+    &#34;&#34;&#34;Member presence.
+
+    Returns
+    -------
+    hikari.models.include_presences.MemberPresence
+        Presence for the user in this guild.
+    &#34;&#34;&#34;
+
+    user: typing.Optional[users.PartialUser] = attr.ib()
+    &#34;&#34;&#34;User that was updated.
+
+    This is a partial user object that only contains the fields that were
+    updated on the user profile.
+
+    Will be `builtins.None` if the user itself did not change.
+    This is always the case if the user only updated their member
+    representation and did not change their user profile directly.
+
+    Returns
+    -------
+    hikari.models.users.PartialUser or builtins.None
+        The partial user containing the updated fields.
+    &#34;&#34;&#34;
+
+    @property
+    def user_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;User ID of the user that updated their presence.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the user the event concerns.
+        &#34;&#34;&#34;
+        return self.presence.user_id
+
+    @property
+    def guild_id(self) -&gt; snowflake.Snowflake:
+        &#34;&#34;&#34;Guild ID that the presence was updated in.
+
+        Returns
+        -------
+        hikari.utilities.snowflake.Snowflake
+            ID of the guild the event occurred in.
+        &#34;&#34;&#34;
+        return self.presence.guild_id</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="PresenceUpdateEvent -- Event fired when a user in a guild updates their presence in a guild …" href="#hikari.events.guild_events.PresenceUpdateEvent"
+class='dotted'>PresenceUpdateEvent</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ShardEvent -- Base class for any event that was shard-specific." href="shard_events.html#hikari.events.shard_events.ShardEvent"
+class='dotted'>ShardEvent</a></dt>
+<dd class="nested"><p>Base class for any event that was shard-specific.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Event -- Base event type that all Hikari events should subclass." href="base_events.html#hikari.events.base_events.Event"
+class='dotted'>Event</a></dt>
+<dd class="nested"><p>Base event type that all Hikari events should subclass.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- App instance for this application …" href="#hikari.events.guild_events.PresenceUpdateEvent.app" id="hikari.events.guild_events.PresenceUpdateEvent.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>App instance for this application.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../traits.html#hikari.traits.RESTAware'>RESTAware</a></code></dt>
+<dd>The REST-aware app trait.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- Guild ID that the presence was updated in …" href="#hikari.events.guild_events.PresenceUpdateEvent.guild_id" id="hikari.events.guild_events.PresenceUpdateEvent.guild_id" class='dotted'>guild_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>Guild ID that the presence was updated in.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>ID of the guild the event occurred in.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="presence -- Member presence …" href="#hikari.events.guild_events.PresenceUpdateEvent.presence" id="hikari.events.guild_events.PresenceUpdateEvent.presence" class='dotted'>presence</a> : presences_.MemberPresence</code></pre>
+</dt>
+<dd><p>Member presence.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/index.html'>hikari.models.include_presences.MemberPresence</a></code></dt>
+<dd>Presence for the user in this guild.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="shard -- Shard that received this event …" href="#hikari.events.guild_events.PresenceUpdateEvent.shard" id="hikari.events.guild_events.PresenceUpdateEvent.shard" class='dotted'>shard</a> : gateway_shard.GatewayShard</code></pre>
+</dt>
+<dd><p>Shard that received this event.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../api/shard.html#hikari.api.shard.GatewayShard'>GatewayShard</a></code></dt>
+<dd>The shard that triggered the event.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user -- User that was updated …" href="#hikari.events.guild_events.PresenceUpdateEvent.user" id="hikari.events.guild_events.PresenceUpdateEvent.user" class='dotted'>user</a> : typing.Optional[users.PartialUser]</code></pre>
+</dt>
+<dd><p>User that was updated.</p>
+<p>This is a partial user object that only contains the fields that were
+updated on the user profile.</p>
+<p>Will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if the user itself did not change.
+This is always the case if the user only updated their member
+representation and did not change their user profile directly.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../models/users.html#hikari.models.users.PartialUser'>PartialUser</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The partial user containing the updated fields.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="user_id -- User ID of the user that updated their presence …" href="#hikari.events.guild_events.PresenceUpdateEvent.user_id" id="hikari.events.guild_events.PresenceUpdateEvent.user_id" class='dotted'>user_id</a> : <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a></code></pre>
+</dt>
+<dd><p>User ID of the user that updated their presence.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code></dt>
+<dd>ID of the user the event concerns.</dd>
+</dl></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

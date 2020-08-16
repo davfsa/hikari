@@ -1,0 +1,1069 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.permissions API documentation</title>
+<meta name="description" content="Bitfield of permissions." />
+<meta property="og:title" content="hikari.models.permissions module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.permissions">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">permissions</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Bitfield of permissions.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Permissions -- Represents the permissions available in a given channel or guild …" href="#hikari.models.permissions.Permissions"
+class='sidebar-nav-pill'>Permissions</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADD_REACTIONS -- Allows for the addition of reactions to messages." href="#hikari.models.permissions.Permissions.ADD_REACTIONS"
+class='sidebar-nav-pill'>ADD_REACTIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADMINISTRATOR -- Allows all permissions and bypasses channel permission overwrites." href="#hikari.models.permissions.Permissions.ADMINISTRATOR"
+class='sidebar-nav-pill'>ADMINISTRATOR</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ATTACH_FILES -- Allows for uploading images and files." href="#hikari.models.permissions.Permissions.ATTACH_FILES"
+class='sidebar-nav-pill'>ATTACH_FILES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BAN_MEMBERS -- Allows banning members." href="#hikari.models.permissions.Permissions.BAN_MEMBERS"
+class='sidebar-nav-pill'>BAN_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANGE_NICKNAME -- Allows for modification of own nickname." href="#hikari.models.permissions.Permissions.CHANGE_NICKNAME"
+class='sidebar-nav-pill'>CHANGE_NICKNAME</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CONNECT -- Allows for joining of a voice channel." href="#hikari.models.permissions.Permissions.CONNECT"
+class='sidebar-nav-pill'>CONNECT</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CREATE_INSTANT_INVITE -- Allows creation of instant invites." href="#hikari.models.permissions.Permissions.CREATE_INSTANT_INVITE"
+class='sidebar-nav-pill'>CREATE_INSTANT_INVITE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEAFEN_MEMBERS -- Allows for deafening of members in a voice channel." href="#hikari.models.permissions.Permissions.DEAFEN_MEMBERS"
+class='sidebar-nav-pill'>DEAFEN_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMBED_LINKS -- Links sent by users with this permission will be auto-embedded." href="#hikari.models.permissions.Permissions.EMBED_LINKS"
+class='sidebar-nav-pill'>EMBED_LINKS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="KICK_MEMBERS -- Allows kicking members" href="#hikari.models.permissions.Permissions.KICK_MEMBERS"
+class='sidebar-nav-pill'>KICK_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_CHANNELS -- Allows management and editing of channels." href="#hikari.models.permissions.Permissions.MANAGE_CHANNELS"
+class='sidebar-nav-pill'>MANAGE_CHANNELS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_EMOJIS -- Allows management and editing of emojis." href="#hikari.models.permissions.Permissions.MANAGE_EMOJIS"
+class='sidebar-nav-pill'>MANAGE_EMOJIS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_GUILD -- Allows management and editing of the guild." href="#hikari.models.permissions.Permissions.MANAGE_GUILD"
+class='sidebar-nav-pill'>MANAGE_GUILD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_MESSAGES -- Allows for deletion of other users messages." href="#hikari.models.permissions.Permissions.MANAGE_MESSAGES"
+class='sidebar-nav-pill'>MANAGE_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_NICKNAMES -- Allows for modification of other users nicknames." href="#hikari.models.permissions.Permissions.MANAGE_NICKNAMES"
+class='sidebar-nav-pill'>MANAGE_NICKNAMES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_ROLES -- Allows management and editing of roles." href="#hikari.models.permissions.Permissions.MANAGE_ROLES"
+class='sidebar-nav-pill'>MANAGE_ROLES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_WEBHOOKS -- Allows management and editing of webhooks." href="#hikari.models.permissions.Permissions.MANAGE_WEBHOOKS"
+class='sidebar-nav-pill'>MANAGE_WEBHOOKS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MENTION_ROLES -- Allows for using the `@everyone` tag to notify all users in a channel,
+and the `@here` tag to notify all online users in a channel, and the
+`@role` …" href="#hikari.models.permissions.Permissions.MENTION_ROLES"
+class='sidebar-nav-pill'>MENTION_ROLES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MOVE_MEMBERS -- Allows for moving of members between voice channels." href="#hikari.models.permissions.Permissions.MOVE_MEMBERS"
+class='sidebar-nav-pill'>MOVE_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MUTE_MEMBERS -- Allows for muting members in a voice channel." href="#hikari.models.permissions.Permissions.MUTE_MEMBERS"
+class='sidebar-nav-pill'>MUTE_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- Empty permission." href="#hikari.models.permissions.Permissions.NONE"
+class='sidebar-nav-pill'>NONE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIORITY_SPEAKER -- Allows for using priority speaker in a voice channel." href="#hikari.models.permissions.Permissions.PRIORITY_SPEAKER"
+class='sidebar-nav-pill'>PRIORITY_SPEAKER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="READ_MESSAGE_HISTORY -- Allows for reading of message history." href="#hikari.models.permissions.Permissions.READ_MESSAGE_HISTORY"
+class='sidebar-nav-pill'>READ_MESSAGE_HISTORY</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SEND_MESSAGES -- Allows for sending messages in a channel." href="#hikari.models.permissions.Permissions.SEND_MESSAGES"
+class='sidebar-nav-pill'>SEND_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SEND_TTS_MESSAGES -- Allows for sending of `/tts` messages." href="#hikari.models.permissions.Permissions.SEND_TTS_MESSAGES"
+class='sidebar-nav-pill'>SEND_TTS_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPEAK -- Allows for speaking in a voice channel." href="#hikari.models.permissions.Permissions.SPEAK"
+class='sidebar-nav-pill'>SPEAK</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAM -- Allows the user to go live." href="#hikari.models.permissions.Permissions.STREAM"
+class='sidebar-nav-pill'>STREAM</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USE_EXTERNAL_EMOJIS -- Allows the usage of custom emojis from other guilds." href="#hikari.models.permissions.Permissions.USE_EXTERNAL_EMOJIS"
+class='sidebar-nav-pill'>USE_EXTERNAL_EMOJIS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USE_VAD -- Allows for using voice-activity-detection in a voice channel." href="#hikari.models.permissions.Permissions.USE_VAD"
+class='sidebar-nav-pill'>USE_VAD</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_AUDIT_LOG -- Allows for viewing of audit logs." href="#hikari.models.permissions.Permissions.VIEW_AUDIT_LOG"
+class='sidebar-nav-pill'>VIEW_AUDIT_LOG</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_CHANNEL -- Allows guild members to view a channel, which includes reading messages in text channels." href="#hikari.models.permissions.Permissions.VIEW_CHANNEL"
+class='sidebar-nav-pill'>VIEW_CHANNEL</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_GUILD_INSIGHTS -- Allows the user to view guild insights for eligible guilds." href="#hikari.models.permissions.Permissions.VIEW_GUILD_INSIGHTS"
+class='sidebar-nav-pill'>VIEW_GUILD_INSIGHTS</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/permissions.py#L0-L190" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Bitfield of permissions.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;Permissions&#34;]
+
+import enum
+
+# noinspection PyUnresolvedReferences
+import typing
+
+from hikari.utilities import flag
+
+
+@enum.unique
+@typing.final
+class Permissions(flag.Flag):
+    &#34;&#34;&#34;Represents the permissions available in a given channel or guild.
+
+    This is an int-flag enum. This means that you can **combine multiple
+    permissions together** into one value using the bitwise-OR operator (`|`).
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        your_perms = (
+            Permissions.CREATE_INSTANT_INVITE
+            | Permissions.KICK_MEMBERS
+            | Permissions.BAN_MEMBERS
+            | Permissions.MANAGE_GUILD
+        )
+
+    You can **check if a permission is present** in a set of combined
+    permissions by using the bitwise-AND operator (`&amp;`). This will return
+    the int-value of the permission if it is present, or `0` if not present.
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        if my_perms &amp; Permissions.MANAGE_CHANNELS:
+            if my_perms &amp; Permissions.MANAGE_GUILD:
+                print(&#34;I have the permission to both manage the guild and the channels in it!&#34;)
+            else:
+                print(&#34;I have the permission to manage channels!&#34;)
+        else:
+            print(&#34;I don&#39;t have the permission to manage channels!&#34;)
+
+        # Or you could simplify it:
+
+        if my_perms &amp; (Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD):
+            print(&#34;I have the permission to both manage the guild and the channels in it!&#34;)
+        elif my_perms &amp; Permissions.MANAGE_CHANNELS:
+            print(&#34;I have the permission to manage channels!&#34;)
+        else:
+            print(&#34;I don&#39;t have the permission to manage channels!&#34;)
+
+    If you need to **check that a permission is not present**, you can use the
+    bitwise-XOR operator (`^`) to check. If the permission is not present, it
+    will return a non-zero value, otherwise if it is present, it will return `0`.
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        if my_perms ^ Permissions.MANAGE_CHANNELS:
+            print(&#34;Please give me the MANAGE_CHANNELS permission!&#34;)
+
+    Lastly, if you need all the permissions set except the permission you want,
+    you can use the inversion operator (`~`) to do that.
+
+        # All permissions except ADMINISTRATOR.
+        my_perms = ~Permissions.ADMINISTRATOR
+
+    &#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;Empty permission.&#34;&#34;&#34;
+
+    CREATE_INSTANT_INVITE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Allows creation of instant invites.&#34;&#34;&#34;
+
+    KICK_MEMBERS = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Allows kicking members&#34;&#34;&#34;
+
+    BAN_MEMBERS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Allows banning members.&#34;&#34;&#34;
+
+    ADMINISTRATOR = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Allows all permissions and bypasses channel permission overwrites.&#34;&#34;&#34;
+
+    MANAGE_CHANNELS = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Allows management and editing of channels.&#34;&#34;&#34;
+
+    MANAGE_GUILD = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Allows management and editing of the guild.&#34;&#34;&#34;
+
+    ADD_REACTIONS = 1 &lt;&lt; 6
+    &#34;&#34;&#34;Allows for the addition of reactions to messages.&#34;&#34;&#34;
+
+    VIEW_AUDIT_LOG = 1 &lt;&lt; 7
+    &#34;&#34;&#34;Allows for viewing of audit logs.&#34;&#34;&#34;
+
+    PRIORITY_SPEAKER = 1 &lt;&lt; 8
+    &#34;&#34;&#34;Allows for using priority speaker in a voice channel.&#34;&#34;&#34;
+
+    STREAM = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Allows the user to go live.&#34;&#34;&#34;
+
+    VIEW_CHANNEL = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Allows guild members to view a channel, which includes reading messages in text channels.&#34;&#34;&#34;
+
+    SEND_MESSAGES = 1 &lt;&lt; 11
+    &#34;&#34;&#34;Allows for sending messages in a channel.&#34;&#34;&#34;
+
+    SEND_TTS_MESSAGES = 1 &lt;&lt; 12
+    &#34;&#34;&#34;Allows for sending of `/tts` messages.&#34;&#34;&#34;
+
+    MANAGE_MESSAGES = 1 &lt;&lt; 13
+    &#34;&#34;&#34;Allows for deletion of other users messages.&#34;&#34;&#34;
+
+    EMBED_LINKS = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Links sent by users with this permission will be auto-embedded.&#34;&#34;&#34;
+
+    ATTACH_FILES = 1 &lt;&lt; 15
+    &#34;&#34;&#34;Allows for uploading images and files.&#34;&#34;&#34;
+
+    READ_MESSAGE_HISTORY = 1 &lt;&lt; 16
+    &#34;&#34;&#34;Allows for reading of message history.&#34;&#34;&#34;
+
+    MENTION_ROLES = 1 &lt;&lt; 17
+    &#34;&#34;&#34;Allows for using the `@everyone` tag to notify all users in a channel,
+    and the `@here` tag to notify all online users in a channel, and the
+    `@role` tag (even if the role is not mentionable) to notify all users with
+    that role in a channel.
+    &#34;&#34;&#34;
+
+    USE_EXTERNAL_EMOJIS = 1 &lt;&lt; 18
+    &#34;&#34;&#34;Allows the usage of custom emojis from other guilds.&#34;&#34;&#34;
+
+    VIEW_GUILD_INSIGHTS = 1 &lt;&lt; 19
+    &#34;&#34;&#34;Allows the user to view guild insights for eligible guilds.&#34;&#34;&#34;
+
+    CONNECT = 1 &lt;&lt; 20
+    &#34;&#34;&#34;Allows for joining of a voice channel.&#34;&#34;&#34;
+
+    SPEAK = 1 &lt;&lt; 21
+    &#34;&#34;&#34;Allows for speaking in a voice channel.&#34;&#34;&#34;
+
+    MUTE_MEMBERS = 1 &lt;&lt; 22
+    &#34;&#34;&#34;Allows for muting members in a voice channel.&#34;&#34;&#34;
+
+    DEAFEN_MEMBERS = 1 &lt;&lt; 23
+    &#34;&#34;&#34;Allows for deafening of members in a voice channel.&#34;&#34;&#34;
+
+    MOVE_MEMBERS = 1 &lt;&lt; 24
+    &#34;&#34;&#34;Allows for moving of members between voice channels.&#34;&#34;&#34;
+
+    USE_VAD = 1 &lt;&lt; 25
+    &#34;&#34;&#34;Allows for using voice-activity-detection in a voice channel.&#34;&#34;&#34;
+
+    CHANGE_NICKNAME = 1 &lt;&lt; 26
+    &#34;&#34;&#34;Allows for modification of own nickname.&#34;&#34;&#34;
+
+    MANAGE_NICKNAMES = 1 &lt;&lt; 27
+    &#34;&#34;&#34;Allows for modification of other users nicknames.&#34;&#34;&#34;
+
+    MANAGE_ROLES = 1 &lt;&lt; 28
+    &#34;&#34;&#34;Allows management and editing of roles.&#34;&#34;&#34;
+
+    MANAGE_WEBHOOKS = 1 &lt;&lt; 29
+    &#34;&#34;&#34;Allows management and editing of webhooks.&#34;&#34;&#34;
+
+    MANAGE_EMOJIS = 1 &lt;&lt; 30
+    &#34;&#34;&#34;Allows management and editing of emojis.&#34;&#34;&#34;</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Permissions -- Represents the permissions available in a given channel or guild …" href="#hikari.models.permissions.Permissions"
+class='dotted'>Permissions</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.permissions.Permissions" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Permissions (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Represents the permissions available in a given channel or guild.</p>
+<p>This is an int-flag enum. This means that you can <strong>combine multiple
+permissions together</strong> into one value using the bitwise-OR operator (<code>|</code>).</p>
+<pre><code>my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+your_perms = (
+    Permissions.CREATE_INSTANT_INVITE
+    | Permissions.KICK_MEMBERS
+    | Permissions.BAN_MEMBERS
+    | Permissions.MANAGE_GUILD
+)
+</code></pre>
+<p>You can <strong>check if a permission is present</strong> in a set of combined
+permissions by using the bitwise-AND operator (<code>&amp;</code>). This will return
+the int-value of the permission if it is present, or <code>0</code> if not present.</p>
+<pre><code>my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+if my_perms &amp; Permissions.MANAGE_CHANNELS:
+    if my_perms &amp; Permissions.MANAGE_GUILD:
+        print("I have the permission to both manage the guild and the channels in it!")
+    else:
+        print("I have the permission to manage channels!")
+else:
+    print("I don't have the permission to manage channels!")
+
+# Or you could simplify it:
+
+if my_perms &amp; (Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD):
+    print("I have the permission to both manage the guild and the channels in it!")
+elif my_perms &amp; Permissions.MANAGE_CHANNELS:
+    print("I have the permission to manage channels!")
+else:
+    print("I don't have the permission to manage channels!")
+</code></pre>
+<p>If you need to <strong>check that a permission is not present</strong>, you can use the
+bitwise-XOR operator (<code>^</code>) to check. If the permission is not present, it
+will return a non-zero value, otherwise if it is present, it will return <code>0</code>.</p>
+<pre><code>my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+if my_perms ^ Permissions.MANAGE_CHANNELS:
+    print("Please give me the MANAGE_CHANNELS permission!")
+</code></pre>
+<p>Lastly, if you need all the permissions set except the permission you want,
+you can use the inversion operator (<code>~</code>) to do that.</p>
+<pre><code># All permissions except ADMINISTRATOR.
+my_perms = ~Permissions.ADMINISTRATOR
+</code></pre>
+<p>This flag type has several additional operations that can be used
+compared to normal enum types. These are applied to instances of
+this enum directly, or can be used as a class method by passing the
+flag as the first parameter.</p>
+<ul>
+<li><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> split() -&gt; <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.permissions.Permissions'>Permissions</a>]: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Will split the combined flag up into individual atomic flags and
+return them in a <code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a></code>.</li>
+</ul>
+<pre><code class="py">&gt;&gt;&gt; (FOO | BAR | BAZ).split()
+[FOO, BAR, BAZ]
+</code></pre>
+<ul>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_any(*flags: <a href='#hikari.models.permissions.Permissions'>Permissions</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if any of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_all(*flags: <a href='#hikari.models.permissions.Permissions'>Permissions</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if all of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_none(*flags: <a href='#hikari.models.permissions.Permissions'>Permissions</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if none of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+</ul>
+<p>In addition, new operators are overloaded. <code>+</code> will combine flags
+in the same way <code>|</code> would usually, and <code>-</code> will remove specific
+flags from this instance. This is equivalent to using the <code>&amp;</code> operator.</p>
+<p>Finally, combined flag types can be iterated across as if they
+were a collection.</p>
+<pre><code class="py">&gt;&gt;&gt; for f in FOO | BAR | BAZ:
+...     print(f)
+FOO
+BAR
+BAZ
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/permissions.py#L38-L191" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Permissions(flag.Flag):
+    &#34;&#34;&#34;Represents the permissions available in a given channel or guild.
+
+    This is an int-flag enum. This means that you can **combine multiple
+    permissions together** into one value using the bitwise-OR operator (`|`).
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        your_perms = (
+            Permissions.CREATE_INSTANT_INVITE
+            | Permissions.KICK_MEMBERS
+            | Permissions.BAN_MEMBERS
+            | Permissions.MANAGE_GUILD
+        )
+
+    You can **check if a permission is present** in a set of combined
+    permissions by using the bitwise-AND operator (`&amp;`). This will return
+    the int-value of the permission if it is present, or `0` if not present.
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        if my_perms &amp; Permissions.MANAGE_CHANNELS:
+            if my_perms &amp; Permissions.MANAGE_GUILD:
+                print(&#34;I have the permission to both manage the guild and the channels in it!&#34;)
+            else:
+                print(&#34;I have the permission to manage channels!&#34;)
+        else:
+            print(&#34;I don&#39;t have the permission to manage channels!&#34;)
+
+        # Or you could simplify it:
+
+        if my_perms &amp; (Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD):
+            print(&#34;I have the permission to both manage the guild and the channels in it!&#34;)
+        elif my_perms &amp; Permissions.MANAGE_CHANNELS:
+            print(&#34;I have the permission to manage channels!&#34;)
+        else:
+            print(&#34;I don&#39;t have the permission to manage channels!&#34;)
+
+    If you need to **check that a permission is not present**, you can use the
+    bitwise-XOR operator (`^`) to check. If the permission is not present, it
+    will return a non-zero value, otherwise if it is present, it will return `0`.
+
+        my_perms = Permissions.MANAGE_CHANNELS | Permissions.MANAGE_GUILD
+
+        if my_perms ^ Permissions.MANAGE_CHANNELS:
+            print(&#34;Please give me the MANAGE_CHANNELS permission!&#34;)
+
+    Lastly, if you need all the permissions set except the permission you want,
+    you can use the inversion operator (`~`) to do that.
+
+        # All permissions except ADMINISTRATOR.
+        my_perms = ~Permissions.ADMINISTRATOR
+
+    &#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;Empty permission.&#34;&#34;&#34;
+
+    CREATE_INSTANT_INVITE = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Allows creation of instant invites.&#34;&#34;&#34;
+
+    KICK_MEMBERS = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Allows kicking members&#34;&#34;&#34;
+
+    BAN_MEMBERS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Allows banning members.&#34;&#34;&#34;
+
+    ADMINISTRATOR = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Allows all permissions and bypasses channel permission overwrites.&#34;&#34;&#34;
+
+    MANAGE_CHANNELS = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Allows management and editing of channels.&#34;&#34;&#34;
+
+    MANAGE_GUILD = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Allows management and editing of the guild.&#34;&#34;&#34;
+
+    ADD_REACTIONS = 1 &lt;&lt; 6
+    &#34;&#34;&#34;Allows for the addition of reactions to messages.&#34;&#34;&#34;
+
+    VIEW_AUDIT_LOG = 1 &lt;&lt; 7
+    &#34;&#34;&#34;Allows for viewing of audit logs.&#34;&#34;&#34;
+
+    PRIORITY_SPEAKER = 1 &lt;&lt; 8
+    &#34;&#34;&#34;Allows for using priority speaker in a voice channel.&#34;&#34;&#34;
+
+    STREAM = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Allows the user to go live.&#34;&#34;&#34;
+
+    VIEW_CHANNEL = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Allows guild members to view a channel, which includes reading messages in text channels.&#34;&#34;&#34;
+
+    SEND_MESSAGES = 1 &lt;&lt; 11
+    &#34;&#34;&#34;Allows for sending messages in a channel.&#34;&#34;&#34;
+
+    SEND_TTS_MESSAGES = 1 &lt;&lt; 12
+    &#34;&#34;&#34;Allows for sending of `/tts` messages.&#34;&#34;&#34;
+
+    MANAGE_MESSAGES = 1 &lt;&lt; 13
+    &#34;&#34;&#34;Allows for deletion of other users messages.&#34;&#34;&#34;
+
+    EMBED_LINKS = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Links sent by users with this permission will be auto-embedded.&#34;&#34;&#34;
+
+    ATTACH_FILES = 1 &lt;&lt; 15
+    &#34;&#34;&#34;Allows for uploading images and files.&#34;&#34;&#34;
+
+    READ_MESSAGE_HISTORY = 1 &lt;&lt; 16
+    &#34;&#34;&#34;Allows for reading of message history.&#34;&#34;&#34;
+
+    MENTION_ROLES = 1 &lt;&lt; 17
+    &#34;&#34;&#34;Allows for using the `@everyone` tag to notify all users in a channel,
+    and the `@here` tag to notify all online users in a channel, and the
+    `@role` tag (even if the role is not mentionable) to notify all users with
+    that role in a channel.
+    &#34;&#34;&#34;
+
+    USE_EXTERNAL_EMOJIS = 1 &lt;&lt; 18
+    &#34;&#34;&#34;Allows the usage of custom emojis from other guilds.&#34;&#34;&#34;
+
+    VIEW_GUILD_INSIGHTS = 1 &lt;&lt; 19
+    &#34;&#34;&#34;Allows the user to view guild insights for eligible guilds.&#34;&#34;&#34;
+
+    CONNECT = 1 &lt;&lt; 20
+    &#34;&#34;&#34;Allows for joining of a voice channel.&#34;&#34;&#34;
+
+    SPEAK = 1 &lt;&lt; 21
+    &#34;&#34;&#34;Allows for speaking in a voice channel.&#34;&#34;&#34;
+
+    MUTE_MEMBERS = 1 &lt;&lt; 22
+    &#34;&#34;&#34;Allows for muting members in a voice channel.&#34;&#34;&#34;
+
+    DEAFEN_MEMBERS = 1 &lt;&lt; 23
+    &#34;&#34;&#34;Allows for deafening of members in a voice channel.&#34;&#34;&#34;
+
+    MOVE_MEMBERS = 1 &lt;&lt; 24
+    &#34;&#34;&#34;Allows for moving of members between voice channels.&#34;&#34;&#34;
+
+    USE_VAD = 1 &lt;&lt; 25
+    &#34;&#34;&#34;Allows for using voice-activity-detection in a voice channel.&#34;&#34;&#34;
+
+    CHANGE_NICKNAME = 1 &lt;&lt; 26
+    &#34;&#34;&#34;Allows for modification of own nickname.&#34;&#34;&#34;
+
+    MANAGE_NICKNAMES = 1 &lt;&lt; 27
+    &#34;&#34;&#34;Allows for modification of other users nicknames.&#34;&#34;&#34;
+
+    MANAGE_ROLES = 1 &lt;&lt; 28
+    &#34;&#34;&#34;Allows management and editing of roles.&#34;&#34;&#34;
+
+    MANAGE_WEBHOOKS = 1 &lt;&lt; 29
+    &#34;&#34;&#34;Allows management and editing of webhooks.&#34;&#34;&#34;
+
+    MANAGE_EMOJIS = 1 &lt;&lt; 30
+    &#34;&#34;&#34;Allows management and editing of emojis.&#34;&#34;&#34;</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Permissions -- Represents the permissions available in a given channel or guild …" href="#hikari.models.permissions.Permissions"
+class='dotted'>Permissions</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="../utilities/flag.html#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></dt>
+<dd class="nested"><p>Base type for an enum integer flag in Hikari …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntFlag -- Support for integer-based Flags" href="https://docs.python.org/3/library/enum.html#enum.IntFlag"
+class='dotted'>enum.IntFlag</a></dt>
+<dd class="nested"><p>Support for integer-based Flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Flag -- Support for flags" href="https://docs.python.org/3/library/enum.html#enum.Flag"
+class='dotted'>enum.Flag</a></dt>
+<dd class="nested"><p>Support for flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADD_REACTIONS -- Allows for the addition of reactions to messages." href="#hikari.models.permissions.Permissions.ADD_REACTIONS" id="hikari.models.permissions.Permissions.ADD_REACTIONS" class='dotted'>ADD_REACTIONS</a> = ADD_REACTIONS</code></pre>
+</dt>
+<dd><p>Allows for the addition of reactions to messages.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ADMINISTRATOR -- Allows all permissions and bypasses channel permission overwrites." href="#hikari.models.permissions.Permissions.ADMINISTRATOR" id="hikari.models.permissions.Permissions.ADMINISTRATOR" class='dotted'>ADMINISTRATOR</a> = ADMINISTRATOR</code></pre>
+</dt>
+<dd><p>Allows all permissions and bypasses channel permission overwrites.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ATTACH_FILES -- Allows for uploading images and files." href="#hikari.models.permissions.Permissions.ATTACH_FILES" id="hikari.models.permissions.Permissions.ATTACH_FILES" class='dotted'>ATTACH_FILES</a> = ATTACH_FILES</code></pre>
+</dt>
+<dd><p>Allows for uploading images and files.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="BAN_MEMBERS -- Allows banning members." href="#hikari.models.permissions.Permissions.BAN_MEMBERS" id="hikari.models.permissions.Permissions.BAN_MEMBERS" class='dotted'>BAN_MEMBERS</a> = BAN_MEMBERS</code></pre>
+</dt>
+<dd><p>Allows banning members.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANGE_NICKNAME -- Allows for modification of own nickname." href="#hikari.models.permissions.Permissions.CHANGE_NICKNAME" id="hikari.models.permissions.Permissions.CHANGE_NICKNAME" class='dotted'>CHANGE_NICKNAME</a> = CHANGE_NICKNAME</code></pre>
+</dt>
+<dd><p>Allows for modification of own nickname.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CONNECT -- Allows for joining of a voice channel." href="#hikari.models.permissions.Permissions.CONNECT" id="hikari.models.permissions.Permissions.CONNECT" class='dotted'>CONNECT</a> = CONNECT</code></pre>
+</dt>
+<dd><p>Allows for joining of a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CREATE_INSTANT_INVITE -- Allows creation of instant invites." href="#hikari.models.permissions.Permissions.CREATE_INSTANT_INVITE" id="hikari.models.permissions.Permissions.CREATE_INSTANT_INVITE" class='dotted'>CREATE_INSTANT_INVITE</a> = CREATE_INSTANT_INVITE</code></pre>
+</dt>
+<dd><p>Allows creation of instant invites.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="DEAFEN_MEMBERS -- Allows for deafening of members in a voice channel." href="#hikari.models.permissions.Permissions.DEAFEN_MEMBERS" id="hikari.models.permissions.Permissions.DEAFEN_MEMBERS" class='dotted'>DEAFEN_MEMBERS</a> = DEAFEN_MEMBERS</code></pre>
+</dt>
+<dd><p>Allows for deafening of members in a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="EMBED_LINKS -- Links sent by users with this permission will be auto-embedded." href="#hikari.models.permissions.Permissions.EMBED_LINKS" id="hikari.models.permissions.Permissions.EMBED_LINKS" class='dotted'>EMBED_LINKS</a> = EMBED_LINKS</code></pre>
+</dt>
+<dd><p>Links sent by users with this permission will be auto-embedded.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="KICK_MEMBERS -- Allows kicking members" href="#hikari.models.permissions.Permissions.KICK_MEMBERS" id="hikari.models.permissions.Permissions.KICK_MEMBERS" class='dotted'>KICK_MEMBERS</a> = KICK_MEMBERS</code></pre>
+</dt>
+<dd><p>Allows kicking members</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_CHANNELS -- Allows management and editing of channels." href="#hikari.models.permissions.Permissions.MANAGE_CHANNELS" id="hikari.models.permissions.Permissions.MANAGE_CHANNELS" class='dotted'>MANAGE_CHANNELS</a> = MANAGE_CHANNELS</code></pre>
+</dt>
+<dd><p>Allows management and editing of channels.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_EMOJIS -- Allows management and editing of emojis." href="#hikari.models.permissions.Permissions.MANAGE_EMOJIS" id="hikari.models.permissions.Permissions.MANAGE_EMOJIS" class='dotted'>MANAGE_EMOJIS</a> = MANAGE_EMOJIS</code></pre>
+</dt>
+<dd><p>Allows management and editing of emojis.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_GUILD -- Allows management and editing of the guild." href="#hikari.models.permissions.Permissions.MANAGE_GUILD" id="hikari.models.permissions.Permissions.MANAGE_GUILD" class='dotted'>MANAGE_GUILD</a> = MANAGE_GUILD</code></pre>
+</dt>
+<dd><p>Allows management and editing of the guild.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_MESSAGES -- Allows for deletion of other users messages." href="#hikari.models.permissions.Permissions.MANAGE_MESSAGES" id="hikari.models.permissions.Permissions.MANAGE_MESSAGES" class='dotted'>MANAGE_MESSAGES</a> = MANAGE_MESSAGES</code></pre>
+</dt>
+<dd><p>Allows for deletion of other users messages.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_NICKNAMES -- Allows for modification of other users nicknames." href="#hikari.models.permissions.Permissions.MANAGE_NICKNAMES" id="hikari.models.permissions.Permissions.MANAGE_NICKNAMES" class='dotted'>MANAGE_NICKNAMES</a> = MANAGE_NICKNAMES</code></pre>
+</dt>
+<dd><p>Allows for modification of other users nicknames.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_ROLES -- Allows management and editing of roles." href="#hikari.models.permissions.Permissions.MANAGE_ROLES" id="hikari.models.permissions.Permissions.MANAGE_ROLES" class='dotted'>MANAGE_ROLES</a> = MANAGE_ROLES</code></pre>
+</dt>
+<dd><p>Allows management and editing of roles.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MANAGE_WEBHOOKS -- Allows management and editing of webhooks." href="#hikari.models.permissions.Permissions.MANAGE_WEBHOOKS" id="hikari.models.permissions.Permissions.MANAGE_WEBHOOKS" class='dotted'>MANAGE_WEBHOOKS</a> = MANAGE_WEBHOOKS</code></pre>
+</dt>
+<dd><p>Allows management and editing of webhooks.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MENTION_ROLES -- Allows for using the `@everyone` tag to notify all users in a channel,
+and the `@here` tag to notify all online users in a channel, and the
+`@role` …" href="#hikari.models.permissions.Permissions.MENTION_ROLES" id="hikari.models.permissions.Permissions.MENTION_ROLES" class='dotted'>MENTION_ROLES</a> = MENTION_ROLES</code></pre>
+</dt>
+<dd><p>Allows for using the <code>@everyone</code> tag to notify all users in a channel,
+and the <code>@here</code> tag to notify all online users in a channel, and the
+<code>@role</code> tag (even if the role is not mentionable) to notify all users with
+that role in a channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MOVE_MEMBERS -- Allows for moving of members between voice channels." href="#hikari.models.permissions.Permissions.MOVE_MEMBERS" id="hikari.models.permissions.Permissions.MOVE_MEMBERS" class='dotted'>MOVE_MEMBERS</a> = MOVE_MEMBERS</code></pre>
+</dt>
+<dd><p>Allows for moving of members between voice channels.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="MUTE_MEMBERS -- Allows for muting members in a voice channel." href="#hikari.models.permissions.Permissions.MUTE_MEMBERS" id="hikari.models.permissions.Permissions.MUTE_MEMBERS" class='dotted'>MUTE_MEMBERS</a> = MUTE_MEMBERS</code></pre>
+</dt>
+<dd><p>Allows for muting members in a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- Empty permission." href="#hikari.models.permissions.Permissions.NONE" id="hikari.models.permissions.Permissions.NONE" class='dotted'>NONE</a> = NONE</code></pre>
+</dt>
+<dd><p>Empty permission.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIORITY_SPEAKER -- Allows for using priority speaker in a voice channel." href="#hikari.models.permissions.Permissions.PRIORITY_SPEAKER" id="hikari.models.permissions.Permissions.PRIORITY_SPEAKER" class='dotted'>PRIORITY_SPEAKER</a> = PRIORITY_SPEAKER</code></pre>
+</dt>
+<dd><p>Allows for using priority speaker in a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="READ_MESSAGE_HISTORY -- Allows for reading of message history." href="#hikari.models.permissions.Permissions.READ_MESSAGE_HISTORY" id="hikari.models.permissions.Permissions.READ_MESSAGE_HISTORY" class='dotted'>READ_MESSAGE_HISTORY</a> = READ_MESSAGE_HISTORY</code></pre>
+</dt>
+<dd><p>Allows for reading of message history.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SEND_MESSAGES -- Allows for sending messages in a channel." href="#hikari.models.permissions.Permissions.SEND_MESSAGES" id="hikari.models.permissions.Permissions.SEND_MESSAGES" class='dotted'>SEND_MESSAGES</a> = SEND_MESSAGES</code></pre>
+</dt>
+<dd><p>Allows for sending messages in a channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SEND_TTS_MESSAGES -- Allows for sending of `/tts` messages." href="#hikari.models.permissions.Permissions.SEND_TTS_MESSAGES" id="hikari.models.permissions.Permissions.SEND_TTS_MESSAGES" class='dotted'>SEND_TTS_MESSAGES</a> = SEND_TTS_MESSAGES</code></pre>
+</dt>
+<dd><p>Allows for sending of <code>/tts</code> messages.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="SPEAK -- Allows for speaking in a voice channel." href="#hikari.models.permissions.Permissions.SPEAK" id="hikari.models.permissions.Permissions.SPEAK" class='dotted'>SPEAK</a> = SPEAK</code></pre>
+</dt>
+<dd><p>Allows for speaking in a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="STREAM -- Allows the user to go live." href="#hikari.models.permissions.Permissions.STREAM" id="hikari.models.permissions.Permissions.STREAM" class='dotted'>STREAM</a> = STREAM</code></pre>
+</dt>
+<dd><p>Allows the user to go live.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USE_EXTERNAL_EMOJIS -- Allows the usage of custom emojis from other guilds." href="#hikari.models.permissions.Permissions.USE_EXTERNAL_EMOJIS" id="hikari.models.permissions.Permissions.USE_EXTERNAL_EMOJIS" class='dotted'>USE_EXTERNAL_EMOJIS</a> = USE_EXTERNAL_EMOJIS</code></pre>
+</dt>
+<dd><p>Allows the usage of custom emojis from other guilds.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="USE_VAD -- Allows for using voice-activity-detection in a voice channel." href="#hikari.models.permissions.Permissions.USE_VAD" id="hikari.models.permissions.Permissions.USE_VAD" class='dotted'>USE_VAD</a> = USE_VAD</code></pre>
+</dt>
+<dd><p>Allows for using voice-activity-detection in a voice channel.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_AUDIT_LOG -- Allows for viewing of audit logs." href="#hikari.models.permissions.Permissions.VIEW_AUDIT_LOG" id="hikari.models.permissions.Permissions.VIEW_AUDIT_LOG" class='dotted'>VIEW_AUDIT_LOG</a> = VIEW_AUDIT_LOG</code></pre>
+</dt>
+<dd><p>Allows for viewing of audit logs.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_CHANNEL -- Allows guild members to view a channel, which includes reading messages in text channels." href="#hikari.models.permissions.Permissions.VIEW_CHANNEL" id="hikari.models.permissions.Permissions.VIEW_CHANNEL" class='dotted'>VIEW_CHANNEL</a> = VIEW_CHANNEL</code></pre>
+</dt>
+<dd><p>Allows guild members to view a channel, which includes reading messages in text channels.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="VIEW_GUILD_INSIGHTS -- Allows the user to view guild insights for eligible guilds." href="#hikari.models.permissions.Permissions.VIEW_GUILD_INSIGHTS" id="hikari.models.permissions.Permissions.VIEW_GUILD_INSIGHTS" class='dotted'>VIEW_GUILD_INSIGHTS</a> = VIEW_GUILD_INSIGHTS</code></pre>
+</dt>
+<dd><p>Allows the user to view guild insights for eligible guilds.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

@@ -1,0 +1,2051 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.webhooks API documentation</title>
+<meta name="description" content="Application and entities that are used to describe webhooks on Discord." />
+<meta property="og:title" content="hikari.models.webhooks module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.webhooks">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">webhooks</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Application and entities that are used to describe webhooks on Discord.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Webhook -- Represents a webhook object on Discord …" href="#hikari.models.webhooks.Webhook"
+class='sidebar-nav-pill'>Webhook</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.webhooks.Webhook.app"
+class='sidebar-nav-pill'>app</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="author -- The user that created the webhook …" href="#hikari.models.webhooks.Webhook.author"
+class='sidebar-nav-pill'>author</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- URL for this webhook's custom avatar or default avatar …" href="#hikari.models.webhooks.Webhook.avatar"
+class='sidebar-nav-pill'>avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- The avatar hash of the webhook." href="#hikari.models.webhooks.Webhook.avatar_hash"
+class='sidebar-nav-pill'>avatar_hash</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The channel ID this webhook is for." href="#hikari.models.webhooks.Webhook.channel_id"
+class='sidebar-nav-pill'>channel_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at"
+class='sidebar-nav-pill'>created_at</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- URL for this webhook's default avatar …" href="#hikari.models.webhooks.Webhook.default_avatar"
+class='sidebar-nav-pill'>default_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="delete -- Delete this webhook …" href="#hikari.models.webhooks.Webhook.delete"
+class='sidebar-nav-pill'>delete</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="edit -- Edit this webhook …" href="#hikari.models.webhooks.Webhook.edit"
+class='sidebar-nav-pill'>edit</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="execute -- Execute the webhook to create a message …" href="#hikari.models.webhooks.Webhook.execute"
+class='sidebar-nav-pill'>execute</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_channel -- Fetch the channel this webhook is for …" href="#hikari.models.webhooks.Webhook.fetch_channel"
+class='sidebar-nav-pill'>fetch_channel</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr></em></small> <a title="fetch_self -- Fetch this webhook …" href="#hikari.models.webhooks.Webhook.fetch_self"
+class='sidebar-nav-pill'>fetch_self</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="format_avatar -- Generate the avatar URL for this webhook's custom avatar if set …" href="#hikari.models.webhooks.Webhook.format_avatar"
+class='sidebar-nav-pill'>format_avatar</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The guild ID of the webhook." href="#hikari.models.webhooks.Webhook.guild_id"
+class='sidebar-nav-pill'>guild_id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.webhooks.Webhook.id"
+class='sidebar-nav-pill'>id</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given webhook's user …" href="#hikari.models.webhooks.Webhook.mention"
+class='sidebar-nav-pill'>mention</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the webhook." href="#hikari.models.webhooks.Webhook.name"
+class='sidebar-nav-pill'>name</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="token -- The token for the webhook …" href="#hikari.models.webhooks.Webhook.token"
+class='sidebar-nav-pill'>token</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The type of the webhook." href="#hikari.models.webhooks.Webhook.type"
+class='sidebar-nav-pill'>type</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="WebhookType -- Types of webhook." href="#hikari.models.webhooks.WebhookType"
+class='sidebar-nav-pill'>WebhookType</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_FOLLOWER -- Channel Follower webhook." href="#hikari.models.webhooks.WebhookType.CHANNEL_FOLLOWER"
+class='sidebar-nav-pill'>CHANNEL_FOLLOWER</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INCOMING -- Incoming webhook." href="#hikari.models.webhooks.WebhookType.INCOMING"
+class='sidebar-nav-pill'>INCOMING</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L0-L452" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Application and entities that are used to describe webhooks on Discord.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;WebhookType&#34;, &#34;Webhook&#34;]
+
+import enum
+import typing
+
+import attr
+
+from hikari.utilities import attr_extensions
+from hikari.utilities import constants
+from hikari.utilities import files as files_
+from hikari.utilities import routes
+from hikari.utilities import snowflake
+from hikari.utilities import undefined
+
+if typing.TYPE_CHECKING:
+    from hikari import traits
+    from hikari.models import channels as channels_
+    from hikari.models import embeds as embeds_
+    from hikari.models import guilds as guilds_
+    from hikari.models import messages as messages_
+    from hikari.models import users as users_
+
+
+@enum.unique
+@typing.final
+class WebhookType(enum.IntEnum):
+    &#34;&#34;&#34;Types of webhook.&#34;&#34;&#34;
+
+    INCOMING = 1
+    &#34;&#34;&#34;Incoming webhook.&#34;&#34;&#34;
+
+    CHANNEL_FOLLOWER = 2
+    &#34;&#34;&#34;Channel Follower webhook.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name
+
+
+@attr_extensions.with_copy
+@attr.s(eq=True, hash=True, init=True, kw_only=True, slots=True, weakref_slot=False)
+class Webhook(snowflake.Unique):
+    &#34;&#34;&#34;Represents a webhook object on Discord.
+
+    This is an endpoint that can have messages sent to it using standard
+    HTTP requests, which enables external services that are not bots to
+    send informational messages to specific channels.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    type: WebhookType = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The type of the webhook.&#34;&#34;&#34;
+
+    guild_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The guild ID of the webhook.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The channel ID this webhook is for.&#34;&#34;&#34;
+
+    author: typing.Optional[users_.User] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The user that created the webhook
+
+    !!! info
+        This will be `builtins.None` when getting a webhook with bot authorization rather
+        than the webhook&#39;s token.
+    &#34;&#34;&#34;
+
+    name: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of the webhook.&#34;&#34;&#34;
+
+    avatar_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The avatar hash of the webhook.&#34;&#34;&#34;
+
+    token: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The token for the webhook.
+
+    !!! info
+        This is only available for incoming webhooks that are created in the
+        channel settings.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name if self.name is not None else f&#34;Unnamed webhook ID {self.id}&#34;
+
+    @property
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given webhook&#39;s user.
+
+        !!! note
+            This exists purely for consistency. Webhooks do not receive events
+            from the gateway, and without some bot backend to support it, will
+            not be able to detect mentions of their webhook.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_webhook.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+        # TODO: check if this ID the same as the optional author.id in terms of validity.
+        return f&#34;&lt;@{self.id}&gt;&#34;
+
+    async def execute(
+        self,
+        content: undefined.UndefinedOr[typing.Any] = undefined.UNDEFINED,
+        *,
+        username: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        avatar_url: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        tts: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        attachment: undefined.UndefinedOr[files_.Resourceish] = undefined.UNDEFINED,
+        attachments: undefined.UndefinedOr[typing.Sequence[files_.Resourceish]] = undefined.UNDEFINED,
+        embeds: undefined.UndefinedOr[typing.Sequence[embeds_.Embed]] = undefined.UNDEFINED,
+        mentions_everyone: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        user_mentions: undefined.UndefinedOr[
+            typing.Union[typing.Collection[snowflake.SnowflakeishOr[users_.PartialUser]], bool]
+        ] = undefined.UNDEFINED,
+        role_mentions: undefined.UndefinedOr[
+            typing.Union[typing.Collection[snowflake.SnowflakeishOr[guilds_.PartialRole]], bool]
+        ] = undefined.UNDEFINED,
+    ) -&gt; messages_.Message:
+        &#34;&#34;&#34;Execute the webhook to create a message.
+
+        Parameters
+        ----------
+        content : hikari.utilities.undefined.UndefinedOr[typing.Any]
+            If specified, the message contents. If
+            `hikari.utilities.undefined.UNDEFINED`, then nothing will be sent
+            in the content. Any other value here will be cast to a
+            `builtins.str`.
+
+            If this is a `hikari.models.embeds.Embed` and no `embed` kwarg is
+            provided, then this will instead update the embed. This allows for
+            simpler syntax when sending an embed alone.
+
+            Likewise, if this is a `hikari.utilities.files.Resource`, then the
+            content is instead treated as an attachment if no `attachment` and
+            no `attachments` kwargs are provided.
+        username : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the username to override the webhook&#39;s username
+            for this request.
+        avatar_url : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the url of an image to override the webhook&#39;s
+            avatar with for this request.
+        tts : hikari.utilities.undefined.UndefinedOr[bool]
+            If specified, whether the message will be sent as a TTS message.
+        attachment : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+            If specified, the message attachment. This can be a resource,
+            or string of a path on your computer or a URL.
+        attachments : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.files.Resourceish]]
+            If specified, the message attachments. These can be resources, or
+            strings consisting of paths on your computer or URLs.
+        embeds : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.models.embeds.Embed]]
+            If specified, a sequence of between `1` to `10` embed objects
+            (inclusive) to send with the embed.
+        mentions_everyone : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If specified, whether the message should parse @everyone/@here
+            mentions.
+        user_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.PartialUser] or builtins.bool]
+            If specified, and `builtins.True`, all mentions will be parsed.
+            If specified, and `builtins.False`, no mentions will be parsed.
+            Alternatively this may be a collection of
+            `hikari.utilities.snowflake.Snowflake`, or
+            `hikari.models.users.PartialUser` derivatives to enforce mentioning
+            specific users.
+        role_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialRole] or builtins.bool]
+            If specified, and `builtins.True`, all mentions will be parsed.
+            If specified, and `builtins.False`, no mentions will be parsed.
+            Alternatively this may be a collection of
+            `hikari.utilities.snowflake.Snowflake`, or
+            `hikari.models.guilds.PartialRole` derivatives to enforce mentioning
+            specific roles.
+
+        Returns
+        -------
+        hikari.models.messages.Message
+            The created message object.
+
+        Raises
+        ------
+        hikari.errors.NotFound
+            If the current webhook is not found.
+        hikari.errors.BadRequest
+            This can be raised if the file is too large; if the embed exceeds
+            the defined limits; if the message content is specified only and
+            empty or greater than `2000` characters; if neither content, file
+            or embeds are specified.
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If either `Webhook.token` is `builtins.None` or more than 100 unique
+            objects/entities are passed for `role_mentions` or `user_mentions.
+        builtins.TypeError
+            If both `attachment` and `attachments` are specified.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+        if not self.token:
+            raise ValueError(&#34;Cannot send a message using a webhook where we don&#39;t know the token.&#34;)
+
+        return await self.app.rest.execute_webhook(
+            webhook=self.id,
+            token=self.token,
+            content=content,
+            username=username,
+            avatar_url=avatar_url,
+            tts=tts,
+            attachment=attachment,
+            attachments=attachments,
+            embeds=embeds,
+            mentions_everyone=mentions_everyone,
+            user_mentions=user_mentions,
+            role_mentions=role_mentions,
+        )
+
+    async def delete(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; None:
+        &#34;&#34;&#34;Delete this webhook.
+
+        Parameters
+        ----------
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Raises
+        ------
+        hikari.errors.NotFound
+            If this webhook is not found.
+        hikari.errors.Forbidden
+            If you either lack the `MANAGE_WEBHOOKS` permission or
+            aren&#39;t a member of the guild this webhook belongs to.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token` is
+            `builtins.None`.
+        &#34;&#34;&#34;
+        if use_token and self.token is None:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        await self.app.rest.delete_webhook(self.id, token=token)
+
+    async def edit(
+        self,
+        *,
+        name: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        avatar: undefined.UndefinedNoneOr[files_.Resource[files_.AsyncReader]] = undefined.UNDEFINED,
+        channel: undefined.UndefinedOr[snowflake.SnowflakeishOr[channels_.TextChannel]] = undefined.UNDEFINED,
+        reason: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; Webhook:
+        &#34;&#34;&#34;Edit this webhook.
+
+        Parameters
+        ----------
+        name : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the new name string.
+        avatar : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+            If specified, the new avatar image. If `builtins.None`, then
+            it is removed. If not specified, nothing is changed.
+        channel : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.TextChannel]]
+            If specified, the object or ID of the new channel the given
+            webhook should be moved to.
+        reason : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the audit log reason explaining why the operation
+            was performed. This field will be used when using the webhook&#39;s
+            token rather than bot authorization.
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The updated webhook object.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.NotFound
+            If either the webhook or the channel aren&#39;t found.
+        hikari.errors.Forbidden
+            If you either lack the `MANAGE_WEBHOOKS` permission or
+            aren&#39;t a member of the guild this webhook belongs to.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token` is `builtins.None`.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+        if use_token and self.token is None:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        return await self.app.rest.edit_webhook(
+            self.id, token=token, name=name, avatar=avatar, channel=channel, reason=reason,
+        )
+
+    async def fetch_channel(self) -&gt; channels_.PartialChannel:
+        &#34;&#34;&#34;Fetch the channel this webhook is for.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The object of the channel this webhook targets.
+
+        Raises
+        ------
+        hikari.errors.Forbidden
+            If you don&#39;t have access to the channel this webhook belongs to.
+        hikari.errors.NotFound
+            If the channel this message was created in does not exist.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_channel(self.channel_id)
+
+    async def fetch_self(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; Webhook:
+        &#34;&#34;&#34;Fetch this webhook.
+
+        Parameters
+        ----------
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The requested webhook object.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.NotFound
+            If the webhook is not found.
+        hikari.errors.Forbidden
+            If you&#39;re not in the guild that owns this webhook or
+            lack the `MANAGE_WEBHOOKS` permission.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token`
+            is `builtins.None`.
+        &#34;&#34;&#34;
+        if use_token and not self.token:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        return await self.app.rest.fetch_webhook(self.id, token=token)
+
+    @property
+    def avatar(self) -&gt; files_.URL:
+        &#34;&#34;&#34;URL for this webhook&#39;s custom avatar or default avatar.
+
+        If the webhook has a custom avatar, a URL to this is returned. Otherwise
+        a URL to the default avatar is provided instead.
+        &#34;&#34;&#34;
+        url = self.format_avatar()
+        if url is None:
+            return self.default_avatar
+        return url
+
+    @property
+    def default_avatar(self) -&gt; files_.URL:
+        &#34;&#34;&#34;URL for this webhook&#39;s default avatar.
+
+        This is used if no avatar is set.
+        &#34;&#34;&#34;
+        return routes.CDN_DEFAULT_USER_AVATAR.compile_to_file(constants.CDN_URL, discriminator=0, file_format=&#34;png&#34;,)
+
+    # noinspection PyShadowingBuiltins
+    def format_avatar(self, format: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files_.URL]:
+        &#34;&#34;&#34;Generate the avatar URL for this webhook&#39;s custom avatar if set.
+
+        If no avatar is specified, return `None`. In this case, you should
+        use `default_avatar` instead.
+
+        Parameters
+        ----------
+        format : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg`, `webp`. This will be ignored for
+            default avatars which can only be `png`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+            Will be ignored for default avatars.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL of the resource. `builtins.None` if no avatar is set (in
+            this case, use the `default_avatar` instead).
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two between 16 and 4096 (inclusive).
+        &#34;&#34;&#34;
+        if self.avatar_hash is None:
+            return None
+
+        return routes.CDN_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+        )</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Webhook -- Represents a webhook object on Discord …" href="#hikari.models.webhooks.Webhook"
+class='dotted'>Webhook</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.webhooks.Webhook" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Webhook (
+    *,
+    app: <a href='../traits.html#hikari.traits.RESTAware'>traits.RESTAware</a>,
+    id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    type: <a href='#hikari.models.webhooks.WebhookType'>WebhookType</a>,
+    guild_id: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>],
+    channel_id: <a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>snowflake.Snowflake</a>,
+    author: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='users.html#hikari.models.users.User'>users_.User</a>],
+    name: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    avatar_hash: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+    token: <a href='https://docs.python.org/3/library/typing.html#typing.Optional'>Optional</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>],
+): ...</code></pre>
+<p>Represents a webhook object on Discord.</p>
+<p>This is an endpoint that can have messages sent to it using standard
+HTTP requests, which enables external services that are not bots to
+send informational messages to specific channels.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L66-L453" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Webhook(snowflake.Unique):
+    &#34;&#34;&#34;Represents a webhook object on Discord.
+
+    This is an endpoint that can have messages sent to it using standard
+    HTTP requests, which enables external services that are not bots to
+    send informational messages to specific channels.
+    &#34;&#34;&#34;
+
+    app: traits.RESTAware = attr.ib(repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    &#34;&#34;&#34;The client application that models may use for procedures.&#34;&#34;&#34;
+
+    id: snowflake.Snowflake = attr.ib(eq=True, hash=True, repr=True)
+    &#34;&#34;&#34;The ID of this entity.&#34;&#34;&#34;
+
+    type: WebhookType = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The type of the webhook.&#34;&#34;&#34;
+
+    guild_id: typing.Optional[snowflake.Snowflake] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The guild ID of the webhook.&#34;&#34;&#34;
+
+    channel_id: snowflake.Snowflake = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The channel ID this webhook is for.&#34;&#34;&#34;
+
+    author: typing.Optional[users_.User] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The user that created the webhook
+
+    !!! info
+        This will be `builtins.None` when getting a webhook with bot authorization rather
+        than the webhook&#39;s token.
+    &#34;&#34;&#34;
+
+    name: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=True)
+    &#34;&#34;&#34;The name of the webhook.&#34;&#34;&#34;
+
+    avatar_hash: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The avatar hash of the webhook.&#34;&#34;&#34;
+
+    token: typing.Optional[str] = attr.ib(eq=False, hash=False, repr=False)
+    &#34;&#34;&#34;The token for the webhook.
+
+    !!! info
+        This is only available for incoming webhooks that are created in the
+        channel settings.
+    &#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name if self.name is not None else f&#34;Unnamed webhook ID {self.id}&#34;
+
+    @property
+    def mention(self) -&gt; str:
+        &#34;&#34;&#34;Return a raw mention string for the given webhook&#39;s user.
+
+        !!! note
+            This exists purely for consistency. Webhooks do not receive events
+            from the gateway, and without some bot backend to support it, will
+            not be able to detect mentions of their webhook.
+
+        Example
+        -------
+
+        ```py
+        &gt;&gt;&gt; some_webhook.mention
+        &#39;&lt;@123456789123456789&gt;&#39;
+        ```
+
+        Returns
+        -------
+        builtins.str
+            The mention string to use.
+        &#34;&#34;&#34;
+        # TODO: check if this ID the same as the optional author.id in terms of validity.
+        return f&#34;&lt;@{self.id}&gt;&#34;
+
+    async def execute(
+        self,
+        content: undefined.UndefinedOr[typing.Any] = undefined.UNDEFINED,
+        *,
+        username: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        avatar_url: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        tts: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        attachment: undefined.UndefinedOr[files_.Resourceish] = undefined.UNDEFINED,
+        attachments: undefined.UndefinedOr[typing.Sequence[files_.Resourceish]] = undefined.UNDEFINED,
+        embeds: undefined.UndefinedOr[typing.Sequence[embeds_.Embed]] = undefined.UNDEFINED,
+        mentions_everyone: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        user_mentions: undefined.UndefinedOr[
+            typing.Union[typing.Collection[snowflake.SnowflakeishOr[users_.PartialUser]], bool]
+        ] = undefined.UNDEFINED,
+        role_mentions: undefined.UndefinedOr[
+            typing.Union[typing.Collection[snowflake.SnowflakeishOr[guilds_.PartialRole]], bool]
+        ] = undefined.UNDEFINED,
+    ) -&gt; messages_.Message:
+        &#34;&#34;&#34;Execute the webhook to create a message.
+
+        Parameters
+        ----------
+        content : hikari.utilities.undefined.UndefinedOr[typing.Any]
+            If specified, the message contents. If
+            `hikari.utilities.undefined.UNDEFINED`, then nothing will be sent
+            in the content. Any other value here will be cast to a
+            `builtins.str`.
+
+            If this is a `hikari.models.embeds.Embed` and no `embed` kwarg is
+            provided, then this will instead update the embed. This allows for
+            simpler syntax when sending an embed alone.
+
+            Likewise, if this is a `hikari.utilities.files.Resource`, then the
+            content is instead treated as an attachment if no `attachment` and
+            no `attachments` kwargs are provided.
+        username : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the username to override the webhook&#39;s username
+            for this request.
+        avatar_url : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the url of an image to override the webhook&#39;s
+            avatar with for this request.
+        tts : hikari.utilities.undefined.UndefinedOr[bool]
+            If specified, whether the message will be sent as a TTS message.
+        attachment : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+            If specified, the message attachment. This can be a resource,
+            or string of a path on your computer or a URL.
+        attachments : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.files.Resourceish]]
+            If specified, the message attachments. These can be resources, or
+            strings consisting of paths on your computer or URLs.
+        embeds : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.models.embeds.Embed]]
+            If specified, a sequence of between `1` to `10` embed objects
+            (inclusive) to send with the embed.
+        mentions_everyone : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If specified, whether the message should parse @everyone/@here
+            mentions.
+        user_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.PartialUser] or builtins.bool]
+            If specified, and `builtins.True`, all mentions will be parsed.
+            If specified, and `builtins.False`, no mentions will be parsed.
+            Alternatively this may be a collection of
+            `hikari.utilities.snowflake.Snowflake`, or
+            `hikari.models.users.PartialUser` derivatives to enforce mentioning
+            specific users.
+        role_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialRole] or builtins.bool]
+            If specified, and `builtins.True`, all mentions will be parsed.
+            If specified, and `builtins.False`, no mentions will be parsed.
+            Alternatively this may be a collection of
+            `hikari.utilities.snowflake.Snowflake`, or
+            `hikari.models.guilds.PartialRole` derivatives to enforce mentioning
+            specific roles.
+
+        Returns
+        -------
+        hikari.models.messages.Message
+            The created message object.
+
+        Raises
+        ------
+        hikari.errors.NotFound
+            If the current webhook is not found.
+        hikari.errors.BadRequest
+            This can be raised if the file is too large; if the embed exceeds
+            the defined limits; if the message content is specified only and
+            empty or greater than `2000` characters; if neither content, file
+            or embeds are specified.
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If either `Webhook.token` is `builtins.None` or more than 100 unique
+            objects/entities are passed for `role_mentions` or `user_mentions.
+        builtins.TypeError
+            If both `attachment` and `attachments` are specified.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+        if not self.token:
+            raise ValueError(&#34;Cannot send a message using a webhook where we don&#39;t know the token.&#34;)
+
+        return await self.app.rest.execute_webhook(
+            webhook=self.id,
+            token=self.token,
+            content=content,
+            username=username,
+            avatar_url=avatar_url,
+            tts=tts,
+            attachment=attachment,
+            attachments=attachments,
+            embeds=embeds,
+            mentions_everyone=mentions_everyone,
+            user_mentions=user_mentions,
+            role_mentions=role_mentions,
+        )
+
+    async def delete(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; None:
+        &#34;&#34;&#34;Delete this webhook.
+
+        Parameters
+        ----------
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Raises
+        ------
+        hikari.errors.NotFound
+            If this webhook is not found.
+        hikari.errors.Forbidden
+            If you either lack the `MANAGE_WEBHOOKS` permission or
+            aren&#39;t a member of the guild this webhook belongs to.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token` is
+            `builtins.None`.
+        &#34;&#34;&#34;
+        if use_token and self.token is None:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        await self.app.rest.delete_webhook(self.id, token=token)
+
+    async def edit(
+        self,
+        *,
+        name: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        avatar: undefined.UndefinedNoneOr[files_.Resource[files_.AsyncReader]] = undefined.UNDEFINED,
+        channel: undefined.UndefinedOr[snowflake.SnowflakeishOr[channels_.TextChannel]] = undefined.UNDEFINED,
+        reason: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+        use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    ) -&gt; Webhook:
+        &#34;&#34;&#34;Edit this webhook.
+
+        Parameters
+        ----------
+        name : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the new name string.
+        avatar : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+            If specified, the new avatar image. If `builtins.None`, then
+            it is removed. If not specified, nothing is changed.
+        channel : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.TextChannel]]
+            If specified, the object or ID of the new channel the given
+            webhook should be moved to.
+        reason : hikari.utilities.undefined.UndefinedOr[builtins.str]
+            If specified, the audit log reason explaining why the operation
+            was performed. This field will be used when using the webhook&#39;s
+            token rather than bot authorization.
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The updated webhook object.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.NotFound
+            If either the webhook or the channel aren&#39;t found.
+        hikari.errors.Forbidden
+            If you either lack the `MANAGE_WEBHOOKS` permission or
+            aren&#39;t a member of the guild this webhook belongs to.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token` is `builtins.None`.
+        &#34;&#34;&#34;  # noqa: E501 - Line too long
+        if use_token and self.token is None:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        return await self.app.rest.edit_webhook(
+            self.id, token=token, name=name, avatar=avatar, channel=channel, reason=reason,
+        )
+
+    async def fetch_channel(self) -&gt; channels_.PartialChannel:
+        &#34;&#34;&#34;Fetch the channel this webhook is for.
+
+        Returns
+        -------
+        hikari.models.channels.PartialChannel
+            The object of the channel this webhook targets.
+
+        Raises
+        ------
+        hikari.errors.Forbidden
+            If you don&#39;t have access to the channel this webhook belongs to.
+        hikari.errors.NotFound
+            If the channel this message was created in does not exist.
+        &#34;&#34;&#34;
+        return await self.app.rest.fetch_channel(self.channel_id)
+
+    async def fetch_self(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; Webhook:
+        &#34;&#34;&#34;Fetch this webhook.
+
+        Parameters
+        ----------
+        use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+            If set to `builtins.True` then the webhook&#39;s token will be used for
+            this request; if set to `builtins.False` then bot authorization will
+            be used; if not specified then the webhook&#39;s token will be used for
+            the request if it&#39;s set else bot authorization.
+
+        Returns
+        -------
+        hikari.models.webhooks.Webhook
+            The requested webhook object.
+
+        Raises
+        ------
+        hikari.errors.BadRequest
+            If any invalid snowflake IDs are passed; a snowflake may be invalid
+            due to it being outside of the range of a 64 bit integer.
+        hikari.errors.NotFound
+            If the webhook is not found.
+        hikari.errors.Forbidden
+            If you&#39;re not in the guild that owns this webhook or
+            lack the `MANAGE_WEBHOOKS` permission.
+        hikari.errors.Unauthorized
+            If you pass a token that&#39;s invalid for the target webhook.
+        builtins.ValueError
+            If `use_token` is passed as `builtins.True` when `Webhook.token`
+            is `builtins.None`.
+        &#34;&#34;&#34;
+        if use_token and not self.token:
+            raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+        token: undefined.UndefinedOr[str]
+        token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+        return await self.app.rest.fetch_webhook(self.id, token=token)
+
+    @property
+    def avatar(self) -&gt; files_.URL:
+        &#34;&#34;&#34;URL for this webhook&#39;s custom avatar or default avatar.
+
+        If the webhook has a custom avatar, a URL to this is returned. Otherwise
+        a URL to the default avatar is provided instead.
+        &#34;&#34;&#34;
+        url = self.format_avatar()
+        if url is None:
+            return self.default_avatar
+        return url
+
+    @property
+    def default_avatar(self) -&gt; files_.URL:
+        &#34;&#34;&#34;URL for this webhook&#39;s default avatar.
+
+        This is used if no avatar is set.
+        &#34;&#34;&#34;
+        return routes.CDN_DEFAULT_USER_AVATAR.compile_to_file(constants.CDN_URL, discriminator=0, file_format=&#34;png&#34;,)
+
+    # noinspection PyShadowingBuiltins
+    def format_avatar(self, format: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files_.URL]:
+        &#34;&#34;&#34;Generate the avatar URL for this webhook&#39;s custom avatar if set.
+
+        If no avatar is specified, return `None`. In this case, you should
+        use `default_avatar` instead.
+
+        Parameters
+        ----------
+        format : builtins.str
+            The format to use for this URL, defaults to `png`.
+            Supports `png`, `jpeg`, `jpg`, `webp`. This will be ignored for
+            default avatars which can only be `png`.
+        size : builtins.int
+            The size to set for the URL, defaults to `4096`.
+            Can be any power of two between 16 and 4096.
+            Will be ignored for default avatars.
+
+        Returns
+        -------
+        hikari.utilities.files.URL or builtins.None
+            The URL of the resource. `builtins.None` if no avatar is set (in
+            this case, use the `default_avatar` instead).
+
+        Raises
+        ------
+        builtins.ValueError
+            If `size` is not a power of two between 16 and 4096 (inclusive).
+        &#34;&#34;&#34;
+        if self.avatar_hash is None:
+            return None
+
+        return routes.CDN_USER_AVATAR.compile_to_file(
+            constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+        )</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="Webhook -- Represents a webhook object on Discord …" href="#hikari.models.webhooks.Webhook"
+class='dotted'>Webhook</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='An abstract base class which may have abstract methods and abstract properties.'>abstract</abbr> <abbr title='A standard Python type.'>class</abbr></em></small> <a title="Unique -- Mixin for a class that enforces uniqueness by a snowflake ID." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique"
+class='dotted'>Unique</a></dt>
+<dd class="nested"><p>Mixin for a class that enforces uniqueness by a snowflake ID.</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="abc.ABC -- Helper class that provides a standard way to create an ABC using
+inheritance." href="https://docs.python.org/3/library/abc.html#abc.ABC"
+class='dotted'>abc.ABC</a></dt>
+<dd class="nested"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Methods</h5>
+<dl>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.delete" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> delete(
+    *,
+    use_token: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+) -> None: ...</code></pre>
+</dt>
+<dd>
+<p>Delete this webhook.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>use_token</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If set to <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> then the webhook's token will be used for
+this request; if set to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> then bot authorization will
+be used; if not specified then the webhook's token will be used for
+the request if it's set else bot authorization.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If this webhook is not found.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If you either lack the <code>MANAGE_WEBHOOKS</code> permission or
+aren't a member of the guild this webhook belongs to.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>use_token</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> when <code><a href='#hikari.models.webhooks.Webhook.token'>token</a></code> is
+<code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L251-L279" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def delete(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; None:
+    &#34;&#34;&#34;Delete this webhook.
+
+    Parameters
+    ----------
+    use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If set to `builtins.True` then the webhook&#39;s token will be used for
+        this request; if set to `builtins.False` then bot authorization will
+        be used; if not specified then the webhook&#39;s token will be used for
+        the request if it&#39;s set else bot authorization.
+
+    Raises
+    ------
+    hikari.errors.NotFound
+        If this webhook is not found.
+    hikari.errors.Forbidden
+        If you either lack the `MANAGE_WEBHOOKS` permission or
+        aren&#39;t a member of the guild this webhook belongs to.
+    builtins.ValueError
+        If `use_token` is passed as `builtins.True` when `Webhook.token` is
+        `builtins.None`.
+    &#34;&#34;&#34;
+    if use_token and self.token is None:
+        raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+    token: undefined.UndefinedOr[str]
+    token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+    await self.app.rest.delete_webhook(self.id, token=token)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.edit" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> edit(
+    *,
+    name: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+    avatar: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedNoneOr'>undefined.UndefinedNoneOr</a>[<a href='../utilities/files.html#hikari.utilities.files.Resource'>files_.Resource</a>[<a href='../utilities/files.html#hikari.utilities.files.AsyncReader'>files_.AsyncReader</a>]] = UNDEFINED,
+    channel: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='channels.html#hikari.models.channels.TextChannel'>channels_.TextChannel</a>]] = UNDEFINED,
+    reason: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+    use_token: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+) -> <a href='#hikari.models.webhooks.Webhook'>Webhook</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Edit this webhook.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the new name string.</dd>
+<dt><strong><code>avatar</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>Resourceish</a>]</code></dt>
+<dd>If specified, the new avatar image. If <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>, then
+it is removed. If not specified, nothing is changed.</dd>
+<dt><strong><code>channel</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>SnowflakeishOr</a>[<a href='channels.html#hikari.models.channels.TextChannel'>TextChannel</a>]]</code></dt>
+<dd>If specified, the object or ID of the new channel the given
+webhook should be moved to.</dd>
+<dt><strong><code>reason</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the audit log reason explaining why the operation
+was performed. This field will be used when using the webhook's
+token rather than bot authorization.</dd>
+<dt><strong><code>use_token</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If set to <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> then the webhook's token will be used for
+this request; if set to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> then bot authorization will
+be used; if not specified then the webhook's token will be used for
+the request if it's set else bot authorization.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='#hikari.models.webhooks.Webhook'>Webhook</a></code></dt>
+<dd>The updated webhook object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If any invalid snowflake IDs are passed; a snowflake may be invalid
+due to it being outside of the range of a 64 bit integer.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If either the webhook or the channel aren't found.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If you either lack the <code>MANAGE_WEBHOOKS</code> permission or
+aren't a member of the guild this webhook belongs to.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If you pass a token that's invalid for the target webhook.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>use_token</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> when <code><a href='#hikari.models.webhooks.Webhook.token'>token</a></code> is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L281-L340" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def edit(
+    self,
+    *,
+    name: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    avatar: undefined.UndefinedNoneOr[files_.Resource[files_.AsyncReader]] = undefined.UNDEFINED,
+    channel: undefined.UndefinedOr[snowflake.SnowflakeishOr[channels_.TextChannel]] = undefined.UNDEFINED,
+    reason: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+) -&gt; Webhook:
+    &#34;&#34;&#34;Edit this webhook.
+
+    Parameters
+    ----------
+    name : hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the new name string.
+    avatar : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+        If specified, the new avatar image. If `builtins.None`, then
+        it is removed. If not specified, nothing is changed.
+    channel : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.channels.TextChannel]]
+        If specified, the object or ID of the new channel the given
+        webhook should be moved to.
+    reason : hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the audit log reason explaining why the operation
+        was performed. This field will be used when using the webhook&#39;s
+        token rather than bot authorization.
+    use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If set to `builtins.True` then the webhook&#39;s token will be used for
+        this request; if set to `builtins.False` then bot authorization will
+        be used; if not specified then the webhook&#39;s token will be used for
+        the request if it&#39;s set else bot authorization.
+
+    Returns
+    -------
+    hikari.models.webhooks.Webhook
+        The updated webhook object.
+
+    Raises
+    ------
+    hikari.errors.BadRequest
+        If any invalid snowflake IDs are passed; a snowflake may be invalid
+        due to it being outside of the range of a 64 bit integer.
+    hikari.errors.NotFound
+        If either the webhook or the channel aren&#39;t found.
+    hikari.errors.Forbidden
+        If you either lack the `MANAGE_WEBHOOKS` permission or
+        aren&#39;t a member of the guild this webhook belongs to.
+    hikari.errors.Unauthorized
+        If you pass a token that&#39;s invalid for the target webhook.
+    builtins.ValueError
+        If `use_token` is passed as `builtins.True` when `Webhook.token` is `builtins.None`.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long
+    if use_token and self.token is None:
+        raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+    token: undefined.UndefinedOr[str]
+    token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+    return await self.app.rest.edit_webhook(
+        self.id, token=token, name=name, avatar=avatar, channel=channel, reason=reason,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.execute" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> execute(
+    content: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>] = UNDEFINED,
+    *,
+    username: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+    avatar_url: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = UNDEFINED,
+    tts: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    attachment: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>files_.Resourceish</a>] = UNDEFINED,
+    attachments: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>files_.Resourceish</a>]] = UNDEFINED,
+    embeds: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='embeds.html#hikari.models.embeds.Embed'>embeds_.Embed</a>]] = UNDEFINED,
+    mentions_everyone: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+    user_mentions: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='users.html#hikari.models.users.PartialUser'>users_.PartialUser</a>]], <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]] = UNDEFINED,
+    role_mentions: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Union'>Union</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Collection'>Collection</a>[<a href='../utilities/snowflake.html#hikari.utilities.snowflake.SnowflakeishOr'>snowflake.SnowflakeishOr</a>[<a href='guilds.html#hikari.models.guilds.PartialRole'>guilds_.PartialRole</a>]], <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]] = UNDEFINED,
+) -> <a href='messages.html#hikari.models.messages.Message'>messages_.Message</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Execute the webhook to create a message.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>content</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Any'>Any</a>]</code></dt>
+<dd>
+<p>If specified, the message contents. If
+<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UNDEFINED'>UNDEFINED</a></code>, then nothing will be sent
+in the content. Any other value here will be cast to a
+<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code>.</p>
+<p>If this is a <code><a href='embeds.html#hikari.models.embeds.Embed'>Embed</a></code> and no <code>embed</code> kwarg is
+provided, then this will instead update the embed. This allows for
+simpler syntax when sending an embed alone.</p>
+<p>Likewise, if this is a <code><a href='../utilities/files.html#hikari.utilities.files.Resource'>Resource</a></code>, then the
+content is instead treated as an attachment if no <code>attachment</code> and
+no <code>attachments</code> kwargs are provided.</p>
+</dd>
+<dt><strong><code>username</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the username to override the webhook's username
+for this request.</dd>
+<dt><strong><code>avatar_url</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>If specified, the url of an image to override the webhook's
+avatar with for this request.</dd>
+<dt><strong><code>tts</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If specified, whether the message will be sent as a TTS message.</dd>
+<dt><strong><code>attachment</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>Resourceish</a>]</code></dt>
+<dd>If specified, the message attachment. This can be a resource,
+or string of a path on your computer or a URL.</dd>
+<dt><strong><code>attachments</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='../utilities/files.html#hikari.utilities.files.Resourceish'>Resourceish</a>]]</code></dt>
+<dd>If specified, the message attachments. These can be resources, or
+strings consisting of paths on your computer or URLs.</dd>
+<dt><strong><code>embeds</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='embeds.html#hikari.models.embeds.Embed'>Embed</a>]]</code></dt>
+<dd>If specified, a sequence of between <code>1</code> to <code>10</code> embed objects
+(inclusive) to send with the embed.</dd>
+<dt><strong><code>mentions_everyone</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If specified, whether the message should parse @everyone/@here
+mentions.</dd>
+<dt><strong><code>user_mentions</code></strong> :&ensp;<code>hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.PartialUser]</code> or <code><a href=None>bool]</a></code></dt>
+<dd>If specified, and <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, all mentions will be parsed.
+If specified, and <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, no mentions will be parsed.
+Alternatively this may be a collection of
+<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code>, or
+<code><a href='users.html#hikari.models.users.PartialUser'>PartialUser</a></code> derivatives to enforce mentioning
+specific users.</dd>
+<dt><strong><code>role_mentions</code></strong> :&ensp;<code>hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialRole]</code> or <code><a href=None>bool]</a></code></dt>
+<dd>If specified, and <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code>, all mentions will be parsed.
+If specified, and <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code>, no mentions will be parsed.
+Alternatively this may be a collection of
+<code><a href='../utilities/snowflake.html#hikari.utilities.snowflake.Snowflake'>Snowflake</a></code>, or
+<code><a href='guilds.html#hikari.models.guilds.PartialRole'>PartialRole</a></code> derivatives to enforce mentioning
+specific roles.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='messages.html#hikari.models.messages.Message'>Message</a></code></dt>
+<dd>The created message object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If the current webhook is not found.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>This can be raised if the file is too large; if the embed exceeds
+the defined limits; if the message content is specified only and
+empty or greater than <code>2000</code> characters; if neither content, file
+or embeds are specified.
+If any invalid snowflake IDs are passed; a snowflake may be invalid
+due to it being outside of the range of a 64 bit integer.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If you pass a token that's invalid for the target webhook.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If either <code><a href='#hikari.models.webhooks.Webhook.token'>token</a></code> is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> or more than 100 unique
+objects/entities are passed for <code>role_mentions</code> or `user_mentions.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#TypeError'>TypeError</a></code></dt>
+<dd>If both <code>attachment</code> and <code>attachments</code> are specified.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L139-L249" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def execute(
+    self,
+    content: undefined.UndefinedOr[typing.Any] = undefined.UNDEFINED,
+    *,
+    username: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    avatar_url: undefined.UndefinedOr[str] = undefined.UNDEFINED,
+    tts: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    attachment: undefined.UndefinedOr[files_.Resourceish] = undefined.UNDEFINED,
+    attachments: undefined.UndefinedOr[typing.Sequence[files_.Resourceish]] = undefined.UNDEFINED,
+    embeds: undefined.UndefinedOr[typing.Sequence[embeds_.Embed]] = undefined.UNDEFINED,
+    mentions_everyone: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+    user_mentions: undefined.UndefinedOr[
+        typing.Union[typing.Collection[snowflake.SnowflakeishOr[users_.PartialUser]], bool]
+    ] = undefined.UNDEFINED,
+    role_mentions: undefined.UndefinedOr[
+        typing.Union[typing.Collection[snowflake.SnowflakeishOr[guilds_.PartialRole]], bool]
+    ] = undefined.UNDEFINED,
+) -&gt; messages_.Message:
+    &#34;&#34;&#34;Execute the webhook to create a message.
+
+    Parameters
+    ----------
+    content : hikari.utilities.undefined.UndefinedOr[typing.Any]
+        If specified, the message contents. If
+        `hikari.utilities.undefined.UNDEFINED`, then nothing will be sent
+        in the content. Any other value here will be cast to a
+        `builtins.str`.
+
+        If this is a `hikari.models.embeds.Embed` and no `embed` kwarg is
+        provided, then this will instead update the embed. This allows for
+        simpler syntax when sending an embed alone.
+
+        Likewise, if this is a `hikari.utilities.files.Resource`, then the
+        content is instead treated as an attachment if no `attachment` and
+        no `attachments` kwargs are provided.
+    username : hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the username to override the webhook&#39;s username
+        for this request.
+    avatar_url : hikari.utilities.undefined.UndefinedOr[builtins.str]
+        If specified, the url of an image to override the webhook&#39;s
+        avatar with for this request.
+    tts : hikari.utilities.undefined.UndefinedOr[bool]
+        If specified, whether the message will be sent as a TTS message.
+    attachment : hikari.utilities.undefined.UndefinedOr[hikari.utilities.files.Resourceish]
+        If specified, the message attachment. This can be a resource,
+        or string of a path on your computer or a URL.
+    attachments : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.utilities.files.Resourceish]]
+        If specified, the message attachments. These can be resources, or
+        strings consisting of paths on your computer or URLs.
+    embeds : hikari.utilities.undefined.UndefinedOr[typing.Sequence[hikari.models.embeds.Embed]]
+        If specified, a sequence of between `1` to `10` embed objects
+        (inclusive) to send with the embed.
+    mentions_everyone : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If specified, whether the message should parse @everyone/@here
+        mentions.
+    user_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.users.PartialUser] or builtins.bool]
+        If specified, and `builtins.True`, all mentions will be parsed.
+        If specified, and `builtins.False`, no mentions will be parsed.
+        Alternatively this may be a collection of
+        `hikari.utilities.snowflake.Snowflake`, or
+        `hikari.models.users.PartialUser` derivatives to enforce mentioning
+        specific users.
+    role_mentions : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.utilities.snowflake.SnowflakeishOr[hikari.models.guilds.PartialRole] or builtins.bool]
+        If specified, and `builtins.True`, all mentions will be parsed.
+        If specified, and `builtins.False`, no mentions will be parsed.
+        Alternatively this may be a collection of
+        `hikari.utilities.snowflake.Snowflake`, or
+        `hikari.models.guilds.PartialRole` derivatives to enforce mentioning
+        specific roles.
+
+    Returns
+    -------
+    hikari.models.messages.Message
+        The created message object.
+
+    Raises
+    ------
+    hikari.errors.NotFound
+        If the current webhook is not found.
+    hikari.errors.BadRequest
+        This can be raised if the file is too large; if the embed exceeds
+        the defined limits; if the message content is specified only and
+        empty or greater than `2000` characters; if neither content, file
+        or embeds are specified.
+        If any invalid snowflake IDs are passed; a snowflake may be invalid
+        due to it being outside of the range of a 64 bit integer.
+    hikari.errors.Unauthorized
+        If you pass a token that&#39;s invalid for the target webhook.
+    builtins.ValueError
+        If either `Webhook.token` is `builtins.None` or more than 100 unique
+        objects/entities are passed for `role_mentions` or `user_mentions.
+    builtins.TypeError
+        If both `attachment` and `attachments` are specified.
+    &#34;&#34;&#34;  # noqa: E501 - Line too long
+    if not self.token:
+        raise ValueError(&#34;Cannot send a message using a webhook where we don&#39;t know the token.&#34;)
+
+    return await self.app.rest.execute_webhook(
+        webhook=self.id,
+        token=self.token,
+        content=content,
+        username=username,
+        avatar_url=avatar_url,
+        tts=tts,
+        attachment=attachment,
+        attachments=attachments,
+        embeds=embeds,
+        mentions_everyone=mentions_everyone,
+        user_mentions=user_mentions,
+        role_mentions=role_mentions,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.fetch_channel" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_channel() -> <a href='channels.html#hikari.models.channels.PartialChannel'>channels_.PartialChannel</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Fetch the channel this webhook is for.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='channels.html#hikari.models.channels.PartialChannel'>PartialChannel</a></code></dt>
+<dd>The object of the channel this webhook targets.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If you don't have access to the channel this webhook belongs to.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If the channel this message was created in does not exist.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L342-L357" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_channel(self) -&gt; channels_.PartialChannel:
+    &#34;&#34;&#34;Fetch the channel this webhook is for.
+
+    Returns
+    -------
+    hikari.models.channels.PartialChannel
+        The object of the channel this webhook targets.
+
+    Raises
+    ------
+    hikari.errors.Forbidden
+        If you don&#39;t have access to the channel this webhook belongs to.
+    hikari.errors.NotFound
+        If the channel this message was created in does not exist.
+    &#34;&#34;&#34;
+    return await self.app.rest.fetch_channel(self.channel_id)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.fetch_self" class="hljs python"><abbr title='A function that returns a coroutine and must be awaited.'>async def</abbr> fetch_self(
+    *,
+    use_token: <a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>undefined.UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>] = UNDEFINED,
+) -> <a href='#hikari.models.webhooks.Webhook'>Webhook</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Fetch this webhook.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>use_token</code></strong> :&ensp;<code><a href='../utilities/undefined.html#hikari.utilities.undefined.UndefinedOr'>UndefinedOr</a>[<a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>]</code></dt>
+<dd>If set to <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> then the webhook's token will be used for
+this request; if set to <code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> then bot authorization will
+be used; if not specified then the webhook's token will be used for
+the request if it's set else bot authorization.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='#hikari.models.webhooks.Webhook'>Webhook</a></code></dt>
+<dd>The requested webhook object.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='../errors.html'>hikari.errors.BadRequest</a></code></dt>
+<dd>If any invalid snowflake IDs are passed; a snowflake may be invalid
+due to it being outside of the range of a 64 bit integer.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.NotFound</a></code></dt>
+<dd>If the webhook is not found.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Forbidden</a></code></dt>
+<dd>If you're not in the guild that owns this webhook or
+lack the <code>MANAGE_WEBHOOKS</code> permission.</dd>
+<dt><code><a href='../errors.html'>hikari.errors.Unauthorized</a></code></dt>
+<dd>If you pass a token that's invalid for the target webhook.</dd>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>use_token</code> is passed as <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> when <code><a href='#hikari.models.webhooks.Webhook.token'>token</a></code>
+is <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L359-L397" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">async def fetch_self(self, *, use_token: undefined.UndefinedOr[bool] = undefined.UNDEFINED) -&gt; Webhook:
+    &#34;&#34;&#34;Fetch this webhook.
+
+    Parameters
+    ----------
+    use_token : hikari.utilities.undefined.UndefinedOr[builtins.bool]
+        If set to `builtins.True` then the webhook&#39;s token will be used for
+        this request; if set to `builtins.False` then bot authorization will
+        be used; if not specified then the webhook&#39;s token will be used for
+        the request if it&#39;s set else bot authorization.
+
+    Returns
+    -------
+    hikari.models.webhooks.Webhook
+        The requested webhook object.
+
+    Raises
+    ------
+    hikari.errors.BadRequest
+        If any invalid snowflake IDs are passed; a snowflake may be invalid
+        due to it being outside of the range of a 64 bit integer.
+    hikari.errors.NotFound
+        If the webhook is not found.
+    hikari.errors.Forbidden
+        If you&#39;re not in the guild that owns this webhook or
+        lack the `MANAGE_WEBHOOKS` permission.
+    hikari.errors.Unauthorized
+        If you pass a token that&#39;s invalid for the target webhook.
+    builtins.ValueError
+        If `use_token` is passed as `builtins.True` when `Webhook.token`
+        is `builtins.None`.
+    &#34;&#34;&#34;
+    if use_token and not self.token:
+        raise ValueError(&#34;This webhook&#39;s token is unknown, so cannot be used.&#34;)
+
+    token: undefined.UndefinedOr[str]
+    token = typing.cast(str, self.token) if use_token else undefined.UNDEFINED
+
+    return await self.app.rest.fetch_webhook(self.id, token=token)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.models.webhooks.Webhook.format_avatar" class="hljs python"><abbr title='A standard Python function.'>def</abbr> format_avatar(
+    format: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = 'png',
+    size: <a href='https://docs.python.org/3/library/functions.html#int'>int</a> = 4096,
+) -> Union[<a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a>, None]: ...</code></pre>
+</dt>
+<dd>
+<p>Generate the avatar URL for this webhook's custom avatar if set.</p>
+<p>If no avatar is specified, return <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code>. In this case, you should
+use <code>default_avatar</code> instead.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>format</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The format to use for this URL, defaults to <code>png</code>.
+Supports <code>png</code>, <code>jpeg</code>, <code>jpg</code>, <code>webp</code>. This will be ignored for
+default avatars which can only be <code>png</code>.</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/functions.html#int'>int</a></code></dt>
+<dd>The size to set for the URL, defaults to <code>4096</code>.
+Can be any power of two between 16 and 4096.
+Will be ignored for default avatars.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code> or <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code></dt>
+<dd>The URL of the resource. <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> if no avatar is set (in
+this case, use the <code>default_avatar</code> instead).</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/exceptions.html#ValueError'>ValueError</a></code></dt>
+<dd>If <code>size</code> is not a power of two between 16 and 4096 (inclusive).</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L420-L453" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def format_avatar(self, format: str = &#34;png&#34;, size: int = 4096) -&gt; typing.Optional[files_.URL]:
+    &#34;&#34;&#34;Generate the avatar URL for this webhook&#39;s custom avatar if set.
+
+    If no avatar is specified, return `None`. In this case, you should
+    use `default_avatar` instead.
+
+    Parameters
+    ----------
+    format : builtins.str
+        The format to use for this URL, defaults to `png`.
+        Supports `png`, `jpeg`, `jpg`, `webp`. This will be ignored for
+        default avatars which can only be `png`.
+    size : builtins.int
+        The size to set for the URL, defaults to `4096`.
+        Can be any power of two between 16 and 4096.
+        Will be ignored for default avatars.
+
+    Returns
+    -------
+    hikari.utilities.files.URL or builtins.None
+        The URL of the resource. `builtins.None` if no avatar is set (in
+        this case, use the `default_avatar` instead).
+
+    Raises
+    ------
+    builtins.ValueError
+        If `size` is not a power of two between 16 and 4096 (inclusive).
+    &#34;&#34;&#34;
+    if self.avatar_hash is None:
+        return None
+
+    return routes.CDN_USER_AVATAR.compile_to_file(
+        constants.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=format,
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="app -- The client application that models may use for procedures." href="#hikari.models.webhooks.Webhook.app" id="hikari.models.webhooks.Webhook.app" class='dotted'>app</a> : traits.RESTAware</code></pre>
+</dt>
+<dd><p>The client application that models may use for procedures.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="author -- The user that created the webhook …" href="#hikari.models.webhooks.Webhook.author" id="hikari.models.webhooks.Webhook.author" class='dotted'>author</a> : typing.Optional[users_.User]</code></pre>
+</dt>
+<dd><p>The user that created the webhook</p>
+<div class="alert alert-primary">
+<p class="admonition-title">Info</p>
+<p>This will be <code><a href='https://docs.python.org/3/library/constants.html#None'>None</a></code> when getting a webhook with bot authorization rather
+than the webhook's token.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar -- URL for this webhook's custom avatar or default avatar …" href="#hikari.models.webhooks.Webhook.avatar" id="hikari.models.webhooks.Webhook.avatar" class='dotted'>avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>URL for this webhook's custom avatar or default avatar.</p>
+<p>If the webhook has a custom avatar, a URL to this is returned. Otherwise
+a URL to the default avatar is provided instead.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="avatar_hash -- The avatar hash of the webhook." href="#hikari.models.webhooks.Webhook.avatar_hash" id="hikari.models.webhooks.Webhook.avatar_hash" class='dotted'>avatar_hash</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The avatar hash of the webhook.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="channel_id -- The channel ID this webhook is for." href="#hikari.models.webhooks.Webhook.channel_id" id="hikari.models.webhooks.Webhook.channel_id" class='dotted'>channel_id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The channel ID this webhook is for.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="created_at -- When the object was created." href="../utilities/snowflake.html#hikari.utilities.snowflake.Unique.created_at" id="hikari.models.webhooks.Webhook.created_at" class='dotted'>created_at</a> : <a href='https://docs.python.org/3/library/datetime.html#datetime.datetime'>datetime.datetime</a></code></pre>
+</dt>
+<dd><p>When the object was created.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="default_avatar -- URL for this webhook's default avatar …" href="#hikari.models.webhooks.Webhook.default_avatar" id="hikari.models.webhooks.Webhook.default_avatar" class='dotted'>default_avatar</a> : <a href='../utilities/files.html#hikari.utilities.files.URL'>URL</a></code></pre>
+</dt>
+<dd><p>URL for this webhook's default avatar.</p>
+<p>This is used if no avatar is set.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="guild_id -- The guild ID of the webhook." href="#hikari.models.webhooks.Webhook.guild_id" id="hikari.models.webhooks.Webhook.guild_id" class='dotted'>guild_id</a> : typing.Optional[snowflake.Snowflake]</code></pre>
+</dt>
+<dd><p>The guild ID of the webhook.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="id -- The ID of this entity." href="#hikari.models.webhooks.Webhook.id" id="hikari.models.webhooks.Webhook.id" class='dotted'>id</a> : snowflake.Snowflake</code></pre>
+</dt>
+<dd><p>The ID of this entity.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="mention -- Return a raw mention string for the given webhook's user …" href="#hikari.models.webhooks.Webhook.mention" id="hikari.models.webhooks.Webhook.mention" class='dotted'>mention</a> : <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></pre>
+</dt>
+<dd><p>Return a raw mention string for the given webhook's user.</p>
+<div class="alert alert-success">
+<p class="admonition-title">Note</p>
+<p>This exists purely for consistency. Webhooks do not receive events
+from the gateway, and without some bot backend to support it, will
+not be able to detect mentions of their webhook.</p>
+</div>
+<h2 id="example">Example</h2>
+<pre><code class="py">&gt;&gt;&gt; some_webhook.mention
+'&lt;@123456789123456789&gt;'
+</code></pre>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The mention string to use.</dd>
+</dl></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="name -- The name of the webhook." href="#hikari.models.webhooks.Webhook.name" id="hikari.models.webhooks.Webhook.name" class='dotted'>name</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The name of the webhook.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="token -- The token for the webhook …" href="#hikari.models.webhooks.Webhook.token" id="hikari.models.webhooks.Webhook.token" class='dotted'>token</a> : typing.Optional[str]</code></pre>
+</dt>
+<dd><p>The token for the webhook.</p>
+<div class="alert alert-primary">
+<p class="admonition-title">Info</p>
+<p>This is only available for incoming webhooks that are created in the
+channel settings.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="type -- The type of the webhook." href="#hikari.models.webhooks.Webhook.type" id="hikari.models.webhooks.Webhook.type" class='dotted'>type</a> : WebhookType</code></pre>
+</dt>
+<dd><p>The type of the webhook.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="WebhookType -- Types of webhook." href="#hikari.models.webhooks.WebhookType"
+class='dotted'>WebhookType</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.webhooks.WebhookType" class="hljs python"><abbr title='A standard Python type.'>class</abbr> WebhookType (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Types of webhook.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/webhooks.py#L51-L61" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class WebhookType(enum.IntEnum):
+    &#34;&#34;&#34;Types of webhook.&#34;&#34;&#34;
+
+    INCOMING = 1
+    &#34;&#34;&#34;Incoming webhook.&#34;&#34;&#34;
+
+    CHANNEL_FOLLOWER = 2
+    &#34;&#34;&#34;Channel Follower webhook.&#34;&#34;&#34;
+
+    def __str__(self) -&gt; str:
+        return self.name</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A standard Python enum type. This contains one or more discrete "constant" values.'>enum</abbr></em></small> <a title="WebhookType -- Types of webhook." href="#hikari.models.webhooks.WebhookType"
+class='dotted'>WebhookType</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntEnum -- Enum where members are also (and must be) ints" href="https://docs.python.org/3/library/enum.html#enum.IntEnum"
+class='dotted'>enum.IntEnum</a></dt>
+<dd class="nested"><p>Enum where members are also (and must be) ints</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="CHANNEL_FOLLOWER -- Channel Follower webhook." href="#hikari.models.webhooks.WebhookType.CHANNEL_FOLLOWER" id="hikari.models.webhooks.WebhookType.CHANNEL_FOLLOWER" class='dotted'>CHANNEL_FOLLOWER</a> = CHANNEL_FOLLOWER</code></pre>
+</dt>
+<dd><p>Channel Follower webhook.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="INCOMING -- Incoming webhook." href="#hikari.models.webhooks.WebhookType.INCOMING" id="hikari.models.webhooks.WebhookType.INCOMING" class='dotted'>INCOMING</a> = INCOMING</code></pre>
+</dt>
+<dd><p>Incoming webhook.</p></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

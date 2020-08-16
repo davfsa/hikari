@@ -1,0 +1,1530 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.models.intents API documentation</title>
+<meta name="description" content="Shard intents for controlling which events the application receives." />
+<meta property="og:title" content="hikari.models.intents module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.models.intents">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.models -- Data classes representing Discord entities." href="index.html"
+class='dotted'>models</a></li>
+<li class="breadcrumb-item active"><a href="#">intents</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Shard intents for controlling which events the application receives.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Intents -- Represents an intent on the gateway …" href="#hikari.models.intents.Intents"
+class='sidebar-nav-pill'>Intents</a>
+<ul class="list-unstyled nested text-truncate">
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL -- All unprivileged and privileged intents …" href="#hikari.models.intents.Intents.ALL"
+class='sidebar-nav-pill'>ALL</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS -- All unprivileged guild intents and all privileged guild intents …" href="#hikari.models.intents.Intents.ALL_GUILDS"
+class='sidebar-nav-pill'>ALL_GUILDS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS_PRIVILEGED -- All privileged guild intents …" href="#hikari.models.intents.Intents.ALL_GUILDS_PRIVILEGED"
+class='sidebar-nav-pill'>ALL_GUILDS_PRIVILEGED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS_UNPRIVILEGED -- All unprivileged guild-related intents." href="#hikari.models.intents.Intents.ALL_GUILDS_UNPRIVILEGED"
+class='sidebar-nav-pill'>ALL_GUILDS_UNPRIVILEGED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGES -- All message intents." href="#hikari.models.intents.Intents.ALL_MESSAGES"
+class='sidebar-nav-pill'>ALL_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGE_REACTIONS -- All message reaction intents." href="#hikari.models.intents.Intents.ALL_MESSAGE_REACTIONS"
+class='sidebar-nav-pill'>ALL_MESSAGE_REACTIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGE_TYPING -- All typing indicator intents." href="#hikari.models.intents.Intents.ALL_MESSAGE_TYPING"
+class='sidebar-nav-pill'>ALL_MESSAGE_TYPING</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_PRIVATE -- All private message intents." href="#hikari.models.intents.Intents.ALL_PRIVATE"
+class='sidebar-nav-pill'>ALL_PRIVATE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_UNPRIVILEGED -- All unprivileged intents." href="#hikari.models.intents.Intents.ALL_UNPRIVILEGED"
+class='sidebar-nav-pill'>ALL_UNPRIVILEGED</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILDS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILDS"
+class='sidebar-nav-pill'>GUILDS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_BANS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_BANS"
+class='sidebar-nav-pill'>GUILD_BANS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_EMOJIS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_EMOJIS"
+class='sidebar-nav-pill'>GUILD_EMOJIS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_INTEGRATIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_INTEGRATIONS"
+class='sidebar-nav-pill'>GUILD_INTEGRATIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_INVITES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_INVITES"
+class='sidebar-nav-pill'>GUILD_INVITES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MEMBERS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MEMBERS"
+class='sidebar-nav-pill'>GUILD_MEMBERS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGES"
+class='sidebar-nav-pill'>GUILD_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGE_REACTIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGE_REACTIONS"
+class='sidebar-nav-pill'>GUILD_MESSAGE_REACTIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGE_TYPING -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGE_TYPING"
+class='sidebar-nav-pill'>GUILD_MESSAGE_TYPING</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_PRESENCES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_PRESENCES"
+class='sidebar-nav-pill'>GUILD_PRESENCES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_VOICE_STATES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_VOICE_STATES"
+class='sidebar-nav-pill'>GUILD_VOICE_STATES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_WEBHOOKS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_WEBHOOKS"
+class='sidebar-nav-pill'>GUILD_WEBHOOKS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- Represents no intents." href="#hikari.models.intents.Intents.NONE"
+class='sidebar-nav-pill'>NONE</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGES"
+class='sidebar-nav-pill'>PRIVATE_MESSAGES</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGE_REACTIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGE_REACTIONS"
+class='sidebar-nav-pill'>PRIVATE_MESSAGE_REACTIONS</a>
+</li>
+<li class="text-truncate monospaced">
+<small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGE_TYPING -- Subscribes to the following events …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGE_TYPING"
+class='sidebar-nav-pill'>PRIVATE_MESSAGE_TYPING</a>
+</li>
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/intents.py#L0-L369" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Shard intents for controlling which events the application receives.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = [&#34;Intents&#34;]
+
+# noinspection PyUnresolvedReferences
+import typing
+
+from hikari.utilities import flag
+
+
+@typing.final
+class Intents(flag.Flag):
+    &#34;&#34;&#34;Represents an intent on the gateway.
+
+    This is a bitfield representation of all the categories of event
+    that you wish to receive.
+
+    Any events not in an intent category will be fired regardless of what
+    intents you provide.
+
+    !!! info
+        Discord now places limits on certain events you can receive without
+        whitelisting your bot first. On the `Bot` tab in the developer&#39;s portal
+        for your bot, you should now have the option to enable functionality
+        for receiving these events.
+
+        If you attempt to request an intent type that you have not whitelisted
+        your bot for, you will be disconnected on startup with a `4014` closure
+        code.
+
+    !!! warning
+        If you are using the V7 Gateway, you will be REQUIRED to provide some
+        form of intent value when you connect. Failure to do so may result in
+        immediate termination of the session server-side.
+
+    This enum is an `enum.IntFlag`, which means that you can use bitwise
+    operators to join and splice multiple intents into one value.
+
+    For example, if we wish to only refer to the `GUILDS` intent, then it is
+    simply a case of accessing it normally.
+
+    ```py
+    my_intents = Intents.GUILDS
+    ```
+
+    If we wanted to have several intents grouped together, we would use the
+    bitwise-or operator to combine them (`|`). This can be done in-place
+    with the `|=` operator if needed.
+
+    ```py
+    # One or two values that fit on one line.
+    my_intents = Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES
+
+    # Several intents together. You may find it useful to format these like
+    # so to keep your code readable.
+    my_intents = (
+        Intents.GUILDS             |
+        Intents.GUILD_BANS         |
+        Intents.GUILD_EMOJIS       |
+        Intents.GUILD_INTEGRATIONS |
+        Intents.GUILD_MESSAGES     |
+        Intents.PRIVATE_MESSAGES
+    )
+    ```
+
+    To check if an intent **is present** in a given intents bitfield, you can
+    use the bitwise-and operator (`&amp;`) to check. This returns the &#34;intersection&#34;
+    or &#34;crossover&#34; between the left and right-hand side of the `&amp;`. You can then
+    use the `==` operator to check that specific values are present. You can
+    check in-place with the `&amp;=` operator if needed.
+
+    ```py
+    # Check if an intent is set:
+    if (my_intents &amp; Intents.GUILD_MESSAGES) == Intents.GUILD_MESSAGES:
+        print(&#34;Guild messages are enabled&#34;)
+
+    # Checking if ALL in a combination are set:
+    expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    if (my_intents &amp; expected_intents) == expected_intents:
+        print(&#34;Messages are enabled in guilds and private messages.&#34;)
+
+    # Checking if AT LEAST ONE in a combination is set:
+    expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    if my_intents &amp; expected_intents:
+        print(&#34;Messages are enabled in guilds or private messages.&#34;)
+    ```
+
+    Removing one or more intents from a combination can be done with the
+    bitwise-xor (`^`) operator. The `^=` operator can do this in-place.
+
+    ```py
+    # Remove GUILD_MESSAGES
+    my_intents = my_intents ^ Intents.GUILD_MESSAGES
+    # or, simplifying:
+    my_intents ^= Intents.GUILD_MESSAGES
+
+    # Remove all messages events.
+    my_intents = my_intents ^ (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    # or, simplifying
+    my_intents ^= (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    ```
+
+    What is and is not covered by intents?
+    --------------------------------------
+
+    The following unprivileged events require intents to be dispatched:
+
+    - `GUILD_CREATE`
+    - `GUILD_UPDATE`
+    - `GUILD_DELETE`
+    - `GUILD_ROLE_CREATE`
+    - `GUILD_ROLE_UPDATE`
+    - `GUILD_ROLE_DELETE`
+    - `GUILD_BAN_ADD`
+    - `GUILD_BAN_REMOVE`
+    - `GUILD_EMOJIS_UPDATE`
+    - `GUILD_INTEGRATIONS_UPDATE`
+    - `INVITE_CREATE`
+    - `INVITE_DELETE`
+    - `CHANNEL_CREATE`
+    - `CHANNEL_UPDATE`
+    - `CHANNEL_DELETE`
+    - `CHANNEL_PINS_UPDATE (guilds only)`
+    - `MESSAGE_CREATE`
+    - `MESSAGE_UPDATE`
+    - `MESSAGE_DELETE`
+    - `MESSAGE_BULK_DELETE`
+    - `MESSAGE_REACTION_ADD`
+    - `MESSAGE_REACTION_REMOVE`
+    - `MESSAGE_REACTION_REMOVE_ALL`
+    - `MESSAGE_REACTION_REMOVE_EMOJI`
+    - `TYPING_START`
+    - `VOICE_STATE_UPDATE`
+    - `WEBHOOKS_UPDATE`
+
+    The following privileged events require intents to be dispatched:
+
+    - `GUILD_MEMBER_ADD`
+    - `GUILD_MEMBER_UPDATE`
+    - `GUILD_MEMBER_REMOVE`
+    - `PRESENCE_UPDATE`
+
+    All events not listed above will be dispatched regardless of whether
+    intents are used or not.
+    &#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;Represents no intents.&#34;&#34;&#34;
+
+    GUILDS = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_CREATE`
+    * `GUILD_UPDATE`
+    * `GUILD_DELETE`
+    * `GUILD_ROLE_CREATE`
+    * `GUILD_ROLE_UPDATE`
+    * `GUILD_ROLE_DELETE`
+    * `CHANNEL_CREATE`
+    * `CHANNEL_UPDATE`
+    * `CHANNEL_DELETE`
+    * `CHANNEL_PINS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_MEMBERS = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_MEMBER_ADD`
+    * `GUILD_MEMBER_UPDATE`
+    * `GUILD_MEMBER_REMOVE`
+
+    !!! warning
+        This intent is privileged, and requires enabling/whitelisting to use.
+    &#34;&#34;&#34;
+
+    GUILD_BANS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_BAN_ADD`
+    * `GUILD_BAN_REMOVE`
+    &#34;&#34;&#34;
+
+    GUILD_EMOJIS = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_EMOJIS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_INTEGRATIONS = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_INTEGRATIONS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_WEBHOOKS = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `WEBHOOKS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_INVITES = 1 &lt;&lt; 6
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `INVITE_CREATE`
+    * `INVITE_DELETE`
+    &#34;&#34;&#34;
+
+    GUILD_VOICE_STATES = 1 &lt;&lt; 7
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `VOICE_STATE_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_PRESENCES = 1 &lt;&lt; 8
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `PRESENCE_UPDATE`
+
+    !!! warning
+        This intent is privileged, and requires enabling/whitelisting to use.&#34;&#34;&#34;
+
+    GUILD_MESSAGES = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_CREATE` (in guilds only)
+    * `MESSAGE_UPDATE` (in guilds only)
+    * `MESSAGE_DELETE` (in guilds only)
+    * `MESSAGE_BULK_DELETE` (in guilds only)
+    &#34;&#34;&#34;
+
+    GUILD_MESSAGE_REACTIONS = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_REACTION_ADD` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE_ALL` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE_EMOJI` (in guilds only)
+    &#34;&#34;&#34;
+
+    GUILD_MESSAGE_TYPING = 1 &lt;&lt; 11
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `TYPING_START` (in guilds only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGES = 1 &lt;&lt; 12
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `CHANNEL_CREATE` (in private message channels only)
+    * `MESSAGE_CREATE` (in private message channels only)
+    * `MESSAGE_UPDATE` (in private message channels only)
+    * `MESSAGE_DELETE` (in private message channels only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGE_REACTIONS = 1 &lt;&lt; 13
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_REACTION_ADD` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE_ALL` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE_EMOJI` (in private message channels only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGE_TYPING = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Subscribes to the following events
+
+    * `TYPING_START` (in private message channels only)
+    &#34;&#34;&#34;
+
+    # Annoyingly, enums hide classmethods and staticmethods from __dir__ in
+    # EnumMeta which means if I make methods to generate these, then stuff
+    # will not be documented by pdoc. Alas, my dream of being smart with
+    # operator.or_ and functools.reduce has been destroyed.
+
+    ALL_GUILDS_UNPRIVILEGED = (
+        GUILDS
+        | GUILD_BANS
+        | GUILD_EMOJIS
+        | GUILD_INTEGRATIONS
+        | GUILD_WEBHOOKS
+        | GUILD_INVITES
+        | GUILD_VOICE_STATES
+        | GUILD_MESSAGES
+        | GUILD_MESSAGE_REACTIONS
+        | GUILD_MESSAGE_TYPING
+    )
+    &#34;&#34;&#34;All unprivileged guild-related intents.&#34;&#34;&#34;
+
+    ALL_GUILDS_PRIVILEGED = GUILD_MEMBERS | GUILD_PRESENCES
+    &#34;&#34;&#34;All privileged guild intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL_GUILDS = ALL_GUILDS_UNPRIVILEGED | ALL_GUILDS_PRIVILEGED
+    &#34;&#34;&#34;All unprivileged guild intents and all privileged guild intents.
+
+    This combines `Intents.ALL_GUILDS_UNPRIVILEGED` and
+    `Intents.ALL_GUILDS_PRIVILEGED`.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL_PRIVATE = PRIVATE_MESSAGES | PRIVATE_MESSAGE_TYPING | PRIVATE_MESSAGE_REACTIONS
+    &#34;&#34;&#34;All private message intents.&#34;&#34;&#34;
+
+    ALL_MESSAGES = PRIVATE_MESSAGES | GUILD_MESSAGES
+    &#34;&#34;&#34;All message intents.&#34;&#34;&#34;
+
+    ALL_MESSAGE_REACTIONS = PRIVATE_MESSAGE_REACTIONS | GUILD_MESSAGE_REACTIONS
+    &#34;&#34;&#34;All message reaction intents.&#34;&#34;&#34;
+
+    ALL_MESSAGE_TYPING = PRIVATE_MESSAGE_TYPING | GUILD_MESSAGE_TYPING
+    &#34;&#34;&#34;All typing indicator intents.&#34;&#34;&#34;
+
+    ALL_UNPRIVILEGED = ALL_GUILDS_UNPRIVILEGED | ALL_PRIVATE
+    &#34;&#34;&#34;All unprivileged intents.&#34;&#34;&#34;
+
+    ALL_PRIVILEGED = ALL_GUILDS_PRIVILEGED
+    &#34;&#34;&#34;All privileged intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL = ALL_UNPRIVILEGED | ALL_PRIVILEGED
+    &#34;&#34;&#34;All unprivileged and privileged intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    @property
+    def is_privileged(self) -&gt; bool:
+        &#34;&#34;&#34;Determine whether the intent requires elevated privileges.
+
+        If this is `builtins.True`, you will be required to opt-in to using
+        this intent on the Discord Developer Portal before you can utilise it
+        in your application.
+        &#34;&#34;&#34;
+        return bool(self &amp; (self.GUILD_MEMBERS | self.GUILD_PRESENCES))</code></pre>
+</details>
+</div>
+</div>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Intents -- Represents an intent on the gateway …" href="#hikari.models.intents.Intents"
+class='dotted'>Intents</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.models.intents.Intents" class="hljs python"><abbr title='A standard Python type.'>class</abbr> Intents (
+    value,
+    names=None,
+    *,
+    module=None,
+    qualname=None,
+    type=None,
+    start=1,
+): ...</code></pre>
+<p>Represents an intent on the gateway.</p>
+<p>This is a bitfield representation of all the categories of event
+that you wish to receive.</p>
+<p>Any events not in an intent category will be fired regardless of what
+intents you provide.</p>
+<div class="alert alert-primary">
+<p class="admonition-title">Info</p>
+<p>Discord now places limits on certain events you can receive without
+whitelisting your bot first. On the <code>Bot</code> tab in the developer's portal
+for your bot, you should now have the option to enable functionality
+for receiving these events.</p>
+<p>If you attempt to request an intent type that you have not whitelisted
+your bot for, you will be disconnected on startup with a <code>4014</code> closure
+code.</p>
+</div>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>If you are using the V7 Gateway, you will be REQUIRED to provide some
+form of intent value when you connect. Failure to do so may result in
+immediate termination of the session server-side.</p>
+</div>
+<p>This enum is an <code><a href='https://docs.python.org/3/library/enum.html#enum.IntFlag'>enum.IntFlag</a></code>, which means that you can use bitwise
+operators to join and splice multiple intents into one value.</p>
+<p>For example, if we wish to only refer to the <code>GUILDS</code> intent, then it is
+simply a case of accessing it normally.</p>
+<pre><code class="py">my_intents = Intents.GUILDS
+</code></pre>
+<p>If we wanted to have several intents grouped together, we would use the
+bitwise-or operator to combine them (<code>|</code>). This can be done in-place
+with the <code>|=</code> operator if needed.</p>
+<pre><code class="py"># One or two values that fit on one line.
+my_intents = Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES
+
+# Several intents together. You may find it useful to format these like
+# so to keep your code readable.
+my_intents = (
+    Intents.GUILDS             |
+    Intents.GUILD_BANS         |
+    Intents.GUILD_EMOJIS       |
+    Intents.GUILD_INTEGRATIONS |
+    Intents.GUILD_MESSAGES     |
+    Intents.PRIVATE_MESSAGES
+)
+</code></pre>
+<p>To check if an intent <strong>is present</strong> in a given intents bitfield, you can
+use the bitwise-and operator (<code>&amp;</code>) to check. This returns the "intersection"
+or "crossover" between the left and right-hand side of the <code>&amp;</code>. You can then
+use the <code>==</code> operator to check that specific values are present. You can
+check in-place with the <code>&amp;=</code> operator if needed.</p>
+<pre><code class="py"># Check if an intent is set:
+if (my_intents &amp; Intents.GUILD_MESSAGES) == Intents.GUILD_MESSAGES:
+    print(&quot;Guild messages are enabled&quot;)
+
+# Checking if ALL in a combination are set:
+expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+if (my_intents &amp; expected_intents) == expected_intents:
+    print(&quot;Messages are enabled in guilds and private messages.&quot;)
+
+# Checking if AT LEAST ONE in a combination is set:
+expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+if my_intents &amp; expected_intents:
+    print(&quot;Messages are enabled in guilds or private messages.&quot;)
+</code></pre>
+<p>Removing one or more intents from a combination can be done with the
+bitwise-xor (<code>^</code>) operator. The <code>^=</code> operator can do this in-place.</p>
+<pre><code class="py"># Remove GUILD_MESSAGES
+my_intents = my_intents ^ Intents.GUILD_MESSAGES
+# or, simplifying:
+my_intents ^= Intents.GUILD_MESSAGES
+
+# Remove all messages events.
+my_intents = my_intents ^ (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+# or, simplifying
+my_intents ^= (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+</code></pre>
+<h2 id="what-is-and-is-not-covered-by-intents">What is and is not covered by intents?</h2>
+<p>The following unprivileged events require intents to be dispatched:</p>
+<ul>
+<li><code>GUILD_CREATE</code></li>
+<li><code>GUILD_UPDATE</code></li>
+<li><code>GUILD_DELETE</code></li>
+<li><code>GUILD_ROLE_CREATE</code></li>
+<li><code>GUILD_ROLE_UPDATE</code></li>
+<li><code>GUILD_ROLE_DELETE</code></li>
+<li><code>GUILD_BAN_ADD</code></li>
+<li><code>GUILD_BAN_REMOVE</code></li>
+<li><code>GUILD_EMOJIS_UPDATE</code></li>
+<li><code>GUILD_INTEGRATIONS_UPDATE</code></li>
+<li><code>INVITE_CREATE</code></li>
+<li><code>INVITE_DELETE</code></li>
+<li><code>CHANNEL_CREATE</code></li>
+<li><code>CHANNEL_UPDATE</code></li>
+<li><code>CHANNEL_DELETE</code></li>
+<li><code>CHANNEL_PINS_UPDATE (guilds only)</code></li>
+<li><code>MESSAGE_CREATE</code></li>
+<li><code>MESSAGE_UPDATE</code></li>
+<li><code>MESSAGE_DELETE</code></li>
+<li><code>MESSAGE_BULK_DELETE</code></li>
+<li><code>MESSAGE_REACTION_ADD</code></li>
+<li><code>MESSAGE_REACTION_REMOVE</code></li>
+<li><code>MESSAGE_REACTION_REMOVE_ALL</code></li>
+<li><code>MESSAGE_REACTION_REMOVE_EMOJI</code></li>
+<li><code>TYPING_START</code></li>
+<li><code>VOICE_STATE_UPDATE</code></li>
+<li><code>WEBHOOKS_UPDATE</code></li>
+</ul>
+<p>The following privileged events require intents to be dispatched:</p>
+<ul>
+<li><code>GUILD_MEMBER_ADD</code></li>
+<li><code>GUILD_MEMBER_UPDATE</code></li>
+<li><code>GUILD_MEMBER_REMOVE</code></li>
+<li><code>PRESENCE_UPDATE</code></li>
+</ul>
+<p>All events not listed above will be dispatched regardless of whether
+intents are used or not.</p>
+<p>This flag type has several additional operations that can be used
+compared to normal enum types. These are applied to instances of
+this enum directly, or can be used as a class method by passing the
+flag as the first parameter.</p>
+<ul>
+<li><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> split() -&gt; <a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a>[<a href='#hikari.models.intents.Intents'>Intents</a>]: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Will split the combined flag up into individual atomic flags and
+return them in a <code><a href='https://docs.python.org/3/library/typing.html#typing.Sequence'>Sequence</a></code>.</li>
+</ul>
+<pre><code class="py">&gt;&gt;&gt; (FOO | BAR | BAZ).split()
+[FOO, BAR, BAZ]
+</code></pre>
+<ul>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_any(*flags: <a href='#hikari.models.intents.Intents'>Intents</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if any of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_all(*flags: <a href='#hikari.models.intents.Intents'>Intents</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if all of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+<li>
+<p><code><a href='https://docs.python.org/3/reference/compound_stmts.html#def'>def</a> has_none(*flags: <a href='#hikari.models.intents.Intents'>Intents</a>) -&gt; <a href='https://docs.python.org/3/library/functions.html#bool'>bool</a>: <a href='https://docs.python.org/3/glossary.html#term-1'>&hellip;</a></code><br/>
+Returns <code><a href='https://docs.python.org/3/library/constants.html#True'>True</a></code> if none of the given flags are present
+in the combined flag this is applied to. Otherwise, returns
+<code><a href='https://docs.python.org/3/library/constants.html#False'>False</a></code> instead.</p>
+</li>
+</ul>
+<p>In addition, new operators are overloaded. <code>+</code> will combine flags
+in the same way <code>|</code> would usually, and <code>-</code> will remove specific
+flags from this instance. This is equivalent to using the <code>&amp;</code> operator.</p>
+<p>Finally, combined flag types can be iterated across as if they
+were a collection.</p>
+<pre><code class="py">&gt;&gt;&gt; for f in FOO | BAR | BAZ:
+...     print(f)
+FOO
+BAR
+BAZ
+</code></pre>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/models/intents.py#L35-L370" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class Intents(flag.Flag):
+    &#34;&#34;&#34;Represents an intent on the gateway.
+
+    This is a bitfield representation of all the categories of event
+    that you wish to receive.
+
+    Any events not in an intent category will be fired regardless of what
+    intents you provide.
+
+    !!! info
+        Discord now places limits on certain events you can receive without
+        whitelisting your bot first. On the `Bot` tab in the developer&#39;s portal
+        for your bot, you should now have the option to enable functionality
+        for receiving these events.
+
+        If you attempt to request an intent type that you have not whitelisted
+        your bot for, you will be disconnected on startup with a `4014` closure
+        code.
+
+    !!! warning
+        If you are using the V7 Gateway, you will be REQUIRED to provide some
+        form of intent value when you connect. Failure to do so may result in
+        immediate termination of the session server-side.
+
+    This enum is an `enum.IntFlag`, which means that you can use bitwise
+    operators to join and splice multiple intents into one value.
+
+    For example, if we wish to only refer to the `GUILDS` intent, then it is
+    simply a case of accessing it normally.
+
+    ```py
+    my_intents = Intents.GUILDS
+    ```
+
+    If we wanted to have several intents grouped together, we would use the
+    bitwise-or operator to combine them (`|`). This can be done in-place
+    with the `|=` operator if needed.
+
+    ```py
+    # One or two values that fit on one line.
+    my_intents = Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES
+
+    # Several intents together. You may find it useful to format these like
+    # so to keep your code readable.
+    my_intents = (
+        Intents.GUILDS             |
+        Intents.GUILD_BANS         |
+        Intents.GUILD_EMOJIS       |
+        Intents.GUILD_INTEGRATIONS |
+        Intents.GUILD_MESSAGES     |
+        Intents.PRIVATE_MESSAGES
+    )
+    ```
+
+    To check if an intent **is present** in a given intents bitfield, you can
+    use the bitwise-and operator (`&amp;`) to check. This returns the &#34;intersection&#34;
+    or &#34;crossover&#34; between the left and right-hand side of the `&amp;`. You can then
+    use the `==` operator to check that specific values are present. You can
+    check in-place with the `&amp;=` operator if needed.
+
+    ```py
+    # Check if an intent is set:
+    if (my_intents &amp; Intents.GUILD_MESSAGES) == Intents.GUILD_MESSAGES:
+        print(&#34;Guild messages are enabled&#34;)
+
+    # Checking if ALL in a combination are set:
+    expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    if (my_intents &amp; expected_intents) == expected_intents:
+        print(&#34;Messages are enabled in guilds and private messages.&#34;)
+
+    # Checking if AT LEAST ONE in a combination is set:
+    expected_intents = (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    if my_intents &amp; expected_intents:
+        print(&#34;Messages are enabled in guilds or private messages.&#34;)
+    ```
+
+    Removing one or more intents from a combination can be done with the
+    bitwise-xor (`^`) operator. The `^=` operator can do this in-place.
+
+    ```py
+    # Remove GUILD_MESSAGES
+    my_intents = my_intents ^ Intents.GUILD_MESSAGES
+    # or, simplifying:
+    my_intents ^= Intents.GUILD_MESSAGES
+
+    # Remove all messages events.
+    my_intents = my_intents ^ (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    # or, simplifying
+    my_intents ^= (Intents.GUILD_MESSAGES | Intents.PRIVATE_MESSAGES)
+    ```
+
+    What is and is not covered by intents?
+    --------------------------------------
+
+    The following unprivileged events require intents to be dispatched:
+
+    - `GUILD_CREATE`
+    - `GUILD_UPDATE`
+    - `GUILD_DELETE`
+    - `GUILD_ROLE_CREATE`
+    - `GUILD_ROLE_UPDATE`
+    - `GUILD_ROLE_DELETE`
+    - `GUILD_BAN_ADD`
+    - `GUILD_BAN_REMOVE`
+    - `GUILD_EMOJIS_UPDATE`
+    - `GUILD_INTEGRATIONS_UPDATE`
+    - `INVITE_CREATE`
+    - `INVITE_DELETE`
+    - `CHANNEL_CREATE`
+    - `CHANNEL_UPDATE`
+    - `CHANNEL_DELETE`
+    - `CHANNEL_PINS_UPDATE (guilds only)`
+    - `MESSAGE_CREATE`
+    - `MESSAGE_UPDATE`
+    - `MESSAGE_DELETE`
+    - `MESSAGE_BULK_DELETE`
+    - `MESSAGE_REACTION_ADD`
+    - `MESSAGE_REACTION_REMOVE`
+    - `MESSAGE_REACTION_REMOVE_ALL`
+    - `MESSAGE_REACTION_REMOVE_EMOJI`
+    - `TYPING_START`
+    - `VOICE_STATE_UPDATE`
+    - `WEBHOOKS_UPDATE`
+
+    The following privileged events require intents to be dispatched:
+
+    - `GUILD_MEMBER_ADD`
+    - `GUILD_MEMBER_UPDATE`
+    - `GUILD_MEMBER_REMOVE`
+    - `PRESENCE_UPDATE`
+
+    All events not listed above will be dispatched regardless of whether
+    intents are used or not.
+    &#34;&#34;&#34;
+
+    NONE = 0
+    &#34;&#34;&#34;Represents no intents.&#34;&#34;&#34;
+
+    GUILDS = 1 &lt;&lt; 0
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_CREATE`
+    * `GUILD_UPDATE`
+    * `GUILD_DELETE`
+    * `GUILD_ROLE_CREATE`
+    * `GUILD_ROLE_UPDATE`
+    * `GUILD_ROLE_DELETE`
+    * `CHANNEL_CREATE`
+    * `CHANNEL_UPDATE`
+    * `CHANNEL_DELETE`
+    * `CHANNEL_PINS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_MEMBERS = 1 &lt;&lt; 1
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_MEMBER_ADD`
+    * `GUILD_MEMBER_UPDATE`
+    * `GUILD_MEMBER_REMOVE`
+
+    !!! warning
+        This intent is privileged, and requires enabling/whitelisting to use.
+    &#34;&#34;&#34;
+
+    GUILD_BANS = 1 &lt;&lt; 2
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_BAN_ADD`
+    * `GUILD_BAN_REMOVE`
+    &#34;&#34;&#34;
+
+    GUILD_EMOJIS = 1 &lt;&lt; 3
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_EMOJIS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_INTEGRATIONS = 1 &lt;&lt; 4
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `GUILD_INTEGRATIONS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_WEBHOOKS = 1 &lt;&lt; 5
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `WEBHOOKS_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_INVITES = 1 &lt;&lt; 6
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `INVITE_CREATE`
+    * `INVITE_DELETE`
+    &#34;&#34;&#34;
+
+    GUILD_VOICE_STATES = 1 &lt;&lt; 7
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `VOICE_STATE_UPDATE`
+    &#34;&#34;&#34;
+
+    GUILD_PRESENCES = 1 &lt;&lt; 8
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `PRESENCE_UPDATE`
+
+    !!! warning
+        This intent is privileged, and requires enabling/whitelisting to use.&#34;&#34;&#34;
+
+    GUILD_MESSAGES = 1 &lt;&lt; 9
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_CREATE` (in guilds only)
+    * `MESSAGE_UPDATE` (in guilds only)
+    * `MESSAGE_DELETE` (in guilds only)
+    * `MESSAGE_BULK_DELETE` (in guilds only)
+    &#34;&#34;&#34;
+
+    GUILD_MESSAGE_REACTIONS = 1 &lt;&lt; 10
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_REACTION_ADD` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE_ALL` (in guilds only)
+    * `MESSAGE_REACTION_REMOVE_EMOJI` (in guilds only)
+    &#34;&#34;&#34;
+
+    GUILD_MESSAGE_TYPING = 1 &lt;&lt; 11
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `TYPING_START` (in guilds only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGES = 1 &lt;&lt; 12
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `CHANNEL_CREATE` (in private message channels only)
+    * `MESSAGE_CREATE` (in private message channels only)
+    * `MESSAGE_UPDATE` (in private message channels only)
+    * `MESSAGE_DELETE` (in private message channels only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGE_REACTIONS = 1 &lt;&lt; 13
+    &#34;&#34;&#34;Subscribes to the following events:
+
+    * `MESSAGE_REACTION_ADD` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE_ALL` (in private message channels only)
+    * `MESSAGE_REACTION_REMOVE_EMOJI` (in private message channels only)
+    &#34;&#34;&#34;
+
+    PRIVATE_MESSAGE_TYPING = 1 &lt;&lt; 14
+    &#34;&#34;&#34;Subscribes to the following events
+
+    * `TYPING_START` (in private message channels only)
+    &#34;&#34;&#34;
+
+    # Annoyingly, enums hide classmethods and staticmethods from __dir__ in
+    # EnumMeta which means if I make methods to generate these, then stuff
+    # will not be documented by pdoc. Alas, my dream of being smart with
+    # operator.or_ and functools.reduce has been destroyed.
+
+    ALL_GUILDS_UNPRIVILEGED = (
+        GUILDS
+        | GUILD_BANS
+        | GUILD_EMOJIS
+        | GUILD_INTEGRATIONS
+        | GUILD_WEBHOOKS
+        | GUILD_INVITES
+        | GUILD_VOICE_STATES
+        | GUILD_MESSAGES
+        | GUILD_MESSAGE_REACTIONS
+        | GUILD_MESSAGE_TYPING
+    )
+    &#34;&#34;&#34;All unprivileged guild-related intents.&#34;&#34;&#34;
+
+    ALL_GUILDS_PRIVILEGED = GUILD_MEMBERS | GUILD_PRESENCES
+    &#34;&#34;&#34;All privileged guild intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL_GUILDS = ALL_GUILDS_UNPRIVILEGED | ALL_GUILDS_PRIVILEGED
+    &#34;&#34;&#34;All unprivileged guild intents and all privileged guild intents.
+
+    This combines `Intents.ALL_GUILDS_UNPRIVILEGED` and
+    `Intents.ALL_GUILDS_PRIVILEGED`.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL_PRIVATE = PRIVATE_MESSAGES | PRIVATE_MESSAGE_TYPING | PRIVATE_MESSAGE_REACTIONS
+    &#34;&#34;&#34;All private message intents.&#34;&#34;&#34;
+
+    ALL_MESSAGES = PRIVATE_MESSAGES | GUILD_MESSAGES
+    &#34;&#34;&#34;All message intents.&#34;&#34;&#34;
+
+    ALL_MESSAGE_REACTIONS = PRIVATE_MESSAGE_REACTIONS | GUILD_MESSAGE_REACTIONS
+    &#34;&#34;&#34;All message reaction intents.&#34;&#34;&#34;
+
+    ALL_MESSAGE_TYPING = PRIVATE_MESSAGE_TYPING | GUILD_MESSAGE_TYPING
+    &#34;&#34;&#34;All typing indicator intents.&#34;&#34;&#34;
+
+    ALL_UNPRIVILEGED = ALL_GUILDS_UNPRIVILEGED | ALL_PRIVATE
+    &#34;&#34;&#34;All unprivileged intents.&#34;&#34;&#34;
+
+    ALL_PRIVILEGED = ALL_GUILDS_PRIVILEGED
+    &#34;&#34;&#34;All privileged intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    ALL = ALL_UNPRIVILEGED | ALL_PRIVILEGED
+    &#34;&#34;&#34;All unprivileged and privileged intents.
+
+    !!! warning
+        This set of intent is privileged, and requires enabling/whitelisting to
+        use.
+    &#34;&#34;&#34;
+
+    @property
+    def is_privileged(self) -&gt; bool:
+        &#34;&#34;&#34;Determine whether the intent requires elevated privileges.
+
+        If this is `builtins.True`, you will be required to opt-in to using
+        this intent on the Discord Developer Portal before you can utilise it
+        in your application.
+        &#34;&#34;&#34;
+        return bool(self &amp; (self.GUILD_MEMBERS | self.GUILD_PRESENCES))</code></pre>
+</details>
+<div class="sep"></div>
+<h5>Method resolution order</h5>
+<dl>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Intents -- Represents an intent on the gateway …" href="#hikari.models.intents.Intents"
+class='dotted'>Intents</a></dt>
+<dd class="nested"><em class="text-muted">That's this class!</em></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='A Python enum type that supports combination using bitwise flags.'>enum flag</abbr></em></small> <a title="Flag -- Base type for an enum integer flag in Hikari …" href="../utilities/flag.html#hikari.utilities.flag.Flag"
+class='dotted'>Flag</a></dt>
+<dd class="nested"><p>Base type for an enum integer flag in Hikari …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.IntFlag -- Support for integer-based Flags" href="https://docs.python.org/3/library/enum.html#enum.IntFlag"
+class='dotted'>enum.IntFlag</a></dt>
+<dd class="nested"><p>Support for integer-based Flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="builtins.int -- int([x]) -> integer
+int(x, base=10) -> integer …" href="https://docs.python.org/3/library/functions.html#int"
+class='dotted'>int</a></dt>
+<dd class="nested"><p>int([x]) -&gt; integer
+int(x, base=10) -&gt; integer …</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Flag -- Support for flags" href="https://docs.python.org/3/library/enum.html#enum.Flag"
+class='dotted'>enum.Flag</a></dt>
+<dd class="nested"><p>Support for flags</p></dd>
+<dt class="nested"><small class='text-muted'><em><abbr title='Anything that is external to this library.'>extern</abbr> class</em></small> <a title="enum.Enum -- Generic enumeration …" href="https://docs.python.org/3/library/enum.html#enum.Enum"
+class='dotted'>enum.Enum</a></dt>
+<dd class="nested"><p>Generic enumeration …</p></dd>
+</dl>
+<div class="sep"></div>
+<h5>Variables and properties</h5>
+<dl>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL -- All unprivileged and privileged intents …" href="#hikari.models.intents.Intents.ALL" id="hikari.models.intents.Intents.ALL" class='dotted'>ALL</a> = ALL</code></pre>
+</dt>
+<dd><p>All unprivileged and privileged intents.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>This set of intent is privileged, and requires enabling/whitelisting to
+use.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS -- All unprivileged guild intents and all privileged guild intents …" href="#hikari.models.intents.Intents.ALL_GUILDS" id="hikari.models.intents.Intents.ALL_GUILDS" class='dotted'>ALL_GUILDS</a> = ALL_GUILDS</code></pre>
+</dt>
+<dd><p>All unprivileged guild intents and all privileged guild intents.</p>
+<p>This combines <code><a href='#hikari.models.intents.Intents.ALL_GUILDS_UNPRIVILEGED'>ALL_GUILDS_UNPRIVILEGED</a></code> and
+<code><a href='#hikari.models.intents.Intents.ALL_GUILDS_PRIVILEGED'>ALL_GUILDS_PRIVILEGED</a></code>.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>This set of intent is privileged, and requires enabling/whitelisting to
+use.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS_PRIVILEGED -- All privileged guild intents …" href="#hikari.models.intents.Intents.ALL_GUILDS_PRIVILEGED" id="hikari.models.intents.Intents.ALL_GUILDS_PRIVILEGED" class='dotted'>ALL_GUILDS_PRIVILEGED</a> = ALL_GUILDS_PRIVILEGED</code></pre>
+</dt>
+<dd><p>All privileged guild intents.</p>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>This set of intent is privileged, and requires enabling/whitelisting to
+use.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_GUILDS_UNPRIVILEGED -- All unprivileged guild-related intents." href="#hikari.models.intents.Intents.ALL_GUILDS_UNPRIVILEGED" id="hikari.models.intents.Intents.ALL_GUILDS_UNPRIVILEGED" class='dotted'>ALL_GUILDS_UNPRIVILEGED</a> = ALL_GUILDS_UNPRIVILEGED</code></pre>
+</dt>
+<dd><p>All unprivileged guild-related intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGES -- All message intents." href="#hikari.models.intents.Intents.ALL_MESSAGES" id="hikari.models.intents.Intents.ALL_MESSAGES" class='dotted'>ALL_MESSAGES</a> = ALL_MESSAGES</code></pre>
+</dt>
+<dd><p>All message intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGE_REACTIONS -- All message reaction intents." href="#hikari.models.intents.Intents.ALL_MESSAGE_REACTIONS" id="hikari.models.intents.Intents.ALL_MESSAGE_REACTIONS" class='dotted'>ALL_MESSAGE_REACTIONS</a> = ALL_MESSAGE_REACTIONS</code></pre>
+</dt>
+<dd><p>All message reaction intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_MESSAGE_TYPING -- All typing indicator intents." href="#hikari.models.intents.Intents.ALL_MESSAGE_TYPING" id="hikari.models.intents.Intents.ALL_MESSAGE_TYPING" class='dotted'>ALL_MESSAGE_TYPING</a> = ALL_MESSAGE_TYPING</code></pre>
+</dt>
+<dd><p>All typing indicator intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_PRIVATE -- All private message intents." href="#hikari.models.intents.Intents.ALL_PRIVATE" id="hikari.models.intents.Intents.ALL_PRIVATE" class='dotted'>ALL_PRIVATE</a> = ALL_PRIVATE</code></pre>
+</dt>
+<dd><p>All private message intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="ALL_UNPRIVILEGED -- All unprivileged intents." href="#hikari.models.intents.Intents.ALL_UNPRIVILEGED" id="hikari.models.intents.Intents.ALL_UNPRIVILEGED" class='dotted'>ALL_UNPRIVILEGED</a> = ALL_UNPRIVILEGED</code></pre>
+</dt>
+<dd><p>All unprivileged intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILDS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILDS" id="hikari.models.intents.Intents.GUILDS" class='dotted'>GUILDS</a> = GUILDS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>GUILD_CREATE</code></li>
+<li><code>GUILD_UPDATE</code></li>
+<li><code>GUILD_DELETE</code></li>
+<li><code>GUILD_ROLE_CREATE</code></li>
+<li><code>GUILD_ROLE_UPDATE</code></li>
+<li><code>GUILD_ROLE_DELETE</code></li>
+<li><code>CHANNEL_CREATE</code></li>
+<li><code>CHANNEL_UPDATE</code></li>
+<li><code>CHANNEL_DELETE</code></li>
+<li><code>CHANNEL_PINS_UPDATE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_BANS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_BANS" id="hikari.models.intents.Intents.GUILD_BANS" class='dotted'>GUILD_BANS</a> = GUILD_BANS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>GUILD_BAN_ADD</code></li>
+<li><code>GUILD_BAN_REMOVE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_EMOJIS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_EMOJIS" id="hikari.models.intents.Intents.GUILD_EMOJIS" class='dotted'>GUILD_EMOJIS</a> = GUILD_EMOJIS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>GUILD_EMOJIS_UPDATE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_INTEGRATIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_INTEGRATIONS" id="hikari.models.intents.Intents.GUILD_INTEGRATIONS" class='dotted'>GUILD_INTEGRATIONS</a> = GUILD_INTEGRATIONS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>GUILD_INTEGRATIONS_UPDATE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_INVITES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_INVITES" id="hikari.models.intents.Intents.GUILD_INVITES" class='dotted'>GUILD_INVITES</a> = GUILD_INVITES</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>INVITE_CREATE</code></li>
+<li><code>INVITE_DELETE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MEMBERS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MEMBERS" id="hikari.models.intents.Intents.GUILD_MEMBERS" class='dotted'>GUILD_MEMBERS</a> = GUILD_MEMBERS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>GUILD_MEMBER_ADD</code></li>
+<li><code>GUILD_MEMBER_UPDATE</code></li>
+<li><code>GUILD_MEMBER_REMOVE</code></li>
+</ul>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>This intent is privileged, and requires enabling/whitelisting to use.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGES" id="hikari.models.intents.Intents.GUILD_MESSAGES" class='dotted'>GUILD_MESSAGES</a> = GUILD_MESSAGES</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>MESSAGE_CREATE</code> (in guilds only)</li>
+<li><code>MESSAGE_UPDATE</code> (in guilds only)</li>
+<li><code>MESSAGE_DELETE</code> (in guilds only)</li>
+<li><code>MESSAGE_BULK_DELETE</code> (in guilds only)</li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGE_REACTIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGE_REACTIONS" id="hikari.models.intents.Intents.GUILD_MESSAGE_REACTIONS" class='dotted'>GUILD_MESSAGE_REACTIONS</a> = GUILD_MESSAGE_REACTIONS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>MESSAGE_REACTION_ADD</code> (in guilds only)</li>
+<li><code>MESSAGE_REACTION_REMOVE</code> (in guilds only)</li>
+<li><code>MESSAGE_REACTION_REMOVE_ALL</code> (in guilds only)</li>
+<li><code>MESSAGE_REACTION_REMOVE_EMOJI</code> (in guilds only)</li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_MESSAGE_TYPING -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_MESSAGE_TYPING" id="hikari.models.intents.Intents.GUILD_MESSAGE_TYPING" class='dotted'>GUILD_MESSAGE_TYPING</a> = GUILD_MESSAGE_TYPING</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>TYPING_START</code> (in guilds only)</li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_PRESENCES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_PRESENCES" id="hikari.models.intents.Intents.GUILD_PRESENCES" class='dotted'>GUILD_PRESENCES</a> = GUILD_PRESENCES</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>PRESENCE_UPDATE</code></li>
+</ul>
+<div class="alert alert-warning">
+<p class="admonition-title">Warning</p>
+<p>This intent is privileged, and requires enabling/whitelisting to use.</p>
+</div></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_VOICE_STATES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_VOICE_STATES" id="hikari.models.intents.Intents.GUILD_VOICE_STATES" class='dotted'>GUILD_VOICE_STATES</a> = GUILD_VOICE_STATES</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>VOICE_STATE_UPDATE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="GUILD_WEBHOOKS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.GUILD_WEBHOOKS" id="hikari.models.intents.Intents.GUILD_WEBHOOKS" class='dotted'>GUILD_WEBHOOKS</a> = GUILD_WEBHOOKS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>WEBHOOKS_UPDATE</code></li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="NONE -- Represents no intents." href="#hikari.models.intents.Intents.NONE" id="hikari.models.intents.Intents.NONE" class='dotted'>NONE</a> = NONE</code></pre>
+</dt>
+<dd><p>Represents no intents.</p></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGES -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGES" id="hikari.models.intents.Intents.PRIVATE_MESSAGES" class='dotted'>PRIVATE_MESSAGES</a> = PRIVATE_MESSAGES</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>CHANNEL_CREATE</code> (in private message channels only)</li>
+<li><code>MESSAGE_CREATE</code> (in private message channels only)</li>
+<li><code>MESSAGE_UPDATE</code> (in private message channels only)</li>
+<li><code>MESSAGE_DELETE</code> (in private message channels only)</li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGE_REACTIONS -- Subscribes to the following events: …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGE_REACTIONS" id="hikari.models.intents.Intents.PRIVATE_MESSAGE_REACTIONS" class='dotted'>PRIVATE_MESSAGE_REACTIONS</a> = PRIVATE_MESSAGE_REACTIONS</code></pre>
+</dt>
+<dd><p>Subscribes to the following events:</p>
+<ul>
+<li><code>MESSAGE_REACTION_ADD</code> (in private message channels only)</li>
+<li><code>MESSAGE_REACTION_REMOVE</code> (in private message channels only)</li>
+<li><code>MESSAGE_REACTION_REMOVE_ALL</code> (in private message channels only)</li>
+<li><code>MESSAGE_REACTION_REMOVE_EMOJI</code> (in private message channels only)</li>
+</ul></dd>
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A descriptor on an object that behaves like a synthetic attribute/variable.'>property</abbr></em></small> <a title="PRIVATE_MESSAGE_TYPING -- Subscribes to the following events …" href="#hikari.models.intents.Intents.PRIVATE_MESSAGE_TYPING" id="hikari.models.intents.Intents.PRIVATE_MESSAGE_TYPING" class='dotted'>PRIVATE_MESSAGE_TYPING</a> = PRIVATE_MESSAGE_TYPING</code></pre>
+</dt>
+<dd><p>Subscribes to the following events</p>
+<ul>
+<li><code>TYPING_START</code> (in private message channels only)</li>
+</ul></dd>
+</dl>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

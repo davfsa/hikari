@@ -1,0 +1,537 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.impl.voice API documentation</title>
+<meta name="description" content="Implementation of a simple voice management system." />
+<meta property="og:title" content="hikari.impl.voice module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.impl.voice">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.impl -- Basic implementations of application components …" href="index.html"
+class='dotted'>impl</a></li>
+<li class="breadcrumb-item active"><a href="#">voice</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Implementation of a simple voice management system.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/impl/voice.py#L0-L231" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Implementation of a simple voice management system.&#34;&#34;&#34;
+
+from __future__ import annotations
+
+__all__: typing.Final[typing.List[str]] = []
+
+import asyncio
+
+# noinspection PyUnresolvedReferences
+import logging
+import typing
+
+from hikari import errors
+from hikari.api import event_dispatcher
+from hikari.api import voice
+from hikari.events import voice_events
+from hikari.impl import bot
+from hikari.models import channels
+from hikari.models import guilds
+from hikari.utilities import snowflake
+
+if typing.TYPE_CHECKING:
+    _VoiceEventCallbackT = typing.Callable[[voice_events.VoiceEvent], typing.Coroutine[None, typing.Any, None]]
+
+
+_LOGGER: typing.Final[logging.Logger] = logging.getLogger(&#34;hikari.voice.management&#34;)
+
+
+_VoiceConnectionT = typing.TypeVar(&#34;_VoiceConnectionT&#34;, bound=&#34;voice.VoiceConnection&#34;)
+
+
+class VoiceComponentImpl(voice.VoiceComponent):
+    &#34;&#34;&#34;A standard voice component management implementation.
+
+    This is the regular implementation you will generally use to connect to
+    voice channels with.
+    &#34;&#34;&#34;
+
+    __slots__: typing.Sequence[str] = (&#34;_app&#34;, &#34;_connections&#34;, &#34;_dispatcher&#34;)
+
+    def __init__(self, app: bot.BotApp, dispatcher: event_dispatcher.EventDispatcher) -&gt; None:
+        self._app = app
+        self._dispatcher = dispatcher
+        self._connections: typing.Dict[snowflake.Snowflake, voice.VoiceConnection] = {}
+        self._dispatcher.subscribe(voice_events.VoiceEvent, self._on_voice_event)
+
+    @property
+    def app(self) -&gt; bot.BotApp:
+        return self._app
+
+    @property
+    def connections(self) -&gt; typing.Mapping[snowflake.Snowflake, voice.VoiceConnection]:
+        return self._connections.copy()
+
+    async def disconnect(self) -&gt; None:
+        if self._connections:
+            _LOGGER.info(&#34;shutting down %s voice connection(s)&#34;, len(self._connections))
+            await asyncio.gather(*(c.disconnect() for c in self._connections.values()))
+
+    async def close(self) -&gt; None:
+        await self.disconnect()
+        self._dispatcher.unsubscribe(voice_events.VoiceEvent, self._on_voice_event)
+
+    async def connect_to(
+        self,
+        channel: snowflake.SnowflakeishOr[channels.GuildVoiceChannel],
+        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        *,
+        deaf: bool = False,
+        mute: bool = False,
+        voice_connection_type: typing.Type[_VoiceConnectionT],
+        **kwargs: typing.Any,
+    ) -&gt; _VoiceConnectionT:
+        guild_id = snowflake.Snowflake(guild)
+        # TODO: this and the same logic in channels.py and guilds.py logic should go in a file somewhere
+        shard_id = (guild_id &gt;&gt; 22) % self._app.shard_count
+
+        if shard_id is None:
+            raise errors.VoiceError(
+                &#34;Cannot connect to voice. Ensure the application is configured as a gateway zookeeper and try again.&#34;
+            )
+
+        if guild_id in self._connections:
+            raise errors.VoiceError(
+                &#34;The bot is already in a voice channel for this guild. Close the other connection first, or &#34;
+                &#34;request that the application moves to the new voice channel instead.&#34;
+            )
+
+        try:
+            shard = self._app.shards[shard_id]
+        except KeyError:
+            raise errors.VoiceError(
+                f&#34;Cannot connect to shard {shard_id}, it is not present in this application.&#34;
+            ) from None
+
+        if not shard.is_alive:
+            # Not sure if I can think of a situation this will happen in... really.
+            # Unless the user sleeps for a bit then tries to connect, and in the mean time the
+            # shard has disconnected.
+            # TODO: make shards declare if they are in the process of reconnecting, if they are, make them wait
+            # for a little bit.
+            raise errors.VoiceError(f&#34;Cannot connect to shard {shard_id}, the shard is not online.&#34;)
+
+        _LOGGER.debug(&#34;attempting to connect to voice channel %s in %s via shard %s&#34;, channel, guild, shard_id)
+
+        user_id = await shard.get_user_id()
+        await asyncio.wait_for(shard.update_voice_state(guild, channel, self_deaf=deaf, self_mute=mute), timeout=5.0)
+
+        _LOGGER.debug(
+            &#34;waiting for voice events for connecting to voice channel %s in %s via shard %s&#34;, channel, guild, shard_id
+        )
+
+        state_event, server_event = await asyncio.wait_for(
+            asyncio.gather(
+                # Voice state update:
+                self._dispatcher.wait_for(
+                    voice_events.VoiceStateUpdateEvent,
+                    timeout=None,
+                    predicate=self._init_state_update_predicate(guild_id, user_id),
+                ),
+                # Server update:
+                self._dispatcher.wait_for(
+                    voice_events.VoiceServerUpdateEvent,
+                    timeout=None,
+                    predicate=self._init_server_update_predicate(guild_id),
+                ),
+            ),
+            timeout=10.0,
+        )
+
+        _LOGGER.debug(
+            &#34;joined voice channel %s in guild %s via shard %s using endpoint %s. Session will be %s. &#34;
+            &#34;Delegating to voice websocket&#34;,
+            state_event.state.channel_id,
+            state_event.state.guild_id,
+            shard_id,
+            server_event.endpoint,
+            state_event.state.session_id,
+        )
+
+        try:
+            voice_connection = await voice_connection_type.initialize(
+                channel_id=snowflake.Snowflake(channel),
+                debug=self._app.is_debug_enabled,
+                endpoint=server_event.endpoint,
+                guild_id=guild_id,
+                on_close=self._on_connection_close,
+                owner=self,
+                session_id=state_event.state.session_id,
+                shard_id=shard_id,
+                token=server_event.token,
+                user_id=user_id,
+                **kwargs,
+            )
+        except Exception:
+            _LOGGER.debug(
+                &#34;error occurred in initialization, leaving voice channel %s in guild %s again&#34;, channel, guild
+            )
+            await asyncio.wait_for(shard.update_voice_state(guild, None), timeout=5.0)
+            raise
+
+        self._connections[guild_id] = voice_connection
+        return voice_connection
+
+    @staticmethod
+    def _init_state_update_predicate(
+        guild_id: snowflake.Snowflake, user_id: snowflake.Snowflake,
+    ) -&gt; typing.Callable[[voice_events.VoiceStateUpdateEvent], bool]:
+        def predicate(event: voice_events.VoiceStateUpdateEvent) -&gt; bool:
+            return event.state.guild_id == guild_id and event.state.user_id == user_id
+
+        return predicate
+
+    @staticmethod
+    def _init_server_update_predicate(
+        guild_id: snowflake.Snowflake,
+    ) -&gt; typing.Callable[[voice_events.VoiceServerUpdateEvent], bool]:
+        def predicate(event: voice_events.VoiceServerUpdateEvent) -&gt; bool:
+            return event.guild_id == guild_id
+
+        return predicate
+
+    async def _on_connection_close(self, connection: voice.VoiceConnection) -&gt; None:
+        try:
+            del self._connections[connection.guild_id]
+
+            # Leave the voice channel explicitly, otherwise we will just appear to
+            # not leave properly.
+            await self._app.shards[connection.shard_id].update_voice_state(
+                guild=connection.guild_id, channel=None,
+            )
+
+            _LOGGER.debug(
+                &#34;successfully unregistered voice connection %s to guild %s and left voice channel %s&#34;,
+                connection,
+                connection.guild_id,
+                connection.channel_id,
+            )
+
+        except KeyError:
+            _LOGGER.warning(
+                &#34;ignored closure of phantom unregistered voice connection %s to guild %s. Perhaps this is a bug?&#34;,
+                connection,
+                connection.guild_id,
+            )
+
+    async def _on_voice_event(self, event: voice_events.VoiceEvent) -&gt; None:
+        if event.guild_id in self._connections:
+            connection = self._connections[event.guild_id]
+            _LOGGER.debug(&#34;notifying voice connection %s in guild %s of event %s&#34;, connection, event.guild_id, event)
+            await connection.notify(event)</code></pre>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

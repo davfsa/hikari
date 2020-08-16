@@ -1,0 +1,724 @@
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!--
+Copyright (c) 2020 Nekokatt
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>hikari.utilities.art API documentation</title>
+<meta name="description" content="Stuff for handling banners and pretty logging." />
+<meta property="og:title" content="hikari.utilities.art module documentation" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nekokatt.gitlab.io/hikari/logo.png" />
+<meta property="og:description" content="A Discord Bot framework for modern Python and asyncio built on good intentions" />
+<meta property="theme-color" content="#ff029a" />
+<link rel="shortcut icon" type="image/png" href="https://nekokatt.gitlab.io/hikari/logo.png"/>
+<!--<script async src="https://cse.google.com/cse.js?cx=017837193012385208679:pey8ky8gdqw"></script>
+<style>.gsc-control-cse {padding:0 !important;margin-top:1em}</style>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css" rel="stylesheet"/>
+<style>
+* {
+scrollbar-color: #202324 #454a4d;
+scroll-behavior: smooth;
+}
+img#logo {
+border-radius: 15px;
+width: 30px;
+height: 30px;
+margin-right: 0.5em;
+}
+small.smaller {
+font-size: 0.75em;
+}
+body {
+background-color: #181A1B;
+color: #C9C5C0;
+}
+h1 {
+margin-top: 3rem;
+}
+h2 {
+margin-top: 1.75rem;
+margin-bottom: 1em;
+}
+h3 {
+margin-top: 1.25rem;
+}
+h4 {
+margin-top: 1rem;
+}
+.nav-section {
+margin-top: 2em;
+}
+.monospaced {
+font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+a.sidebar-nav-pill,
+a.sidebar-nav-pill:active,
+a.sidebar-nav-pill:hover {
+color: #BDB7AF;
+}
+.module-source > details > pre {
+display: block;
+overflow-x: auto;
+overflow-y: auto;
+max-height: 600px;
+font-size: 0.8em;
+}
+a {
+color: #DE4F91;
+}
+a:hover {
+color: #64B1F2;
+}
+.jumbotron {
+background-color: #232627;
+}
+.breadcrumb-item.inactive > a {
+color: #d264d0 !important;
+}
+.breadcrumb-item.active > a {
+color: #de4f91 !important;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+content: ".";
+}
+.module-breadcrumb {
+padding-left: 0 !important;
+background-color: #232627;
+}
+ul.nested {
+margin-left: 1em;
+}
+h2#parameters::after {
+margin-left: 2em;
+}
+dt {
+margin-left: 2em;
+}
+dd {
+margin-left: 4em;
+}
+dl.no-nest > dt {
+margin-left: 0em;
+}
+dl.no-nest > dd {
+margin-left: 2em;
+}
+dl.root {
+margin-bottom: 2em;
+}
+.definition {
+display: block;
+margin-bottom: 8em !important;
+}
+.definition .row {
+display: block;
+margin-bottom: 4em !important;
+}
+.definition h2 {
+font-size: 1em;
+font-weight: bolder;
+}
+.sep {
+height: 2em;
+}
+code {
+color: #DB61D9;
+}
+code .active {
+color: #e83e8c;
+}
+code a {
+color: #E94A93;
+}
+a.dotted:hover, abbr:hover {
+text-decoration: underline #9E9689 dotted !important;
+}
+a.dotted, abbr {
+text-decoration: none !important;
+}
+.gsc-search-box, .gsc-search-box-tools, .gsc-control-cse {
+background: none !important;
+border: none !important;
+}
+.gsc-search-button-v2, .gsc-search-button-v2:hover, .gsc-search-button-v2:focus {
+color: var(--success) !important;
+border-color: var(--success) !important;
+background: none !important;
+padding: 6px 32px !important;
+font-size: inherit !important;
+}
+.gsc-search-button-v2 > svg {
+fill: var(--success) !important;
+}
+.gsc-input-box {
+border-radius: 3px;
+}
+.gsc-control-cse {
+width: 300px !important;
+margin-top: 0 !important;
+}
+.gsc-control-cse .gsc-control-cse-en {
+margin-top: 0 !important;
+}
+.bg-dark {
+background-color: #2C2F31 !important;
+}
+.text-muted {
+color: #9E9689 !important;
+}
+.alert-primary {
+color: #7CC3FF;
+background-color: #262A2B;
+border-color: #003B7B;
+}
+.alert-secondary {
+color: #C2BCB4;
+background-color: #282B2C;
+border-color: #3B4042;
+}
+.alert-success {
+color: #99E6AB;
+background-color: #1A3E29;
+border-color: #255A32;
+}
+.alert-info {
+color: #8EE3F1;
+background-color: #143B43;
+border-color: #1E5961;
+}
+.alert-warning {
+color: #FBD770;
+background-color: #513E00;
+border-color: #7B5C00;
+}
+.alert-danger {
+color: rgb(225, 134, 143);
+background-color: rgb(67, 12, 17);
+border-color: rgb(104, 18, 27);
+}
+</style>
+<script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_CHTML'></script>
+</head>
+<body>
+<!-- body.mako -->
+<nav id="main-nav" class="navbar navbar-dark navbar-expand-lg bg-dark">
+<a class="navbar-brand" href="https://gitlab.com/nekokatt/hikari"><img class="d-inline-block align-top" src="https://nekokatt.gitlab.io/hikari/logo.png" id="logo" alt="hikari logo" loading="lazy"/>Hikari <small>v2.0.0.dev68</small></a>
+<div class="collapse navbar-collapse" id="navbarNavDropdown">
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="/hikari/index.html">Home</a></li>
+<li class="nav-item active"><a class="nav-link" href="/hikari/hikari/index.html">Documentation</a></li>
+<li class="nav-item"><a class="nav-link" href="https://gitlab.com/nekokatt/hikari">GitLab</a></li>
+<li class="nav-item"><a class="nav-link" href="https://pypi.org/project/hikari">PyPI</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/Jx4cNGG">Discord Server</a></li>
+</ul>
+</div>
+<!--<form class="form-inline my-2 my-lg-0">
+<div class="gcse-search"
+data-as_oq="inurl:github.com/nekokatt/hikari site:nekokatt.gitlab.io/hikari/hikari"
+data-gaCategoryParameter="hikari.utilities.art">
+</div>
+</form>-->
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"/>
+</button>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+<div class="container">
+<h1 class="display-4"><code>
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb module-breadcrumb">
+<li class="breadcrumb-item inactive"><a title="hikari -- A sane Python framework for writing modern Discord bots …" href="../index.html"
+class='dotted'>hikari</a></li>
+<li class="breadcrumb-item inactive"><a title="hikari.utilities -- Package containing internal utilities used within this API." href="index.html"
+class='dotted'>utilities</a></li>
+<li class="breadcrumb-item active"><a href="#">art</a></li>
+</ol>
+</nav>
+</code></h1>
+<p class="lead"><p>Stuff for handling banners and pretty logging.</p></p>
+</div>
+</div>
+<div class="container-xl">
+<div class="row">
+<div class="d-md-none d-lg-block col-lg-5 col-xl-4">
+<!--<nav class="nav" id="content-nav">-->
+<h3>This module</h3>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A variable that should be considered to be a constant value.'>const</abbr></em></small> <a title="DEFAULT_PALETTE -- Contains a set of constant escape codes that are able to be printed …" href="#hikari.utilities.art.DEFAULT_PALETTE"
+class='sidebar-nav-pill'>DEFAULT_PALETTE</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="get_banner -- Attempt to read a banner.txt from the given package …" href="#hikari.utilities.art.get_banner"
+class='sidebar-nav-pill'>get_banner</a></li>
+<li class="text-truncate monospaced"><small class='text-muted'><em><abbr title='A standard Python function.'>def</abbr></em></small> <a title="get_default_logging_format -- Generate the default library logger format string …" href="#hikari.utilities.art.get_default_logging_format"
+class='sidebar-nav-pill'>get_default_logging_format</a></li>
+</ul>
+<ul class="list-unstyled text-truncate">
+<li class="monospaced">
+<small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ConsolePalette -- Data class containing printable escape codes for colouring console output." href="#hikari.utilities.art.ConsolePalette"
+class='sidebar-nav-pill'>ConsolePalette</a>
+<ul class="list-unstyled nested text-truncate">
+</ul>
+</li>
+</ul>
+<!--</nav>-->
+</div>
+<div class="col-xs-12 col-lg-7 col-xl-8">
+<div class="row">
+<div class="col module-source">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/art.py#L0-L210" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python"># -*- coding: utf-8 -*-
+# cython: language_level=3
+# Copyright (c) 2020 Nekokatt
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the &#34;Software&#34;), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+&#34;&#34;&#34;Stuff for handling banners and pretty logging.&#34;&#34;&#34;
+from __future__ import annotations
+
+__all__: typing.List[str] = [
+    &#34;ConsolePalette&#34;,
+    &#34;DEFAULT_PALETTE&#34;,
+    &#34;DEFAULT_BANNER_ARGS&#34;,
+    &#34;get_default_logging_format&#34;,
+    &#34;get_banner&#34;,
+]
+
+import os
+import platform
+import string
+import sys
+import types
+import typing
+from importlib import resources
+
+import attr
+
+from hikari import _about
+from hikari.utilities import attr_extensions
+
+
+@typing.final
+@attr_extensions.with_copy
+@attr.s(frozen=True, kw_only=True)
+class ConsolePalette:
+    &#34;&#34;&#34;Data class containing printable escape codes for colouring console output.&#34;&#34;&#34;
+
+    default: str = attr.ib(default=&#34;&#34;)
+    bright: str = attr.ib(default=&#34;&#34;)
+    underline: str = attr.ib(default=&#34;&#34;)
+    invert: str = attr.ib(default=&#34;&#34;)
+    red: str = attr.ib(default=&#34;&#34;)
+    green: str = attr.ib(default=&#34;&#34;)
+    yellow: str = attr.ib(default=&#34;&#34;)
+    blue: str = attr.ib(default=&#34;&#34;)
+    magenta: str = attr.ib(default=&#34;&#34;)
+    cyan: str = attr.ib(default=&#34;&#34;)
+    white: str = attr.ib(default=&#34;&#34;)
+    bright_red: str = attr.ib(default=&#34;&#34;)
+    bright_green: str = attr.ib(default=&#34;&#34;)
+    bright_yellow: str = attr.ib(default=&#34;&#34;)
+    bright_blue: str = attr.ib(default=&#34;&#34;)
+    bright_magenta: str = attr.ib(default=&#34;&#34;)
+    bright_cyan: str = attr.ib(default=&#34;&#34;)
+    bright_white: str = attr.ib(default=&#34;&#34;)
+    framed: str = attr.ib(default=&#34;&#34;)
+    dim: str = attr.ib(default=&#34;&#34;)
+
+
+def _default_palette() -&gt; ConsolePalette:  # pragma: no cover
+    # Modified from
+    # https://github.com/django/django/blob/master/django/core/management/color.py
+    _plat = sys.platform
+    _supports_color = False
+
+    # isatty is not always implemented, https://code.djangoproject.com/ticket/6223
+    _is_a_tty = hasattr(sys.stdout, &#34;isatty&#34;) and sys.stdout.isatty()
+
+    if _plat != &#34;Pocket PC&#34;:
+        if _plat == &#34;win32&#34;:
+            _supports_color |= os.getenv(&#34;TERM_PROGRAM&#34;, None) in (&#34;mintty&#34;, &#34;Terminus&#34;)
+            _supports_color |= &#34;ANSICON&#34; in os.environ
+            _supports_color &amp;= _is_a_tty
+        else:
+            _supports_color = _is_a_tty
+
+        _supports_color |= bool(os.getenv(&#34;PYCHARM_HOSTED&#34;, &#34;&#34;))
+
+    if _supports_color:
+        return ConsolePalette(
+            default=&#34;\033[0m&#34;,
+            bright=&#34;\033[1m&#34;,
+            underline=&#34;\033[4m&#34;,
+            invert=&#34;\033[7m&#34;,
+            red=&#34;\033[31m&#34;,
+            green=&#34;\033[32m&#34;,
+            yellow=&#34;\033[33m&#34;,
+            blue=&#34;\033[34m&#34;,
+            magenta=&#34;\033[35m&#34;,
+            cyan=&#34;\033[36m&#34;,
+            white=&#34;\033[37m&#34;,
+            bright_red=&#34;\033[91m&#34;,
+            bright_green=&#34;\033[92m&#34;,
+            bright_yellow=&#34;\033[93m&#34;,
+            bright_blue=&#34;\033[94m&#34;,
+            bright_magenta=&#34;\033[95m&#34;,
+            bright_cyan=&#34;\033[96m&#34;,
+            bright_white=&#34;\033[97m&#34;,
+            framed=&#34;\033[51m&#34;,
+            dim=&#34;\033[2m&#34;,
+        )
+
+    return ConsolePalette()
+
+
+DEFAULT_PALETTE: typing.Final[ConsolePalette] = _default_palette()
+&#34;&#34;&#34;Contains a set of constant escape codes that are able to be printed.
+
+These codes will force the console to change colour or style, if supported.
+
+On unsupported platforms, these will be empty strings, thus making them safe
+to be used on non-coloured terminals or in logs specifically.
+&#34;&#34;&#34;
+
+
+def get_default_logging_format(palette: ConsolePalette = DEFAULT_PALETTE) -&gt; str:
+    &#34;&#34;&#34;Generate the default library logger format string.
+
+    Parameters
+    ----------
+    palette : ConsolePalette
+        The custom palette to use. Defaults to sane environment-dependent
+        ANSI colour-codes if not specified.
+
+    Returns
+    -------
+    builtins.str
+        The string logging console format.
+    &#34;&#34;&#34;
+    return (
+        f&#34;{palette.red}%(levelname)-1.1s{palette.default} {palette.yellow}%(asctime)23.23s&#34;
+        f&#34;{palette.default} {palette.bright}{palette.green}%(name)s: {palette.default}{palette.cyan}%(message)s&#34;
+        f&#34;{palette.default}&#34;
+    )
+
+
+def _default_banner_args() -&gt; typing.Mapping[str, str]:
+    system_bits = (
+        platform.release(),
+        platform.system(),
+        platform.machine(),
+    )
+    filtered_system_bits = (s.strip() for s in system_bits if s.strip())
+
+    return types.MappingProxyType(
+        {
+            # Hikari stuff.
+            &#34;hikari_version&#34;: _about.__version__,
+            &#34;hikari_git_sha1&#34;: _about.__git_sha1__,
+            &#34;hikari_copyright&#34;: _about.__copyright__,
+            &#34;hikari_license&#34;: _about.__license__,
+            &#34;hikari_install_location&#34;: os.path.abspath(os.path.dirname(_about.__file__)),
+            &#34;hikari_documentation_url&#34;: _about.__docs__,
+            &#34;hikari_discord_invite&#34;: _about.__discord_invite__,
+            &#34;hikari_source_url&#34;: _about.__url__,
+            # Python stuff.
+            &#34;python_implementation&#34;: platform.python_implementation(),
+            &#34;python_version&#34;: platform.python_version(),
+            &#34;python_build&#34;: &#34; &#34;.join(platform.python_build()),
+            &#34;python_branch&#34;: platform.python_branch(),
+            &#34;python_compiler&#34;: platform.python_compiler(),
+            # Platform specific stuff I might remove later.
+            &#34;system_description&#34;: &#34; &#34;.join(filtered_system_bits),
+        }
+    )
+
+
+DEFAULT_BANNER_ARGS: typing.Final[typing.Mapping[str, str]] = _default_banner_args()
+
+
+def get_banner(
+    package: str = &#34;hikari&#34;,
+    palette: ConsolePalette = DEFAULT_PALETTE,
+    args: typing.Mapping[str, str] = DEFAULT_BANNER_ARGS,
+) -&gt; str:
+    &#34;&#34;&#34;Attempt to read a banner.txt from the given package.
+
+    Parameters
+    ----------
+    package : builtins.str
+        The package to read the banner.txt from. Defaults to `hikari`.
+    palette : ConsolePalette
+        The console palette to use (defaults to sane ANSI colour defaults or
+        empty-strings if colours are not supported by your TTY.
+    args : typing.Mapping[builtins.str, builtins.str]
+        The mapping of arguments to interpolate into the banner, if desired.
+
+    Returns
+    -------
+    builtins.str
+        The raw banner that can be printed to the console.
+    &#34;&#34;&#34;
+    params = {**attr.asdict(palette), **args}
+
+    with resources.open_text(package, &#34;banner.txt&#34;) as banner_fp:
+        return string.Template(banner_fp.read()).safe_substitute(params)</code></pre>
+</details>
+</div>
+</div>
+<h2 id="variables-heading">Variables and Type Hints</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code class="python"><small class='text-muted'><em><abbr title='A variable that should be considered to be a constant value.'>const</abbr></em></small> <a title="DEFAULT_PALETTE -- Contains a set of constant escape codes that are able to be printed …" href="#hikari.utilities.art.DEFAULT_PALETTE" id="hikari.utilities.art.DEFAULT_PALETTE" class='dotted'>DEFAULT_PALETTE</a> : typing.Final[ConsolePalette]</code></pre>
+</dt>
+<dd><p>Contains a set of constant escape codes that are able to be printed.</p>
+<p>These codes will force the console to change colour or style, if supported.</p>
+<p>On unsupported platforms, these will be empty strings, thus making them safe
+to be used on non-coloured terminals or in logs specifically.</p></dd>
+</dl>
+</section>
+<h2 id="functions-heading">Functions</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<pre><code id="hikari.utilities.art.get_banner" class="hljs python"><abbr title='A standard Python function.'>def</abbr> get_banner(
+    package: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = 'hikari',
+    palette: <a href='#hikari.utilities.art.ConsolePalette'>ConsolePalette</a> = ConsolePalette(default='', bright='', underline='', invert='', red='', green='', yellow='', blue='', magenta='', cyan='', white='', bright_red='', bright_green='', bright_yellow='', bright_blue='', bright_magenta='', bright_cyan='', bright_white='', framed='', dim=''),
+    args: <a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>] = mappingproxy({'hikari_version': '2.0.0.dev68', 'hikari_git_sha1': 'c9b6085b652d4c771cebc54078103bf3c0cfb91a', 'hikari_copyright': '© 2020 Nekokatt', 'hikari_license': 'MIT', 'hikari_install_location': '/home/travis/build/nekokatt/hikari/hikari', 'hikari_documentation_url': 'https://nekokatt.github.io/hikari', 'hikari_discord_invite': 'https://discord.gg/Jx4cNGG', 'hikari_source_url': 'https://github.com/nekokatt/hikari', 'python_implementation': 'CPython', 'python_version': '3.8.5', 'python_build': 'default Jul 29 2020 19:34:04', 'python_branch': '', 'python_compiler': 'GCC 5.4.0 20160609', 'system_description': '4.15.0-1077-gcp Linux x86_64'}),
+) -> <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Attempt to read a banner.txt from the given package.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>package</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The package to read the banner.txt from. Defaults to <code><a href='../index.html'>hikari</a></code>.</dd>
+<dt><strong><code>palette</code></strong> :&ensp;<code><a href='#hikari.utilities.art.ConsolePalette'>ConsolePalette</a></code></dt>
+<dd>The console palette to use (defaults to sane ANSI colour defaults or
+empty-strings if colours are not supported by your TTY.</dd>
+<dt><strong><code>args</code></strong> :&ensp;<code><a href='https://docs.python.org/3/library/typing.html#typing.Mapping'>Mapping</a>[<a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>, <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>]</code></dt>
+<dd>The mapping of arguments to interpolate into the banner, if desired.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The raw banner that can be printed to the console.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/art.py#L186-L211" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def get_banner(
+    package: str = &#34;hikari&#34;,
+    palette: ConsolePalette = DEFAULT_PALETTE,
+    args: typing.Mapping[str, str] = DEFAULT_BANNER_ARGS,
+) -&gt; str:
+    &#34;&#34;&#34;Attempt to read a banner.txt from the given package.
+
+    Parameters
+    ----------
+    package : builtins.str
+        The package to read the banner.txt from. Defaults to `hikari`.
+    palette : ConsolePalette
+        The console palette to use (defaults to sane ANSI colour defaults or
+        empty-strings if colours are not supported by your TTY.
+    args : typing.Mapping[builtins.str, builtins.str]
+        The mapping of arguments to interpolate into the banner, if desired.
+
+    Returns
+    -------
+    builtins.str
+        The raw banner that can be printed to the console.
+    &#34;&#34;&#34;
+    params = {**attr.asdict(palette), **args}
+
+    with resources.open_text(package, &#34;banner.txt&#34;) as banner_fp:
+        return string.Template(banner_fp.read()).safe_substitute(params)</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+<dt>
+<pre><code id="hikari.utilities.art.get_default_logging_format" class="hljs python"><abbr title='A standard Python function.'>def</abbr> get_default_logging_format(
+    palette: <a href='#hikari.utilities.art.ConsolePalette'>ConsolePalette</a> = ConsolePalette(default='', bright='', underline='', invert='', red='', green='', yellow='', blue='', magenta='', cyan='', white='', bright_red='', bright_green='', bright_yellow='', bright_blue='', bright_magenta='', bright_cyan='', bright_white='', framed='', dim=''),
+) -> <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a>: ...</code></pre>
+</dt>
+<dd>
+<p>Generate the default library logger format string.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>palette</code></strong> :&ensp;<code><a href='#hikari.utilities.art.ConsolePalette'>ConsolePalette</a></code></dt>
+<dd>The custom palette to use. Defaults to sane environment-dependent
+ANSI colour-codes if not specified.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a></code></dt>
+<dd>The string logging console format.</dd>
+</dl>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/art.py#L131-L149" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">def get_default_logging_format(palette: ConsolePalette = DEFAULT_PALETTE) -&gt; str:
+    &#34;&#34;&#34;Generate the default library logger format string.
+
+    Parameters
+    ----------
+    palette : ConsolePalette
+        The custom palette to use. Defaults to sane environment-dependent
+        ANSI colour-codes if not specified.
+
+    Returns
+    -------
+    builtins.str
+        The string logging console format.
+    &#34;&#34;&#34;
+    return (
+        f&#34;{palette.red}%(levelname)-1.1s{palette.default} {palette.yellow}%(asctime)23.23s&#34;
+        f&#34;{palette.default} {palette.bright}{palette.green}%(name)s: {palette.default}{palette.cyan}%(message)s&#34;
+        f&#34;{palette.default}&#34;
+    )</code></pre>
+</details>
+</dd>
+<div class="sep"></div>
+</dl>
+</section>
+<h2 id="class-heading">Classes</h2>
+<section class="definition">
+<dl class="no-nest root">
+<dt>
+<h4><small class='text-muted'><em><abbr title='A standard Python type that represents some form of information or entity.'>dataclass</abbr></em></small> <a title="ConsolePalette -- Data class containing printable escape codes for colouring console output." href="#hikari.utilities.art.ConsolePalette"
+class='dotted'>ConsolePalette</a></h4>
+</dt>
+<dd>
+<pre><code id="hikari.utilities.art.ConsolePalette" class="hljs python"><abbr title='A standard Python type.'>class</abbr> ConsolePalette (
+    *,
+    default: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    underline: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    invert: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    red: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    green: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    yellow: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    blue: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    magenta: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    cyan: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    white: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_red: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_green: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_yellow: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_blue: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_magenta: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_cyan: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    bright_white: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    framed: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+    dim: <a href='https://docs.python.org/3/library/stdtypes.html#str'>str</a> = '',
+): ...</code></pre>
+<p>Data class containing printable escape codes for colouring console output.</p>
+<div class="sep"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<br />
+<a href="https://gitlab.com/nekokatt/hikari/blob/c9b6085b652d4c771cebc54078103bf3c0cfb91a/hikari/utilities/art.py#L50-L72" class="git-link dotted">Browse git</a>
+</summary>
+<pre><code class="python">class ConsolePalette:
+    &#34;&#34;&#34;Data class containing printable escape codes for colouring console output.&#34;&#34;&#34;
+
+    default: str = attr.ib(default=&#34;&#34;)
+    bright: str = attr.ib(default=&#34;&#34;)
+    underline: str = attr.ib(default=&#34;&#34;)
+    invert: str = attr.ib(default=&#34;&#34;)
+    red: str = attr.ib(default=&#34;&#34;)
+    green: str = attr.ib(default=&#34;&#34;)
+    yellow: str = attr.ib(default=&#34;&#34;)
+    blue: str = attr.ib(default=&#34;&#34;)
+    magenta: str = attr.ib(default=&#34;&#34;)
+    cyan: str = attr.ib(default=&#34;&#34;)
+    white: str = attr.ib(default=&#34;&#34;)
+    bright_red: str = attr.ib(default=&#34;&#34;)
+    bright_green: str = attr.ib(default=&#34;&#34;)
+    bright_yellow: str = attr.ib(default=&#34;&#34;)
+    bright_blue: str = attr.ib(default=&#34;&#34;)
+    bright_magenta: str = attr.ib(default=&#34;&#34;)
+    bright_cyan: str = attr.ib(default=&#34;&#34;)
+    bright_white: str = attr.ib(default=&#34;&#34;)
+    framed: str = attr.ib(default=&#34;&#34;)
+    dim: str = attr.ib(default=&#34;&#34;)</code></pre>
+</details>
+<div class="sep"></div>
+</dd>
+</dl>
+</section>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
