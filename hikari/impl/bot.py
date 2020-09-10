@@ -639,7 +639,7 @@ class BotApp(traits.BotAware, event_dispatcher.EventDispatcher):
 
         try:
             loop.run_until_complete(
-                self.start(
+                self._shard_management_cycle(
                     activity=activity,
                     afk=afk,
                     idle_since=idle_since,
@@ -650,8 +650,6 @@ class BotApp(traits.BotAware, event_dispatcher.EventDispatcher):
                     status=status,
                 )
             )
-
-            loop.run_until_complete(self.join())
 
         finally:
             try:
@@ -822,6 +820,29 @@ class BotApp(traits.BotAware, event_dispatcher.EventDispatcher):
                 self._shards[started_shard.id] = started_shard
 
         await self.dispatch(lifetime_events.StartedEvent(app=self))
+
+    async def _shard_management_cycle(
+        self,
+        activity: typing.Optional[presences.Activity],
+        afk: bool,
+        idle_since: typing.Optional[datetime.datetime],
+        ignore_session_start_limit: bool,
+        large_threshold: int,
+        status: presences.Status,
+        shard_ids: typing.Optional[typing.Set[int]],
+        shard_count: typing.Optional[int],
+    ):
+        await self.start(
+            activity=activity,
+            afk=afk,
+            idle_since=idle_since,
+            ignore_session_start_limit=ignore_session_start_limit,
+            large_threshold=large_threshold,
+            shard_ids=shard_ids,
+            shard_count=shard_count,
+            status=status,
+        )
+        await self.join()
 
     def stream(
         self,
