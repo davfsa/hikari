@@ -1,6 +1,17 @@
 #!/bin/sh
+set -e
+
 VERSION=${TRAVIS_TAG}
 REF=${TRAVIS_COMMIT}
+
+echo "===== INSTALLING DEPENDENCIES ====="
+python -m pip install \
+    setuptools \
+    wheel \
+    nox \
+    twine \
+    requests \
+    -r requirements.txt
 
 echo "Defined environment variables"
 env | grep -oP "^[^=]+" | sort
@@ -21,8 +32,10 @@ echo "==========================================================================
 cat hikari/_about.py
 echo "=========================================================================="
 
+echo "===== GENERATING STUB FILES ====="
+nox -s generate-stubs
+
 echo "===== DEPLOYING TO PYPI ====="
-python -m pip install -U twine setuptools wheel -r requirements.txt
 python setup.py sdist bdist_wheel
 echo "-- Contents of . --"
 ls -ahl
@@ -30,25 +43,14 @@ echo
 echo "-- Contents of ./dist --"
 ls -ahl dist
 
-echoo "-- Checking generated dists --"
+echo "-- Checking generated dists --"
 python -m twine check dist/*
+echo
+echo "-- Uploading to PyPI --"
 python -m twine upload --disable-progress-bar --skip-existing dist/* --non-interactive --repository-url https://upload.pypi.org/legacy/
 
 echo "===== SENDING WEBHOOK ====="
-python -m pip install requests
 python scripts/deploy_webhook.py
 
 echo "===== DEPLOYING PAGES ====="
-git config user.name "Nekokatt"
-git config user.email "69713762+nekokatt@users.noreply.github.com"
-
-python -m pip install nox
-mkdir public || true
-nox --sessions pdoc pages
-cd public || exit 1
-git init
-git remote add origin https://nekokatt:${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}
-git checkout -B gh-pages
-git add -Av .
-git commit -am "Deployed documentation [skip ci]"
-git push origin gh-pages --force
+source scripts/deploy-pages.sh

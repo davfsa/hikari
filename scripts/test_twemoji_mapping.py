@@ -22,7 +22,6 @@
 by Discord emojis are actually legitimate URLs, since Discord
 does not map these on a 1-to-1 basis.
 """
-
 import pathlib
 import subprocess
 import sys
@@ -34,25 +33,36 @@ import requests
 sys.path.append(".")
 
 
-from hikari.models import emojis
+from hikari import emojis
 
 TWEMOJI_REPO_BASE_URL = "https://github.com/twitter/twemoji.git"
-
-valid_emojis = []
-invalid_emojis = []
+DISCORD_EMOJI_MAPPING_URL = "https://static.emzi0767.com/misc/discordEmojiMap.json"
 
 
-def run():
+with tempfile.TemporaryDirectory() as tempdir:
     start = time.perf_counter()
+    valid_emojis = []
+    invalid_emojis = []
 
-    resp = requests.get("https://static.emzi0767.com/misc/discordEmojiMap.json")
+    resp = requests.get(DISCORD_EMOJI_MAPPING_URL)
     resp.encoding = "utf-8-sig"
     mapping = resp.json()["emojiDefinitions"]
 
-    subprocess.check_call(f"git clone {TWEMOJI_REPO_BASE_URL} {tempdir}", shell=True)
+    subprocess.check_call(f"git clone {TWEMOJI_REPO_BASE_URL} {tempdir} --depth=1", shell=True)
+    known_files = [f.name for f in (pathlib.Path(tempdir) / "assets" / "72x72").iterdir()]
 
-    for i, emoji in enumerate(mapping):
-        try_fetch(i, len(mapping), emoji["surrogates"], emoji["primaryName"])
+    n = len(mapping)
+    for i, emoji in enumerate(mapping, start=1):
+        emoji_surrogates = emoji["surrogates"]
+        name = emoji["primaryName"]
+        emoji = emojis.UnicodeEmoji.parse(emoji_surrogates)
+
+        if emoji.filename in known_files:
+            valid_emojis.append((emoji_surrogates, name))
+            print("[  OK  ]", f"{i}/{n}", name, *map(hex, map(ord, emoji_surrogates)), emoji.url)
+        else:
+            invalid_emojis.append((emoji_surrogates, name))
+            print("[ FAIL ]", f"{i}/{n}", name, *map(hex, map(ord, emoji_surrogates)), emoji.url)
 
     print("Results")
     print("Valid emojis:", len(valid_emojis))
@@ -63,21 +73,5 @@ def run():
 
     print("Time taken", time.perf_counter() - start, "seconds")
 
-
-def try_fetch(i, n, emoji_surrogates, name):
-    emoji = emojis.UnicodeEmoji.from_emoji(emoji_surrogates)
-    path = pathlib.Path(tempdir) / "assets" / "72x72" / emoji.filename
-
-    if path.is_file():
-        valid_emojis.append((emoji_surrogates, name))
-        print("[  OK  ]", f"{i}/{n}", name, *map(hex, map(ord, emoji_surrogates)), emoji.url)
-    else:
-        invalid_emojis.append((emoji_surrogates, name))
-        print("[ FAIL ]", f"{i}/{n}", name, *map(hex, map(ord, emoji_surrogates)), emoji.url)
-
-
-with tempfile.TemporaryDirectory() as tempdir:
-    run()
-
-if invalid_emojis or not valid_emojis:
-    exit(1)
+    if invalid_emojis or not valid_emojis:
+        exit(1)

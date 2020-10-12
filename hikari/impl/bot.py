@@ -23,576 +23,887 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["BotApp"]
+import threading
+import traceback
+
+__all__: typing.List[str] = ["BotApp", "LoggerLevelT"]
 
 import asyncio
+import concurrent.futures
 import contextlib
 import datetime
 import logging
 import math
 import signal
 import sys
-import time
+import types
 import typing
 import warnings
 
 from hikari import config
 from hikari import errors
+from hikari import event_stream
+from hikari import intents as intents_
+from hikari import presences
 from hikari import traits
+from hikari import undefined
+from hikari import users
+from hikari.api import cache as cache_
+from hikari.api import chunker as chunker_
+from hikari.api import entity_factory as entity_factory_
 from hikari.api import event_dispatcher
+from hikari.api import event_factory as event_factory_
 from hikari.api import shard as gateway_shard
+from hikari.api import voice as voice_
 from hikari.events import lifetime_events
 from hikari.impl import entity_factory as entity_factory_impl
 from hikari.impl import event_factory as event_factory_impl
-from hikari.impl import rate_limits
-from hikari.impl import rest as rest_client_impl
-from hikari.impl import shard as gateway_shard_impl
-from hikari.impl import stateful_cache as cache_impl
-from hikari.impl import stateful_event_manager
-from hikari.impl import stateful_guild_chunker as guild_chunker_impl
-from hikari.impl import stateless_cache as stateless_cache_impl
-from hikari.impl import stateless_event_manager
-from hikari.impl import stateless_guild_chunker as stateless_guild_chunker_impl
-from hikari.impl import voice
-from hikari.models import intents as intents_
-from hikari.models import presences
-from hikari.utilities import art
-from hikari.utilities import constants
-from hikari.utilities import date
-from hikari.utilities import undefined
-from hikari.utilities import version_sniffer
+from hikari.impl import rest as rest_impl
+from hikari.impl import shard as shard_impl
+from hikari.impl import voice as voice_impl
+from hikari.internal import aio
+from hikari.internal import time
+from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
-    import concurrent.futures
-
-    from hikari.api import cache as cache_
-    from hikari.api import chunker as guild_chunker_
-    from hikari.events import base_events
+    from hikari.api import cache
+    from hikari.api import chunker
+    from hikari.api import rest as rest_
+    from hikari.api import shard
     from hikari.impl import event_manager_base
-    from hikari.models import users
+
+LoggerLevelT = typing.Union[
+    int,
+    typing.Literal["TRACE_HIKARI"],
+    typing.Literal["DEBUG"],
+    typing.Literal["INFO"],
+    typing.Literal["WARNING"],
+    typing.Literal["ERROR"],
+    typing.Literal["CRITICAL"],
+]
+"""Type-hint for a valid logging level.
+
+This may be an `int` logging level (e.g. `logging.DEBUG`, `logging.CRITICAL`),
+or a capitalized string that matches one of `"TRACE_HIKARI"`, `"DEBUG"`,
+`"INFO"`, `"WARNING", `"ERROR"`, or `"CRITICAL"`.
+"""
 
 _LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari")
 
 
-class BotApp(
-    traits.DispatcherAware,
-    traits.EventFactoryAware,
-    traits.RESTAware,
-    traits.ShardAware,
-    event_dispatcher.EventDispatcher,
-):
-    """Implementation of an auto-sharded single-instance bot application.
+class BotApp(traits.BotAware, event_dispatcher.EventDispatcher):
+    """Basic auto-sharding bot implementation.
+
+    This is the class you will want to use to start, control, and build a bot
+    with.
 
     Parameters
     ----------
-    banner_package : builtins.str or builtins.None
-        The package to look for a `banner.txt` in. Will default to Hikari's
-        banner if unspecified. If you set this to `builtins.None`, then no
-        banner will be displayed.
-    debug : builtins.bool
-        Defaulting to `builtins.False`, if `builtins.True`, then each payload sent and received
-        on the gateway will be dumped to debug logs, and every HTTP API request
-        and response will also be dumped to logs. This will provide useful
-        debugging context at the cost of performance. Generally you do not
-        need to enable this.
-    gateway_version : builtins.int
-        The version of the gateway to connect to. At the time of writing,
-        only version `6` and version `7` (undocumented development release)
-        are supported. This defaults to using v6.
-    http_settings : hikari.config.HTTPSettings or builtins.None
-        The HTTP-related settings to use.
-    initial_activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.include_presences.Activity]
-        The initial activity to have on each shard.
-    initial_status : hikari.utilities.undefined.UndefinedOr[hikari.models.include_presences.Status]
-        The initial status to have on each shard.
-    initial_idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
-        The initial time to show as being idle since, or `builtins.None` if not
-        idle, for each shard.
-    initial_is_afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
-        If `builtins.True`, each shard will appear as being AFK on startup. If `builtins.False`,
-        each shard will appear as _not_ being AFK.
-    intents : hikari.models.intents.Intents or builtins.None
-        The intents to use for each shard. If `builtins.None`, then no intents
-        are passed. Note that on the version `7` gateway, this will cause an
-        immediate connection close with an error code.
-
-        The default for this is to enable all intents that do not require
-        privileges.
-
-        !!! warning
-            Enabling privileged intents without enabling the intent
-            in the Discord developer dashboard will result in shards immediately
-            being disconnected on startup and the application raising an
-            exception.
-    large_threshold : builtins.int
-        The number of members that need to be in a guild for the guild to be
-        considered large. Defaults to the maximum, which is `250`.
-    logging_level : builtins.str or builtins.int or builtins.None
-        If not `builtins.None`, then this will be the logging level set if you
-        have not enabled logging already. In this case, it should be a valid
-        `logging` level that can be passed to `logging.basicConfig`. If you have
-        already initialized logging, then this is irrelevant and this
-        parameter can be safely ignored. If you set this to `builtins.None`,
-        then no logging will initialize if you have a reason to not use any
-        logging or simply wish to initialize it in your own time instead.
-
-        !!! note
-            Initializing logging means already have a handler in the root
-            logger. This is usually achieved by calling `logging.basicConfig`
-            or adding the handler manually.
-    proxy_settings : hikari.config.ProxySettings or builtins.None
-        Settings to use for the proxy.
-    rest_version : int
-        The version of the HTTP API to connect to. At the time of writing,
-        only version `6` and version `7` (undocumented development release)
-        are supported. This defaults to v6.
-    shard_ids : typing.AbstractSet[builtins.int] or builtins.None
-        A set of every shard ID that should be created and started on startup.
-        If left to `builtins.None` along with `shard_count`, then auto-sharding
-        is used instead, which is the default.
-    shard_count : builtins.int or builtins.None
-        The number of shards in the entire application. If left to
-        `builtins.None` along with `shard_ids`, then auto-sharding is used
-        instead, which is the default.
-    stateless : builtins.bool
-        If `builtins.True`, the bot will not implement a cache, and will be
-        considered stateless. If `builtins.False`, then a cache will be used.
-
-        While the cache components are a WIP, this will default to
-        `builtins.True`. This should be expected to be changed to
-        `builtins.False` before the first non-development release is made.
     token : builtins.str
-        The bot token to use. This should not start with a prefix such as
-        `Bot `, but instead only contain the token itself.
+        The bot token to sign in with.
+
+    Other Parameters
+    ----------------
+    allow_color : builtins.bool
+        Defaulting to `builtins.True`, this will enable coloured console logs
+        on any platform that is a TTY.
+        Setting a `"CLICOLOR"` environment variable to any **non `0`** value
+        will override this setting.
+
+        Users should consider this an advice to the application on whether it is
+        safe to show colours if possible or not. Since some terminals can be
+        awkward or not support features in a standard way, the option to
+        explicitly disable this is provided. See `force_color` for an
+        alternative.
+    banner : typing.Optional[builtins.str]
+        The package to search for a `banner.txt` in. Defaults to `"hikari"` for
+        the `"hikari/banner.txt"` banner.
+        Setting this to `builtins.None` will disable the banner being shown.
+    chunking_limit : typing.Optional[builtins.int]
+        Defaults to `200`. The maximum amount of requests that this chunker
+        should store information about for each shard.
+    enable_cache : builtins.bool
+        Defaults to `builtins.True`. If `builtins.False`, the application is
+        configured to be mostly stateless. This means almost all cache calls
+        will yield an empty or `builtins.None` value, and you will be left to
+        rely on the `REST` API only.
+
+        This can be a viable alternative if you are providing a custom cache
+        implementation, or simply do not want the overhead of maintaining a
+        state in your application.
+    executor : typing.Optional[concurrent.futures.Executor]
+        Defaults to `builtins.None`. If non-`builtins.None`, then this executor
+        is used instead of the `concurrent.futures.ThreadPoolExecutor` attached
+        to the `asyncio.AbstractEventLoop` that the bot will run on. This
+        executor is used primarily for file-IO.
+
+        While mainly supporting the `concurrent.futures.ThreadPoolExecutor`
+        implementation in the standard lib, Hikari's file handling systems
+        should also work with `concurrent.futures.ProcessPoolExecutor`, which
+        relies on all objects used in IPC to be `pickle`able. Many third-party
+        libraries will not support this fully though, so your mileage may vary
+        on using ProcessPoolExecutor implementations with this parameter.
+    force_color : builtins.bool
+        Defaults to `builtins.False`. If `builtins.True`, then this application
+        will __force__ colour to be used in console-based output. Specifying a
+        `"CLICOLOR_FORCE"` environment variable with a non-`"0"` value will
+        override this setting.
+    http_settings : typing.Optional[hikari.config.HTTPSettings]
+        Optional custom HTTP configuration settings to use. Allows you to
+        customise functionality such as whether SSL-verification is enabled,
+        what timeouts `aiohttp` should expect to use for requests, and behavior
+        regarding HTTP-redirects.
+    intents : hikari.intents.Intents
+        Defaults to `hikari.intents.Intents.ALL_UNPRIVILEGED`. This allows you
+        to change which intents your application will use on the gateway. This
+        can be used to control and change the types of events you will receive.
+    logs : typing.Union[builtins.None, LoggerLevel, typing.Dict[str, typing.Any]]
+        Defaults to `"INFO"`.
+
+        If `builtins.None`, then the Python logging system is left uninitialized
+        on startup, and you will need to configure it manually to view most
+        logs that are output by components of this library.
+
+        If one of the valid values in a `LoggerLevel`, then this will match a
+        call to `colorlog.basicConfig` (a facade for `logging.basicConfig` with
+        additional conduit for enabling coloured logging levels) with the
+        `level` kwarg matching this value.
+
+        If a `typing.Dict[str, typing.Any]` equivalent, then this value is
+        passed to `logging.config.dictConfig` to allow the user to provide a
+        specialized logging configuration of their choice.
+
+        As a side note, you can always opt to leave this on the default value
+        and then use an incremental `logging.config.dictConfig` that applies
+        any additional changes on top of the base configuration, if you prefer.
+        An example of can be found in the `Example` section.
+
+        Note that `"TRACE_HIKARI"` is a library-specific logging level
+        which is expected to be more verbose than `"DEBUG"`.
+    max_rate_limit : builtins.float
+        The max number of seconds to backoff for when rate limited. Anything
+        greater than this will instead raise an error.
+
+        This defaults to five minutes if left to the default value. This is to
+        stop potentially indefinitely waiting on an endpoint, which is almost
+        never what you want to do if giving a response to a user.
+
+        You can set this to `float("inf")` to disable this check entirely.
+
+        Note that this only applies to the REST API component that communicates
+        with Discord, and will not affect sharding or third party HTTP endpoints
+        that may be in use.
+    proxy_settings : typing.Optional[config.ProxySettings]
+        Custom proxy settings to use with network-layer logic
+        in your application to get through an HTTP-proxy.
+    rest_url : typing.Optional[builtins.str]
+        Defaults to the Discord REST API URL if `builtins.None`. Can be
+        overridden if you are attempting to point to an unofficial endpoint, or
+        if you are attempting to mock/stub the Discord API for any reason.
+        Generally you do not want to change this.
 
     !!! note
-        The default parameters for `shard_ids` and `shard_count` are marked as
-        undefined. When both of these are left to the default value, the
-        application will use the Discord-provided recommendation for the number
-        of shards to start.
-
-        If only one of these two parameters are specified, expect a
-        `builtins.TypeError` to be raised.
-
-        Likewise, all shard_ids must be greater-than or equal-to `0`, and
-        less than `shard_count` to be valid. Failing to provide valid
-        values will result in a `builtins.ValueError` being raised.
+        `force_color` will always take precedence over `allow_color`.
 
     !!! note
-        If all four of `initial_activity`, `initial_idle_since`,
-        `initial_is_afk`, and `initial_status` are not defined and left to their
-        default values, then the presence will not be _updated_ on startup
-        at all.
+        Settings that control the gateway session are provided to the
+        `BotApp.run` and `BotApp.start` functions in this class. This is done
+        to allow you to contextually customise details such as sharding
+        configuration without having to re-initialize the entire application
+        each time.
 
-    !!! note
-        To disable auto-sharding, you should explicitly specify how many shards
-        you wish to use. For non-sharded applications, this can be done by
-        passing `shard_count` as `1` in the constructor.
+    Example
+    -------
+    Setting up logging using a dictionary configuration:
 
-    Raises
-    ------
-    builtins.TypeError
-        If sharding information is not specified correctly.
-    builtins.ValueError
-        If sharding information is provided, but is unfeasible or invalid.
+    ```py
+    import os
+
+    from logging.config import dictConfig
+    from hikari import Bot, Intents
+
+    bot = Bot(token=os.environ["BOT_TOKEN"], intents=Intents.ALL, logs="INFO")
+
+    # We want to make gateway logs output as DEBUG, and TRACE for all ratelimit content.
+    dictConfig({
+        "version": 1,
+        "incremental": True,
+        "loggers": {
+            "hikari.gateway": {
+                "level": "DEBUG"
+            },
+            "hikari.ratelimits": {
+                "level": "TRACE_HIKARI"
+            },
+        },
+    })
+    ```
+
     """
 
     __slots__: typing.Sequence[str] = (
+        "_banner",
         "_cache",
-        "_guild_chunker",
-        "_connector_factory",
-        "_debug",
+        "_chunker",
+        "_closing_event",
+        "_closed",
         "_entity_factory",
-        "_event_manager",
+        "_events",
         "_event_factory",
         "_executor",
-        "_global_ratelimit",
         "_http_settings",
-        "_initial_activity",
-        "_initial_idle_since",
-        "_initial_is_afk",
-        "_initial_status",
         "_intents",
-        "_large_threshold",
-        "_max_concurrency",
         "_proxy_settings",
-        "_request_close_event",
+        "_raw_event_consumer",
         "_rest",
-        "_shard_count",
-        "_shard_gather_task",
-        "_shard_ids",
         "_shards",
-        "_started_at_monotonic",
-        "_started_at_timestamp",
-        "_tasks",
         "_token",
-        "_version",
         "_voice",
-        "_start_count",
+        "shards",
     )
 
     def __init__(
         self,
-        *,
-        banner_package: typing.Optional[str] = "hikari",
-        debug: bool = False,
-        executor: typing.Optional[concurrent.futures.Executor] = None,
-        gateway_version: int = 6,
-        http_settings: typing.Optional[config.HTTPSettings] = None,
-        initial_activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
-        initial_idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
-        initial_is_afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
-        initial_status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
-        intents: typing.Optional[intents_.Intents] = intents_.Intents.ALL_UNPRIVILEGED,
-        large_threshold: int = 250,
-        logging_level: typing.Union[str, int, None] = "INFO",
-        proxy_settings: typing.Optional[config.ProxySettings] = None,
-        rest_version: int = 6,
-        rest_url: typing.Optional[str] = None,
-        shard_ids: typing.Optional[typing.AbstractSet[int]] = None,
-        shard_count: typing.Optional[int] = None,
-        stateless: bool = True,
         token: str,
+        *,
+        allow_color: bool = True,
+        banner: typing.Optional[str] = "hikari",
+        chunking_limit: int = 200,
+        enable_cache: bool = True,
+        executor: typing.Optional[concurrent.futures.Executor] = None,
+        force_color: bool = False,
+        http_settings: typing.Optional[config.HTTPSettings] = None,
+        intents: intents_.Intents = intents_.Intents.ALL_UNPRIVILEGED,
+        logs: typing.Union[None, LoggerLevelT, typing.Dict[str, typing.Any]] = "INFO",
+        max_rate_limit: float = 300,
+        proxy_settings: typing.Optional[config.ProxySettings] = None,
+        rest_url: typing.Optional[str] = None,
     ) -> None:
-        if undefined.count(shard_ids, shard_count) == 1:
-            raise TypeError("You must provide values for both shard_ids and shard_count, or neither.")
+        # Beautification and logging
+        ux.init_logging(logs, allow_color, force_color)
+        self.print_banner(banner, allow_color, force_color)
 
-        if logging_level is not None and not _LOGGER.hasHandlers():
-            logging.captureWarnings(True)
-            logging.basicConfig(format=art.get_default_logging_format())
-            logging.root.setLevel(logging_level)
-
-        if banner_package is not None:
-            self._dump_banner(banner_package)
-
-        self._connector_factory = rest_client_impl.BasicLazyCachedTCPConnectorFactory()
-        self._debug = debug
-        self._entity_factory = entity_factory_impl.EntityFactoryImpl(app=self)
-        self._event_factory = event_factory_impl.EventFactoryImpl(app=self)
+        # Settings and state
+        self._banner = banner
+        self._closing_event = asyncio.Event()
+        self._closed = False
         self._executor = executor
-        self._global_ratelimit = rate_limits.ManualRateLimiter()
-        self._http_settings = config.HTTPSettings() if http_settings is None else http_settings
-        self._initial_activity = initial_activity
-        self._initial_idle_since = initial_idle_since
-        self._initial_is_afk = initial_is_afk
-        self._initial_status = initial_status
+        self._http_settings = http_settings if http_settings is not None else config.HTTPSettings()
         self._intents = intents
-        self._large_threshold = large_threshold
-        self._max_concurrency = 1
-        self._proxy_settings = config.ProxySettings() if proxy_settings is None else proxy_settings
-        self._request_close_event = asyncio.Event()
-        self._rest = rest_client_impl.RESTClientImpl(  # noqa: S106 - Possible hardcoded password
-            connector_factory=self._connector_factory,
-            connector_owner=False,
-            debug=debug,
+        self._proxy_settings = proxy_settings if proxy_settings is not None else config.ProxySettings()
+        self._token = token
+
+        # Caching, chunking, and event subsystems.
+        self._cache: cache.Cache
+        self._chunker: chunker.GuildChunker
+        self._events: event_dispatcher.EventDispatcher
+        events_obj: event_manager_base.EventManagerBase
+
+        if enable_cache:
+            from hikari.impl import stateful_cache
+            from hikari.impl import stateful_event_manager
+            from hikari.impl import stateful_guild_chunker
+
+            cache_obj = stateful_cache.StatefulCacheImpl(self, intents)
+            self._cache = cache_obj
+            self._chunker = stateful_guild_chunker.StatefulGuildChunkerImpl(self, chunking_limit)
+
+            events_obj = stateful_event_manager.StatefulEventManagerImpl(self, cache_obj, intents)
+            self._raw_event_consumer = events_obj.consume_raw_event
+            self._events = events_obj
+        else:
+            from hikari.impl import stateless_cache
+            from hikari.impl import stateless_event_manager
+            from hikari.impl import stateless_guild_chunker
+
+            self._cache = stateless_cache.StatelessCacheImpl()
+            self._chunker = stateless_guild_chunker.StatelessGuildChunkerImpl()
+
+            events_obj = stateless_event_manager.StatelessEventManagerImpl(self, intents)
+            self._raw_event_consumer = events_obj.consume_raw_event
+            self._events = events_obj
+
+        # Entity creation
+        self._entity_factory = entity_factory_impl.EntityFactoryImpl(self)
+
+        # Event creation
+        self._event_factory = event_factory_impl.EventFactoryImpl(self)
+
+        # Voice subsystem
+        self._voice = voice_impl.VoiceComponentImpl(self, self._events)
+
+        # RESTful API.
+        self._rest = rest_impl.RESTClientImpl(
+            connector_factory=rest_impl.BasicLazyCachedTCPConnectorFactory(self._http_settings),
+            connector_owner=True,
             entity_factory=self._entity_factory,
             executor=self._executor,
             http_settings=self._http_settings,
+            max_rate_limit=max_rate_limit,
             proxy_settings=self._proxy_settings,
-            token=token,
-            token_type=constants.BOT_TOKEN,  # nosec
             rest_url=rest_url,
-            version=rest_version,
+            token=token,
         )
-        self._shard_count: int = shard_count if shard_count is not None else 0
-        self._shard_gather_task: typing.Optional[asyncio.Task[None]] = None
-        self._shard_ids: typing.AbstractSet[int] = set() if shard_ids is None else shard_ids
-        self._shards: typing.Dict[int, gateway_shard.GatewayShard] = {}
-        self._started_at_monotonic: typing.Optional[float] = None
-        self._started_at_timestamp: typing.Optional[datetime.datetime] = None
-        self._tasks: typing.Dict[int, asyncio.Task[typing.Any]] = {}
-        self._token = token
-        self._version = gateway_version
-        # This should always be last so that we don't get an extra error when failed to initialize
-        self._start_count: int = 0
 
-        self._cache: cache_.MutableCache
-        self._guild_chunker: guild_chunker_.GuildChunker
-        self._event_manager: event_manager_base.EventManagerBase
-
-        if stateless:
-            self._cache = stateless_cache_impl.StatelessCacheImpl()
-            self._guild_chunker = stateless_guild_chunker_impl.StatelessGuildChunkerImpl()
-            self._event_manager = stateless_event_manager.StatelessEventManagerImpl(app=self, intents=intents)
-            _LOGGER.info("this application is stateless, cache-based operations will not be available")
-        else:
-            self._cache = cache_impl.StatefulCacheImpl(app=self, intents=intents)
-            self._guild_chunker = guild_chunker_impl.StatefulGuildChunkerImpl(app=self, intents=intents)
-            self._event_manager = stateful_event_manager.StatefulEventManagerImpl(
-                app=self, cache=self._cache, intents=intents
-            )
-
-        self._voice = voice.VoiceComponentImpl(self, self._event_manager)
-
-    def __del__(self) -> None:
-        # If something goes wrong while initializing the bot, `_start_count` might not be there.
-        if hasattr(self, "_start_count") and self._start_count == 0:
-            # TODO: may remove this as it causes issues with tests. Provisionally implemented only.
-            warnings.warn(
-                "Looks like your bot never started. Make sure you called bot.run() after you set the bot object up.",
-                category=errors.HikariWarning,
-            )
+        # We populate these on startup instead, as we need to possibly make some
+        # HTTP requests to determine what to put in this mapping.
+        self._shards: typing.Dict[int, shard.GatewayShard] = {}
+        self.shards: typing.Mapping[int, gateway_shard.GatewayShard] = types.MappingProxyType(self._shards)
 
     @property
     def cache(self) -> cache_.Cache:
-        # <<inherited docstring from traits.CacheAware>>
         return self._cache
 
     @property
-    def chunker(self) -> guild_chunker_.GuildChunker:
-        # <<inherited docstring from traits.ChunkerAware>>
-        return self._guild_chunker
+    def chunker(self) -> chunker_.GuildChunker:
+        return self._chunker
 
     @property
     def dispatcher(self) -> event_dispatcher.EventDispatcher:
-        # <<inherited docstring from traits.DispatcherAware>>
-        return self._event_manager
+        return self._events
 
     @property
-    def entity_factory(self) -> entity_factory_impl.EntityFactoryImpl:
-        # <<inherited docstring from traits.EntityFactoryAware>>
+    def entity_factory(self) -> entity_factory_.EntityFactory:
         return self._entity_factory
 
     @property
-    def event_factory(self) -> event_factory_impl.EventFactoryImpl:
-        # <<inherited docstring from traits.EventFactoryAware>>
+    def event_factory(self) -> event_factory_.EventFactory:
         return self._event_factory
 
     @property
     def executor(self) -> typing.Optional[concurrent.futures.Executor]:
-        # <<inherited docstring from traits.ExecutorAware>>
         return self._executor
 
     @property
     def heartbeat_latencies(self) -> typing.Mapping[int, float]:
-        # <<inherited docstring from traits.ShardAware>>
-        return {shard_id: shard.heartbeat_latency for shard_id, shard in self._shards.items()}
+        return {s.id: s.heartbeat_latency for s in self._shards.values()}
 
     @property
     def heartbeat_latency(self) -> float:
-        # <<inherited docstring from traits.ShardAware>>
-        started_shards = [
-            shard.heartbeat_latency for shard in self._shards.values() if not math.isnan(shard.heartbeat_latency)
-        ]
-
-        if not started_shards:
-            return float("nan")
-
-        return sum(started_shards) / len(started_shards)
+        latencies = [s.heartbeat_latency for s in self._shards.values() if not math.isnan(s.heartbeat_latency)]
+        return sum(latencies) if latencies else float("nan")
 
     @property
     def http_settings(self) -> config.HTTPSettings:
-        # <<inherited docstring from traits.NetworkSettingsAware>>
         return self._http_settings
 
     @property
-    def is_debug_enabled(self) -> bool:
-        """Return `builtins.True` if debugging is enabled.
-
-        Returns
-        -------
-        builtins.bool
-            `builtins.True` if debugging is enabled, `builtins.False` otherwise.
-
-        """
-        return self._debug
-
-    @property
-    def intents(self) -> typing.Optional[intents_.Intents]:
-        # <<inherited docstring from traits.ShardAware>>
+    def intents(self) -> intents_.Intents:
         return self._intents
 
     @property
     def me(self) -> typing.Optional[users.OwnUser]:
-        # <<inherited docstring from traits.ShardAware>>
         return self._cache.get_me()
 
     @property
     def proxy_settings(self) -> config.ProxySettings:
-        # <<inherited docstring from traits.NetworkSettingsAware>>
         return self._proxy_settings
 
     @property
-    def rest(self) -> rest_client_impl.RESTClientImpl:
-        # <<inherited docstring from traits.RESTAware>>
-        return self._rest
-
-    @property
-    def shards(self) -> typing.Mapping[int, gateway_shard.GatewayShard]:
-        # <<inherited docstring from traits.ShardAware>>
-        return self._shards
-
-    @property
     def shard_count(self) -> int:
-        # <<inherited docstring from traits.ShardAware>>
-        return self._shard_count
+        if self._shards:
+            return next(iter(self._shards.values())).shard_count
+        return 0
 
     @property
-    def voice(self) -> voice.VoiceComponentImpl:
-        # <<inherited docstring from traits.VoiceAware>>
+    def voice(self) -> voice_.VoiceComponent:
         return self._voice
 
     @property
-    def started_at(self) -> typing.Optional[datetime.datetime]:
-        """Return the datetime when the bot first connected.
+    def rest(self) -> rest_.RESTClient:
+        return self._rest
 
-        Returns
-        -------
-        datetime.datetime or builtins.None
-            The datetime that the bot connected at for the first time, or
-            `builtins.None` if it has not yet connected.
-        """
-        return self._started_at_timestamp
+    async def close(self, force: bool = True) -> None:
+        """Kill the application by shutting all components down."""
+        if not self._closing_event.is_set():
+            _LOGGER.debug("bot requested to shutdown [force:%s]", force)
 
-    @property
-    def uptime(self) -> float:
-        """Return the number of seconds that the bot has been up.
+        self._closing_event.set()
 
-        This is a monotonic time. To get the physical startup date, see
-        `BotApp.started_at` instead.
+        if self._closed or not force:
+            return
 
-        Returns
-        -------
-        builtins.float
-            The number of seconds the application has been running for.
-            If not started, then this will return `0.0`.
-        """
-        return date.monotonic() - self._started_at_monotonic if self._started_at_monotonic else 0.0
+        self._closed = True
 
-    async def start(self) -> None:
-        """Determine sharding settings if needed, and start all shards.
+        async def handle(name: str, awaitable: typing.Awaitable[typing.Any]) -> None:
+            future = asyncio.ensure_future(awaitable)
 
-        This method will first log if any library updates are available.
+            try:
+                await future
+            except Exception as ex:
+                loop = asyncio.get_running_loop()
 
-        The bot user info and sharding settings will be fetched from the REST
-        API. If no explicit shard count/shard IDs have been provided to the
-        constructor of this class, then the recommended shard count that
-        Discord recommends will be used instead.
-
-        The first shard will be started individually first. This ensures that
-        we do not spam IDENTIFY payloads on multiple shards in large
-        applications if the application will be unable to start.
-
-        After this, each remaining shard will be started, respecting the API's
-        max concurrency that Discord specifies.
-
-        This will return once all shards that are to be started have
-        fired their READY event. Any exceptions that are raised before this
-        will be propagated, and all existing connections will be closed again.
-
-        To wait for the bot to close indefinitely, you should call `BotApp.join`
-        immediately after this call returns, else this will attempt to
-        keep-alive in the background.
-        """
-        asyncio.create_task(version_sniffer.log_available_updates(_LOGGER), name="check for hikari library updates")
-
-        self._start_count += 1
-        self._started_at_monotonic = date.monotonic()
-        self._started_at_timestamp = date.local_datetime()
-
-        if self._debug is True:
-            _LOGGER.warning("debug mode is enabled, performance may be affected")
-
-            # If possible, set the coroutine origin tracking depth to a larger value.
-            # This feature is provisional, so don't hold your breath if it doesn't
-            # exist.
-            with contextlib.suppress(AttributeError, NameError):
-                # noinspection PyUnresolvedReferences
-                sys.set_coroutine_origin_tracking_depth(40)  # type: ignore[attr-defined]
-
-            # Set debugging on the event loop.
-            asyncio.get_event_loop().set_debug(True)
-
-        self._tasks.clear()
-        self._shard_gather_task = None
-
-        await self._init()
-
-        self._request_close_event.clear()
-
-        await self.dispatch(lifetime_events.StartingEvent(app=self))
-
-        start_time = date.monotonic()
-
-        try:
-            for i, shard_ids in enumerate(self._max_concurrency_chunker()):
-                if self._request_close_event.is_set():
-                    break
-
-                if i > 0:
-                    _LOGGER.info("backing off for 5 seconds")
-                    completed, _ = await asyncio.wait(
-                        self._tasks.values(), timeout=5, return_when=asyncio.FIRST_COMPLETED
-                    )
-
-                    while completed:
-                        if (ex := completed.pop().exception()) is not None:
-                            raise ex
-
-                window = {}
-                for shard_id in shard_ids:
-                    shard_obj = self._shards[shard_id]
-                    window[shard_id] = asyncio.create_task(shard_obj.start(), name=f"start gateway shard {shard_id}")
-
-                # Wait for the group to start.
-                await asyncio.gather(*window.values())
-
-                # Store the keep-alive tasks and continue.
-                for shard_id, start_task in window.items():
-                    self._tasks[shard_id] = start_task.result()
-
-        finally:
-            if len(self._tasks) != len(self._shards):
-                _LOGGER.warning(
-                    "application aborted midway through initialization, will begin shutting down %s shard(s)",
-                    len(self._tasks),
+                loop.call_exception_handler(
+                    {
+                        "message": f"{name} raised an exception during shutdown",
+                        "future": future,
+                        "exception": ex,
+                    }
                 )
-                await self._abort_shards()
 
-                # We know an error occurred if this condition is met, so re-raise it.
-                raise
+        await self.dispatch(lifetime_events.StoppingEvent(app=self))
 
-            finish_time = date.monotonic()
-            self._shard_gather_task = asyncio.create_task(
-                self._gather_shard_lifecycles(), name=f"zookeeper for {len(self._shards)} shard(s)"
-            )
+        _LOGGER.log(ux.TRACE, "StoppingEvent dispatch completed, now beginning termination")
 
-            # Don't bother logging this if we are single sharded. It is useless information.
-            if len(self._shard_ids) > 1:
-                _LOGGER.info("started %s shard(s) in approx %.2fs", len(self._shards), finish_time - start_time)
+        calls = [
+            ("rest", self._rest.close()),
+            ("chunker", self._chunker.close()),
+            ("voice handler", self._voice.close()),
+            *((f"shard {s.id}", s.close()) for s in self._shards.values()),
+        ]
 
-            await self.dispatch(lifetime_events.StartedEvent(app=self))
+        for coro in asyncio.as_completed([handle(*pair) for pair in calls]):
+            await coro
 
-    def listen(
-        self, event_type: typing.Optional[typing.Type[event_dispatcher.EventT_co]] = None,
-    ) -> typing.Callable[
-        [event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]],
-        event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
-    ]:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return self.dispatcher.listen(event_type)
+        # Join any shards until they finish
+        await aio.all_of(*(s.join() for s in self._shards.values()), timeout=len(self._shards))
+
+        # Clear out shard map
+        self._shards.clear()
+
+        await self.dispatch(lifetime_events.StoppedEvent(app=self))
+
+    def dispatch(self, event: event_dispatcher.EventT_inv) -> asyncio.Future[typing.Any]:
+        return self._events.dispatch(event)
 
     def get_listeners(
-        self, event_type: typing.Type[event_dispatcher.EventT_co], *, polymorphic: bool = True,
-    ) -> typing.Collection[event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]]:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return self.dispatcher.get_listeners(event_type, polymorphic=polymorphic)
+        self, event_type: typing.Type[event_dispatcher.EventT_co], *, polymorphic: bool = True
+    ) -> typing.Collection[event_dispatcher.CallbackT[event_dispatcher.EventT_co]]:
+        return self._events.get_listeners(event_type, polymorphic=polymorphic)
+
+    async def join(self, until_close: bool = True) -> None:
+        awaitables: typing.List[typing.Awaitable[typing.Any]] = [s.join() for s in self._shards.values()]
+        if until_close:
+            awaitables.append(self._closing_event.wait())
+
+        await aio.first_completed(*awaitables)
+
+    def listen(
+        self, event_type: typing.Optional[typing.Type[event_dispatcher.EventT_co]] = None
+    ) -> typing.Callable[
+        [event_dispatcher.CallbackT[event_dispatcher.EventT_co]], event_dispatcher.CallbackT[event_dispatcher.EventT_co]
+    ]:
+        return self._events.listen(event_type)
+
+    @staticmethod
+    def print_banner(banner: typing.Optional[str], allow_color: bool, force_color: bool) -> None:
+        """Print the banner.
+
+        This allows library vendors to override this behaviour, or choose to
+        inject their own "branding" on top of what hikari provides by default.
+
+        Normal users should not need to invoke this function, and can simply
+        change the `banner` argument passed to the constructor to manipulate
+        what is displayed.
+
+        Parameters
+        ----------
+        banner : typing.Optional[builtins.str]
+            The package to find a `banner.txt` in.
+        allow_color : builtins.bool
+            A flag that allows advising whether to allow color if supported or
+            not. Can be overridden by setting a `"CLICOLOR"` environment
+            variable to a non-`"0"` string.
+        force_color : builtins.bool
+            A flag that allows forcing color to always be output, even if the
+            terminal device may not support it. Setting the `"CLICOLOR_FORCE"`
+            environment variable to a non-`"0"` string will override this.
+
+        !!! note
+            `force_color` will always take precedence over `allow_color`.
+        """
+        ux.print_banner(banner, allow_color, force_color)
+
+    def run(
+        self,
+        *,
+        activity: typing.Optional[presences.Activity] = None,
+        afk: bool = False,
+        asyncio_debug: typing.Optional[bool] = None,
+        check_for_updates: bool = True,
+        close_passed_executor: bool = False,
+        close_loop: bool = True,
+        coroutine_tracking_depth: typing.Optional[int] = None,
+        enable_signal_handlers: bool = True,
+        idle_since: typing.Optional[datetime.datetime] = None,
+        ignore_session_start_limit: bool = False,
+        large_threshold: int = 250,
+        propagate_interrupts: bool = False,
+        status: presences.Status = presences.Status.ONLINE,
+        shard_ids: typing.Optional[typing.Set[int]] = None,
+        shard_count: typing.Optional[int] = None,
+    ) -> None:
+        """Start the bot, wait for all shards to become ready, and then return.
+
+        Other Parameters
+        ----------------
+        activity : typing.Optional[hikari.presences.Activity]
+            The initial activity to display in the bot user presence, or
+            `builtins.None` (default) to not show any.
+        afk : builtins.bool
+            The initial AFK state to display in the bot user presence, or
+            `builtins.False` (default) to not show any.
+        asyncio_debug : builtins.bool
+            Defaults to `builtins.False`. If `builtins.True`, then debugging is
+            enabled for the asyncio event loop in use.
+        check_for_updates : builtins.bool
+            Defaults to `builtins.True`. If `builtins.True`, will check for
+            newer versions of `hikari` on PyPI and notify if available.
+        close_passed_executor : builtins.bool
+            Defaults to `builtins.False`. If `builtins.True`, any custom
+            `concurrent.futures.Executor` passed to the constructor will be
+            shut down when the application terminates. This does not affect the
+            default executor associated with the event loop, and will not
+            do anything if you do not provide a custom executor to the
+            constructor.
+        close_loop : builtins.bool
+            Defaults to `builtins.True`. If `builtins.True`, then once the bot
+            enters a state where all components have shut down permanently
+            during application shutdown, then all asyngens and background tasks
+            will be destroyed, and the event loop will be shut down.
+
+            This will wait until all `hikari`-owned `aiohttp` connectors have
+            had time to attempt to shut down correctly (around 250ms), and on
+            Python 3.9 and newer, will also shut down the default event loop
+            executor too.
+        coroutine_tracking_depth : typing.Optional[builtins.int]
+            Defaults to `builtins.None`. If an integer value and supported by
+            the interpreter, then this many nested coroutine calls will be
+            tracked with their call origin state. This allows you to determine
+            where non-awaited coroutines may originate from, but generally you
+            do not want to leave this enabled for performance reasons.
+        enable_signal_handlers : builtins.bool
+            Defaults to `builtins.True`. If on a __non-Windows__ OS with builtin
+            support for kernel-level POSIX signals, then setting this to
+            `builtins.True` will allow treating keyboard interrupts and other
+            OS signals to safely shut down the application as calls to
+            shut down the application properly rather than just killing the
+            process in a dirty state immediately. You should leave this disabled
+            unless you plan to implement your own signal handling yourself.
+        idle_since : typing.Optional[datetime.datetime]
+            The `datetime.datetime` the user should be marked as being idle
+            since, or `builtins.None` (default) to not show this.
+        ignore_session_start_limit : builtins.bool
+            Defaults to `builtins.False`. If `builtins.False`, then attempting
+            to start more sessions than you are allowed in a 24 hour window
+            will throw a `hikari.errors.GatewayError` rather than going ahead
+            and hitting the IDENTIFY limit, which may result in your token
+            being reset. Setting to `builtins.True` disables this behavior.
+        large_threshold : builtins.int
+            Threshold for members in a guild before it is treated as being
+            "large" and no longer sending member details in the `GUILD CREATE`
+            event. Defaults to `250`.
+        propagate_interrupts : builtins.bool
+            Defaults to `builtins.False`. If set to `builtins.True`, then any
+            internal `hikari.errors.HikariInterrupt` that is raises as a
+            result of catching an OS level signal will result in the
+            exception being rethrown once the application has closed. This can
+            allow you to use hikari signal handlers and still be able to
+            determine what kind of interrupt the application received after
+            it closes. When `builtins.False`, nothing is raised and the call
+            will terminate cleanly and silently where possible instead.
+        shard_ids : typing.Optional[typing.Set[builtins.int]]
+            The shard IDs to create shards for. If not `builtins.None`, then
+            a non-`None` `shard_count` must ALSO be provided. Defaults to
+            `builtins.None`, which means the Discord-recommended count is used
+            for your application instead.
+        shard_count : typing.Optional[builtins.int]
+            The number of shards to use in the entire distributed application.
+            Defaults to `builtins.None` which results in the count being
+            determined dynamically on startup.
+        status : hikari.presences.Status
+            The initial status to show for the user presence on startup.
+            Defaults to `hikari.presences.Status.ONLINE`.
+        """
+        if shard_ids is not None and shard_count is None:
+            raise TypeError("'shard_ids' must be passed with 'shard_count'")
+
+        loop = asyncio.get_event_loop()
+        signals = ("SIGINT", "SIGTERM")
+
+        if asyncio_debug:
+            loop.set_debug(True)
+
+        if coroutine_tracking_depth is not None:
+            try:
+                # Provisionally defined in CPython, may be removed without notice.
+                loop.set_coroutine_tracking_depth(coroutine_tracking_depth)  # type: ignore[attr-defined]
+            except AttributeError:
+                _LOGGER.log(
+                    ux.TRACE, "cannot set coroutine tracking depth for %s, no functionality exists for this", loop
+                )
+
+        # Throwing this in the handler will lead to lots of fun OS specific shenanigans. So, lets just
+        # cache it for later, I guess.
+        interrupt: typing.Optional[errors.HikariInterrupt] = None
+        loop_thread_id = threading.get_native_id()
+
+        def handle_os_interrupt(signum: int, frame: types.FrameType) -> None:
+            # If we use a POSIX system, then raising an exception in here works perfectly and shuts the loop down
+            # with an exception, which is good.
+            # Windows, however, is special on this front. On Windows, the exception is caught by whatever was
+            # currently running on the event loop at the time, which is annoying for us, as this could be fired into
+            # the task for an event dispatch, for example, which is a guarded call that is never waited for by design.
+
+            # We can't always safely intercept this either, as Windows does not allow us to use asyncio loop
+            # signal listeners (since Windows doesn't have kernel-level signals, only emulated system calls
+            # for a remote few standard C signal types). Thus, the best solution here is to set the close bit
+            # instead, which will let the bot start to clean itself up as if the user closed it manually via a call
+            # to `bot.close()`.
+            nonlocal interrupt
+            signame = signal.strsignal(signum)
+            assert signame is not None  # Will always be True
+
+            interrupt = errors.HikariInterrupt(signum, signame)
+            # The loop may or may not be running, depending on the state of the application when this occurs.
+            # Signals on POSIX only occur on the main thread usually, too, so we need to ensure this is
+            # threadsafe if we want the user's application to still shut down if on a separate thread.
+            # We log native thread IDs purely for debugging purposes.
+            if _LOGGER.getEffectiveLevel() <= ux.TRACE:
+                _LOGGER.log(
+                    ux.TRACE,
+                    "interrupt %s occurred on thread %s, bot on thread %s will be notified to shut down shortly\n"
+                    "Stacktrace for developer sanity:\n%s",
+                    signum,
+                    threading.get_native_id(),
+                    loop_thread_id,
+                    "".join(traceback.format_stack(frame)),
+                )
+
+            asyncio.run_coroutine_threadsafe(self._set_close_flag(signame, signum), loop)
+
+        if enable_signal_handlers:
+            for sig in signals:
+                try:
+                    signum = getattr(signal, sig)
+                    signal.signal(signum, handle_os_interrupt)
+                except AttributeError:
+                    _LOGGER.log(ux.TRACE, "signal %s is not implemented on your platform", sig)
+
+        try:
+            loop.run_until_complete(
+                self.start(
+                    activity=activity,
+                    afk=afk,
+                    check_for_updates=check_for_updates,
+                    idle_since=idle_since,
+                    ignore_session_start_limit=ignore_session_start_limit,
+                    large_threshold=large_threshold,
+                    shard_ids=shard_ids,
+                    shard_count=shard_count,
+                    status=status,
+                )
+            )
+
+            loop.run_until_complete(self.join())
+
+        finally:
+            try:
+                loop.run_until_complete(self.close())
+
+                if close_passed_executor and self._executor is not None:
+                    _LOGGER.debug("shutting down executor %s", self._executor)
+                    self._executor.shutdown(wait=True)
+                    self._executor = None
+            finally:
+                if enable_signal_handlers:
+                    for sig in signals:
+                        try:
+                            signum = getattr(signal, sig)
+                            signal.signal(signum, signal.SIG_DFL)
+                        except AttributeError:
+                            # Signal not implemented probably. We should have logged this earlier.
+                            pass
+
+                if close_loop:
+                    self._destroy_loop(loop)
+
+                _LOGGER.info("application has successfully terminated")
+
+                if propagate_interrupts and interrupt is not None:
+                    raise interrupt
+
+    async def start(
+        self,
+        *,
+        activity: typing.Optional[presences.Activity] = None,
+        afk: bool = False,
+        check_for_updates: bool = True,
+        idle_since: typing.Optional[datetime.datetime] = None,
+        ignore_session_start_limit: bool = False,
+        large_threshold: int = 250,
+        shard_ids: typing.Optional[typing.Set[int]] = None,
+        shard_count: typing.Optional[int] = None,
+        status: presences.Status = presences.Status.ONLINE,
+    ) -> None:
+        """Start the bot, wait for all shards to become ready, and then return.
+
+        Other Parameters
+        ----------------
+        activity : typing.Optional[hikari.presences.Activity]
+            The initial activity to display in the bot user presence, or
+            `builtins.None` (default) to not show any.
+        afk : builtins.bool
+            The initial AFK state to display in the bot user presence, or
+            `builtins.False` (default) to not show any.
+        check_for_updates : builtins.bool
+            Defaults to `builtins.True`. If `builtins.True`, will check for
+            newer versions of `hikari` on PyPI and notify if available.
+        idle_since : typing.Optional[datetime.datetime]
+            The `datetime.datetime` the user should be marked as being idle
+            since, or `builtins.None` (default) to not show this.
+        ignore_session_start_limit : builtins.bool
+            Defaults to `builtins.False`. If `builtins.False`, then attempting
+            to start more sessions than you are allowed in a 24 hour window
+            will throw a `hikari.errors.GatewayError` rather than going ahead
+            and hitting the IDENTIFY limit, which may result in your token
+            being reset. Setting to `builtins.True` disables this behavior.
+        large_threshold : builtins.int
+            Threshold for members in a guild before it is treated as being
+            "large" and no longer sending member details in the `GUILD CREATE`
+            event. Defaults to `250`.
+        shard_ids : typing.Optional[typing.Set[builtins.int]]
+            The shard IDs to create shards for. If not `builtins.None`, then
+            a non-`None` `shard_count` must ALSO be provided. Defaults to
+            `builtins.None`, which means the Discord-recommended count is used
+            for your application instead.
+        shard_count : typing.Optional[builtins.int]
+            The number of shards to use in the entire distributed application.
+            Defaults to `builtins.None` which results in the count being
+            determined dynamically on startup.
+        status : hikari.presences.Status
+            The initial status to show for the user presence on startup.
+            Defaults to `hikari.presences.Status.ONLINE`.
+        """
+        if shard_ids is not None and shard_count is None:
+            raise TypeError("Must pass shard_count if specifying shard_ids manually")
+
+        self._validate_activity(activity)
+
+        # Dispatch the update checker, the sharding requirements checker, and dispatch
+        # the starting event together to save a little time on startup.
+        start_time = time.monotonic()
+
+        if check_for_updates:
+            asyncio.create_task(
+                ux.check_for_updates(self._http_settings, self._proxy_settings),
+                name="check for package updates",
+            )
+        requirements_task = asyncio.create_task(self._rest.fetch_gateway_bot(), name="fetch gateway sharding settings")
+        await self.dispatch(lifetime_events.StartingEvent(app=self))
+        requirements = await requirements_task
+
+        if shard_count is None:
+            shard_count = requirements.shard_count
+        if shard_ids is None:
+            shard_ids = set(range(shard_count))
+
+        if requirements.session_start_limit.remaining < len(shard_ids) and not ignore_session_start_limit:
+            _LOGGER.critical(
+                "would have started %s session%s, but you only have %s session%s remaining until %s. Starting more "
+                "sessions than you are allowed to start may result in your token being reset. To skip this message, "
+                "use bot.run(..., ignore_session_start_limit=True) or bot.start(..., ignore_session_start_limit=True)",
+                len(shard_ids),
+                "s" if len(shard_ids) != 1 else "",
+                requirements.session_start_limit.remaining,
+                "s" if requirements.session_start_limit.remaining != 1 else "",
+                requirements.session_start_limit.reset_at,
+            )
+            raise errors.GatewayError("Attempted to start more sessions than were allowed in the given time-window")
+
+        _LOGGER.info(
+            "planning to start %s session%s... you can start %s session%s before the next window starts at %s",
+            len(shard_ids),
+            "s" if len(shard_ids) != 1 else "",
+            requirements.session_start_limit.remaining,
+            "s" if requirements.session_start_limit.remaining != 1 else "",
+            requirements.session_start_limit.reset_at,
+        )
+
+        for window_start in range(0, shard_count, requirements.session_start_limit.max_concurrency):
+            window = [
+                candidate_shard_id
+                for candidate_shard_id in range(
+                    window_start, window_start + requirements.session_start_limit.max_concurrency
+                )
+                if candidate_shard_id in shard_ids
+            ]
+
+            if not window:
+                continue
+            if self._shards:
+                close_waiter = asyncio.create_task(self._closing_event.wait())
+                shard_joiners = [asyncio.ensure_future(s.join()) for s in self._shards.values()]
+
+                try:
+                    # Attempt to wait for all started shards, for 5 seconds, along with the close
+                    # waiter.
+                    # If the close flag is set (i.e. user invoked bot.close), or one or more shards
+                    # die in this time, we shut down immediately.
+                    # If we time out, the joining tasks get discarded and we spin up the next
+                    # block of shards, if applicable.
+                    _LOGGER.info("the next startup window is in 5 seconds, please wait...")
+                    await aio.first_completed(aio.all_of(*shard_joiners, timeout=5), close_waiter)
+
+                    if not close_waiter.cancelled():
+                        _LOGGER.info("requested to shut down during startup of shards")
+                    else:
+                        _LOGGER.critical("one or more shards shut down unexpectedly during bot startup")
+                    return
+
+                except asyncio.TimeoutError:
+                    # If any shards stopped silently, we should close.
+                    if any(not s.is_alive for s in self._shards.values()):
+                        _LOGGER.info("one of the shards has been manually shut down (no error), will now shut down")
+                        return
+                    # new window starts.
+
+                except Exception as ex:
+                    _LOGGER.critical("an exception occurred in one of the started shards during bot startup: %r", ex)
+                    raise
+
+            started_shards = await aio.all_of(
+                *(
+                    self._start_one_shard(
+                        activity=activity,
+                        afk=afk,
+                        idle_since=idle_since,
+                        status=status,
+                        large_threshold=large_threshold,
+                        shard_id=candidate_shard_id,
+                        shard_count=shard_count,
+                        url=requirements.url,
+                    )
+                    for candidate_shard_id in window
+                    if candidate_shard_id in shard_ids
+                )
+            )
+
+            for started_shard in started_shards:
+                self._shards[started_shard.id] = started_shard
+
+        await self.dispatch(lifetime_events.StartedEvent(app=self))
+
+        _LOGGER.info("application started successfully in approx %.2f seconds", time.monotonic() - start_time)
+
+    def stream(
+        self,
+        event_type: typing.Type[event_dispatcher.EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        limit: typing.Optional[int] = None,
+    ) -> event_stream.Streamer[event_dispatcher.EventT_co]:
+        return self._events.stream(event_type, timeout=timeout, limit=limit)
 
     def subscribe(
-        self,
-        event_type: typing.Type[event_dispatcher.EventT_co],
-        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
-    ) -> event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co]:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return self.dispatcher.subscribe(event_type, callback)
+        self, event_type: typing.Type[typing.Any], callback: event_dispatcher.CallbackT[typing.Any]
+    ) -> event_dispatcher.CallbackT[typing.Any]:
+        return self._events.subscribe(event_type, callback)
 
     def unsubscribe(
-        self,
-        event_type: typing.Type[event_dispatcher.EventT_co],
-        callback: event_dispatcher.AsyncCallbackT[event_dispatcher.EventT_co],
+        self, event_type: typing.Type[typing.Any], callback: event_dispatcher.CallbackT[typing.Any]
     ) -> None:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return self.dispatcher.unsubscribe(event_type, callback)
+        self._events.unsubscribe(event_type, callback)
 
     async def wait_for(
         self,
@@ -601,290 +912,140 @@ class BotApp(
         timeout: typing.Union[float, int, None],
         predicate: typing.Optional[event_dispatcher.PredicateT[event_dispatcher.EventT_co]] = None,
     ) -> event_dispatcher.EventT_co:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return await self.dispatcher.wait_for(event_type, predicate=predicate, timeout=timeout)
-
-    def dispatch(self, event: base_events.Event) -> asyncio.Future[typing.Any]:
-        # <<inherited docstring from event_dispatcher.EventDispatcher>>
-        return self.dispatcher.dispatch(event)
-
-    async def close(self) -> None:
-        """Request that all shards disconnect and the application shuts down.
-
-        This will close all shards that are running, and then close any
-        REST components and connectors.
-        """
-        self._guild_chunker.close()
-
-        try:
-            if self._tasks:
-                # This way if we cancel the stopping task, we still shut down properly.
-                self._request_close_event.set()
-
-                _LOGGER.info("stopping %s shard(s)", len(self._tasks))
-
-                try:
-                    await self.dispatch(lifetime_events.StoppingEvent(app=self))
-                    await self._abort_shards()
-                finally:
-                    self._tasks.clear()
-                    await self.dispatch(lifetime_events.StoppedEvent(app=self))
-        finally:
-            await self._rest.close()
-            await self._connector_factory.close()
-            self._global_ratelimit.close()
-
-    def run(self, *, close_loop: bool = True) -> None:
-        """Run this application on the current thread in an event loop.
-
-        This will use the event loop that is set for the current thread, or
-        it will create one if it does not already exist.
-
-        This call will **block** the current thread until the application
-        has closed. Additionally, it will hook into any OS signals to
-        detect external interrupts to request the process terminates.
-
-        All hooks will be removed again on shutdown. Any fatal exceptions
-        that may have occurred during the startup or execution of the
-        application will be propagated.
-
-        The application is always guaranteed to be shut down before this
-        function completes or propagates any exception.
-
-        Parameters
-        ----------
-        close_loop : builtins.bool
-            If `builtins.True` (per the default), then the event loop will
-            be explicitly closed once the application has closed. If
-            `builtins.False`, this behaviour will not occur.
-
-            Setting this to `builtins.False` may be desirable if you wish
-            to continue using the event loop after the application has closed.
-        """
-        try:
-            loop = asyncio.get_event_loop()
-        except RuntimeError:
-            _LOGGER.debug("no event loop registered on this thread; now creating one...")
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-
-        try:
-            self._map_signal_handlers(
-                loop.add_signal_handler,
-                lambda *_: loop.create_task(self.close(), name="signal interrupt shutting down application"),
-            )
-            loop.run_until_complete(self._shard_management_lifecycle())
-
-        except KeyboardInterrupt as ex:
-            _LOGGER.info("received signal to shut down client")
-            if self._debug:
-                raise
-            # The user will not care where this gets raised from, unless we are
-            # debugging. It just causes a lot of confusing spam.
-            raise ex.with_traceback(None) from None
-
-        finally:
-            self._map_signal_handlers(loop.remove_signal_handler)
-            _LOGGER.info("client has shut down")
-
-            if close_loop and not loop.is_closed():
-                _LOGGER.info("closing event loop")
-                loop.close()
-
-    async def join(self) -> None:
-        """Wait for the application to finish running.
-
-        If the application has not started, then calling this will return
-        immediately.
-
-        Any exceptions that are raised by the application that go unhandled
-        will be propagated.
-        """
-        if self._shard_gather_task is not None:
-            await self._shard_gather_task
+        return await self._events.wait_for(event_type, timeout=timeout, predicate=predicate)
 
     async def update_presence(
         self,
         *,
         status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
-        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
         idle_since: undefined.UndefinedNoneOr[datetime.datetime] = undefined.UNDEFINED,
+        activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
         afk: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
     ) -> None:
-        """Update the presence on all shards.
+        self._validate_activity(activity)
 
-        This call will patch the presence on each shard. This means that
-        unless you explicitly specify a parameter, the previous value will be
-        retained. This means you do not have to track the global presence
-        in your code.
-
-        Parameters
-        ----------
-        status : hikari.utilities.undefined.UndefinedOr[hikari.models.presences.Status]
-            The status to set all shards to. If undefined, no statuses are
-            changed.
-        activity : hikari.utilities.undefined.UndefinedNoneOr[hikari.models.presences.Activity]
-            The activity to set. May be `builtins.None` if the activity should
-            be cleared. If undefined, no activities are changed.
-        idle_since : hikari.utilities.undefined.UndefinedNoneOr[datetime.datetime]
-            The datetime to appear to be idle since. If `builtins.None`, then
-            this is not sent (this does not need to be specified to set the
-            bot's status to idle). If undefined, the idle timestamp is not
-            changed.
-        afk : hikari.utilities.undefined.UndefinedOr[builtins.bool]
-            If `builtins.True`, then the bot is marked as being AFK. If
-            `builtins.False`, the bot is marked as not being AFK. If
-            unspecified, this is not changed.
-
-        !!! note
-            This will only send the update payloads to shards that are alive.
-            Any shards that are not alive will cache the new presence for
-            when they do start.
-
-        !!! note
-            If you want to set presences per shard, access the shard you wish
-            to update (e.g. by using `BotApp.shards`), and call
-            `hikari.api.shard.IGatewayShard.update_presence` on that shard.
-
-            This method is simply a facade to make performing this in bulk
-            simpler.
-        """
         coros = [
             s.update_presence(status=status, activity=activity, idle_since=idle_since, afk=afk)
             for s in self._shards.values()
         ]
 
-        await asyncio.gather(*coros)
+        await aio.all_of(*coros)
 
-    async def _init(self) -> None:
-        gw_recs, bot_user = await asyncio.gather(self.rest.fetch_gateway_bot(), self.rest.fetch_my_user())
+    async def _set_close_flag(self, signame: str, signum: int) -> None:
+        # This needs to be a coroutine, as the closing event is not threadsafe, so we have no way to set this
+        # from a Unix system call handler if we are running on a thread that isn't the main application thread
+        # without getting undefined behaviour. We do however have `asyncio.run_coroutine_threadsafe` which can
+        # run a coroutine function on the event loop from a completely different thread, so this is the safest
+        # solution.
+        _LOGGER.debug("received interrupt %s (%s), will start shutting down shortly", signame, signum)
 
-        self._cache.set_me(bot_user)
+        await self.close(force=False)
 
-        self._shard_count = self._shard_count if self._shard_count else gw_recs.shard_count
-        self._shard_ids = self._shard_ids if self._shard_ids else set(range(self._shard_count))
-        self._max_concurrency = gw_recs.session_start_limit.max_concurrency
-        url = gw_recs.url
+    async def _start_one_shard(
+        self,
+        activity: typing.Optional[presences.Activity],
+        afk: bool,
+        idle_since: typing.Optional[datetime.datetime],
+        status: presences.Status,
+        large_threshold: int,
+        shard_id: int,
+        shard_count: int,
+        url: str,
+    ) -> shard_impl.GatewayShardImpl:
+        new_shard = shard_impl.GatewayShardImpl(
+            event_consumer=self._raw_event_consumer,
+            http_settings=self._http_settings,
+            initial_activity=activity,
+            initial_is_afk=afk,
+            initial_idle_since=idle_since,
+            initial_status=status,
+            large_threshold=large_threshold,
+            intents=self._intents,
+            proxy_settings=self._proxy_settings,
+            shard_id=shard_id,
+            shard_count=shard_count,
+            token=self._token,
+            url=url,
+        )
 
-        reset_at = gw_recs.session_start_limit.reset_at.strftime("%d/%m/%y %H:%M:%S %Z").rstrip()
+        start = time.monotonic()
+        await aio.first_completed(new_shard.start(), self._closing_event.wait())
+        end = time.monotonic()
 
-        shard_clients: typing.Dict[int, gateway_shard.GatewayShard] = {}
-        for shard_id in self._shard_ids:
-            # TODO: allow custom connector factory?
-            shard = gateway_shard_impl.GatewayShardImpl(
-                compression=gateway_shard.GatewayCompression.PAYLOAD_ZLIB_STREAM,
-                data_format=gateway_shard.GatewayDataFormat.JSON,
-                debug=self._debug,
-                event_consumer=self._event_manager.consume_raw_event,
-                http_settings=self._http_settings,
-                initial_activity=self._initial_activity,
-                initial_idle_since=self._initial_idle_since,
-                initial_is_afk=self._initial_is_afk,
-                initial_status=self._initial_status,
-                intents=self._intents,
-                large_threshold=self._large_threshold,
-                proxy_settings=self._proxy_settings,
-                shard_id=shard_id,
-                shard_count=self._shard_count,
-                token=self._token,
-                url=url,
-                version=self._version,
-            )
-            shard_clients[shard_id] = shard
+        if new_shard.is_alive:
+            _LOGGER.debug("Shard %s started successfully in %.1fms", shard_id, (end - start) * 1_000)
+            return new_shard
 
-        self._shards = shard_clients
+        raise errors.GatewayError(f"Shard {shard_id} shut down immediately when starting")
 
-        if len(self._shard_ids) == 1 and self._shard_ids == {0}:
-            _LOGGER.info(
-                "single-sharded configuration -- you have started %s/%s sessions prior to connecting (resets at %s)",
-                gw_recs.session_start_limit.used,
-                gw_recs.session_start_limit.total,
-                reset_at,
-            )
+    @staticmethod
+    def _destroy_loop(loop: asyncio.AbstractEventLoop) -> None:
+        async def murder(future: asyncio.Future[typing.Any]) -> None:
+            # These include _GatheringFuture which must be awaited if the children
+            # throw an asyncio.CancelledError, otherwise it will spam logs with warnings
+            # about exceptions not being retrieved before GC.
+            try:
+                _LOGGER.log(ux.TRACE, "killing %s", future)
+                future.cancel()
+                await future
+            except asyncio.CancelledError:
+                pass
+            except Exception as ex:
+                loop.call_exception_handler(
+                    {
+                        "message": "Future raised unexpected exception after requesting cancellation",
+                        "exception": ex,
+                        "future": future,
+                    }
+                )
+
+        remaining_tasks = [t for t in asyncio.all_tasks(loop) if not t.cancelled() and not t.done()]
+
+        if remaining_tasks:
+            _LOGGER.debug("terminating %s remaining tasks forcefully", len(remaining_tasks))
+            loop.run_until_complete(asyncio.gather(*(murder(task) for task in remaining_tasks)))
         else:
-            _LOGGER.info(
-                "will connect %s/%s shards with a max concurrency of %s -- "
-                "you have started %s/%s sessions prior to connecting (resets at %s)",
-                len(self._shard_ids),
-                self._shard_count,
-                self._max_concurrency,
-                gw_recs.session_start_limit.used,
-                gw_recs.session_start_limit.total,
-                reset_at,
+            _LOGGER.debug("No remaining tasks exist, good job!")
+
+        if sys.version_info >= (3, 9):
+            _LOGGER.debug("shutting down default executor")
+            with contextlib.suppress(NotImplementedError):
+                # This seems to raise a NotImplementedError when running with uvloop.
+                loop.run_until_complete(loop.shutdown_default_executor())
+
+        _LOGGER.debug("shutting down asyncgens")
+        loop.run_until_complete(loop.shutdown_asyncgens())
+
+        _LOGGER.debug("closing event loop")
+        loop.close()
+
+    @staticmethod
+    def _validate_activity(activity: undefined.UndefinedNoneOr[presences.Activity]) -> None:
+        # This seems to cause confusion for a lot of people, so lets add some warnings into the mix.
+
+        if activity is undefined.UNDEFINED or activity is None:
+            return
+
+        # If you ever change where this is called from, make sure to check the stacklevels are correct
+        # or the code preview in the warning will be wrong...
+        if activity.type is presences.ActivityType.WATCHING:
+            warnings.warn(
+                "The WATCHING activity type is not officially recognised by Discord and may be removed from Hikari in "
+                "a future release.",
+                category=PendingDeprecationWarning,
+                stacklevel=3,
             )
-
-    def _max_concurrency_chunker(self) -> typing.Iterator[typing.Iterator[int]]:
-        """Yield generators of shard IDs.
-
-        Each yielded generator will yield every shard ID that can be started
-        at the same time.
-
-        You should then wait 5 seconds between each window.
-
-        The first window will always contain a single shard.
-        The reasoning behind this is to ensure we are able to successfully
-        connect on one shard before spamming the gateway with failed
-        connections on large applications, as this can exhaust the daily
-        identify limit.
-        """
-        n = 0
-        is_first = True
-
-        while n < self._shard_count:
-            next_window = [i for i in range(n, n + self._max_concurrency) if i in self._shard_ids]
-            # Don't yield anything if no IDs are in the given window.
-            if next_window:
-                if is_first:
-                    is_first = False
-                    first, next_window = next_window[0], next_window[1:]
-                    yield iter((first,))
-
-                yield iter(next_window)
-            n += self._max_concurrency
-
-    async def _abort_shards(self) -> None:
-        """Close all shards and wait for them to terminate."""
-        for shard_id in self._tasks:
-            if self._shards[shard_id].is_alive:
-                _LOGGER.debug("stopping shard %s", shard_id)
-                await self._shards[shard_id].close()
-        await asyncio.gather(*self._tasks.values(), return_exceptions=True)
-
-    async def _gather_shard_lifecycles(self) -> None:
-        """Await all shards.
-
-        Ensure shards are requested to close before the coroutine function
-        completes.
-        """
-        try:
-            _LOGGER.debug("gathering shards")
-            await asyncio.gather(*self._tasks.values())
-        finally:
-            _LOGGER.debug("gather terminated, shutting down shard(s)")
-            await asyncio.shield(self.close())
-
-    async def _shard_management_lifecycle(self) -> None:
-        """Start all shards and then wait for them to finish."""
-        await self.start()
-        await self.join()
-
-    @staticmethod
-    def _map_signal_handlers(
-        mapping_function: typing.Callable[..., None], *args: typing.Callable[[], typing.Any]
-    ) -> None:
-        """Register/deregister a given signal handler to all signals."""
-        valid_interrupts = signal.valid_signals()
-        # We must getattr on these, or we risk an exception occurring on Windows.
-        for interrupt_name in ("SIGQUIT", "SIGTERM"):
-            interrupt = getattr(signal, interrupt_name, None)
-            if interrupt in valid_interrupts:
-                with contextlib.suppress(NotImplementedError):
-                    mapping_function(interrupt, *args)
-
-    @staticmethod
-    def _dump_banner(banner_package: str) -> None:
-        """Dump the banner art and wait for it to flush before continuing."""
-        sys.stdout.write(art.get_banner(banner_package) + "\n")
-        sys.stdout.flush()
-        # Give the TTY time to flush properly.
-        time.sleep(0.05)
+        elif activity.type is presences.ActivityType.CUSTOM:
+            warnings.warn(
+                "The CUSTOM activity type is not supported by bots at the time of writing, and may therefore not have "
+                "any effect if used.",
+                category=errors.HikariWarning,
+                stacklevel=3,
+            )
+        elif activity.type is presences.ActivityType.STREAMING and activity.url is None:
+            warnings.warn(
+                "The STREAMING activity type requires a 'url' parameter pointing to a valid Twitch or YouTube video "
+                "URL to be specified on the activity for the presence update to have any effect.",
+                category=errors.HikariWarning,
+                stacklevel=3,
+            )

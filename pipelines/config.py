@@ -22,9 +22,7 @@ import os as _os
 
 IS_CI = "CI" in _os.environ
 
-if "GITLAB_CI" in _os.environ:
-    CI_PROVIDER = "gitlab"
-elif "TRAVIS" in _os.environ:
+if "TRAVIS" in _os.environ:
     CI_PROVIDER = "travis"
 else:
     CI_PROVIDER = "other"
@@ -32,6 +30,7 @@ else:
 # Packaging
 MAIN_PACKAGE = "hikari"
 TEST_PACKAGE = "tests"
+EXAMPLE_SCRIPTS = "examples"
 
 # Generating documentation and artifacts.
 ARTIFACT_DIRECTORY = "public"
@@ -41,7 +40,7 @@ ROOT_INDEX_SOURCE = "index.html"
 LOGO_SOURCE = "logo.png"
 
 # Linting and test configs.
-FLAKE8_TXT = "public/flake8.txt"
+FLAKE8_REPORT = "public/flake8"
 MYPY_INI = "mypy.ini"
 PYTEST_INI = "pytest.ini"
 COVERAGE_INI = "coverage.ini"

@@ -29,21 +29,23 @@ from tests.hikari import hikari_test_helpers
 
 @pytest.mark.asyncio
 class TestStatelessEventManager:
-    @pytest.fixture
+    @pytest.fixture()
     def shard(self):
         return object()
 
-    @pytest.fixture
+    @pytest.fixture()
     def app(self):
         return mock.Mock()
 
-    @pytest.fixture
+    @pytest.fixture()
     def payload(self):
         return object()
 
-    @pytest.fixture
+    @pytest.fixture()
     def event_manager(self, app):
-        obj = hikari_test_helpers.unslot_class(stateless_event_manager.StatelessEventManagerImpl)(app, object())
+        obj = hikari_test_helpers.mock_class_namespace(stateless_event_manager.StatelessEventManagerImpl, slots_=False)(
+            app, object()
+        )
         obj.dispatch = mock.AsyncMock()
         return obj
 

@@ -31,7 +31,7 @@ from nox.sessions import Session
 from pipelines import config
 
 # Default sessions should be defined here
-_options.sessions = ["reformat-code", "pytest", "pdoc", "pages", "flake8", "mypy", "safety"]
+_options.sessions = ["reformat-code", "pytest", "flake8", "mypy", "safety", "pdoc3", "pages"]
 
 
 def session(*, only_if=lambda: True, reuse_venv: bool = False, **kwargs):
@@ -55,7 +55,7 @@ def inherit_environment_vars(func):
 
 def shell(arg, *args):
     command = " ".join((arg, *args))
-    print("\033[35mnox > shell >\033[0m", command)
+    print("nox > shell >", command)
     return subprocess.check_call(command, shell=True)
 
 

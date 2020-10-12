@@ -23,22 +23,23 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["StatefulEventManagerImpl"]
+__all__: typing.List[str] = ["StatefulEventManagerImpl"]
 
+import asyncio
 import typing
 
+from hikari import channels
+from hikari import intents as intents_
+from hikari import presences
 from hikari import traits
 from hikari.events import shard_events
 from hikari.impl import event_manager_base
-from hikari.models import channels
-from hikari.models import intents as intents_
-from hikari.models import presences
 
 if typing.TYPE_CHECKING:
     from hikari.api import cache as cache_
     from hikari.api import shard as gateway_shard
     from hikari.events import guild_events as guild_events
-    from hikari.utilities import data_binding
+    from hikari.internal import data_binding
 
 
 class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
@@ -47,7 +48,10 @@ class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
     __slots__: typing.Sequence[str] = ("_cache",)
 
     def __init__(
-        self, app: traits.BotAware, cache: cache_.MutableCache, intents: typing.Optional[intents_.Intents],
+        self,
+        app: traits.BotAware,
+        cache: cache_.MutableCache,
+        intents: intents_.Intents,
     ) -> None:
         self._cache = cache
         super().__init__(app=app, intents=intents)
@@ -75,7 +79,6 @@ class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
         # TODO: cache unavailable guilds on startup, I didn't bother for the time being.
         event = self._app.event_factory.deserialize_ready_event(shard, payload)
         self._cache.update_me(event.my_user)
-        self._cache.set_initial_unavailable_guilds(event.unavailable_guilds)
         await self.dispatch(event)
 
     async def on_resumed(self, shard: gateway_shard.GatewayShard, _: data_binding.JSONObject) -> None:
@@ -86,36 +89,21 @@ class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
     async def on_channel_create(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
         """See https://discord.com/developers/docs/topics/gateway#channel-create for more info."""
         event = self._app.event_factory.deserialize_channel_create_event(shard, payload)
-
-        if isinstance(event.channel, channels.GuildChannel):
-            self._cache.set_guild_channel(event.channel)
-        else:
-            self._cache.set_private_text_channel(typing.cast(channels.PrivateTextChannel, event.channel))
-
+        assert isinstance(event.channel, channels.GuildChannel), "channel create events for DM channels are unexpected"
+        self._cache.set_guild_channel(event.channel)
         await self.dispatch(event)
 
     async def on_channel_update(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
         """See https://discord.com/developers/docs/topics/gateway#channel-update for more info."""
         event = self._app.event_factory.deserialize_channel_update_event(shard, payload)
-
-        if isinstance(event.channel, channels.GuildChannel):
-            self._cache.update_guild_channel(event.channel)
-        else:
-            self._cache.update_private_text_channel(typing.cast(channels.PrivateTextChannel, event.channel))
-
+        assert isinstance(event.channel, channels.GuildChannel), "channel update events for DM channels are unexpected"
+        self._cache.update_guild_channel(event.channel)
         await self.dispatch(event)
 
     async def on_channel_delete(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
         """See https://discord.com/developers/docs/topics/gateway#channel-delete for more info."""
         event = self._app.event_factory.deserialize_channel_delete_event(shard, payload)
-
-        if isinstance(event.channel, channels.GuildChannel):
-            self._cache.delete_guild_channel(event.channel.id)
-        else:
-            self._cache.delete_private_text_channel(
-                typing.cast(channels.PrivateTextChannel, event.channel).recipient.id
-            )
-
+        self._cache.delete_guild_channel(event.channel.id)
         await self.dispatch(event)
 
     async def on_channel_pins_update(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
@@ -149,11 +137,20 @@ class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
         for presence in event.presences.values():
             self._cache.set_presence(presence)
 
+        self._cache.clear_voice_states_for_guild(event.guild.id)
         for voice_state in event.voice_states.values():
             self._cache.set_voice_state(voice_state)
 
-        if event.guild.is_large and (self._intents is None or self._intents & intents_.Intents.GUILD_MEMBERS):
-            await self._app.chunker.request_guild_chunk(event.guild)
+        members_declared = self._intents & intents_.Intents.GUILD_MEMBERS
+        presences_declared = self._intents & intents_.Intents.GUILD_PRESENCES
+
+        # When intents are enabled discord will only send other member objects on the guild create
+        # payload if presence intents are also declared, so if this isn't the case then we also want
+        # to chunk small guilds.
+        if (event.guild.is_large or not presences_declared) and members_declared:
+            # We create a task here instead of awaiting the result to avoid any rate-limits from delaying dispatch.
+            coroutine = shard.request_guild_members(event.guild)
+            asyncio.create_task(coroutine, name=f"{event.shard.id}:{event.guild.id} guild create members request")
 
         await self.dispatch(event)
 
@@ -248,6 +245,7 @@ class StatefulEventManagerImpl(event_manager_base.EventManagerBase):
         for presence in event.presences.values():
             self._cache.set_presence(presence)
 
+        await self._app.chunker.consume_chunk_event(event)
         await self.dispatch(event)
 
     async def on_guild_role_create(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:

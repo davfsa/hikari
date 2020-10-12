@@ -23,22 +23,17 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
-    "MessagesEvent",
+__all__: typing.List[str] = [
     "MessageEvent",
-    "GuildMessageEvent",
-    "PrivateMessageEvent",
     "MessageCreateEvent",
-    "GuildMessageCreateEvent",
-    "PrivateMessageCreateEvent",
     "MessageUpdateEvent",
-    "GuildMessageUpdateEvent",
-    "PrivateMessageUpdateEvent",
     "MessageDeleteEvent",
+    "GuildMessageCreateEvent",
+    "GuildMessageUpdateEvent",
     "GuildMessageDeleteEvent",
-    "PrivateMessageDeleteEvent",
-    "MessageBulkDeleteEvent",
-    "GuildMessageBulkDeleteEvent",
+    "DMMessageCreateEvent",
+    "DMMessageUpdateEvent",
+    "DMMessageDeleteEvent",
 ]
 
 import abc
@@ -46,80 +41,141 @@ import typing
 
 import attr
 
+from hikari import channels
+from hikari import intents
+from hikari import snowflakes
+from hikari import undefined
+from hikari import users
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
+    from hikari import embeds as embeds_
+    from hikari import guilds
+    from hikari import messages
     from hikari import traits
-    from hikari.api import shard as gateway_shard
-    from hikari.models import messages
-    from hikari.models import users
-    from hikari.utilities import snowflake
+    from hikari.api import shard as shard_
 
 
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.PRIVATE_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-class MessagesEvent(shard_events.ShardEvent, abc.ABC):
-    """Event base for any message-bound event."""
+@base_events.requires_intents(intents.Intents.DM_MESSAGES, intents.Intents.GUILD_MESSAGES)
+class MessageEvent(shard_events.ShardEvent, abc.ABC):
+    """Any event that concerns manipulation of messages."""
 
     @property
     @abc.abstractmethod
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         """ID of the channel that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the channel that this event concerns.
         """
 
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.PRIVATE_MESSAGES)
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class MessageEvent(MessagesEvent, abc.ABC):
-    """Event base for any event that concerns a single message."""
-
     @property
     @abc.abstractmethod
-    def message_id(self) -> snowflake.Snowflake:
+    def message_id(self) -> snowflakes.Snowflake:
         """ID of the message that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the message that this event concerns.
         """
 
 
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateMessageEvent(MessageEvent, abc.ABC):
-    """Event base for any message-bound event in private messages."""
-
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class GuildMessageEvent(MessageEvent, abc.ABC):
-    """Event base for any message-bound event in guild messages."""
+@base_events.requires_intents(intents.Intents.DM_MESSAGES, intents.Intents.GUILD_MESSAGES)
+class MessageCreateEvent(MessageEvent, abc.ABC):
+    """Event that is fired when a message is created."""
 
     @property
-    @abc.abstractmethod
-    def guild_id(self) -> snowflake.Snowflake:
-        """ID of the guild that this event concerns.
+    def author(self) -> users.User:
+        """User that sent the message.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
-            The ID of the guild that this event concerns.
+        hikari.users.User
+            The user that sent the message.
         """
+        return self.message.author
 
+    @property
+    def author_id(self) -> snowflakes.Snowflake:
+        """ID of the author of the message this event concerns.
 
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.PRIVATE_MESSAGES)
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class MessageCreateEvent(MessageEvent, abc.ABC):
-    """Event base for any message creation event."""
+        Returns
+        -------
+        hikari.snowflakes.Snowflake
+            The ID of the author.
+        """
+        return self.author.id
+
+    @property
+    def channel_id(self) -> snowflakes.Snowflake:
+        # <<inherited docstring from MessageEvent>>
+        return self.message.channel_id
+
+    @property
+    def content(self) -> typing.Optional[str]:
+        """Content of the message.
+
+        Returns
+        -------
+        typing.Optional[builtins.str]
+            The content of the message, if present. This may be `builtins.None`
+            or an empty string (or any falsy value) if no content is present
+            (e.g. if only an embed was sent).
+        """
+        return self.message.content
+
+    @property
+    def embeds(self) -> typing.Sequence[embeds_.Embed]:
+        """Sequence of embeds in the message.
+
+        Returns
+        -------
+        typing.Sequence[hikari.embeds.Embed]
+            The embeds in the message.
+        """
+        return self.message.embeds
+
+    @property
+    def is_bot(self) -> bool:
+        """Return `builtins.True` if the message is from a bot.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if from a bot, or `builtins.False` otherwise.
+        """
+        return self.message.author.is_bot
+
+    @property
+    def is_human(self) -> bool:
+        """Return `builtins.True` if the message was created by a human.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if from a human user, or `builtins.False` otherwise.
+        """
+        # Not second-guessing some weird edge case will occur in the future with this,
+        # so I am being safe rather than sorry.
+        return not self.message.author.is_bot and self.message.webhook_id is None
+
+    @property
+    def is_webhook(self) -> bool:
+        """Return `builtins.True` if the message was created by a webhook.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if from a webhook, or `builtins.False` otherwise.
+        """
+        return self.message.webhook_id is not None
 
     @property
     @abc.abstractmethod
@@ -128,284 +184,539 @@ class MessageCreateEvent(MessageEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.messages.Message
+        hikari.messages.Message
             The message object that was sent with this event.
         """
 
     @property
-    def message_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessageEvent>>.
-        return self.message.id
-
-    @property
-    def channel_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessageEvent>>.
-        return self.message.channel_id
-
-    @property
-    def author_id(self) -> snowflake.Snowflake:
-        """ID of the author that triggered this event.
+    def message_id(self) -> snowflakes.Snowflake:
+        """ID of the message that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
-            The ID of the author that triggered this event concerns.
+        hikari.snowflakes.Snowflake
+            The ID of the message that this event concerns.
         """
-        return self.message.author.id
+        return self.message.id
 
 
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.PRIVATE_MESSAGES)
+@attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
+class GuildMessageCreateEvent(MessageCreateEvent):
+    """Event that is fired when a message is created within a guild.
+
+    This contains the full message in the internal `message` attribute.
+    """
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>
+
+    message: messages.Message = attr.ib()
+    # <<inherited docstring from MessageCreateEvent>>
+
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>
+
+    @property
+    def author(self) -> guilds.Member:
+        """Member or user that sent the message.
+
+        Returns
+        -------
+        hikari.guilds.Member
+            The member that sent the message.
+        """
+        member = self.message.member
+        assert member is not None, "no member given for guild message create event!"
+        return member
+
+    @property
+    def channel(self) -> typing.Union[None, channels.GuildTextChannel, channels.GuildNewsChannel]:
+        """Channel that the message was sent in, if known.
+
+        Returns
+        -------
+        typing.Union[builtins.None, hikari.channels.GuildTextChannel, hikari.channels.GuildNewsChannel]
+            The channel that the message was sent in, if known and cached,
+            otherwise, `builtins.None`.
+        """
+        channel = self.app.cache.get_guild_channel(self.channel_id)
+        assert isinstance(
+            channel, (channels.GuildNewsChannel, channels.GuildTextChannel)
+        ), f"Cached channel ID is not a GuildNewsChannel or a GuildTextChannel, but a {type(channel).__name__}!"
+        return channel
+
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached guild that this event occurred in, if known.
+
+        !!! note
+            This will require the `GUILDS` intent to be specified on start-up
+            in order to be known.
+
+        Returns
+        -------
+        typing.Optional[hikari.guilds.GatewayGuild]
+            The guild that this event occurred in, if cached. Otherwise,
+            `builtins.None` instead.
+        """
+        return self.app.cache.get_guild(self.guild_id)
+
+    @property
+    def guild_id(self) -> snowflakes.Snowflake:
+        """ID of the guild that this event occurred in.
+
+        Returns
+        -------
+        hikari.snowflakes.Snowflake
+            The ID of the guild that this event occurred in.
+        """
+        guild_id = self.message.guild_id
+        # Always present on guild events
+        assert isinstance(guild_id, snowflakes.Snowflake), "no guild_id attribute set"
+        return guild_id
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.DM_MESSAGES)
+class DMMessageCreateEvent(MessageCreateEvent):
+    """Event that is fired when a message is created within a DM.
+
+    This contains the full message in the internal `message` attribute.
+    """
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>
+
+    message: messages.Message = attr.ib()
+    # <<inherited docstring from MessageCreateEvent>>
+
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.DM_MESSAGES, intents.Intents.GUILD_MESSAGES)
 class MessageUpdateEvent(MessageEvent, abc.ABC):
-    """Event base for any message update event."""
-
-    @property
-    @abc.abstractmethod
-    def message(self) -> messages.PartialMessage:
-        """Partial message that was sent in the event.
-
-        !!! warning
-            Unlike `MessageCreateEvent`, `MessageUpdateEvent.message` is an
-            arbitrarily partial version of `hikari.models.messages.Message`
-            where any field except `id` and `channel_id` may be set to
-            `hikari.utilities.undefined.UndefinedType` (a singleton) to indicate
-            that it has not been changed.
-
-        Returns
-        -------
-        hikari.models.messages.PartialMessage
-            The partially populated message object that was sent with this
-            event.
-        """
-
-    @property
-    def message_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessageEvent>>.
-        return self.message.id
-
-    @property
-    def author_id(self) -> snowflake.Snowflake:
-        """ID of the author that triggered this event.
-
-        Returns
-        -------
-        hikari.utilities.snowflake.Snowflake
-            The ID of the author that triggered this event concerns.
-        """
-        # Looks like `author` is always present in this event variant.
-        return typing.cast("users.PartialUser", self.message.author).id
-
-    @property
-    def channel_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessageEvent>>.
-        return self.message.channel_id
-
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.PRIVATE_MESSAGES)
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class MessageDeleteEvent(MessageEvent, abc.ABC):
-    """Event base for any message delete event."""
-
-    @property
-    @abc.abstractmethod
-    def message(self) -> messages.PartialMessage:
-        """Partial message that was sent in the event.
-
-        !!! warning
-            Unlike `MessageCreateEvent`, `message` is a severely limited partial
-            version of `hikari.models.messages.Message`. The only attributes
-            that will not be `hikari.utilities.undefined.UNDEFINED` will be
-            `id`, `channel_id`, and `guild_id` if the message was in a guild.
-            This is a limitation of Discord.
-
-            Furthermore, this partial message will represent a message that no
-            longer exists. Thus, attempting to edit/delete/react or un-react to
-            this message or attempting to fetch the full version will result
-            in a `hikari.errors.NotFound` being raised.
-
-        Returns
-        -------
-        hikari.models.messages.PartialMessage
-            The partially populated message object that was sent with this
-            event.
-        """
-
-    @property
-    def message_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessageEvent>>.
-        return self.message.id
-
-    @property
-    def channel_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from MessagesEvent>>.
-        return self.message.channel_id
-
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class GuildMessageCreateEvent(GuildMessageEvent, MessageCreateEvent):
-    """Event triggered when a message is sent to a guild channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.Message = attr.ib()
-    # <<inherited docstring from MessageCreateEvent>>.
-
-    @property
-    def guild_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from GuildMessageEvent>>.
-        # Always present in this event.
-        return typing.cast("snowflake.Snowflake", self.message.guild_id)
-
-
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateMessageCreateEvent(PrivateMessageEvent, MessageCreateEvent):
-    """Event triggered when a message is sent to a private channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.Message = attr.ib()
-    # <<inherited docstring from MessageCreateEvent>>.
-
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class GuildMessageUpdateEvent(GuildMessageEvent, MessageUpdateEvent):
-    """Event triggered when a message is updated in a guild channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.PartialMessage = attr.ib()
-    # <<inherited docstring from MessageUpdateEvent>>.
-
-    @property
-    def guild_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from GuildMessageEvent>>.
-        # Always present in this event.
-        return typing.cast("snowflake.Snowflake", self.message.guild_id)
-
-
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateMessageUpdateEvent(PrivateMessageEvent, MessageUpdateEvent):
-    """Event triggered when a message is updated in a private channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.PartialMessage = attr.ib()
-    # <<inherited docstring from MessageUpdateEvent>>.
-
-
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class GuildMessageDeleteEvent(GuildMessageEvent, MessageDeleteEvent):
-    """Event triggered when a message is deleted from a guild channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.PartialMessage = attr.ib()
-    # <<inherited docstring from MessageDeleteEvent>>.
-
-    @property
-    def guild_id(self) -> snowflake.Snowflake:
-        # <<inherited docstring from GuildMessageEvent>>.
-        # Always present in this event.
-        return typing.cast("snowflake.Snowflake", self.message.guild_id)
-
-
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-class PrivateMessageDeleteEvent(PrivateMessageEvent, MessageDeleteEvent):
-    """Event triggered when a message is deleted from a private channel."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    message: messages.PartialMessage = attr.ib()
-    # <<inherited docstring from MessageDeleteEvent>>.
-
-
-# NOTE: if this ever has a private channel equivalent implemented, this intents
-# constraint should be relaxed.
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-class MessageBulkDeleteEvent(MessagesEvent, abc.ABC):
-    """Event triggered when messages are bulk-deleted from a channel.
+    """Event that is fired when a message is updated.
 
     !!! note
-        There is only a guild equivalent of this event at the time of writing.
-        However, Discord appear to not be ruling out that this ability may
-        be implemented for private channels in the future. Thus, this base
-        exists for future compatibility and consistency.
-
-        If you care about the event occurring in a guild specifically, you
-        should use the `GuildMessageBulkDeleteEvent`. Otherwise, using this
-        event base is acceptable.
-
-        See https://github.com/discord/discord-api-docs/issues/1633 for
-        Discord's response.
+        Less information will be available here than in the creation event
+        due to Discord limitations.
     """
+
+    @property
+    def author(self) -> typing.Optional[users.User]:
+        """User that sent the message.
+
+        Returns
+        -------
+        typing.Optional[hikari.users.User]
+            The user that sent the message.
+
+            This will be `builtins.None` in some cases, such as when Discord
+            updates a message with an embed for a URL preview.
+        """
+        return self.message.author
+
+    @property
+    def author_id(self) -> typing.Optional[snowflakes.Snowflake]:
+        """ID of the author that triggered this event.
+
+        Returns
+        -------
+        typing.Optional[hikari.snowflakes.Snowflake]
+            The ID of the author that triggered this event concerns.
+
+            This will be `builtins.None` in some cases, such as
+            when Discord updates a message with an embed for a URL preview.
+        """
+        author = self.message.author
+        return author.id if author is not None else None
+
+    @property
+    def channel_id(self) -> snowflakes.Snowflake:
+        # <<inherited docstring from MessageEvent>>.
+        return self.message.channel_id
+
+    @property
+    def content(self) -> undefined.UndefinedNoneOr[str]:
+        """Content of the message.
+
+        Returns
+        -------
+        hikari.undefined.UndefinedNoneOr[builtins.str]
+            The content of the message, if present. This may be `builtins.None`
+            or an empty string (or any falsy value) if no content is present
+            (e.g. if only an embed was sent). If not part of the update, then
+            this will be `hikari.undefined.UNDEFINED` instead.
+        """
+        return self.message.content
+
+    @property
+    def embeds(self) -> undefined.UndefinedOr[typing.Sequence[embeds_.Embed]]:
+        """Sequence of embeds in the message.
+
+        Returns
+        -------
+        hikari.undefined.UndefinedOr[typing.Sequence[hikari.embeds.Embed]]
+            The embeds in the message. If the embeds were not changed in this
+            event, then this may instead be `hikari.undefined.UNDEFINED`.
+        """
+        return self.message.embeds
+
+    @property
+    def is_bot(self) -> typing.Optional[bool]:
+        """Return `builtins.True` if the message is from a bot.
+
+        Returns
+        -------
+        typing.Optional[builtins.bool]
+            `builtins.True` if from a bot, or `builtins.False` otherwise.
+
+            If the author is not known, due to the update event being caused
+            by Discord adding an embed preview to accompany a URL, then this
+            will return `builtins.None` instead.
+        """
+        if (author := self.message.author) is not None:
+            return author.is_bot
+        return None
+
+    @property
+    def is_human(self) -> typing.Optional[bool]:
+        """Return `builtins.True` if the message was created by a human.
+
+        Returns
+        -------
+        typing.Optional[builtins.bool]
+            `builtins.True` if from a human user, or `builtins.False` otherwise.
+
+            If the author is not known, due to the update event being caused
+            by Discord adding an embed preview to accompany a URL, then this
+            may return `builtins.None` instead.
+        """
+        # Not second-guessing some weird edge case will occur in the future with this,
+        # so I am being safe rather than sorry.
+        if self.message.webhook_id is not None:
+            return False
+
+        if (author := self.message.author) is not None:
+            return not author.is_bot
+
+        return None
+
+    @property
+    def is_webhook(self) -> bool:
+        """Return `builtins.True` if the message was created by a webhook.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if from a webhook, or `builtins.False` otherwise.
+        """
+        return self.message.webhook_id is not None
+
+    @property
+    @abc.abstractmethod
+    def message(self) -> messages.PartialMessage:
+        """Partial message that was sent in the event.
+
+        Returns
+        -------
+        hikari.messages.PartialMessage
+            The partial message object that was sent with this event.
+        """
+
+    @property
+    def message_id(self) -> snowflakes.Snowflake:
+        """ID of the message that this event concerns.
+
+        Returns
+        -------
+        hikari.snowflakes.Snowflake
+            The ID of the message that this event concerns.
+        """
+        return self.message.id
 
 
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
-class GuildMessageBulkDeleteEvent(MessageBulkDeleteEvent):
-    """Event triggered when messages are bulk-deleted from a guild channel."""
+class GuildMessageUpdateEvent(MessageUpdateEvent):
+    """Event that is fired when a message is updated in a guild.
+
+    !!! note
+        Less information will be available here than in the creation event
+        due to Discord limitations.
+    """
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
+    # <<inherited docstring from Event>>
 
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
+    message: messages.PartialMessage = attr.ib()
+    # <<inherited docstring from MessageUpdateEvent>>
 
-    channel_id: snowflake.Snowflake = attr.ib()
-    # <<inherited docstring from MessagesEvent>>.
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>
 
-    guild_id: snowflake.Snowflake = attr.ib()
-    """ID of the guild that this event concerns.
+    @property
+    def author(self) -> typing.Optional[users.User]:
+        """Member or user that sent the message.
+
+        Returns
+        -------
+        typing.Union[builtins.None, hikari.users.User, hikari.guilds.Member]
+            The user that sent the message. If the member is cached
+            (the intents are enabled), then this will be the corresponding
+            member object instead (which is a specialization of the
+            user object you should otherwise expect).
+
+            This will be `builtins.None` in some cases, such as when Discord
+            updates a message with an embed for a URL preview.
+        """
+        member = self.message.member
+        if member is not None:
+            return member
+
+        author = self.message.author
+
+        if author is not None:
+            member = self.app.cache.get_member(self.guild_id, author.id)
+
+            if member is not None:
+                return member
+
+        return author
+
+    @property
+    def channel(self) -> typing.Union[None, channels.GuildTextChannel, channels.GuildNewsChannel]:
+        """Channel that the message was sent in, if known.
+
+        Returns
+        -------
+        typing.Union[builtins.None, hikari.channels.GuildTextChannel, hikari.channels.GuildNewsChannel]
+            The channel that the message was sent in, if known and cached,
+            otherwise, `builtins.None`.
+        """
+        channel = self.app.cache.get_guild_channel(self.channel_id)
+        assert isinstance(
+            channel, (channels.GuildNewsChannel, channels.GuildTextChannel)
+        ), f"Cached channel ID is not a GuildNewsChannel or a GuildTextChannel, but a {type(channel).__name__}!"
+        return channel
+
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached guild that this event occurred in, if known.
+
+        !!! note
+            This will require the `GUILDS` intent to be specified on start-up
+            in order to be known.
+
+        Returns
+        -------
+        typing.Optional[hikari.guilds.GatewayGuild]
+            The guild that this event occurred in, if cached. Otherwise,
+            `builtins.None` instead.
+        """
+        return self.app.cache.get_guild(self.guild_id)
+
+    @property
+    def guild_id(self) -> snowflakes.Snowflake:
+        """ID of the guild that this event occurred in.
+
+        Returns
+        -------
+        hikari.snowflakes.Snowflake
+            The ID of the guild that this event occurred in.
+        """
+        guild_id = self.message.guild_id
+        # Always present on guild events
+        assert isinstance(guild_id, snowflakes.Snowflake), f"expected guild_id, got {guild_id}"
+        return guild_id
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.DM_MESSAGES)
+class DMMessageUpdateEvent(MessageUpdateEvent):
+    """Event that is fired when a message is updated in a DM.
+
+    !!! note
+        Less information will be available here than in the creation event
+        due to Discord limitations.
+    """
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>
+
+    message: messages.PartialMessage = attr.ib()
+    # <<inherited docstring from MessageUpdateEvent>>
+
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>
+
+
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGES, intents.Intents.DM_MESSAGES)
+class MessageDeleteEvent(MessageEvent, abc.ABC):
+    """Special event that is triggered when one or more messages get deleted.
+
+    !!! note
+        Due to Discord limitations, most message information is unavailable
+        during deletion events.
+
+    You can check if the message was in a singular deletion by checking the
+    `is_bulk` attribute.
+    """
+
+    @property
+    def channel(self) -> typing.Union[None, channels.GuildTextChannel, channels.GuildNewsChannel]:
+        """Get the cached channel the messages were sent in, if known.
+
+        Returns
+        -------
+        typing.Union[builtins.None, hikari.channels.GuildTextChannel, hikari.channels.GuildNewsChannel]
+            The channel the messages were sent in, or `builtins.None` if not
+            known/cached.
+
+            This otherwise will always be a `hikari.channels.GuildTextChannel`
+            if it is a normal message, or `hikari.channels.GuildNewsChannel` if
+            sent in an announcement channel.
+        """
+        channel = self.app.cache.get_guild_channel(self.channel_id)
+        assert channel is None or isinstance(
+            channel, (channels.GuildTextChannel, channels.GuildNewsChannel)
+        ), f"expected cached channel to be None or a GuildTextChannel/GuildNewsChannel, not {channel}"
+        return channel
+
+    @property
+    def message_id(self) -> snowflakes.Snowflake:
+        """Get the ID of the first deleted message.
+
+        This is contextually useful if you know this is not a bulk deletion
+        event. For all other purposes, this is the same as running
+        `next(iter(event.message_ids))`.
+
+        Returns
+        -------
+        hikari.snowflakes.Snowflake
+            The first deleted message ID.
+        """
+        try:
+            return next(iter(self.message_ids))
+        except StopIteration:
+            raise RuntimeError("No messages were sent in a bulk delete! Please shout at Discord to fix this!") from None
+
+    @property
+    @abc.abstractmethod
+    def message_ids(self) -> typing.AbstractSet[snowflakes.Snowflake]:
+        """Set of message IDs that were bulk deleted.
+
+        Returns
+        -------
+        typing.AbstractSet[hikari.snowflakes.Snowflake]
+            A sequence of message IDs that were bulk deleted.
+        """
+
+    @property
+    @abc.abstractmethod
+    def is_bulk(self) -> bool:
+        """Flag that determines whether this was a bulk deletion or not.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if this was a bulk deletion, or `builtins.False`
+            if it was a regular message deletion.
+        """
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
+class GuildMessageDeleteEvent(MessageDeleteEvent):
+    """Event that is triggered if messages are deleted in a guild.
+
+    !!! note
+        Due to Discord limitations, most message information is unavailable
+        during deletion events.
+
+    This is triggered for singular message deletion, and bulk message
+    deletion. You can check if the message was in a singular deletion by
+    checking the `is_bulk` attribute.
+    """
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>
+
+    channel_id: snowflakes.Snowflake = attr.ib()
+    # <<inherited docstring from MessageEvent>>
+
+    guild_id: snowflakes.Snowflake = attr.ib()
+    """ID of the guild that this event occurred in.
 
     Returns
     -------
-    hikari.utilities.snowflake.Snowflake
-        The ID of the guild that this event concerns.
+    hikari.snowflakes.Snowflake
+        The ID of the guild.
     """
 
-    message_ids: typing.Sequence[snowflake.Snowflake] = attr.ib()
-    """Sequence of message IDs that were bulk deleted.
+    is_bulk: bool = attr.ib()
+    # <<inherited docstring from MessageDeleteEvent>>
 
-    Returns
-    -------
-    typing.Sequence[hikari.utilities.snowflake.Snowflake]
-        A sequence of message IDs that were bulk deleted.
+    message_ids: typing.AbstractSet[snowflakes.Snowflake] = attr.ib()
+    # <<inherited docstring from MessageDeleteEvent>>
+
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>
+
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached guild this event corresponds to, if known.
+
+        !!! note
+            You will need `hikari.intents.Intents.GUILDS` enabled to receive this
+            information.
+
+        Returns
+        -------
+        hikari.guilds.GatewayGuild
+            The gateway guild that this event corresponds to, if known and
+            cached.
+        """
+        return self.app.cache.get_guild(self.guild_id)
+
+
+@attr_extensions.with_copy
+@attr.s(kw_only=True, slots=True, weakref_slot=False)
+@base_events.requires_intents(intents.Intents.DM_MESSAGES)
+class DMMessageDeleteEvent(MessageDeleteEvent):
+    """Event that is triggered if messages are deleted in a DM.
+
+    !!! note
+        Due to Discord limitations, most message information is unavailable
+        during deletion events.
+
+    This is triggered for singular message deletion, and bulk message
+    deletion, although the latter is not expected to occur in DMs.
+
+    You can check if the message was in a singular deletion by checking the
+    `is_bulk` attribute.
     """
+
+    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>
+
+    channel_id: snowflakes.Snowflake = attr.ib()
+    # <<inherited docstring from MessageEvent>>
+
+    is_bulk: bool = attr.ib()
+    # <<inherited docstring from MessageDeleteEvent>>
+
+    message_ids: typing.AbstractSet[snowflakes.Snowflake] = attr.ib()
+    # <<inherited docstring from MessageDeleteEvent>>
+
+    shard: shard_.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from ShardEvent>>

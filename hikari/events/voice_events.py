@@ -23,7 +23,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "VoiceEvent",
     "VoiceStateUpdateEvent",
     "VoiceServerUpdateEvent",
@@ -34,16 +34,16 @@ import typing
 
 import attr
 
+from hikari import intents
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
+    from hikari import snowflakes
     from hikari import traits
+    from hikari import voices
     from hikari.api import shard as gateway_shard
-    from hikari.models import voices
-    from hikari.utilities import snowflake
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
@@ -52,12 +52,12 @@ class VoiceEvent(shard_events.ShardEvent, abc.ABC):
 
     @property
     @abc.abstractmethod
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         """ID of the guild this event is for.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The guild ID of the guild this event relates to.
         """
 
@@ -85,12 +85,12 @@ class VoiceStateUpdateEvent(VoiceEvent):
 
     Returns
     -------
-    hikari.models.voices.VoiceState
+    hikari.voices.VoiceState
         The voice state that was updated.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from VoiceEvent>>
         return self.state.guild_id
 
@@ -110,7 +110,7 @@ class VoiceServerUpdateEvent(VoiceEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib(repr=True)
+    guild_id: snowflakes.Snowflake = attr.ib(repr=True)
     # <<inherited docstring from VoiceEvent>>
 
     token: str = attr.ib(repr=False)
@@ -123,26 +123,26 @@ class VoiceServerUpdateEvent(VoiceEvent):
     """
 
     raw_endpoint: str = attr.ib(repr=True)
-    """Raw endpoint URL that Discord sent.
+    """Raw endpoint URI that Discord sent.
 
-    This will always be incorrect, because sending a correct URL would be too
-    useful to you.
+    !!! warning
+        This will not contain the scheme to use. Use the `endpoint` property
+        to get a representation that has this prepended.
 
     Returns
     -------
     builtins.str
-        The incorrect endpoint URL for the voice gateway server to connect to.
+        A scheme-less endpoint URI for the endpoint to use for a new voice
+        websocket.
     """
 
     @property
     def endpoint(self) -> str:
-        """URI for this voice server host, with the correct port and protocol.
+        """URI for this voice server host, with the correct scheme prepended.
 
         Returns
         -------
         builtins.str
             The URI to use to connect to the voice gateway.
         """
-        # Discord have had this wrong for like 4 years, bleh.
-        uri, _, _ = self.raw_endpoint.rpartition(":")
-        return f"wss://{uri}:443"
+        return f"wss://{self.raw_endpoint}"

@@ -22,12 +22,12 @@
 import mock
 import pytest
 
+from hikari import guilds
 from hikari.events import reaction_events
-from hikari.models import guilds
 
 
 class TestGuildReactionAddEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return reaction_events.GuildReactionAddEvent(
             app=None, shard=object(), member=mock.MagicMock(guilds.Member), channel_id=123, message_id=456, emoji="👌"

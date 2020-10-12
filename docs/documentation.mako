@@ -28,8 +28,9 @@
             # Ignore not being able to fetch inventory when not on CI
             if "CI" not in os.environ:
                 print(f"Not able to prefetch {i}. Will continue without it")
-            else:
-                raise ex from None
+                continue
+
+            raise
 
     located_external_refs = {}
     unlocatable_external_refs = set()
@@ -97,6 +98,9 @@
     import pdoc
 
     from pdoc.html_helpers import extract_toc, glimpse, to_html as _to_html, format_git_link
+
+    # Hikari Enum hack
+    from hikari.internal import enums
 
     # Allow imports to resolve properly.
     typing.TYPE_CHECKING = True
@@ -222,6 +226,11 @@
                     url = get_url_for_object_from_imports(phrase, ident)
 
                     if url is None:
+                        module_part = module.find_ident(phrase.split('.')[0])
+                        if not isinstance(module_part, pdoc.External):
+                            print(f"Code reference `{phrase}` in module '{module.refname}' does not match any documented object.")
+                            print("Type", module_part.__class__, module_part)
+
                         bits = ident.name.split(".")[:-1]
 
                         while bits:
@@ -320,17 +329,17 @@
                 if hasattr(dobj.cls, "obj"):
                     for cls in dobj.cls.obj.mro():
                         if (descriptor := cls.__dict__.get(dobj.name)) is not None:
-                            is_descriptor = True
+                            is_descriptor = hasattr(descriptor, "__get__")
                             break
 
-                if is_descriptor:
+                if all(not c.isalpha() or c.isupper() for c in dobj.name):
+                    prefix = f"<small class='text-muted'><em>{prefix}{QUAL_CONST}</em></small> "
+                elif is_descriptor:
                     qual = QUAL_CACHED_PROPERTY if isinstance(descriptor, functools.cached_property) else QUAL_PROPERTY
                     prefix = f"<small class='text-muted'><em>{prefix}{qual}</em></small> "
                 elif dobj.module.name == "typing" or dobj.docstring and dobj.docstring.casefold().startswith(("type hint", "typehint", "type alias")):
                     show_object = not simple_names
                     prefix = f"<small class='text-muted'><em>{prefix}{QUAL_TYPEHINT} </em></small> "
-                elif all(not c.isalpha() or c.isupper() for c in dobj.name):
-                    prefix = f"<small class='text-muted'><em>{prefix}{QUAL_CONST}</em></small> "
                 else:
                     prefix = f"<small class='text-muted'><em>{prefix}{QUAL_VAR}</em></small> "
 
@@ -342,9 +351,9 @@
                 elif issubclass(dobj.obj, type):
                     qual += QUAL_METACLASS
                 else:
-                    if enum.Flag in dobj.obj.mro():
+                    if enums.Flag in dobj.obj.mro() or enum.Flag in dobj.obj.mro():
                         qual += QUAL_ENUM_FLAG
-                    elif enum.Enum in dobj.obj.mro():
+                    elif enums.Enum in dobj.obj.mro() or enum.Enum in dobj.obj.mro():
                         qual += QUAL_ENUM
                     elif hasattr(dobj.obj, "__attrs_attrs__"):
                         qual += QUAL_DATACLASS
@@ -396,10 +405,6 @@
             extra = f" = {dobj.obj}"
 
         classes = []
-        if dotted:
-            classes.append("dotted")
-        if css_classes:
-            classes.append(css_classes)
         class_str = " ".join(classes)
 
         if class_str.strip():
@@ -491,6 +496,8 @@
             if hasattr(parent, "__annotations__") and v.name in parent.__annotations__:
                 return_type = get_annotation(lambda *_, **__: parent.__annotations__[v.name])
 
+            return_type = re.sub(r'[\w\.]+', functools.partial(_fixed_linkify, link=link, module=v.module), return_type)
+
         value = None
         if v.cls is not None:
             try:
@@ -513,7 +520,17 @@
                 print(v.name, type(ex).__name__, ex)
 
         if value:
-            return_type += f" = {value}"
+            for enum_mapping in ("_value2member_map_", "_value_to_member_map_"):
+                if mapping := getattr(v.cls.obj, enum_mapping, None):
+                    try:
+                        real_value = getattr(v.cls.obj, v.name)
+                        if real_value in mapping.values():
+                            return_type += f" = {real_value.value!r}"
+                            break
+                    except AttributeError:
+                        pass
+            else:
+                return_type += f" = {value}"
 
         if hasattr(parent, "mro"):
             name = f"{parent.__module__}.{parent.__qualname__}.{v.name}"
@@ -542,6 +559,7 @@
         params = f.params(annotate=show_type_annotations, link=link)
         return_type = get_annotation(f.return_annotation, '->')
         qual = QUAL_ASYNC_DEF if f._is_async else QUAL_DEF
+        anchored_name = f'<a title="{f.name}" href="{get_url_to_object_maybe_module(f)}" id="{f.refname}">{f.name}</a>'
 
         example_str = qual + f.name + "(" + ", ".join(params) + ")" + return_type
 
@@ -550,15 +568,15 @@
 
         if len(params) > 4 or len(params) > 0 and len(example_str) > 70:
             representation = "\n".join((
-                qual + " " + f.name + "(",
+                qual + " " + anchored_name + "(",
                 *(f"    {p}," for p in params),
                 ")" + return_type + ": ..."
             ))
 
         elif params:
-            representation = f"{qual} {f.name}({', '.join(params)}){return_type}: ..."
+            representation = f"{qual} {anchored_name}({', '.join(params)}){return_type}: ..."
         else:
-            representation = f"{qual} {f.name}(){return_type}: ..."
+            representation = f"{qual} {anchored_name}(){return_type}: ..."
 
         if f.module.name != f.obj.__module__:
             try:
@@ -649,25 +667,17 @@
     %>
     <dt>
         % if redirect:
-            <h4 id="${c.refname}"><small class='text-muted'>reference to </small>${link(c, with_prefixes=True, simple_names=True)}</h4>
+            <h4 id="${c.refname}"><small class='text-muted'>reference to </small>${link(c, with_prefixes=True)}</h4>
         % else:
             <h4>${link(c, with_prefixes=True, simple_names=True)}</h4>
         % endif
     </dt>
     <dd>
         % if redirect:
-            <details>
-                <summary>
-                    <span>Expand signature</span>
-                </summary>
-        % endif
-                <pre><code id="${c.refname}" class="hljs python">${representation}</code></pre>
-
-        % if redirect:
-            </details>
-            ${show_desc(c, short=True)}
-            <strong>This class is defined explicitly at ${link(ref, with_prefixes=False, fully_qualified=True)}. Visit that link to view the full documentation!</strong>
+            <small>${show_desc(c, short=True)}</small>
         % else:
+            <pre><code id="${c.refname}" class="hljs python">${representation}</code></pre>
+
             ${show_desc(c)}
             <div class="sep"></div>
             ${show_source(c)}
@@ -709,21 +719,21 @@
                 <div class="sep"></div>
             % endif
 
-            % if methods:
-                <h5>Methods</h5>
-                <dl>
-                    % for m in methods:
-                        ${show_func(m)}
-                    % endfor
-                </dl>
-                <div class="sep"></div>
-            % endif
-
             % if variables:
                 <h5>Variables and properties</h5>
                 <dl>
                     % for i in variables:
                         ${show_var(i)}
+                    % endfor
+                </dl>
+                <div class="sep"></div>
+            % endif
+
+            % if methods:
+                <h5>Methods</h5>
+                <dl>
+                    % for m in methods:
+                        ${show_func(m)}
                     % endfor
                 </dl>
                 <div class="sep"></div>
@@ -834,32 +844,32 @@
                 % endif
 
                 % if classes:
-                    % for c in classes:
-                        ## Purposely using one item per list for layout reasons.
-                        <ul class="list-unstyled text-truncate">
-                            <li class="monospaced">
-                                <%
-                                    if c.module.name != c.obj.__module__:
-                                        try:
-                                            ref = pdoc._global_context[c.obj.__module__ + "." + c.obj.__qualname__]
-                                            redirect = True
-                                        except KeyError:
-                                            redirect = False
-                                    else:
+                    <ul class="list-unstyled text-truncate">
+                        % for c in classes:
+                            <%
+                                if c.module.name != c.obj.__module__:
+                                    try:
+                                        ref = pdoc._global_context[c.obj.__module__ + "." + c.obj.__qualname__]
+                                        redirect = True
+                                    except KeyError:
                                         redirect = False
+                                else:
+                                    redirect = False
 
-                                    members = c.functions(sort=sort_identifiers) + c.methods(sort=sort_identifiers)
+                                members = c.functions(sort=sort_identifiers) + c.methods(sort=sort_identifiers)
 
-                                    if list_class_variables_in_index:
-                                        members += (c.instance_variables(sort=sort_identifiers) + c.class_variables(sort=sort_identifiers))
+                                if list_class_variables_in_index:
+                                    members += (c.instance_variables(sort=sort_identifiers) + c.class_variables(sort=sort_identifiers))
 
-                                    if not show_inherited_members:
-                                        members = [i for i in members if not i.inherits]
+                                if not show_inherited_members:
+                                    members = [i for i in members if not i.inherits]
 
-                                    if sort_identifiers:
-                                        members = sorted(members)
-                                %>
+                                if sort_identifiers:
+                                    members = sorted(members)
+                            %>
 
+                            ## Purposely using one item per list for layout reasons.
+                            <li class="monospaced">
                                 ${link(c, with_prefixes=True, css_classes="sidebar-nav-pill", dotted=False, simple_names=True)}
 
                                 <ul class="list-unstyled nested text-truncate">
@@ -870,11 +880,11 @@
                                             </li>
                                         % endfor
                                     % endif
+                                    <br />
                                 </ul>
-
                             </li>
-                        </ul>
-                    % endfor
+                        % endfor
+                    </ul>
                 % endif
             <!--</nav>-->
         </div>

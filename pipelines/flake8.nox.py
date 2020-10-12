@@ -18,9 +18,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-import os
-import shutil
-
 from pipelines import config
 from pipelines import nox
 
@@ -28,8 +25,32 @@ from pipelines import nox
 @nox.session(reuse_venv=True)
 def flake8(session: nox.Session) -> None:
     """Run code linting, SAST, and analysis."""
-    session.install("-r", "requirements.txt", "-r", "flake-requirements.txt")
-    shutil.rmtree(config.FLAKE8_TXT, ignore_errors=True)
+    session.install("-r", "requirements.txt", "-r", "dev-requirements.txt", "-r", "flake8-requirements.txt")
     session.run(
-        "flake8", f"--output-file={config.FLAKE8_TXT}", "--statistics", "--show-source", "--tee", config.MAIN_PACKAGE,
+        "flake8",
+        "--statistics",
+        "--show-source",
+        "--benchmark",
+        "--tee",
+        config.MAIN_PACKAGE,
+        config.TEST_PACKAGE,
+        config.EXAMPLE_SCRIPTS,
+    )
+
+
+@nox.session(reuse_venv=True)
+def flake8_html(session: nox.Session) -> None:
+    """Run code linting, SAST, and analysis and generate an HTML report."""
+    session.install("-r", "requirements.txt", "-r", "dev-requirements.txt", "-r", "flake8-requirements.txt")
+    session.run(
+        "flake8",
+        "--format=html",
+        f"--htmldir={config.FLAKE8_REPORT}",
+        "--statistics",
+        "--show-source",
+        "--benchmark",
+        "--tee",
+        config.MAIN_PACKAGE,
+        config.TEST_PACKAGE,
+        config.EXAMPLE_SCRIPTS,
     )

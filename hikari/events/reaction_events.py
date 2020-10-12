@@ -23,10 +23,10 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "ReactionEvent",
     "GuildReactionEvent",
-    "PrivateReactionEvent",
+    "DMReactionEvent",
     "ReactionAddEvent",
     "ReactionDeleteEvent",
     "ReactionDeleteEmojiEvent",
@@ -35,10 +35,10 @@ __all__: typing.Final[typing.List[str]] = [
     "GuildReactionDeleteEvent",
     "GuildReactionDeleteEmojiEvent",
     "GuildReactionDeleteAllEvent",
-    "PrivateReactionAddEvent",
-    "PrivateReactionDeleteEvent",
-    "PrivateReactionDeleteEmojiEvent",
-    "PrivateReactionDeleteAllEvent",
+    "DMReactionAddEvent",
+    "DMReactionDeleteEvent",
+    "DMReactionDeleteEmojiEvent",
+    "DMReactionDeleteAllEvent",
 ]
 
 import abc
@@ -46,43 +46,43 @@ import typing
 
 import attr
 
+from hikari import intents
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
+    from hikari import emojis
+    from hikari import guilds
+    from hikari import snowflakes
     from hikari import traits
     from hikari.api import shard as gateway_shard
-    from hikari.models import emojis
-    from hikari.models import guilds
-    from hikari.utilities import snowflake
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.PRIVATE_MESSAGE_REACTIONS)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.DM_MESSAGE_REACTIONS)
 class ReactionEvent(shard_events.ShardEvent, abc.ABC):
     """Event base for any message reaction event."""
 
     @property
     @abc.abstractmethod
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         """ID of the channel that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the channel that this event concerns.
         """
 
     @property
     @abc.abstractmethod
-    def message_id(self) -> snowflake.Snowflake:
+    def message_id(self) -> snowflakes.Snowflake:
         """ID of the message that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the message that this event concerns.
         """
 
@@ -94,35 +94,35 @@ class GuildReactionEvent(ReactionEvent, abc.ABC):
 
     @property
     @abc.abstractmethod
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         """ID of the guild that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the guild that this event concerns.
         """
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGE_REACTIONS)
-class PrivateReactionEvent(ReactionEvent, abc.ABC):
+@base_events.requires_intents(intents.Intents.DM_MESSAGE_REACTIONS)
+class DMReactionEvent(ReactionEvent, abc.ABC):
     """Event base for any reaction-bound event in private messages."""
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.PRIVATE_MESSAGE_REACTIONS)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.DM_MESSAGE_REACTIONS)
 class ReactionAddEvent(ReactionEvent, abc.ABC):
     """Event base for any reaction that is added to a message."""
 
     @property
     @abc.abstractmethod
-    def user_id(self) -> snowflake.Snowflake:
+    def user_id(self) -> snowflakes.Snowflake:
         """ID of the user that added this reaction.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the user that added this reaction.
         """
 
@@ -133,25 +133,25 @@ class ReactionAddEvent(ReactionEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.emojis.Emoji
-            The `hikari.models.emojis.UnicodeEmoji` or
-            `hikari.models.emojis.CustomEmoji` that was added to the message.
+        hikari.emojis.Emoji
+            The `hikari.emojis.UnicodeEmoji` or
+            `hikari.emojis.CustomEmoji` that was added to the message.
         """
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.PRIVATE_MESSAGE_REACTIONS)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.DM_MESSAGE_REACTIONS)
 class ReactionDeleteEvent(ReactionEvent, abc.ABC):
     """Event base for any single reaction that is removed from a message."""
 
     @property
     @abc.abstractmethod
-    def user_id(self) -> snowflake.Snowflake:
+    def user_id(self) -> snowflakes.Snowflake:
         """User ID for the user that added this reaction initially.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the user that removed this reaction.
         """
 
@@ -162,21 +162,21 @@ class ReactionDeleteEvent(ReactionEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.emojis.Emoji
-            The `hikari.models.emojis.UnicodeEmoji` or
-            `hikari.models.emojis.CustomEmoji` that was removed from the
+        hikari.emojis.Emoji
+            The `hikari.emojis.UnicodeEmoji` or
+            `hikari.emojis.CustomEmoji` that was removed from the
             message.
         """
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.PRIVATE_MESSAGE_REACTIONS)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.DM_MESSAGE_REACTIONS)
 class ReactionDeleteAllEvent(ReactionEvent, abc.ABC):
     """Event base fired when all reactions are removed from a message."""
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.PRIVATE_MESSAGE_REACTIONS)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_REACTIONS, intents.Intents.DM_MESSAGE_REACTIONS)
 class ReactionDeleteEmojiEvent(ReactionEvent, abc.ABC):
     """Event base fired when all reactions are removed for one emoji."""
 
@@ -187,9 +187,9 @@ class ReactionDeleteEmojiEvent(ReactionEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.emojis.Emoji
-            The `hikari.models.emojis.UnicodeEmoji` or
-            `hikari.models.emojis.CustomEmoji` that was removed from the
+        hikari.emojis.Emoji
+            The `hikari.emojis.UnicodeEmoji` or
+            `hikari.emojis.CustomEmoji` that was removed from the
             message.
         """
 
@@ -211,26 +211,27 @@ class GuildReactionAddEvent(GuildReactionEvent, ReactionAddEvent):
 
     Returns
     -------
-    hikari.models.guilds.Member
+    hikari.guilds.Member
         The member which added this reaction.
     """
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
+
     # <<inherited docstring from ReactionAddEvent>>.
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildReactionEvent>>.
         return self.member.guild_id
 
     @property
-    def user_id(self) -> snowflake.Snowflake:
+    def user_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from ReactionAddEvent>>.
         return self.member.user.id
 
@@ -247,16 +248,16 @@ class GuildReactionDeleteEvent(GuildReactionEvent, ReactionDeleteEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    user_id: snowflake.Snowflake = attr.ib()
+    user_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionAddEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildReactionEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
@@ -275,13 +276,13 @@ class GuildReactionDeleteEmojiEvent(GuildReactionEvent, ReactionDeleteEmojiEvent
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildReactionEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
@@ -300,21 +301,21 @@ class GuildReactionDeleteAllEvent(GuildReactionEvent, ReactionDeleteAllEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildReactionEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
 
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGE_REACTIONS)
-class PrivateReactionAddEvent(PrivateReactionEvent, ReactionAddEvent):
-    """Event fired when a reaction is added to a guild message."""
+@base_events.requires_intents(intents.Intents.DM_MESSAGE_REACTIONS)
+class DMReactionAddEvent(DMReactionEvent, ReactionAddEvent):
+    """Event fired when a reaction is added to a private message."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from Event>>.
@@ -322,13 +323,13 @@ class PrivateReactionAddEvent(PrivateReactionEvent, ReactionAddEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    user_id: snowflake.Snowflake = attr.ib()
+    user_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionAddEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
@@ -337,8 +338,8 @@ class PrivateReactionAddEvent(PrivateReactionEvent, ReactionAddEvent):
 
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGE_REACTIONS)
-class PrivateReactionDeleteEvent(PrivateReactionEvent, ReactionDeleteEvent):
+@base_events.requires_intents(intents.Intents.DM_MESSAGE_REACTIONS)
+class DMReactionDeleteEvent(DMReactionEvent, ReactionDeleteEvent):
     """Event fired when a reaction is removed from a private message."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
@@ -347,13 +348,13 @@ class PrivateReactionDeleteEvent(PrivateReactionEvent, ReactionDeleteEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    user_id: snowflake.Snowflake = attr.ib()
+    user_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionAddEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
@@ -362,8 +363,8 @@ class PrivateReactionDeleteEvent(PrivateReactionEvent, ReactionDeleteEvent):
 
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGE_REACTIONS)
-class PrivateReactionDeleteEmojiEvent(PrivateReactionEvent, ReactionDeleteEmojiEvent):
+@base_events.requires_intents(intents.Intents.DM_MESSAGE_REACTIONS)
+class DMReactionDeleteEmojiEvent(DMReactionEvent, ReactionDeleteEmojiEvent):
     """Event fired when an emoji is removed from a private message's reactions."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
@@ -372,10 +373,10 @@ class PrivateReactionDeleteEmojiEvent(PrivateReactionEvent, ReactionDeleteEmojiE
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
     emoji: emojis.Emoji = attr.ib()
@@ -384,8 +385,8 @@ class PrivateReactionDeleteEmojiEvent(PrivateReactionEvent, ReactionDeleteEmojiE
 
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGE_REACTIONS)
-class PrivateReactionDeleteAllEvent(PrivateReactionEvent, ReactionDeleteAllEvent):
+@base_events.requires_intents(intents.Intents.DM_MESSAGE_REACTIONS)
+class DMReactionDeleteAllEvent(DMReactionEvent, ReactionDeleteAllEvent):
     """Event fired when all of a private message's reactions are removed."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
@@ -394,8 +395,8 @@ class PrivateReactionDeleteAllEvent(PrivateReactionEvent, ReactionDeleteAllEvent
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.
 
-    message_id: snowflake.Snowflake = attr.ib()
+    message_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ReactionEvent>>.

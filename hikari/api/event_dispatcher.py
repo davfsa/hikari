@@ -22,27 +22,26 @@
 """Core interface for components that dispatch events to the library."""
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
-    "EventDispatcher",
-]
+__all__: typing.List[str] = ["EventDispatcher"]
 
 import abc
 import asyncio
 import typing
 
 if typing.TYPE_CHECKING:
+    from hikari import event_stream
     from hikari.events import base_events
 
     EventT_co = typing.TypeVar("EventT_co", bound=base_events.Event, covariant=True)
     EventT_inv = typing.TypeVar("EventT_inv", bound=base_events.Event)
-    PredicateT = typing.Callable[[EventT_co], typing.Union[bool, typing.Coroutine[typing.Any, typing.Any, bool]]]
-    AsyncCallbackT = typing.Callable[[EventT_inv], typing.Coroutine[typing.Any, typing.Any, None]]
+    PredicateT = typing.Callable[[EventT_co], bool]
+    CallbackT = typing.Callable[[EventT_inv], typing.Coroutine[typing.Any, typing.Any, None]]
 
 
 class EventDispatcher(abc.ABC):
     """Base interface for event dispatcher implementations.
 
-    This is a consumer of a `hikari.events.base.Event` object, and is
+    This is a consumer of a `hikari.events.base_events.Event` object, and is
     expected to invoke one or more corresponding event listeners where
     appropriate.
     """
@@ -55,21 +54,21 @@ class EventDispatcher(abc.ABC):
 
         Parameters
         ----------
-        event : hikari.events.base.Event
+        event : hikari.events.base_events.Event
             The event to dispatch.
 
         Example
         -------
         We can dispatch custom events by first defining a class that
-        derives from `hikari.events.base.Event`.
+        derives from `hikari.events.base_events.Event`.
 
         ```py
         import attr
 
         from hikari.traits import RESTAware
         from hikari.events.base_events import Event
-        from hikari.models.users import User
-        from hikari.utilities.snowflake import Snowflake
+        from hikari.users import User
+        from hikari.snowflakes import Snowflake
 
         @attr.s()
         class EveryoneMentionedEvent(Event):
@@ -107,7 +106,7 @@ class EventDispatcher(abc.ABC):
         ```
 
         This event can be listened to elsewhere by subscribing to it with
-        `IEventDispatcherBase.subscribe`.
+        `EventDispatcher.subscribe`.
 
         ```py
         @bot.listen(EveryoneMentionedEvent)
@@ -125,8 +124,9 @@ class EventDispatcher(abc.ABC):
 
         See Also
         --------
-        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
-        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        Subscribe: `hikari.api.event_dispatcher.EventDispatcher.subscribe`
+        Stream: `hikari.api.event_dispatcher.EventDispatcher.stream`
+        Wait for: `hikari.api.event_dispatcher.EventDispatcher.wait_for`
         """
 
     # Yes, this is not generic. The reason for this is MyPy complains about
@@ -134,9 +134,7 @@ class EventDispatcher(abc.ABC):
     # For the sake of UX, I will check this at runtime instead and let the
     # user use a static type checker.
     @abc.abstractmethod
-    def subscribe(
-        self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]
-    ) -> AsyncCallbackT[typing.Any]:
+    def subscribe(self, event_type: typing.Type[typing.Any], callback: CallbackT[typing.Any]) -> CallbackT[typing.Any]:
         """Subscribe a given callback to a given event type.
 
         Parameters
@@ -144,7 +142,7 @@ class EventDispatcher(abc.ABC):
         event_type : typing.Type[T]
             The event type to listen for. This will also listen for any
             subclasses of the given type.
-            `T` must be a subclass of `hikari.events.base.Event`.
+            `T` must be a subclass of `hikari.events.base_events.Event`.
         callback
             Must be a coroutine function to invoke. This should
             consume an instance of the given event, or an instance of a valid
@@ -171,8 +169,9 @@ class EventDispatcher(abc.ABC):
 
         See Also
         --------
-        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
-        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        Listen: `hikari.api.event_dispatcher.EventDispatcher.listen`
+        Stream: `hikari.api.event_dispatcher.EventDispatcher.stream`
+        Wait for: `hikari.api.event_dispatcher.EventDispatcher.wait_for`
         """
 
     # Yes, this is not generic. The reason for this is MyPy complains about
@@ -180,7 +179,7 @@ class EventDispatcher(abc.ABC):
     # For the sake of UX, I will check this at runtime instead and let the
     # user use a static type checker.
     @abc.abstractmethod
-    def unsubscribe(self, event_type: typing.Type[typing.Any], callback: AsyncCallbackT[typing.Any]) -> None:
+    def unsubscribe(self, event_type: typing.Type[typing.Any], callback: CallbackT[typing.Any]) -> None:
         """Unsubscribe a given callback from a given event type, if present.
 
         Parameters
@@ -188,7 +187,7 @@ class EventDispatcher(abc.ABC):
         event_type : typing.Type[T]
             The event type to unsubscribe from. This must be the same exact
             type as was originally subscribed with to be removed correctly.
-            `T` must derive from `hikari.events.base.Event`.
+            `T` must derive from `hikari.events.base_events.Event`.
         callback
             The callback to unsubscribe.
 
@@ -209,20 +208,23 @@ class EventDispatcher(abc.ABC):
 
     @abc.abstractmethod
     def get_listeners(
-        self, event_type: typing.Type[EventT_co], *, polymorphic: bool = True,
-    ) -> typing.Collection[AsyncCallbackT[EventT_co]]:
+        self,
+        event_type: typing.Type[EventT_co],
+        *,
+        polymorphic: bool = True,
+    ) -> typing.Collection[CallbackT[EventT_co]]:
         """Get the listeners for a given event type, if there are any.
 
         Parameters
         ----------
         event_type : typing.Type[T]
             The event type to look for.
-            `T` must be a subclass of `hikari.events.base.Event`.
+            `T` must be a subclass of `hikari.events.base_events.Event`.
         polymorphic : builtins.bool
-            If `builtins.True`, this will return `builtins.True` if a subclass
-            of the given event type has a listener registered. If
-            `builtins.False`, then only listeners for this class specifically
-            are returned. The default is `builtins.True`.
+            If `builtins.True`, this will also return the listeners of the
+            subclasses of the given event type. If `builtins.False`, then
+            only listeners for this class specifically are returned. The
+            default is `builtins.True`.
 
         Returns
         -------
@@ -230,43 +232,111 @@ class EventDispatcher(abc.ABC):
             A copy of the collection of listeners for the event. Will return
             an empty collection if nothing is registered.
 
-            `T` must be a subclass of `hikari.events.base.Event`.
+            `T` must be a subclass of `hikari.events.base_events.Event`.
 
         See Also
         --------
-        Has listener: `hikari.api.event_dispatcher.IEventDispatcherBase.has_listener`
+        Has listener: `hikari.api.event_dispatcher.EventDispatcher.has_listener`
         """
 
     @abc.abstractmethod
     def listen(
-        self, event_type: typing.Optional[typing.Type[EventT_co]] = None,
-    ) -> typing.Callable[[AsyncCallbackT[EventT_co]], AsyncCallbackT[EventT_co]]:
+        self,
+        event_type: typing.Optional[typing.Type[EventT_co]] = None,
+    ) -> typing.Callable[[CallbackT[EventT_co]], CallbackT[EventT_co]]:
         """Generate a decorator to subscribe a callback to an event type.
 
         This is a second-order decorator.
 
         Parameters
         ----------
-        event_type : typing.Type[T] or builtins.None
+        event_type : typing.Optional[typing.Type[T]]
             The event type to subscribe to. The implementation may allow this
             to be undefined. If this is the case, the event type will be inferred
             instead from the type hints on the function signature.
 
-            `T` must be a subclass of `hikari.events.base.Event`.
+            `T` must be a subclass of `hikari.events.base_events.Event`.
 
         Returns
         -------
         typing.Callable[[T], T]
             A decorator for a coroutine function that passes it to
-            `IEventDispatcherBase.subscribe` before returning the function
+            `EventDispatcher.subscribe` before returning the function
             reference.
 
         See Also
         --------
-        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
-        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
-        Unsubscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.unsubscribe`
-        Wait for: `hikari.api.event_dispatcher.IEventDispatcherBase.wait_for`
+        Dispatch: `hikari.api.event_dispatcher.EventDispatcher.dispatch`
+        Stream: `hikari.api.event_dispatcher.EventDispatcher.stream`
+        Subscribe: `hikari.api.event_dispatcher.EventDispatcher.subscribe`
+        Unsubscribe: `hikari.api.event_dispatcher.EventDispatcher.unsubscribe`
+        Wait for: `hikari.api.event_dispatcher.EventDispatcher.wait_for`
+        """
+
+    @abc.abstractmethod
+    def stream(
+        self,
+        event_type: typing.Type[EventT_co],
+        /,
+        timeout: typing.Union[float, int, None],
+        limit: typing.Optional[int] = None,
+    ) -> event_stream.Streamer[EventT_co]:
+        """Return a stream iterator for the given event and sub-events.
+
+        Parameters
+        ----------
+        event_type : typing.Type[hikari.events.base_events.Event]
+            The event type to listen for. This will listen for subclasses of
+            this type additionally.
+        timeout : typing.Optional[builtins.int, builtins.float]
+            How long this streamer should wait for the next event before
+            ending the iteration. If `builtins.None` then this will continue
+            until explicitly broken from.
+        limit : typing.Optional[builtins.int]
+            The limit for how many events this should queue at one time before
+            dropping extra incoming events, leave this as `builtins.None` for
+            the cache size to be unlimited.
+
+        Returns
+        -------
+        hikari.event_stream.Streamer[hikari.events.base_events.Event]
+            The async iterator to handle streamed events. This must be started
+            with `async with stream:` or `await stream.open()` before
+            asynchronously iterating over it.
+
+        !!! warning
+            If you use `await stream.open()` to start the stream then you must
+            also close it with `await stream.close()` otherwise it may queue
+            events in memory indefinitely.
+
+        Examples
+        --------
+
+        ```py
+        async with bot.stream(events.ReactionAddEvent, timeout=30).filter(("message_id", message.id)) as stream:
+            async for user_id in stream.map("user_id").limit(50):
+                ...
+        ```
+
+        or using await `open()` and await `close()`
+
+        ```py
+        stream = bot.stream(events.ReactionAddEvent, timeout=30).filter(("message_id", message.id))
+        await stream.open()
+
+        async for user_id in stream.map("user_id").limit(50)
+            ...
+
+        await stream.close()
+        ```
+
+        See Also
+        --------
+        Dispatch: `hikari.api.event_dispatcher.EventDispatcher.dispatch`
+        Listen: `hikari.api.event_dispatcher.EventDispatcher.listen`
+        Subscribe: `hikari.api.event_dispatcher.EventDispatcher.subscribe`
+        Unsubscribe: `hikari.api.event_dispatcher.EventDispatcher.unsubscribe`
+        Wait for: `hikari.api.event_dispatcher.EventDispatcher.wait_for`
         """
 
     @abc.abstractmethod
@@ -281,16 +351,19 @@ class EventDispatcher(abc.ABC):
 
         Parameters
         ----------
-        event_type : typing.Type[hikari.events.base.Event]
+        event_type : typing.Type[hikari.events.base_events.Event]
             The event type to listen for. This will listen for subclasses of
             this type additionally.
         predicate
-            A function or coroutine taking the event as the single parameter.
+            A function taking the event as the single parameter.
             This should return `builtins.True` if the event is one you want to
             return, or `builtins.False` if the event should not be returned.
             If left as `None` (the default), then the first matching event type
             that the bot receives (or any subtype) will be the one returned.
-        timeout : builtins.float or builtins.int or builtins.None
+
+            !!! warn
+                ASYNC PREDICATES ARE NOT SUPPORTED.
+        timeout : typing.Union[builtins.float, builtins.int, builtins.None]
             The amount of time to wait before raising an `asyncio.TimeoutError`
             and giving up instead. This is measured in seconds. If
             `builtins.None`, then no timeout will be waited for (no timeout can
@@ -299,7 +372,7 @@ class EventDispatcher(abc.ABC):
 
         Returns
         -------
-        hikari.events.base.Event
+        hikari.events.base_events.Event
             The event that was provided.
 
         Raises
@@ -310,7 +383,8 @@ class EventDispatcher(abc.ABC):
 
         See Also
         --------
-        Listen: `hikari.api.event_dispatcher.IEventDispatcherBase.listen`
-        Subscribe: `hikari.api.event_dispatcher.IEventDispatcherBase.subscribe`
-        Dispatch: `hikari.api.event_dispatcher.IEventDispatcherBase.dispatch`
+        Listen: `hikari.api.event_dispatcher.EventDispatcher.listen`
+        Stream: `hikari.api.event_dispatcher.EventDispatcher.stream`
+        Subscribe: `hikari.api.event_dispatcher.EventDispatcher.subscribe`
+        Dispatch: `hikari.api.event_dispatcher.EventDispatcher.dispatch`
         """

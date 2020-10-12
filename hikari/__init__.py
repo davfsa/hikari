@@ -21,18 +21,14 @@
 # SOFTWARE.
 """A sane Python framework for writing modern Discord bots.
 
-To get started, you will want to initialize an instance of `Bot`
-(an alias for `hikari.impl.bot.BotApp`) for writing a bot, or `REST` (an
-alias for `hikari.impl.rest.RESTAppFactoryImpl`) if you only need to use
-the REST API.
+To get started, you will want to initialize an instance of `BotApp`
+for writing a bot, or `RESTApp` if you only need to use the REST API.
 """
 
-# We need these imported explicitly for the __all__ to be visible due to
-# Python's weird import visibility system.
-from hikari import config
-from hikari import errors
-from hikari import events
-from hikari import models
+from __future__ import annotations
+
+import os as _os
+
 from hikari._about import __author__
 from hikari._about import __ci__
 from hikari._about import __copyright__
@@ -43,52 +39,50 @@ from hikari._about import __issue_tracker__
 from hikari._about import __license__
 from hikari._about import __url__
 from hikari._about import __version__
+from hikari.applications import *
+from hikari.audit_logs import *
+from hikari.channels import *
+from hikari.colors import *
+from hikari.colours import *
 from hikari.config import *
+from hikari.embeds import *
+from hikari.emojis import *
 from hikari.errors import *
 from hikari.events import *
-from hikari.impl.bot import BotApp as Bot
-from hikari.impl.rest import RESTApp as REST
-from hikari.models import *
-from hikari.utilities.files import File
-from hikari.utilities.files import LazyByteIteratorish
-from hikari.utilities.files import Pathish
-from hikari.utilities.files import Rawish
-from hikari.utilities.files import Resourceish
-from hikari.utilities.snowflake import SearchableSnowflakeish
-from hikari.utilities.snowflake import SearchableSnowflakeishOr
-from hikari.utilities.snowflake import Snowflake
-from hikari.utilities.snowflake import Snowflakeish
-from hikari.utilities.snowflake import SnowflakeishOr
-from hikari.utilities.snowflake import Unique
-from hikari.utilities.undefined import UNDEFINED
-from hikari.utilities.undefined import UndefinedNoneOr
-from hikari.utilities.undefined import UndefinedOr
+from hikari.files import URL
+from hikari.files import Bytes
+from hikari.files import File
+from hikari.files import LazyByteIteratorish
+from hikari.files import Pathish
+from hikari.files import Rawish
+from hikari.files import Resourceish
+from hikari.guilds import *
+from hikari.impl.bot import BotApp
+from hikari.impl.rest import RESTApp
+from hikari.intents import *
+from hikari.invites import *
+from hikari.iterators import *
+from hikari.messages import *
+from hikari.permissions import *
+from hikari.presences import *
+from hikari.sessions import *
+from hikari.snowflakes import SearchableSnowflakeish
+from hikari.snowflakes import SearchableSnowflakeishOr
+from hikari.snowflakes import Snowflake
+from hikari.snowflakes import Snowflakeish
+from hikari.snowflakes import SnowflakeishOr
+from hikari.snowflakes import Unique
+from hikari.traits import *
+from hikari.undefined import UNDEFINED
+from hikari.undefined import UndefinedNoneOr
+from hikari.undefined import UndefinedOr
+from hikari.undefined import UndefinedType
+from hikari.users import *
+from hikari.voices import *
+from hikari.webhooks import *
 
-_presorted_all = [
-    "File",
-    "Pathish",
-    "Rawish",
-    "LazyByteIteratorish",
-    "Resourceish",
-    "Snowflake",
-    "Snowflakeish",
-    "SnowflakeishOr",
-    "SearchableSnowflakeish",
-    "SearchableSnowflakeishOr",
-    "Unique",
-    "UNDEFINED",
-    "UndefinedOr",
-    "UndefinedNoneOr",
-    *config.__all__,
-    *events.__all__,
-    *errors.__all__,
-    *models.__all__,
-]
+# Only expose this during documentation, as we need it to make anything visible.
+if _os.getenv("PDOC3_GENERATING") == "1":
+    __all__ = [name for name in dir() if not name.startswith("_")]
 
-# This may seem a bit dirty, but I have added an edge case to the documentation
-# logic to *ignore* the sorting member rules for the root `hikari` module
-# (this file) specifically. This way, we can force `Bot` and `RESTClientFactory`
-# to the top of the list.
-__all__ = ["Bot", "REST", *sorted(_presorted_all)]
-
-del _presorted_all
+del _os

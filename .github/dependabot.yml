@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    assignees:
+      - davfsa
+      - FasterSpeeding
+    reviewers:
+      - davfsa
+      - FasterSpeeding
+    rebase-strategy: auto
+    target-branch: master

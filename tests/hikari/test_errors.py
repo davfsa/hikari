@@ -24,11 +24,17 @@ import http
 import pytest
 
 from hikari import errors
-from hikari.models import intents
+from hikari import intents
+
+
+class TestShardCloseCode:
+    @pytest.mark.parametrize(("code", "expected"), [(1000, True), (1001, True), (4000, False), (4014, False)])
+    def test_is_standard_property(self, code, expected):
+        assert errors.ShardCloseCode(code).is_standard is expected
 
 
 class TestGatewayError:
-    @pytest.fixture
+    @pytest.fixture()
     def error(self):
         return errors.GatewayError("some reason")
 
@@ -36,17 +42,8 @@ class TestGatewayError:
         assert str(error) == "some reason"
 
 
-class TestGatewayClientClosedError:
-    @pytest.fixture
-    def error(self):
-        return errors.GatewayClientClosedError("some reason")
-
-    def test_str(self, error):
-        assert str(error) == "some reason"
-
-
 class TestGatewayServerClosedConnectionError:
-    @pytest.fixture
+    @pytest.fixture()
     def error(self):
         return errors.GatewayServerClosedConnectionError("some reason", 123)
 
@@ -55,20 +52,25 @@ class TestGatewayServerClosedConnectionError:
 
 
 class TestHTTPResponseError:
-    @pytest.fixture
+    @pytest.fixture()
     def error(self):
         return errors.HTTPResponseError("https://some.url", http.HTTPStatus.BAD_REQUEST, {}, "raw body")
 
     def test_str(self, error):
-        assert str(error) == "Bad Request 400: raw body for https://some.url"
+        assert str(error) == "Bad Request 400: 'raw body' for https://some.url"
 
     def test_str_when_status_is_not_HTTPStatus(self, error):
         error.status = "SOME STATUS"
-        assert str(error) == "Some Status: raw body for https://some.url"
+        assert str(error) == "Some Status: 'raw body' for https://some.url"
+
+    def test_str_when_message_is_not_None(self, error):
+        error.status = "SOME STATUS"
+        error.message = "Some message"
+        assert str(error) == "Some Status: 'Some message' for https://some.url"
 
 
 class TestBulkDeleteError:
-    @pytest.fixture
+    @pytest.fixture()
     def error(self):
         return errors.BulkDeleteError(range(10), range(10))
 
@@ -77,9 +79,9 @@ class TestBulkDeleteError:
 
 
 class TestMissingIntentError:
-    @pytest.fixture
+    @pytest.fixture()
     def error(self):
         return errors.MissingIntentError(intents.Intents.GUILD_BANS | intents.Intents.GUILD_EMOJIS)
 
     def test_str(self, error):
-        assert str(error) == "You are missing the following intent(s): GUILD_BANS | GUILD_EMOJIS"
+        assert str(error) == "You are missing the following intent(s): GUILD_BANS, GUILD_EMOJIS"

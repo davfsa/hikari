@@ -22,8 +22,8 @@ import asyncio
 import contextlib
 import logging
 import math
-import queue
 import statistics
+import sys
 import threading
 import time
 
@@ -47,7 +47,7 @@ class TestBaseRateLimiter:
 
 
 class TestBurstRateLimiter:
-    @pytest.fixture
+    @pytest.fixture()
     def mock_burst_limiter(self):
         class Impl(rate_limits.BurstRateLimiter):
             def acquire(self, *args, **kwargs) -> asyncio.Future:
@@ -82,9 +82,11 @@ class TestBurstRateLimiter:
         assert True, "passed successfully"
 
     def test_close_cancels_throttle_task_if_running(self, event_loop, mock_burst_limiter):
-        mock_burst_limiter.throttle_task = event_loop.create_future()
+        task = event_loop.create_future()
+        mock_burst_limiter.throttle_task = task
         mock_burst_limiter.close()
-        assert mock_burst_limiter.throttle_task.cancelled(), "throttle_task is not cancelled"
+        assert mock_burst_limiter.throttle_task is None, "task was not overwritten with None"
+        assert task.cancelled(), "throttle_task is not cancelled"
 
     def test_close_when_closed(self, mock_burst_limiter):
         # Double-running shouldn't do anything adverse.
@@ -128,7 +130,7 @@ class TestManualRateLimiter:
 
     @pytest.mark.asyncio
     async def test_lock_schedules_throttle(self):
-        with hikari_test_helpers.unslot_class(rate_limits.ManualRateLimiter)() as limiter:
+        with hikari_test_helpers.mock_class_namespace(rate_limits.ManualRateLimiter, slots_=False)() as limiter:
             limiter.unlock_later = mock.AsyncMock()
             limiter.throttle(0)
             await limiter.throttle_task
@@ -158,7 +160,7 @@ class TestManualRateLimiter:
                 popped_at.append(time.perf_counter())
                 return event_loop.create_future()
 
-        with hikari_test_helpers.unslot_class(rate_limits.ManualRateLimiter)() as limiter:
+        with hikari_test_helpers.mock_class_namespace(rate_limits.ManualRateLimiter, slots_=False)() as limiter:
             with mock.patch("asyncio.sleep", wraps=mock_sleep):
                 limiter.queue = MockList()
 
@@ -178,9 +180,11 @@ class TestManualRateLimiter:
 
 
 class TestWindowedBurstRateLimiter:
-    @pytest.fixture
+    @pytest.fixture()
     def ratelimiter(self):
-        inst = hikari_test_helpers.unslot_class(rate_limits.WindowedBurstRateLimiter)(__name__, 3, 3)
+        inst = hikari_test_helpers.mock_class_namespace(rate_limits.WindowedBurstRateLimiter, slots_=False)(
+            __name__, 3, 3
+        )
         yield inst
         with contextlib.suppress(Exception):
             inst.close()
@@ -279,13 +283,24 @@ class TestWindowedBurstRateLimiter:
             assert future.done(), f"future {i} was incomplete!"
 
     @pytest.mark.asyncio
-    @hikari_test_helpers.timeout(10)
+    @hikari_test_helpers.timeout(20)
+    @hikari_test_helpers.retry(5)
     async def test_throttle_when_limited_sleeps_then_bursts_repeatedly(self, event_loop):
         # Schedule concurrently but do not break our timeout.
+        # We should retry a few times, as CI runners may run too slowly if
+        # under load. As much as we try, this will always be time-relative,
+        # which is not a good test, but too much mocking is needed to obfuscate
+        # out that detail.
+        # TODO: find a better way of doing this?
         await event_loop.run_in_executor(None, self._run_test_throttle_logic)
 
     def _run_test_throttle_logic(self):
-        threads = [threading.Thread(target=self._run_test_throttle_logic_on_this_thread,) for _ in range(20)]
+        threads = [
+            threading.Thread(
+                target=self._run_test_throttle_logic_on_this_thread,
+            )
+            for _ in range(20)
+        ]
 
         for thread in threads:
             thread.start()
@@ -330,7 +345,8 @@ class TestWindowedBurstRateLimiter:
             len(completion_times) == total_requests
         ), f"expected {total_requests} completions but got {len(completion_times)}"
 
-        windows = [completion_times[i : i + limit] for i in range(0, total_requests, limit)]
+        # E203 - Whitespace before ":". Black reformats it
+        windows = [completion_times[i : i + limit] for i in range(0, total_requests, limit)]  # noqa: E203
 
         for i, window in enumerate(windows):
             logger.info("window %s %s", i, window)
@@ -363,12 +379,16 @@ class TestWindowedBurstRateLimiter:
         assert rl.throttle_task is None
 
     def test_get_time_until_reset_if_not_rate_limited(self):
-        with hikari_test_helpers.unslot_class(rate_limits.WindowedBurstRateLimiter)(__name__, 0.01, 1) as rl:
+        with hikari_test_helpers.mock_class_namespace(rate_limits.WindowedBurstRateLimiter, slots_=False)(
+            __name__, 0.01, 1
+        ) as rl:
             rl.is_rate_limited = mock.Mock(return_value=False)
             assert rl.get_time_until_reset(420) == 0.0
 
     def test_get_time_until_reset_if_rate_limited(self):
-        with hikari_test_helpers.unslot_class(rate_limits.WindowedBurstRateLimiter)(__name__, 0.01, 1) as rl:
+        with hikari_test_helpers.mock_class_namespace(rate_limits.WindowedBurstRateLimiter, slots_=False)(
+            __name__, 0.01, 1
+        ) as rl:
             rl.is_rate_limited = mock.Mock(return_value=True)
             rl.reset_at = 420.4
             assert rl.get_time_until_reset(69.8) == 420.4 - 69.8
@@ -394,13 +414,40 @@ class TestWindowedBurstRateLimiter:
 
 
 class TestExponentialBackOff:
+    def test___init___raises_on_too_large_int_base(self):
+        base = int(sys.float_info.max) + int(sys.float_info.max * 1 / 100)
+        with pytest.raises(ValueError, match="int too large to be represented as a float"):
+            rate_limits.ExponentialBackOff(base=base)
+
+    def test___init___raises_on_too_large_int_maximum(self):
+        maximum = int(sys.float_info.max) + int(sys.float_info.max * 1 / 200)
+        with pytest.raises(ValueError, match="int too large to be represented as a float"):
+            rate_limits.ExponentialBackOff(maximum=maximum)
+
+    def test___init___raises_on_too_large_int_jitter_multiplier(self):
+        jitter_multiplier = int(sys.float_info.max) + int(sys.float_info.max * 1 / 300)
+        with pytest.raises(ValueError, match="int too large to be represented as a float"):
+            rate_limits.ExponentialBackOff(jitter_multiplier=jitter_multiplier)
+
+    def test___init___raises_on_not_finite_base(self):
+        with pytest.raises(ValueError, match="base must be a finite number"):
+            rate_limits.ExponentialBackOff(base=float("inf"))
+
+    def test___init___raises_on_not_finite_maximum(self):
+        with pytest.raises(ValueError, match="maximum must be a finite number"):
+            rate_limits.ExponentialBackOff(maximum=float("nan"))
+
+    def test___init___raises_on_not_finite_jitter_multiplier(self):
+        with pytest.raises(ValueError, match="jitter_multiplier must be a finite number"):
+            rate_limits.ExponentialBackOff(jitter_multiplier=float("inf"))
+
     def test_reset(self):
         eb = rate_limits.ExponentialBackOff()
         eb.increment = 10
         eb.reset()
         assert eb.increment == 0
 
-    @pytest.mark.parametrize(["iteration", "backoff"], enumerate((1, 2, 4, 8, 16, 32)))
+    @pytest.mark.parametrize(("iteration", "backoff"), enumerate((1, 2, 4, 8, 16, 32)))
     def test_increment_linear(self, iteration, backoff):
         eb = rate_limits.ExponentialBackOff(2, 64, 0)
 
@@ -409,6 +456,14 @@ class TestExponentialBackOff:
 
         assert next(eb) == backoff
 
+    def test_increment_raises_on_numerical_limitation(self):
+        power = math.log(sys.float_info.max, 5) + 0.5
+        eb = rate_limits.ExponentialBackOff(
+            base=5, maximum=sys.float_info.max, jitter_multiplier=0.0, initial_increment=power
+        )
+
+        assert next(eb) == sys.float_info.max
+
     def test_increment_maximum(self):
         max_bound = 64
         eb = rate_limits.ExponentialBackOff(2, max_bound, 0)
@@ -416,13 +471,18 @@ class TestExponentialBackOff:
         for _ in range(iterations):
             next(eb)
 
-        try:
-            next(eb)
-            assert False, ":("
-        except asyncio.TimeoutError:
-            assert True
+        assert next(eb) == max_bound
 
-    @pytest.mark.parametrize(["iteration", "backoff"], enumerate((1, 2, 4, 8, 16, 32)))
+    def test_increment_does_not_increment_when_on_maximum(self):
+        eb = rate_limits.ExponentialBackOff(2, 32, initial_increment=5, jitter_multiplier=0)
+
+        assert eb.increment == 5
+
+        assert next(eb) == 32
+
+        assert eb.increment == 5
+
+    @pytest.mark.parametrize(("iteration", "backoff"), enumerate((1, 2, 4, 8, 16, 32)))
     def test_increment_jitter(self, iteration, backoff):
         abs_tol = 1
         eb = rate_limits.ExponentialBackOff(2, 64, abs_tol)

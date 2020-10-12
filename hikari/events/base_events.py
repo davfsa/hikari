@@ -22,7 +22,7 @@
 """Base types and functions for events in Hikari."""
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "Event",
     "ExceptionEvent",
     "is_no_recursive_throw_event",
@@ -37,14 +37,13 @@ import typing
 
 import attr
 
+from hikari import intents
 from hikari import traits
 from hikari.api import shard as gateway_shard
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     import types
-
 
 T = typing.TypeVar("T")
 REQUIRED_INTENTS_ATTR: typing.Final[str] = "___requiresintents___"
@@ -77,11 +76,11 @@ def get_required_intents_for(event_type: typing.Type[Event]) -> typing.Collectio
 
     Returns
     -------
-    typing.Collection[hikari.models.intents.Intents]
+    typing.Collection[hikari.intents.Intents]
         Collection of acceptable subset combinations of intent needed to
         be able to receive the given event type.
     """
-    return typing.cast(typing.Collection[typing.Any], getattr(event_type, REQUIRED_INTENTS_ATTR, ()))
+    return typing.cast("typing.Collection[typing.Any]", getattr(event_type, REQUIRED_INTENTS_ATTR, ()))
 
 
 def requires_intents(first: intents.Intents, *rest: intents.Intents) -> typing.Callable[[T], T]:
@@ -89,10 +88,10 @@ def requires_intents(first: intents.Intents, *rest: intents.Intents) -> typing.C
 
     Parameters
     ----------
-    first : hikari.models.intents.Intents
+    first : hikari.intents.Intents
         First combination of intents that are acceptable in order to receive
         the decorated event type.
-    *rest : hikari.models.intents.Intents
+    *rest : hikari.intents.Intents
         Zero or more additional combinations of intents to require for this
         event to be subscribed to.
     """
@@ -141,7 +140,7 @@ def no_recursive_throw() -> typing.Callable[[typing.Type[T]], typing.Type[T]]:
 
 def is_no_recursive_throw_event(obj: typing.Union[T, typing.Type[T]]) -> bool:
     """Return True if this event is marked as `___norecursivethrow___`."""
-    return typing.cast(bool, getattr(obj, NO_RECURSIVE_THROW_ATTR, False))
+    return typing.cast("bool", getattr(obj, NO_RECURSIVE_THROW_ATTR, False))
 
 
 FailedEventT = typing.TypeVar("FailedEventT", bound=Event)
@@ -160,21 +159,6 @@ class ExceptionEvent(Event, typing.Generic[FailedEventT]):
         This prevents event handlers interfering with critical exceptions
         such as `KeyboardError` which would have potentially undesired
         side-effects on the application runtime.
-    """
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: typing.Optional[gateway_shard.GatewayShard] = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    """Shard that received the event.
-
-    Returns
-    -------
-    hikari.api.shard.GatewayShard
-        Shard that raised this exception.
-
-        This may be `builtins.None` if no specific shard was the cause of this
-        exception (e.g. when starting up or shutting down).
     """
 
     exception: Exception = attr.ib()
@@ -202,6 +186,28 @@ class ExceptionEvent(Event, typing.Generic[FailedEventT]):
     _failed_callback: FailedCallbackT[FailedEventT] = attr.ib()
 
     @property
+    def app(self) -> traits.RESTAware:
+        # <<inherited docstring from Event>>.
+        return self.failed_event.app
+
+    @property
+    def shard(self) -> typing.Optional[gateway_shard.GatewayShard]:
+        """Shard that received the event, if there was one associated.
+
+        Returns
+        -------
+        typing.Optional[hikari.api.shard.GatewayShard]
+            Shard that raised this exception.
+
+            This may be `builtins.None` if no specific shard was the cause of this
+            exception (e.g. when starting up or shutting down).
+        """
+        shard = getattr(self.failed_event, "shard", None)
+        if isinstance(shard, gateway_shard.GatewayShard):
+            return shard
+        return None
+
+    @property
     def failed_callback(self) -> FailedCallbackT[FailedEventT]:
         """Event callback that threw an exception.
 
@@ -218,7 +224,7 @@ class ExceptionEvent(Event, typing.Generic[FailedEventT]):
 
         Returns
         -------
-        builtins.tuple[typing.Type[Exception], Exception, types.TracebackType or builtins.None]
+        builtins.tuple[typing.Type[Exception], Exception, typing.Optional[types.TracebackType]]
             The `sys.exc_info`-compatible tuple of the exception type, the
             exception instance, and the traceback of the exception.
         """

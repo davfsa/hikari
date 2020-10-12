@@ -23,7 +23,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["EventFactory"]
+__all__: typing.List[str] = ["EventFactory"]
 
 import typing
 
@@ -39,7 +39,7 @@ if typing.TYPE_CHECKING:
     from hikari.events import typing_events
     from hikari.events import user_events
     from hikari.events import voice_events
-    from hikari.utilities import data_binding
+    from hikari.internal import data_binding
 
 
 class EventFactory(typing.Protocol):
@@ -60,7 +60,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -78,7 +78,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -96,7 +96,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -114,7 +114,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -132,7 +132,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -150,7 +150,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -168,7 +168,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -186,7 +186,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -208,7 +208,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -226,7 +226,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -244,7 +244,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -262,7 +262,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -280,7 +280,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -298,7 +298,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -316,12 +316,12 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
         -------
-        hikari.events.guild_events.EmojiUpdateEvent
+        hikari.events.guild_events.EmojisUpdateEvent
             The parsed guild emojis update event object.
         """
 
@@ -334,7 +334,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -352,7 +352,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -370,7 +370,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -388,7 +388,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -406,7 +406,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -424,7 +424,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -442,7 +442,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -460,7 +460,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -482,7 +482,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -500,7 +500,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -518,7 +518,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -529,20 +529,25 @@ class EventFactory(typing.Protocol):
 
     def deserialize_message_delete_bulk_event(
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
-    ) -> message_events.MessageBulkDeleteEvent:
+    ) -> message_events.MessageDeleteEvent:
         """Parse a raw payload from Discord into a message delete bulk event object.
 
         Parameters
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
         -------
-        hikari.events.message_events.MessageBulkDeleteEvent
+        hikari.events.message_events.MessageDeleteEvent
             The parsed message delete bulk event object.
+
+        Raises
+        ------
+        builtins.NotImplementedError
+            If a bulk delete occurs in a DM channel.
         """
 
     def deserialize_message_reaction_add_event(
@@ -554,7 +559,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -572,7 +577,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -590,7 +595,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -608,7 +613,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -622,7 +627,9 @@ class EventFactory(typing.Protocol):
     ################
 
     def deserialize_ready_event(
-        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject,
+        self,
+        shard: gateway_shard.GatewayShard,
+        payload: data_binding.JSONObject,
     ) -> shard_events.ShardReadyEvent:
         """Parse a raw payload from Discord into a ready event object.
 
@@ -630,7 +637,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -648,7 +655,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -659,14 +666,14 @@ class EventFactory(typing.Protocol):
 
     def deserialize_guild_member_chunk_event(
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
-    ) -> guild_events.MemberChunkEvent:
+    ) -> shard_events.MemberChunkEvent:
         """Parse a raw payload from Discord into a member chunk event object.
 
         Parameters
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -688,7 +695,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns
@@ -706,7 +713,7 @@ class EventFactory(typing.Protocol):
         ----------
         shard : hikari.api.shard.GatewayShard
             The shard that emitted this event.
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The dict payload to parse.
 
         Returns

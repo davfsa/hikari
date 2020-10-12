@@ -23,7 +23,7 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["StatelessEventManagerImpl"]
+__all__: typing.List[str] = ["StatelessEventManagerImpl"]
 
 import logging
 import typing
@@ -34,7 +34,7 @@ from hikari.impl import event_manager_base
 if typing.TYPE_CHECKING:
 
     from hikari.api import shard as gateway_shard
-    from hikari.utilities import data_binding
+    from hikari.internal import data_binding
 
 _LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari")
 

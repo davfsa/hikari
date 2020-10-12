@@ -18,7 +18,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-"""Py.test integration."""
+"""Pytest integration."""
 import shutil
 
 from pipelines import config
@@ -27,9 +27,6 @@ from pipelines import nox
 FLAGS = [
     "-c",
     config.PYTEST_INI,
-    "-r",
-    "a",
-    "--full-trace",
     "--cov",
     config.MAIN_PACKAGE,
     "--cov-config",
@@ -49,13 +46,24 @@ FLAGS = [
 def pytest(session: nox.Session) -> None:
     """Run unit tests and measure code coverage."""
     session.install("-r", "requirements.txt", "-r", "dev-requirements.txt")
+    _pytest(session)
+
+
+@nox.session(reuse_venv=True)
+def pytest_speedups(session: nox.Session) -> None:
+    """Run unit tests and measure code coverage, using speedup modules."""
+    session.install("-r", "requirements.txt", "-r", "speedup-requirements.txt", "-r", "dev-requirements.txt")
+    _pytest(session, "-OO")
+
+
+def _pytest(session: nox.Session, *py_flags: str) -> None:
     shutil.rmtree(".coverage", ignore_errors=True)
-    session.run("python", "-m", "pytest", *FLAGS, *session.posargs, config.TEST_PACKAGE)
+    session.run("python", *py_flags, "-m", "pytest", *FLAGS, *session.posargs, config.TEST_PACKAGE)
 
 
 @nox.inherit_environment_vars
 @nox.session(reuse_venv=False)
 def coveralls(session: nox.Session) -> None:
     """Run coveralls. This has little effect outside TravisCI."""
-    session.install("python-coveralls")
+    session.install("-U", "python-coveralls")
     session.run("coveralls")

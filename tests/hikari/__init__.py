@@ -34,7 +34,6 @@ class TestingPolicy(asyncio.DefaultEventLoopPolicy):
 
 asyncio.set_event_loop_policy(TestingPolicy())
 
-
 _pytest_parametrize = pytest.mark.parametrize
 
 

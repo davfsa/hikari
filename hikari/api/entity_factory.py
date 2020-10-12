@@ -22,33 +22,33 @@
 """Core interface for an object that serializes/deserializes API objects."""
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["EntityFactory"]
+__all__: typing.List[str] = ["EntityFactory", "GatewayGuildDefinition"]
 
 import abc
 import typing
 
 import attr
 
-from hikari.utilities import attr_extensions
-from hikari.utilities import undefined
+from hikari import undefined
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
-    from hikari.models import applications as application_models
-    from hikari.models import audit_logs as audit_log_models
-    from hikari.models import channels as channel_models
-    from hikari.models import embeds as embed_models
-    from hikari.models import emojis as emoji_models
-    from hikari.models import gateway as gateway_models
-    from hikari.models import guilds as guild_models
-    from hikari.models import invites as invite_models
-    from hikari.models import messages as message_models
-    from hikari.models import presences as presence_models
-    from hikari.models import users as user_models
-    from hikari.models import voices as voice_models
-    from hikari.models import webhooks as webhook_models
-    from hikari.utilities import data_binding
-    from hikari.utilities import files
-    from hikari.utilities import snowflake
+    from hikari import applications as application_models
+    from hikari import audit_logs as audit_log_models
+    from hikari import channels as channel_models
+    from hikari import embeds as embed_models
+    from hikari import emojis as emoji_models
+    from hikari import files
+    from hikari import guilds as guild_models
+    from hikari import invites as invite_models
+    from hikari import messages as message_models
+    from hikari import presences as presence_models
+    from hikari import sessions as gateway_models
+    from hikari import snowflakes
+    from hikari import users as user_models
+    from hikari import voices as voice_models
+    from hikari import webhooks as webhook_models
+    from hikari.internal import data_binding
 
 
 @attr_extensions.with_copy
@@ -59,14 +59,14 @@ class GatewayGuildDefinition:
     guild: guild_models.GatewayGuild = attr.ib()
     """Object of the guild the definition is for."""
 
-    channels: typing.Optional[typing.Mapping[snowflake.Snowflake, channel_models.GuildChannel]] = attr.ib()
+    channels: typing.Optional[typing.Mapping[snowflakes.Snowflake, channel_models.GuildChannel]] = attr.ib()
     """Mapping of channel IDs to the channels that belong to the guild.
 
     Will be `builtins.None` when returned by guild update gateway events rather
     than create.
     """
 
-    members: typing.Optional[typing.Mapping[snowflake.Snowflake, guild_models.Member]] = attr.ib()
+    members: typing.Optional[typing.Mapping[snowflakes.Snowflake, guild_models.Member]] = attr.ib()
     """Mapping of user IDs to the members that belong to the guild.
 
     Will be `builtins.None` when returned by guild update gateway events rather
@@ -76,23 +76,23 @@ class GatewayGuildDefinition:
         This may be a partial mapping of members in the guild.
     """
 
-    presences: typing.Optional[typing.Mapping[snowflake.Snowflake, presence_models.MemberPresence]] = attr.ib()
-    """Mapping of user IDs to the include_presences that are active in the guild.
+    presences: typing.Optional[typing.Mapping[snowflakes.Snowflake, presence_models.MemberPresence]] = attr.ib()
+    """Mapping of user IDs to the presences that are active in the guild.
 
     Will be `builtins.None` when returned by guild update gateway events rather
     than create.
 
     !!! note
-        This may be a partial mapping of include_presences active in the guild.
+        This may be a partial mapping of presences active in the guild.
     """
 
-    roles: typing.Mapping[snowflake.Snowflake, guild_models.Role] = attr.ib()
+    roles: typing.Mapping[snowflakes.Snowflake, guild_models.Role] = attr.ib()
     """Mapping of role IDs to the roles that belong to the guild."""
 
-    emojis: typing.Mapping[snowflake.Snowflake, emoji_models.KnownCustomEmoji] = attr.ib()
+    emojis: typing.Mapping[snowflakes.Snowflake, emoji_models.KnownCustomEmoji] = attr.ib()
     """Mapping of emoji IDs to the emojis that belong to the guild."""
 
-    voice_states: typing.Optional[typing.Mapping[snowflake.Snowflake, voice_models.VoiceState]] = attr.ib()
+    voice_states: typing.Optional[typing.Mapping[snowflakes.Snowflake, voice_models.VoiceState]] = attr.ib()
     """Mapping of user IDs to the voice states that are active in the guild.
 
     !!! note
@@ -115,12 +115,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.applications.OwnConnection
+        hikari.applications.OwnConnection
             The deserialized "own connection" object.
         """
 
@@ -130,12 +130,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.applications.OwnGuild
+        hikari.applications.OwnGuild
             The deserialized "own guild" object.
         """
 
@@ -145,12 +145,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.applications.Application
+        hikari.applications.Application
             The deserialized application object.
         """
 
@@ -164,12 +164,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.audit_logs.AuditLog
+        hikari.audit_logs.AuditLog
             The deserialized audit log object.
         """
 
@@ -178,17 +178,32 @@ class EntityFactory(abc.ABC):
     ##################
 
     @abc.abstractmethod
+    def deserialize_channel_follow(self, payload: data_binding.JSONObject) -> channel_models.ChannelFollow:
+        """Parse a raw payload from Discord into a channel follow object.
+
+        Parameters
+        ----------
+        payload : hikari.internal.data_binding.JSONObject
+            The JSON payload to deserialize.
+
+        Returns
+        -------
+        hikari.channels.ChannelFollow
+            The deserialized channel follow object.
+        """
+
+    @abc.abstractmethod
     def deserialize_permission_overwrite(self, payload: data_binding.JSONObject) -> channel_models.PermissionOverwrite:
         """Parse a raw payload from Discord into a permission overwrite object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.channels.PermissionOverwrite
+        hikari.channels.PermissionOverwrite
             The deserialized permission overwrite object.
         """
 
@@ -198,12 +213,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        overwrite : hikari.models.channels.PermissionOverwrite
+        overwrite : hikari.channels.PermissionOverwrite
             The permission overwrite object to serialize.
 
         Returns
         -------
-        hikari.utilities.data_binding.JSONObject
+        hikari.internal.data_binding.JSONObject
             The serialized representation of the permission overwrite.
         """
 
@@ -213,45 +228,43 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
+        hikari.channels.PartialChannel
             The deserialized "partial channel" object.
         """
 
     @abc.abstractmethod
-    def deserialize_private_text_channel(self, payload: data_binding.JSONObject) -> channel_models.PrivateTextChannel:
+    def deserialize_dm(self, payload: data_binding.JSONObject) -> channel_models.DMChannel:
         """Parse a raw payload from Discord into a DM channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.channels.PrivateTextChannel
+        hikari.channels.DMChannel
             The deserialized DM channel object.
         """
 
     @abc.abstractmethod
-    def deserialize_private_group_text_channel(
-        self, payload: data_binding.JSONObject
-    ) -> channel_models.GroupPrivateTextChannel:
+    def deserialize_group_dm(self, payload: data_binding.JSONObject) -> channel_models.GroupDMChannel:
         """Parse a raw payload from Discord into a group DM channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.channels.GroupPrivateTextChannel
-            The deserialized group private text channel object.
+        hikari.channels.GroupDMChannel
+            The deserialized group DM object.
         """
 
     @abc.abstractmethod
@@ -259,15 +272,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.GuildCategory:
         """Parse a raw payload from Discord into a guild category object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild this channel belongs to. If passed then this
             will be prioritised over `"guild_id"` in the payload.
 
@@ -277,13 +293,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.GuildCategory
+        hikari.channels.GuildCategory
             The deserialized guild category object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
@@ -292,15 +308,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.GuildTextChannel:
         """Parse a raw payload from Discord into a guild text channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild this channel belongs to. If passed then this
             will be prioritised over `"guild_id"` in the payload.
 
@@ -310,13 +329,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.GuildTextChannel
+        hikari.channels.GuildTextChannel
             The deserialized guild text channel object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
@@ -325,15 +344,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.GuildNewsChannel:
         """Parse a raw payload from Discord into a guild news channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.snowflake.Snowflake
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.snowflakes.Snowflake
             The ID of the guild this channel belongs to. If passed then this
             will be prioritised over `"guild_id"` in the payload.
 
@@ -343,13 +365,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.GuildNewsChannel
+        hikari.channels.GuildNewsChannel
             The deserialized guild news channel object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
@@ -358,15 +380,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.GuildStoreChannel:
         """Parse a raw payload from Discord into a guild store channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.snowflake.Snowflake
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.snowflakes.Snowflake
             The ID of the guild this channel belongs to. If passed then this
             will be prioritised over `"guild_id"` in the payload.
 
@@ -376,13 +401,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.GuildStoreChannel
+        hikari.channels.GuildStoreChannel
             The deserialized guild store channel object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
@@ -391,15 +416,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.GuildVoiceChannel:
         """Parse a raw payload from Discord into a guild voice channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.snowflake.Snowflake
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.snowflakes.Snowflake
             The ID of the guild this channel belongs to. If passed then this
             will be prioritised over `"guild_id"` in the payload.
 
@@ -409,13 +437,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.GuildVoiceChannel
+        hikari.channels.GuildVoiceChannel
             The deserialized guild voice channel object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
@@ -424,15 +452,18 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> channel_models.PartialChannel:
         """Parse a raw payload from Discord into a channel object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild this channel belongs to. This will be ignored
             for DM and group DM channels and will be prioritised over
             `"guild_id"` in the payload when passed.
@@ -443,13 +474,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
+        hikari.channels.PartialChannel
             The deserialized partial channel-derived object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload of a guild
             channel.
         """
@@ -464,12 +495,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.embeds.Embed
+        hikari.embeds.Embed
             The deserialized embed object.
         """
 
@@ -481,12 +512,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        embed : hikari.models.embeds.Embed
+        embed : hikari.embeds.Embed
             The embed object to serialize.
 
         Returns
         -------
-        typing.Tuple[hikari.utilities.data_binding.JSONObject, typing.List[hikari.utilities.files.Resource]]
+        typing.Tuple[hikari.internal.data_binding.JSONObject, typing.List[hikari.files.Resource]]
             A tuple with two items in it. The first item will be the serialized
             embed representation. The second item will be a list of resources
             to upload with the embed.
@@ -502,12 +533,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.emojis.UnicodeEmoji
+        hikari.emojis.UnicodeEmoji
             The deserialized unicode emoji object.
         """
 
@@ -517,33 +548,33 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.emojis.CustomEmoji
+        hikari.emojis.CustomEmoji
             The deserialized custom emoji object.
         """
 
     @abc.abstractmethod
     def deserialize_known_custom_emoji(
-        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake
+        self, payload: data_binding.JSONObject, *, guild_id: snowflakes.Snowflake
     ) -> emoji_models.KnownCustomEmoji:
         """Parse a raw payload from Discord into a known custom emoji object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.snowflake.Snowflake
+        guild_id : hikari.snowflakes.Snowflake
             The ID of the guild this emoji belongs to. This is used to ensure
             that the guild a known custom emoji belongs to is remembered by
             allowing for a context based artificial `guild_id` attribute.
 
         Returns
         -------
-        hikari.models.emojis.KnownCustomEmoji
+        hikari.emojis.KnownCustomEmoji
             The deserialized "known custom emoji" object.
         """
 
@@ -555,12 +586,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.emojis.UnicodeEmoji or hikari.models.emojis.CustomEmoji
+        hikari.emojis.UnicodeEmoji or hikari.emojis.CustomEmoji
             The deserialized custom or unicode emoji object.
         """
 
@@ -574,12 +605,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.gateway.GatewayBot
+        hikari.sessions.GatewayBot
             The deserialized gateway bot object.
         """
 
@@ -593,12 +624,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.GuildWidget
+        hikari.guilds.GuildWidget
             The deserialized guild widget object.
         """
 
@@ -608,18 +639,21 @@ class EntityFactory(abc.ABC):
         payload: data_binding.JSONObject,
         *,
         user: undefined.UndefinedOr[user_models.User] = undefined.UNDEFINED,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> guild_models.Member:
         """Parse a raw payload from Discord into a member object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        user : hikari.utilities.undefined.UndefinedOr[hikari.models.users.User]
+
+        Other Parameters
+        ----------------
+        user : hikari.undefined.UndefinedOr[hikari.users.User]
             The user to attach to this member, should only be passed in
             situations where "user" is not included in the payload.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild this member belongs to. If this is specified
             then this will be prioritised over `"guild_id"` in the payload.
 
@@ -630,34 +664,37 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.guilds.Member
+        hikari.guilds.Member
             The deserialized member object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload.
         """
 
     @abc.abstractmethod
     def deserialize_role(
-        self, payload: data_binding.JSONObject, *, guild_id: snowflake.Snowflake,
+        self,
+        payload: data_binding.JSONObject,
+        *,
+        guild_id: snowflakes.Snowflake,
     ) -> guild_models.Role:
         """Parse a raw payload from Discord into a role object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.snowflake.Snowflake
+        guild_id : hikari.snowflakes.Snowflake
             The ID of the guild this role belongs to. This is used to ensure
             that the guild a role belongs to is remembered by allowing for a
             context based artificial `guild_id` attribute.
 
         Returns
         -------
-        hikari.models.guilds.Role
+        hikari.guilds.Role
             The deserialized role object.
         """
 
@@ -667,12 +704,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.PartialIntegration
+        hikari.guilds.PartialIntegration
             The deserialized partial integration object.
         """
 
@@ -682,12 +719,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.Integration
+        hikari.guilds.Integration
             The deserialized integration object.
         """
 
@@ -697,12 +734,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.GuildMemberBan
+        hikari.guilds.GuildMemberBan
             The deserialized guild member ban object.
         """
 
@@ -712,12 +749,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.GuildPreview
+        hikari.guilds.GuildPreview
             The deserialized guild preview object.
         """
 
@@ -727,12 +764,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.guilds.RESTGuild
+        hikari.guilds.RESTGuild
             The deserialized guild object.
         """
 
@@ -742,19 +779,19 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        typing.Tuple[hikari.models.guilds.Guild ...]
+        GatewayGuildDefinition
             The deserialized guild object and the internal collections as
-            maps of `hikari.utilities.snowflake.Snowflake` mapping to
-            `hikari.models.channels.GuildChannel`,
-            `hikari.models.guilds.Member`,
-            `hikari.models.include_presences.MemberPresence`,
-            `hikari.models.guilds.Role`, and
-            `hikari.models.emojis.KnownCustomEmoji`. This is provided in
+            maps of `hikari.snowflakes.Snowflake` mapping to
+            `hikari.channels.GuildChannel`,
+            `hikari.guilds.Member`,
+            `hikari.presences.MemberPresence`,
+            `hikari.guilds.Role`, and
+            `hikari.emojis.KnownCustomEmoji`. This is provided in
             several components to allow separate caching and linking
             between entities in various relational cache implementations
             internally.
@@ -770,12 +807,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.invites.VanityURL
+        hikari.invites.VanityURL
             The deserialized vanity url object.
         """
 
@@ -785,12 +822,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.invites.Invite
+        hikari.invites.Invite
             The deserialized invite object.
         """
 
@@ -800,12 +837,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.invites.InviteWithMetadata
+        hikari.invites.InviteWithMetadata
             The deserialized invite with metadata object.
         """
 
@@ -818,12 +855,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.messages.PartialMessage
+        hikari.messages.PartialMessage
             The deserialized partial message object.
         """
 
@@ -833,12 +870,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.messages.Message
+        hikari.messages.Message
             The deserialized message object.
         """
 
@@ -851,27 +888,30 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
     ) -> presence_models.MemberPresence:
         """Parse a raw payload from Discord into a member presence object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild the presence belongs to. If this is specified
             then it is prioritised over `guild_id` in the payload.
 
         !!! note
             At the time of writing, the only place where `guild_id` will be
-            mandatory is when parsing include_presences sent in a `GUILD_CREATE` event
+            mandatory is when parsing presences sent in a `GUILD_CREATE` event
             from Discord, since the `guild_id` attribute in the payload will
             have been omitted for redundancy.
 
         Returns
         -------
-        hikari.models.presences.MemberPresence
+        hikari.presences.MemberPresence
             The deserialized member presence object.
 
         Raises
@@ -893,12 +933,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.users.User
+        hikari.users.User
             The deserialized user object.
         """
 
@@ -908,12 +948,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.users.OwnUser
+        hikari.users.OwnUser
             The deserialized user object.
         """
 
@@ -926,19 +966,22 @@ class EntityFactory(abc.ABC):
         self,
         payload: data_binding.JSONObject,
         *,
-        guild_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        guild_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
         member: undefined.UndefinedOr[guild_models.Member] = undefined.UNDEFINED,
     ) -> voice_models.VoiceState:
         """Parse a raw payload from Discord into a voice state object.
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
-        guild_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
+
+        Other Parameters
+        ----------------
+        guild_id : hikari.undefined.UndefinedOr[hikari.snowflakes.Snowflake]
             The ID of the guild this voice state belongs to. If this is specified
             then this will be prioritised over `"guild_id"` in the payload.
-        member : hikari.utilities.undefined.UndefinedOr[hikari.models.guilds.Member]
+        member : hikari.undefined.UndefinedOr[hikari.guilds.Member]
             The object of the member this voice state belongs to. If this is
             specified then this will be prioritised over `"member"` in the
             payload.
@@ -951,13 +994,13 @@ class EntityFactory(abc.ABC):
 
         Returns
         -------
-        hikari.models.voices.VoiceState
+        hikari.voices.VoiceState
             The deserialized voice state object.
 
         Raises
         ------
         KeyError
-            If `guild_id` is left as `hikari.utilities.undefined.UNDEFINED` when
+            If `guild_id` is left as `hikari.undefined.UNDEFINED` when
             `"guild_id"` is not present in the passed payload for the payload of
             the voice state.
 
@@ -971,12 +1014,12 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.voices.VoiceRegion
+        hikari.voices.VoiceRegion
             The deserialized voice region object.
         """
 
@@ -990,11 +1033,11 @@ class EntityFactory(abc.ABC):
 
         Parameters
         ----------
-        payload : hikari.utilities.data_binding.JSONObject
+        payload : hikari.internal.data_binding.JSONObject
             The JSON payload to deserialize.
 
         Returns
         -------
-        hikari.models.webhooks.Webhook
+        hikari.webhooks.Webhook
             The deserialized webhook object.
         """

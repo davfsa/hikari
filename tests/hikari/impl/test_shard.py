@@ -21,24 +21,32 @@
 import asyncio
 import contextlib
 import datetime
+import platform
 
-import aiohttp.client_reqrep
+import aiohttp
 import mock
 import pytest
 
+from hikari import _about
 from hikari import config
 from hikari import errors
+from hikari import intents
+from hikari import presences
+from hikari import undefined
 from hikari.impl import shard
-from hikari.models import intents
-from hikari.models import presences
-from hikari.utilities import constants
-from hikari.utilities import date as hikari_date
-from hikari.utilities import snowflake
-from hikari.utilities import undefined
+from hikari.internal import aio
+from hikari.internal import time
 from tests.hikari import client_session_stub
 from tests.hikari import hikari_test_helpers
 
-# TODO: testing all properties
+
+def test_log_filterer():
+    filterer = shard._log_filterer("TOKEN")
+
+    returned = filterer("this log contains the TOKEN and it should get removed and the TOKEN here too")
+    assert returned == (
+        "this log contains the **REDACTED TOKEN** and it should get removed and the **REDACTED TOKEN** here too"
+    )
 
 
 @pytest.fixture()
@@ -51,679 +59,972 @@ def proxy_settings():
     return mock.Mock(spec_set=config.ProxySettings)
 
 
-@pytest.fixture()
-def client_session():
-    stub = client_session_stub.ClientSessionStub()
-    with mock.patch.object(aiohttp, "ClientSession", new=stub):
-        yield stub
+@pytest.mark.asyncio
+class Test_V6GatewayTransport:
+    @pytest.fixture()
+    def transport_impl(self):
+        with mock.patch.object(aiohttp.ClientWebSocketResponse, "__init__"):
+            transport = shard._GatewayTransport()
+            transport.logger = mock.Mock(getEffectiveLevel=mock.Mock(return_value=5))
+            transport.log_filterer = mock.Mock()
+            yield transport
 
+    def test__init__calls_super(self):
+        with mock.patch.object(aiohttp.ClientWebSocketResponse, "__init__") as init:
+            shard._GatewayTransport("arg1", "arg2", some_kwarg="kwarg1")
 
-@pytest.fixture()
-def client(http_settings, proxy_settings):
-    return hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-        url="wss://gateway.discord.gg",
-        token="lol",
-        event_consumer=mock.Mock(),
-        http_settings=http_settings,
-        proxy_settings=proxy_settings,
-    )
+        init.assert_called_once_with("arg1", "arg2", some_kwarg="kwarg1")
 
+    async def test_send_close_when_not_closed_nor_closing_logs(self, transport_impl):
+        transport_impl._closed = False
+        transport_impl._closing = False
+        transport_impl.logger = mock.Mock()
 
-class TestInit:
+        with mock.patch.object(aiohttp.ClientWebSocketResponse, "close") as close:
+            await transport_impl.send_close(code=1234, message=b"some message")
+
+        transport_impl.logger.debug.assert_called_once_with(
+            "sending close frame with code %s and message %s", 1234, b"some message"
+        )
+        close.assert_called_once_with(code=1234, message=b"some message")
+
+    async def test_receive_json(self, transport_impl):
+        transport_impl._receive_and_check = mock.AsyncMock(return_value="{'json_response': null}")
+        transport_impl.log_payload = mock.Mock()
+        mock_loads = mock.Mock(return_value={"json_response": None})
+
+        assert await transport_impl.receive_json(loads=mock_loads, timeout=69) == {"json_response": None}
+
+        transport_impl._receive_and_check.assert_awaited_once_with(69)
+        mock_loads.assert_called_once_with("{'json_response': null}")
+
+    async def test_send_json(self, transport_impl):
+        transport_impl.send_str = mock.AsyncMock()
+        transport_impl.log_payload = mock.Mock()
+        mock_dumps = mock.Mock(return_value="{'json_send': null}")
+
+        await transport_impl.send_json({"json_send": None}, 420, dumps=mock_dumps)
+
+        transport_impl.send_str.assert_awaited_once_with("{'json_send': null}", 420)
+        mock_dumps.assert_called_once_with({"json_send": None})
+
+    class StubResponse:
+        def __init__(
+            self,
+            *,
+            type=None,
+            data=None,
+            extra=None,
+        ):
+            self.type = type
+            self.data = data
+            self.extra = extra
+
     @pytest.mark.parametrize(
-        ["v", "compression", "expect"],
+        "code",
         [
-            (6, None, "v=6&encoding=json"),
-            (6, "payload_zlib_stream", "v=6&encoding=json&compress=zlib-stream"),
-            (7, None, "v=7&encoding=json"),
-            (7, "payload_zlib_stream", "v=7&encoding=json&compress=zlib-stream"),
+            *range(3990, 4000),
+            errors.ShardCloseCode.DECODE_ERROR,
+            errors.ShardCloseCode.INVALID_SEQ,
+            errors.ShardCloseCode.UNKNOWN_ERROR,
+            errors.ShardCloseCode.SESSION_TIMEOUT,
+            errors.ShardCloseCode.RATE_LIMITED,
         ],
     )
-    def test_url_is_correct_json(self, v, compression, expect, http_settings, proxy_settings):
-        g = shard.GatewayShardImpl(
-            event_consumer=mock.Mock(),
-            token=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-            url="wss://gaytewhuy.discord.meh",
-            version=v,
-            data_format="json",
-            compression=compression,
+    async def test__receive_and_check_when_message_type_is_CLOSE_and_should_reconnect(self, code, transport_impl):
+        stub_response = self.StubResponse(type=aiohttp.WSMsgType.CLOSE, extra="some error extra", data=code)
+        transport_impl.receive = mock.AsyncMock(return_value=stub_response)
+        transport_impl.logger = mock.Mock()
+
+        with pytest.raises(errors.GatewayServerClosedConnectionError) as exinfo:
+            await transport_impl._receive_and_check(10)
+
+        exception = exinfo.value
+        assert exception.reason == "some error extra"
+        assert exception.code == int(code)
+        assert exception.can_reconnect is True
+        transport_impl.receive.assert_awaited_once_with(10)
+
+    @pytest.mark.parametrize(
+        "code",
+        [*range(4010, 4020), 5000],
+    )
+    async def test__receive_and_check_when_message_type_is_CLOSE_and_should_not_reconnect(self, code, transport_impl):
+        stub_response = self.StubResponse(type=aiohttp.WSMsgType.CLOSE, extra="dont reconnect", data=code)
+        transport_impl.receive = mock.AsyncMock(return_value=stub_response)
+        transport_impl.logger = mock.Mock()
+
+        with pytest.raises(errors.GatewayServerClosedConnectionError) as exinfo:
+            await transport_impl._receive_and_check(10)
+
+        exception = exinfo.value
+        assert exception.reason == "dont reconnect"
+        assert exception.code == int(code)
+        assert exception.can_reconnect is False
+        transport_impl.receive.assert_awaited_once_with(10)
+
+    async def test__receive_and_check_when_message_type_is_CLOSING(self, transport_impl):
+        stub_response = self.StubResponse(type=aiohttp.WSMsgType.CLOSING)
+        transport_impl.receive = mock.AsyncMock(return_value=stub_response)
+
+        with pytest.raises(errors.GatewayError, match="Socket has closed"):
+            await transport_impl._receive_and_check(10)
+
+        transport_impl.receive.assert_awaited_once_with(10)
+
+    async def test__receive_and_check_when_message_type_is_CLOSED(self, transport_impl):
+        stub_response = self.StubResponse(type=aiohttp.WSMsgType.CLOSED)
+        transport_impl.receive = mock.AsyncMock(return_value=stub_response)
+
+        with pytest.raises(errors.GatewayError, match="Socket has closed"):
+            await transport_impl._receive_and_check(10)
+
+        transport_impl.receive.assert_awaited_once_with(10)
+
+    async def test__receive_and_check_when_message_type_is_BINARY(self, transport_impl):
+        response1 = self.StubResponse(type=aiohttp.WSMsgType.BINARY, data=b"some")
+        response2 = self.StubResponse(type=aiohttp.WSMsgType.BINARY, data=b"data")
+        response3 = self.StubResponse(type=aiohttp.WSMsgType.BINARY, data=b"\x00\x00\xff\xff")
+        transport_impl.receive = mock.AsyncMock(side_effect=[response1, response2, response3])
+        transport_impl.zlib = mock.Mock(decompress=mock.Mock(return_value=b"utf-8 encoded bytes"))
+
+        assert await transport_impl._receive_and_check(10) == "utf-8 encoded bytes"
+
+        transport_impl.receive.assert_awaited_with(10)
+        transport_impl.zlib.decompress.assert_called_once_with(bytearray(b"somedata\x00\x00\xff\xff"))
+
+    async def test__receive_and_check_when_buff_but_next_is_not_BINARY(self, transport_impl):
+        response1 = self.StubResponse(type=aiohttp.WSMsgType.BINARY, data=b"some")
+        response2 = self.StubResponse(type=aiohttp.WSMsgType.TEXT)
+        transport_impl.receive = mock.AsyncMock(side_effect=[response1, response2])
+
+        with pytest.raises(errors.GatewayError, match="Unexpected message type received TEXT, expected BINARY"):
+            await transport_impl._receive_and_check(10)
+
+        transport_impl.receive.assert_awaited_with(10)
+
+    async def test__receive_and_check_when_message_type_is_TEXT(self, transport_impl):
+        transport_impl.receive = mock.AsyncMock(
+            return_value=self.StubResponse(type=aiohttp.WSMsgType.TEXT, data="some text")
         )
 
-        assert g.url == f"wss://gaytewhuy.discord.meh?{expect}"
+        assert await transport_impl._receive_and_check(10) == "some text"
 
-    @pytest.mark.parametrize(["v", "use_compression"], [(6, False), (6, True), (7, False), (7, True)])
-    def test_using_etf_is_unsupported(self, v, use_compression, http_settings, proxy_settings):
-        compression = "payload_zlib_stream" if use_compression else None
+        transport_impl.receive.assert_awaited_once_with(10)
 
-        with pytest.raises(NotImplementedError):
+    async def test__receive_and_check_when_message_type_is_unknown(self, transport_impl):
+        transport_impl.receive = mock.AsyncMock(return_value=self.StubResponse(type=aiohttp.WSMsgType.ERROR))
+        transport_impl.exception = mock.Mock(return_value=Exception)
+        transport_impl.logger = mock.Mock()
+
+        with pytest.raises(errors.GatewayError, match="Unexpected websocket exception from gateway"):
+            await transport_impl._receive_and_check(10)
+
+        transport_impl.receive.assert_awaited_once_with(10)
+
+    async def test_connect_yields_websocket(self, http_settings, proxy_settings):
+        class MockWS(hikari_test_helpers.AsyncContextManagerMock, shard._GatewayTransport):
+            closed = True
+            send_close = mock.AsyncMock()
+            sent_close = False
+
+            def __init__(self):
+                pass
+
+        mock_websocket = MockWS()
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(return_value=mock_websocket)
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        client_session = stack.enter_context(
+            mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session)
+        )
+        tcp_connector = stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        client_timeout = stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ) as ws:
+                assert ws.logger is logger
+
+        tcp_connector.assert_called_once_with(
+            limit=1,
+            ttl_dns_cache=10,
+            use_dns_cache=False,
+            ssl_context=http_settings.ssl,
+            enable_cleanup_closed=http_settings.enable_cleanup_closed,
+            force_close=http_settings.force_close_transports,
+        )
+        client_timeout.assert_called_once_with(
+            total=http_settings.timeouts.total,
+            connect=http_settings.timeouts.acquire_and_connect,
+            sock_read=http_settings.timeouts.request_socket_read,
+            sock_connect=http_settings.timeouts.request_socket_connect,
+        )
+        client_session.assert_called_once_with(
+            connector=tcp_connector(),
+            connector_owner=True,
+            raise_for_status=True,
+            timeout=client_timeout(),
+            trust_env=proxy_settings.trust_env,
+            version=aiohttp.HttpVersion11,
+            ws_response_class=shard._GatewayTransport,
+        )
+        mock_client_session.ws_connect.assert_called_once_with(
+            max_msg_size=0,
+            proxy=proxy_settings.url,
+            proxy_headers=proxy_settings.headers,
+            url="https://some.url",
+        )
+        mock_client_session.assert_used_once()
+        mock_websocket.assert_used_once()
+        sleep.assert_awaited_once_with(0.25)
+
+    async def test_connect_when_gateway_error_after_connecting(self, http_settings, proxy_settings):
+        class MockWS(hikari_test_helpers.AsyncContextManagerMock, shard._GatewayTransport):
+            closed = False
+            sent_close = False
+            send_close = mock.AsyncMock()
+
+            def __init__(self):
+                pass
+
+        mock_websocket = MockWS()
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(return_value=mock_websocket)
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        stack.enter_context(pytest.raises(errors.GatewayError, match="some reason"))
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                hikari_test_helpers.raiser(errors.GatewayError("some reason"))
+
+        mock_websocket.send_close.assert_awaited_once_with(
+            code=errors.ShardCloseCode.UNEXPECTED_CONDITION, message=b"unexpected fatal client error :-("
+        )
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+        mock_websocket.assert_used_once()
+
+    async def test_connect_when_unexpected_error_after_connecting(self, http_settings, proxy_settings):
+        class MockWS(hikari_test_helpers.AsyncContextManagerMock, shard._GatewayTransport):
+            closed = False
+            send_close = mock.AsyncMock()
+            sent_close = False
+
+            def __init__(self):
+                pass
+
+        mock_websocket = MockWS()
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(return_value=mock_websocket)
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        stack.enter_context(pytest.raises(errors.GatewayError, match="Unexpected ValueError: testing"))
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                hikari_test_helpers.raiser(ValueError("testing"))
+
+        mock_websocket.send_close.assert_awaited_once_with(
+            code=errors.ShardCloseCode.UNEXPECTED_CONDITION, message=b"unexpected fatal client error :-("
+        )
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+        mock_websocket.assert_used_once()
+
+    async def test_connect_when_no_error_and_not_closing(self, http_settings, proxy_settings):
+        class MockWS(hikari_test_helpers.AsyncContextManagerMock, shard._GatewayTransport):
+            closed = False
+            _closing = False
+            sent_close = False
+            send_close = mock.AsyncMock()
+
+            def __init__(self):
+                pass
+
+        mock_websocket = MockWS()
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(return_value=mock_websocket)
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                pass
+
+        mock_websocket.send_close.assert_awaited_once_with(
+            code=shard._RESUME_CLOSE_CODE, message=b"client is shutting down"
+        )
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+        mock_websocket.assert_used_once()
+
+    async def test_connect_when_no_error_and_closing(self, http_settings, proxy_settings):
+        class MockWS(hikari_test_helpers.AsyncContextManagerMock, shard._GatewayTransport):
+            closed = False
+            _closing = True
+            close = mock.AsyncMock()
+
+            def __init__(self):
+                pass
+
+        mock_websocket = MockWS()
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(return_value=mock_websocket)
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                pass
+
+        mock_websocket.close.assert_not_called()
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+        mock_websocket.assert_used_once()
+
+    async def test_connect_when_error_connecting(self, http_settings, proxy_settings):
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(side_effect=aiohttp.ClientConnectionError("some error"))
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        stack.enter_context(
+            pytest.raises(
+                errors.GatewayError, match=r"Failed to connect to Discord: ClientConnectionError\('some error'\)"
+            )
+        )
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                pass
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+
+    async def test_connect_when_handshake_error_with_unknown_reason(self, http_settings, proxy_settings):
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(
+            side_effect=aiohttp.WSServerHandshakeError(
+                status=123, message="some error", request_info=None, history=None
+            )
+        )
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        stack.enter_context(
+            pytest.raises(
+                errors.GatewayError,
+                match=(
+                    r"Failed to connect to Discord: "
+                    r"WSServerHandshakeError\(None, None, status=123, message='some error'\)"
+                ),
+            )
+        )
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                pass
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+
+    async def test_connect_when_handshake_error_with_known_reason(self, http_settings, proxy_settings):
+        mock_client_session = hikari_test_helpers.AsyncContextManagerMock()
+        mock_client_session.ws_connect = mock.MagicMock(
+            side_effect=aiohttp.WSServerHandshakeError(
+                status=500, message="some error", request_info=None, history=None
+            )
+        )
+
+        stack = contextlib.ExitStack()
+        sleep = stack.enter_context(mock.patch.object(asyncio, "sleep"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientSession", return_value=mock_client_session))
+        stack.enter_context(mock.patch.object(aiohttp, "TCPConnector"))
+        stack.enter_context(mock.patch.object(aiohttp, "ClientTimeout"))
+        stack.enter_context(
+            pytest.raises(
+                errors.GatewayError,
+                match=(
+                    r"Failed to connect to Discord: WSServerHandshakeError"
+                    r"\(None, None, status=500, message='some error'\)"
+                ),
+            )
+        )
+        logger = mock.Mock()
+        log_filterer = mock.Mock()
+
+        with stack:
+            async with shard._GatewayTransport.connect(
+                http_settings=http_settings,
+                proxy_settings=proxy_settings,
+                logger=logger,
+                url="https://some.url",
+                log_filterer=log_filterer,
+            ):
+                pass
+
+        sleep.assert_awaited_once_with(0.25)
+        mock_client_session.assert_used_once()
+
+
+@pytest.mark.asyncio
+class TestGatewayShardImpl:
+    @pytest.fixture()
+    def client_session(self):
+        stub = client_session_stub.ClientSessionStub()
+        with mock.patch.object(aiohttp, "ClientSession", new=stub):
+            yield stub
+
+    @pytest.fixture(scope="module")
+    def unslotted_client_type(self):
+        return hikari_test_helpers.mock_class_namespace(shard.GatewayShardImpl, slots_=False)
+
+    @pytest.fixture()
+    def client(self, http_settings, proxy_settings, unslotted_client_type):
+        return unslotted_client_type(
+            url="wss://gateway.discord.gg",
+            intents=intents.Intents.ALL,
+            token="lol",
+            event_consumer=mock.Mock(),
+            http_settings=http_settings,
+            proxy_settings=proxy_settings,
+        )
+
+    @pytest.mark.parametrize(
+        ("compression", "expect"),
+        [
+            (None, f"v={shard._VERSION}&encoding=json"),
+            ("payload_zlib_stream", f"v={shard._VERSION}&encoding=json&compress=zlib-stream"),
+        ],
+    )
+    def test__init__sets_url_is_correct_json(self, compression, expect, http_settings, proxy_settings):
+        g = shard.GatewayShardImpl(
+            event_consumer=mock.Mock(),
+            http_settings=http_settings,
+            proxy_settings=proxy_settings,
+            intents=intents.Intents.ALL,
+            url="wss://gaytewhuy.discord.meh",
+            data_format="json",
+            compression=compression,
+            token="12345",
+        )
+
+        assert g._url == f"wss://gaytewhuy.discord.meh?{expect}"
+
+    def test_using_etf_is_unsupported(self, http_settings, proxy_settings):
+        with pytest.raises(NotImplementedError, match="Unsupported gateway data format: etf"):
             shard.GatewayShardImpl(
                 event_consumer=mock.Mock(),
                 http_settings=http_settings,
                 proxy_settings=proxy_settings,
                 token=mock.Mock(),
                 url="wss://erlpack-is-broken-lol.discord.meh",
-                version=v,
+                intents=intents.Intents.ALL,
                 data_format="etf",
-                compression=compression,
+                compression=True,
             )
 
+    def test_heartbeat_latency_property(self, client):
+        client._heartbeat_latency = 420
+        assert client.heartbeat_latency == 420
 
-class TestIsAliveProperty:
-    def test_is_alive(self, client):
-        client._connected_at = 1234
-        assert client.is_alive
+    def test_id_property(self, client):
+        client._shard_id = 101
+        assert client.id == 101
 
-    def test_not_is_alive(self, client):
-        client._connected_at = None
-        assert not client.is_alive
+    def test_intents_property(self, client):
+        intents = object()
+        client._intents = intents
+        assert client.intents is intents
 
+    @pytest.mark.parametrize(
+        ("run_task", "expected"),
+        [
+            (None, False),
+            (asyncio.get_event_loop().create_future(), True),
+            (aio.completed_future(), False),
+        ],
+    )
+    def test_is_alive_property(self, run_task, expected, client):
+        client._run_task = run_task
+        assert client.is_alive is expected
 
-@pytest.mark.asyncio
-class TestGetUserID:
+    def test_shard_count_property(self, client):
+        client._shard_count = 69
+        assert client.shard_count == 69
+
+    async def test_close_when_closing_set(self, client):
+        client._closing = mock.Mock(is_set=mock.Mock(return_value=True))
+        client._ws = mock.Mock()
+        client._chunking_rate_limit = mock.Mock()
+        client._total_rate_limit = mock.Mock()
+
+        await client.close()
+
+        client._closing.set.assert_not_called()
+        client._ws.close.assert_not_called()
+        client._chunking_rate_limit.close.assert_not_called()
+        client._total_rate_limit.close.assert_not_called()
+
+    async def test_close_when_closing_not_set(self, client):
+        client._closing = mock.Mock(is_set=mock.Mock(return_value=False))
+        client._ws = mock.Mock(close=mock.AsyncMock())
+        client._chunking_rate_limit = mock.Mock()
+        client._total_rate_limit = mock.Mock()
+
+        await client.close()
+
+        client._closing.set.assert_called_once_with()
+        client._ws.close.assert_awaited_once_with(code=errors.ShardCloseCode.GOING_AWAY, message=b"shard disconnecting")
+        client._chunking_rate_limit.close.assert_called_once_with()
+        client._total_rate_limit.close.assert_called_once_with()
+
+    async def test_close_when_closing_not_set_and_ws_is_None(self, client):
+        client._closing = mock.Mock(is_set=mock.Mock(return_value=False))
+        client._ws = None
+        client._chunking_rate_limit = mock.Mock()
+        client._total_rate_limit = mock.Mock()
+
+        await client.close()
+
+        client._closing.set.assert_called_once_with()
+        client._chunking_rate_limit.close.assert_called_once_with()
+        client._total_rate_limit.close.assert_called_once_with()
+
     async def test_when__user_id_is_None(self, client):
-        client._handshake_event = mock.Mock(wait=mock.AsyncMock())
+        client._handshake_completed = mock.Mock(wait=mock.AsyncMock())
         client._user_id = None
         with pytest.raises(RuntimeError):
             assert await client.get_user_id()
 
     async def test_when__user_id_is_not_None(self, client):
-        client._handshake_event = mock.Mock(wait=mock.AsyncMock())
+        client._handshake_completed = mock.Mock(wait=mock.AsyncMock())
         client._user_id = 123
         assert await client.get_user_id() == 123
 
+    async def test_join(self, client):
+        client._closed = mock.Mock(wait=mock.AsyncMock())
 
-@pytest.mark.asyncio
-class TestStart:
-    @pytest.mark.parametrize("shard_id", [0, 1, 2])
-    @hikari_test_helpers.timeout()
-    async def test_starts_task(self, event_loop, shard_id, http_settings=http_settings, proxy_settings=proxy_settings):
-        g = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-            shard_id=shard_id,
-            shard_count=100,
+        await client.join()
+
+        client._closed.wait.assert_awaited_once_with()
+
+    async def test_request_guild_members_when_no_query_and_no_limit_and_GUILD_MEMBERS_not_enabled(self, client):
+        client._intents = intents.Intents.GUILD_INTEGRATIONS
+
+        with pytest.raises(errors.MissingIntentError):
+            await client.request_guild_members(123, query="", limit=0)
+
+    async def test_request_guild_members_when_presences_and_GUILD_PRESENCES_not_enabled(self, client):
+        client._intents = intents.Intents.GUILD_INTEGRATIONS
+
+        with pytest.raises(errors.MissingIntentError):
+            await client.request_guild_members(123, query="test", limit=1, include_presences=True)
+
+    @pytest.mark.parametrize("kwargs", [{"query": "some query"}, {"limit": 1}])
+    async def test_request_guild_members_when_specifiying_users_with_limit_or_query(self, client, kwargs):
+        client._intents = intents.Intents.GUILD_INTEGRATIONS
+
+        with pytest.raises(ValueError, match="Cannot specify limit/query with users"):
+            await client.request_guild_members(123, users=[], **kwargs)
+
+    @pytest.mark.parametrize("limit", [-1, 101])
+    async def test_request_guild_members_when_limit_under_0_or_over_100(self, client, limit):
+        client._intents = intents.Intents.ALL
+
+        with pytest.raises(ValueError, match="'limit' must be between 0 and 100, both inclusive"):
+            await client.request_guild_members(123, limit=limit)
+
+    async def test_request_guild_members_when_users_over_100(self, client):
+        client._intents = intents.Intents.ALL
+
+        with pytest.raises(ValueError, match="'users' is limited to 100 users"):
+            await client.request_guild_members(123, users=range(101))
+
+    async def test_request_guild_members_when_nonce_over_32_chars(self, client):
+        client._intents = intents.Intents.ALL
+
+        with pytest.raises(ValueError, match="'nonce' can be no longer than 32 byte characters long."):
+            await client.request_guild_members(123, nonce="x" * 33)
+
+    @pytest.mark.parametrize("include_presences", [True, False])
+    async def test_request_guild_members(self, client, include_presences):
+        client._intents = intents.Intents.ALL
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+
+        await client.request_guild_members(123, include_presences=include_presences)
+
+        client._ws.send_json.assert_awaited_once_with(
+            {
+                "op": 8,
+                "d": {"guild_id": "123", "query": "", "presences": include_presences, "limit": 0},
+            }
         )
 
-        g._handshake_event = mock.MagicMock(asyncio.Event)
-        g._run = mock.Mock()
+    async def test_start_when_already_running(self, client):
+        client._run_task = object()
 
-        future = event_loop.create_future()
-        future.set_result(None)
-
-        with mock.patch.object(asyncio, "create_task", return_value=future) as create_task:
-            result = await g.start()
-            assert result is future
-            create_task.assert_called_once_with(g._run(), name=f"shard {shard_id} keep-alive")
-
-    @hikari_test_helpers.timeout()
-    async def test_waits_for_ready(self, client):
-        client._handshake_event = mock.Mock()
-        client._handshake_event.wait = mock.AsyncMock()
-        client._run = mock.AsyncMock()
-
-        await client.start()
-        client._handshake_event.wait.assert_awaited_once_with()
-
-    @hikari_test_helpers.timeout()
-    async def test_exception_is_raised_immediately(self, client):
-        client._handshake_event = mock.Mock()
-        client._handshake_event.wait = mock.AsyncMock()
-        client._run = mock.AsyncMock(side_effect=RuntimeError)
-
-        with pytest.raises(RuntimeError):
+        with pytest.raises(RuntimeError, match="Cannot run more than one instance of one shard concurrently"):
             await client.start()
 
-
-@pytest.mark.asyncio
-class TestClose:
-    @pytest.fixture
-    def client(self):
-        class GatewayStub(shard.GatewayShardImpl):
-            @property
-            def is_alive(self):
-                return getattr(self, "_is_alive", False)
-
-        return GatewayStub(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-        )
-
-    async def test_when_already_closed_does_nothing(self, client):
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = mock.Mock(return_value=True)
-
-        await client.close()
-
-        client._request_close_event.set.assert_not_called()
-
-    @pytest.mark.parametrize("is_alive", [True, False])
-    async def test_close_sets_request_close_event(self, client, is_alive):
-        client.__dict__["_is_alive"] = is_alive
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = mock.Mock(return_value=False)
-
-        await client.close()
-
-        client._request_close_event.set.assert_called_once_with()
-
-    @pytest.mark.parametrize("is_alive", [True, False])
-    async def test_websocket_closed_if_not_None(self, client, is_alive):
-        client.__dict__["_is_alive"] = is_alive
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = mock.Mock(return_value=False)
-        client._close_ws = mock.AsyncMock()
-        client._ws = mock.Mock()
-
-        await client.close()
-
-        client._close_ws.assert_awaited_once_with(errors.ShardCloseCode.NORMAL_CLOSURE, "client shut down")
-
-    @pytest.mark.parametrize("is_alive", [True, False])
-    async def test_websocket_not_closed_if_None(self, client, is_alive):
-        client.__dict__["_is_alive"] = is_alive
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = mock.Mock(return_value=False)
-        client._close_ws = mock.AsyncMock()
-        client._ws = None
-
-        await client.close()
-
-        client._close_ws.assert_not_called()
-
-
-@pytest.mark.asyncio
-class TestRun:
-    @hikari_test_helpers.timeout()
-    async def test_repeatedly_invokes_run_once_shielded_while_request_close_event_not_set(self, client):
-        i = 0
-
-        def is_set():
-            nonlocal i
-
-            if i >= 5:
-                return True
-            else:
-                i += 1
-                return False
-
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = is_set
-        client._run_once_shielded = mock.AsyncMock()
-
-        with pytest.raises(errors.GatewayClientClosedError):
-            await client._run()
-
-        assert i == 5
-        assert client._run_once_shielded.call_count == i
-
-    @hikari_test_helpers.timeout()
-    async def test_sets_handshake_event_on_finish(self, client):
-        client._request_close_event = mock.MagicMock(asyncio.Event)
-        client._handshake_event = mock.MagicMock(asyncio.Event)
-        client._request_close_event.is_set = mock.Mock(return_value=True)
-        client._run_once = mock.AsyncMock()
-
-        with pytest.raises(errors.GatewayClientClosedError):
-            await client._run()
-
-        client._handshake_event.set.assert_called_once_with()
-
-
-@pytest.mark.asyncio
-class TestRunOnceShielded:
-    @pytest.fixture
-    def client(self, http_settings=http_settings, proxy_settings=proxy_settings):
-        client = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            shard_id=3,
-            shard_count=17,
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-        )
-        client = hikari_test_helpers.mock_methods_on(
-            client,
-            except_=("_run_once_shielded", "_InvalidSession", "_Reconnect", "_SocketClosed", "_dispatch", "_Opcode",),
-            also_mock=["_backoff", "_handshake_event", "_request_close_event", "_logger"],
-        )
-        client._dispatch = mock.AsyncMock()
-        # Disable backoff checking by making the condition a negative tautology.
-        client._RESTART_RATELIMIT_WINDOW = -1
-        return client
-
-    @hikari_test_helpers.timeout()
-    async def test_invokes_run_once_shielded(self, client, client_session):
-        await client._run_once_shielded(client_session)
-        client._run_once.assert_awaited_once_with(client_session)
-
-    @hikari_test_helpers.timeout()
-    async def test_happy_path_returns_False(self, client, client_session):
-        assert await client._run_once_shielded(client_session) is False
-
-    @pytest.mark.parametrize(
-        ["zombied", "request_close", "expect_backoff_called"],
-        [(True, True, True), (True, False, True), (False, True, False), (False, False, False),],
-    )
-    @hikari_test_helpers.timeout()
-    async def test_socket_closed_resets_backoff(
-        self, client, zombied, request_close, expect_backoff_called, client_session
-    ):
-        client._request_close_event.is_set = mock.Mock(return_value=request_close)
-
-        def run_once():
-            client._zombied = zombied
-            raise shard.GatewayShardImpl._SocketClosed()
-
-        client._run_once = mock.AsyncMock(wraps=run_once)
-        await client._run_once_shielded(client_session)
-
-        if expect_backoff_called:
-            client._backoff.reset.assert_called_once_with()
-        else:
-            client._backoff.reset.assert_not_called()
-
-    @hikari_test_helpers.timeout()
-    async def test_invalid_session_resume_does_not_clear_seq_or_session_id(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._InvalidSession(True))
-        client._seq = 1234
-        client._session_id = "69420"
-        await client._run_once_shielded(client_session)
-        assert client._seq == 1234
-        assert client._session_id == "69420"
-
-    @pytest.mark.parametrize("request_close", [True, False])
-    @hikari_test_helpers.timeout()
-    async def test_socket_closed_is_restartable_if_no_closure_request(self, client, request_close, client_session):
-        client._request_close_event.is_set = mock.Mock(return_value=request_close)
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._SocketClosed())
-        assert await client._run_once_shielded(client_session) is not request_close
-
-    @hikari_test_helpers.timeout()
-    async def test_ClientConnectionError_is_restartable(self, client, client_session):
-        key = aiohttp.client_reqrep.ConnectionKey(
-            host="localhost", port=6996, is_ssl=False, ssl=None, proxy=None, proxy_auth=None, proxy_headers_hash=69420,
-        )
-        error = aiohttp.ClientConnectorError(key, OSError())
-
-        client._run_once = mock.AsyncMock(side_effect=error)
-        assert await client._run_once_shielded(client_session) is True
-
-    @hikari_test_helpers.timeout()
-    async def test_invalid_session_is_restartable(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._InvalidSession())
-        assert await client._run_once_shielded(client_session) is True
-
-    @hikari_test_helpers.timeout()
-    async def test_invalid_session_resume_does_not_invalidate_session(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._InvalidSession(True))
-        await client._run_once_shielded(client_session)
-        client._close_ws.assert_awaited_once_with(3000, "invalid session (resume)")
-
-    @hikari_test_helpers.timeout()
-    async def test_invalid_session_no_resume_invalidates_session(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._InvalidSession(False))
-        await client._run_once_shielded(client_session)
-        client._close_ws.assert_awaited_once_with(errors.ShardCloseCode.NORMAL_CLOSURE, "invalid session (no resume)")
-
-    @hikari_test_helpers.timeout()
-    async def test_invalid_session_no_resume_clears_seq_and_session_id(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._InvalidSession(False))
-        client._seq = 1234
-        client._session_id = "69420"
-        await client._run_once_shielded(client_session)
-        assert client._seq is None
-        assert client._session_id is None
-
-    @hikari_test_helpers.timeout()
-    async def test_reconnect_is_restartable(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=shard.GatewayShardImpl._Reconnect())
-        assert await client._run_once_shielded(client_session) is True
-
-    @hikari_test_helpers.timeout()
-    async def test_server_connection_error_resumes_if_reconnectable(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=errors.GatewayServerClosedConnectionError("blah", None, True))
-        client._seq = 1234
-        client._session_id = "69420"
-        assert await client._run_once_shielded(client_session) is True
-        assert client._seq == 1234
-        assert client._session_id == "69420"
-
-    @hikari_test_helpers.timeout()
-    async def test_server_connection_error_does_not_reconnect_if_not_reconnectable(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=errors.GatewayServerClosedConnectionError("blah", None, False))
-        client._seq = 1234
-        client._session_id = "69420"
-        with pytest.raises(errors.GatewayServerClosedConnectionError):
-            await client._run_once_shielded(client_session)
-        client._request_close_event.set.assert_called_once_with()
-        assert client._seq is None
-        assert client._session_id is None
-        client._backoff.reset.assert_called_once_with()
-
-    @pytest.mark.parametrize(
-        ["zombied", "request_close", "expect_backoff_called"],
-        [(True, True, True), (True, False, True), (False, True, False), (False, False, False)],
-    )
-    @hikari_test_helpers.timeout()
-    async def test_socket_closed_resets_backoff(
-        self, client, zombied, request_close, expect_backoff_called, client_session
-    ):
-        client._request_close_event.is_set = mock.Mock(return_value=request_close)
-
-        def run_once(_):
-            client._zombied = zombied
-            raise shard.GatewayShardImpl._SocketClosed()
-
-        client._run_once = mock.AsyncMock(wraps=run_once)
-        await client._run_once_shielded(client_session)
-
-        if expect_backoff_called:
-            client._backoff.reset.assert_called_once_with()
-        else:
-            client._backoff.reset.assert_not_called()
-
-    async def test_other_exception_closes_websocket(self, client, client_session):
-        client._run_once = mock.AsyncMock(side_effect=RuntimeError())
-
-        with pytest.raises(RuntimeError):
-            await client._run_once_shielded(client_session)
-
-        client._close_ws.assert_awaited_once_with(
-            errors.ShardCloseCode.UNEXPECTED_CONDITION, "unexpected error occurred"
-        )
-
-
-@pytest.mark.asyncio
-class TestRunOnce:
-    @pytest.fixture
-    def client(self, http_settings, proxy_settings):
-        client = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            shard_id=3,
-            shard_count=17,
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-        )
-        client = hikari_test_helpers.mock_methods_on(
-            client,
-            except_=("_run_once", "_InvalidSession", "_Reconnect", "_SocketClosed", "_Opcode",),
-            also_mock=["_backoff", "_handshake_event", "_request_close_event", "_logger",],
-        )
-        # Disable backoff checking by making the condition a negative tautology.
-        client._RESTART_RATELIMIT_WINDOW = -1
-        return client
-
-    @hikari_test_helpers.timeout()
-    async def test_resets_close_event(self, client, client_session):
-        await client._run_once(client_session)
-
-        client._request_close_event.clear.assert_called_with()
-
-    @hikari_test_helpers.timeout()
-    async def test_resets_zombie_status(self, client, client_session):
-        client._zombied = True
-
-        await client._run_once(client_session)
-
-        assert client._zombied is False
-
-    @hikari_test_helpers.timeout()
-    async def test_backoff_and_waits_if_restarted_too_quickly(self, client, client_session):
-        client._RESTART_RATELIMIT_WINDOW = 30
-        client._last_run_started_at = 40
-        client._backoff.__next__ = mock.Mock(return_value=24.37)
-
-        # We mock create_task, so this will never be awaited if not.
-        client._heartbeat_keepalive = mock.Mock()
+    async def test_start_when_shard_closed_before_starting(self, client):
+        client._run_task = None
+        client._shard_id = 20
+        client._run = mock.Mock()
+        client._handshake_completed = mock.Mock(wait=mock.Mock())
+        run_task = mock.Mock()
+        waiter = mock.Mock()
 
         stack = contextlib.ExitStack()
-        wait_for = stack.enter_context(mock.patch.object(asyncio, "wait_for", side_effect=asyncio.TimeoutError))
-        create_task = stack.enter_context(mock.patch.object(asyncio, "create_task"))
-        stack.enter_context(mock.patch.object(hikari_date, "monotonic", return_value=60))
+        create_task = stack.enter_context(mock.patch.object(asyncio, "create_task", side_effect=[run_task, waiter]))
+        wait = stack.enter_context(mock.patch.object(asyncio, "wait", return_value=([run_task], [waiter])))
+        stack.enter_context(
+            pytest.raises(asyncio.CancelledError, match="Shard 20 was closed before it could start successfully")
+        )
 
         with stack:
-            await client._run_once(client_session)
+            await client.start()
 
-        client._backoff.__next__.assert_called_once_with()
-        create_task.assert_any_call(client._request_close_event.wait(), name="gateway shard 3 backing off")
-        wait_for.assert_called_once_with(create_task(), timeout=24.37)
+        assert client._run_task is None
 
-    @hikari_test_helpers.timeout()
-    async def test_closing_bot_during_backoff_immediately_interrupts_it(self, client, client_session):
-        client._RESTART_RATELIMIT_WINDOW = 30
-        client._last_run_started_at = 40
-        client._backoff.__next__ = mock.Mock(return_value=24.37)
-        client._request_close_event = asyncio.Event()
+        assert create_task.call_count == 2
+        create_task.has_call(mock.call(client._run(), name="run shard 20"))
+        create_task.has_call(mock.call(client._handshake_completed.wait(), name="wait for shard 20 to start"))
 
-        # use 60s since it is outside the 30s backoff window.
-        with mock.patch.object(hikari_date, "monotonic", return_value=60.0):
-            task = asyncio.create_task(client._run_once(client_session))
+        run_task.result.assert_called_once_with()
+        waiter.cancel.assert_called_once_with()
+        wait.assert_awaited_once_with((waiter, run_task), return_when=asyncio.FIRST_COMPLETED)
 
-            try:
-                # Let the backoff spin up and start waiting in the background.
-                await hikari_test_helpers.idle()
+    async def test_start(self, client):
+        client._run_task = None
+        client._shard_id = 20
+        client._run = mock.Mock()
+        client._handshake_completed = mock.Mock(wait=mock.Mock())
+        run_task = mock.Mock()
+        waiter = mock.Mock()
 
-                # Should be pretty much immediate.
-                with hikari_test_helpers.ensure_occurs_quickly():
-                    assert task.done() is False
-                    client._request_close_event.set()
-                    await task
+        with mock.patch.object(asyncio, "create_task", side_effect=[run_task, waiter]) as create_task:
+            with mock.patch.object(asyncio, "wait", return_value=([waiter], [run_task])) as wait:
+                await client.start()
 
-                # The false instructs the caller to not restart again, but to just
-                # drop everything and stop execution.
-                # We never return a value on this task anymore.
-                assert task.result() is None
+        assert client._run_task == run_task
 
-            finally:
-                task.cancel()
+        assert create_task.call_count == 2
+        create_task.has_call(mock.call(client._run(), name="run shard 20"))
+        create_task.has_call(mock.call(client._handshake_completed.wait(), name="wait for shard 20 to start"))
 
-    @hikari_test_helpers.timeout()
-    async def test_backoff_does_not_trigger_if_not_restarting_in_small_window(self, client, client_session):
-        with mock.patch.object(hikari_date, "monotonic", return_value=60):
-            client._last_run_started_at = 40
-            client._backoff.__next__ = mock.Mock(
-                side_effect=AssertionError(
-                    "backoff was incremented, but this is not expected to occur in this test case scenario!"
-                )
-            )
+        run_task.result.assert_not_called()
+        waiter.cancel.assert_called_once_with()
+        wait.assert_awaited_once_with((waiter, run_task), return_when=asyncio.FIRST_COMPLETED)
 
-            # We mock create_task, so this will never be awaited if not.
-            client._heartbeat_keepalive = mock.Mock()
+    async def test_update_presence(self, client):
+        presence_payload = object()
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+        client._serialize_and_store_presence_payload = mock.Mock(return_value=presence_payload)
+        client._send_json = mock.AsyncMock()
 
-            stack = contextlib.ExitStack()
-            stack.enter_context(mock.patch.object(asyncio, "wait_for"))
-            stack.enter_context(mock.patch.object(asyncio, "create_task"))
-
-            with stack:
-                # This will raise an assertion error if the backoff is incremented.
-                await client._run_once(client_session)
-
-    @hikari_test_helpers.timeout()
-    async def test_last_run_started_at_set_to_current_time(self, client, client_session):
-        # Windows does some batshit crazy stuff in perf_counter, like only
-        # returning process time elapsed rather than monotonic time since
-        # startup, so I guess I will put this random value here to show the
-        # code doesn't really care what this value is contextually.
-        client._last_run_started_at = -100_000
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=1.0):
-            await client._run_once(client_session)
-
-        assert client._last_run_started_at == 1.0
-
-    @hikari_test_helpers.timeout()
-    async def test_ws_gets_created(self, client, client_session):
-        proxy_settings = config.ProxySettings(
-            url="http://my-proxy.net",
-            headers={"foo": "bar"},
-            trust_env=True,
-            auth=config.BasicAuthHeader(username="banana", password="fan fo"),
+        await client.update_presence(
+            idle_since=datetime.datetime.now(),
+            afk=True,
+            status=presences.Status.IDLE,
+            activity=None,
         )
-        http_settings = config.HTTPSettings(verify_ssl=False)
-        client._http_settings = http_settings
-        client._proxy_settings = proxy_settings
 
-        await client._run_once(client_session)
-        client_session.ws_connect.assert_called_once_with(
-            url=client.url,
-            autoping=True,
-            autoclose=True,
-            proxy=proxy_settings.url,
-            proxy_headers=proxy_settings.all_headers,
-            verify_ssl=http_settings.verify_ssl,
-            # Discord can send massive messages that lead us to being disconnected
-            # without this. It is a bit shit that there is no guarantee of the size
-            # of these messages, but there isn't much we can do about this one.
-            max_msg_size=0,
+        client._ws.send_json.assert_awaited_once_with({"op": 3, "d": presence_payload})
+
+    @pytest.mark.parametrize("channel", [12345, None])
+    @pytest.mark.parametrize("self_deaf", [True, False])
+    @pytest.mark.parametrize("self_mute", [True, False])
+    async def test_update_voice_state(self, client, channel, self_deaf, self_mute):
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+        payload = {
+            "channel_id": str(channel) if channel is not None else None,
+            "guild_id": "6969420",
+            "deaf": self_deaf,
+            "mute": self_mute,
+        }
+
+        await client.update_voice_state("6969420", channel, self_mute=self_mute, self_deaf=self_deaf)
+
+        client._ws.send_json.assert_awaited_once_with({"op": 4, "d": payload})
+
+    def test_dispatch_when_READY(self, client):
+        client._seq = 0
+        client._session_id = 0
+        client._user_id = 0
+        client._logger = mock.Mock()
+        client._handshake_completed = mock.Mock()
+        client._event_consumer = mock.Mock()
+
+        pl = {
+            "session_id": 101,
+            "user": {"id": 123, "username": "hikari", "discriminator": "5863"},
+            "guilds": [
+                {"id": "123"},
+                {"id": "456"},
+                {"id": "789"},
+            ],
+            "v": 8,
+        }
+
+        client._dispatch(
+            "READY",
+            10,
+            pl,
         )
-        client_session.ws_connect_stub.assert_awaited_once()
 
-    @hikari_test_helpers.timeout()
-    async def test_zlib_decompressobj_set(self, client, client_session):
-        assert client._zlib is None
-        await client._run_once(client_session)
-        assert client._zlib is not None
-
-    @hikari_test_helpers.timeout()
-    async def test_handshake_event_cleared(self, client, client_session):
-        client._handshake_event = asyncio.Event()
-        client._handshake_event.set()
-        await client._run_once(client_session)
-        assert not client._handshake_event.is_set()
-
-    @hikari_test_helpers.timeout()
-    async def test_handshake_invoked(self, client, client_session):
-        await client._run_once(client_session)
-        client._handshake.assert_awaited_once_with()
-
-    @hikari_test_helpers.timeout()
-    async def test_connected_event_dispatched_before_polling_events(self, client, client_session):
-        class Error(Exception):
-            pass
-
-        client._poll_events = mock.AsyncMock(side_effect=Error)
-
-        with pytest.raises(Error):
-            await client._run_once(client_session)
-
-        client._dispatch.assert_any_call("CONNECTED", {})
-
-    @hikari_test_helpers.timeout()
-    async def test_heartbeat_is_not_started_before_handshake_completes(self, client, client_session):
-        class Error(Exception):
-            pass
-
-        client._heartbeat_keepalive = mock.Mock()
-
-        client._handshake = mock.AsyncMock(side_effect=Error)
-
-        with mock.patch.object(asyncio, "create_task") as create_task:
-            with pytest.raises(Error):
-                await client._run_once(client_session)
-
-        call = mock.call(client._heartbeat_keepalive(), name=mock.ANY)
-        assert call not in create_task.call_args_list
-
-    @hikari_test_helpers.timeout()
-    async def test_heartbeat_is_started(self, client, client_session):
-        client._heartbeat_keepalive = mock.Mock()
-
-        with mock.patch.object(asyncio, "create_task") as create_task:
-            await client._run_once(client_session)
-
-        call = mock.call(client._heartbeat_keepalive(), name="gateway shard 3 heartbeat")
-        assert call in create_task.call_args_list
-
-    @hikari_test_helpers.timeout()
-    async def test_poll_events_invoked(self, client, client_session):
-        await client._run_once(client_session)
-        client._poll_events.assert_awaited_once_with()
-
-    @hikari_test_helpers.timeout()
-    async def test_heartbeat_is_stopped_when_poll_events_stops(self, client, client_session):
-        client._heartbeat_keepalive = mock.Mock()
-        client._poll_events = mock.AsyncMock(side_effect=Exception)
-
-        task = mock.Mock(spec_set=asyncio.Task)
-
-        with mock.patch.object(asyncio, "create_task", return_value=task):
-            with pytest.raises(Exception):
-                await client._run_once(client_session)
-
-        task.cancel.assert_called_once_with()
-
-    async def test_dispatches_disconnect_if_connected(self, client, client_session):
-        await client._run_once(client_session)
-        client._dispatch.assert_any_call("CONNECTED", {})
-        client._dispatch.assert_any_call("DISCONNECTED", {})
-
-    async def test_no_dispatch_disconnect_if_not_connected(self, client, client_session):
-        client_session.ws_connect = mock.Mock(side_effect=RuntimeError)
-        with pytest.raises(RuntimeError):
-            await client._run_once(client_session)
-        client._dispatch.assert_not_called()
-
-    async def test_connected_at_reset_to_None_on_exit(self, client, client_session):
-        await client._run_once(client_session)
-        assert client._connected_at is None
-
-
-@pytest.mark.asyncio
-class TestUpdatePresence:
-    @pytest.fixture
-    def client(self, proxy_settings, http_settings):
-        client = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-            shard_id=3,
-            shard_count=17,
+        assert client._seq == 10
+        assert client._session_id == 101
+        assert client._user_id == 123
+        client._logger.info.assert_called_once_with(
+            "shard is ready: %s guilds, %s (%s), session %r on v%s gateway",
+            3,
+            "hikari#5863",
+            123,
+            101,
+            8,
         )
-        return hikari_test_helpers.mock_methods_on(
+        client._handshake_completed.set.assert_called_once_with()
+        client._event_consumer.assert_called_once_with(
             client,
-            except_=(
-                "update_presence",
-                "_InvalidSession",
-                "_Reconnect",
-                "_SocketClosed",
-                "_Opcode",
-                "_serialize_presence_payload",
-            ),
+            "READY",
+            pl,
         )
 
-    @pytest.mark.parametrize("idle_since", [undefined.UNDEFINED, datetime.datetime.now()])
-    @pytest.mark.parametrize("afk", [undefined.UNDEFINED, True, False])
+    def test__dipatch_when_RESUME(self, client):
+        client._seq = 0
+        client._session_id = 123
+        client._logger = mock.Mock()
+        client._handshake_completed = mock.Mock()
+        client._event_consumer = mock.Mock()
+
+        client._dispatch("RESUME", 10, {})
+
+        assert client._seq == 10
+        client._logger.info.assert_called_once_with("shard has resumed [session:%s, seq:%s]", 123, 10)
+        client._handshake_completed.set.assert_called_once_with()
+        client._event_consumer.assert_called_once_with(client, "RESUME", {})
+
+    def test__dipatch(self, client):
+        client._logger = mock.Mock()
+        client._handshake_completed = mock.Mock()
+        client._event_consumer = mock.Mock()
+
+        client._dispatch("EVENT NAME", 10, {"payload": None})
+
+        client._logger.info.assert_not_called()
+        client._handshake_completed.set.assert_not_called()
+        client._event_consumer.assert_called_once_with(client, "EVENT NAME", {"payload": None})
+
+    async def test__identify(self, client):
+        client._token = "token"
+        client._intents = intents.Intents.ALL
+        client._large_threshold = 123
+        client._shard_id = 0
+        client._shard_count = 1
+        client._serialize_and_store_presence_payload = mock.Mock(return_value={"presence": "payload"})
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+        stack = contextlib.ExitStack()
+        stack.enter_context(mock.patch.object(platform, "system", return_value="Potato PC"))
+        stack.enter_context(mock.patch.object(platform, "architecture", return_value=["ARM64"]))
+        stack.enter_context(mock.patch.object(aiohttp, "__version__", new="v0.0.1"))
+        stack.enter_context(mock.patch.object(_about, "__version__", new="v1.0.0"))
+
+        with stack:
+            await client._identify()
+
+        expected_json = {
+            "op": 2,
+            "d": {
+                "token": "token",
+                "compress": False,
+                "large_threshold": 123,
+                "properties": {
+                    "$os": "Potato PC ARM64",
+                    "$browser": "aiohttp v0.0.1",
+                    "$device": "hikari v1.0.0",
+                },
+                "shard": [0, 1],
+                "intents": 32767,
+                "presence": {"presence": "payload"},
+            },
+        }
+        client._ws.send_json.assert_awaited_once_with(expected_json)
+
+    @hikari_test_helpers.timeout()
+    async def test__heartbeat(self, client):
+        client._last_heartbeat_sent = 5
+        client._logger = mock.Mock()
+        client._closing = mock.Mock(is_set=mock.Mock(return_value=False))
+        client._closed = mock.Mock(is_set=mock.Mock(return_value=False))
+        client._send_heartbeat = mock.AsyncMock()
+
+        with mock.patch.object(time, "monotonic", return_value=10):
+            with mock.patch.object(asyncio, "wait_for", side_effect=[asyncio.TimeoutError, None]) as wait_for:
+                assert await client._heartbeat(20) is False
+
+        wait_for.assert_awaited_with(client._closing.wait(), timeout=20)
+
+    @hikari_test_helpers.timeout()
+    async def test__heartbeat_when_zombie(self, client):
+        client._last_heartbeat_sent = 10
+        client._logger = mock.Mock()
+
+        with mock.patch.object(time, "monotonic", return_value=5):
+            with mock.patch.object(asyncio, "wait_for") as wait_for:
+                assert await client._heartbeat(20) is True
+
+        wait_for.assert_not_called()
+
+    async def test__resume(self, client):
+        client._token = "token"
+        client._seq = 123
+        client._session_id = 456
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+
+        await client._resume()
+
+        expected_json = {
+            "op": 6,
+            "d": {"token": "token", "seq": 123, "session_id": 456},
+        }
+        client._ws.send_json.assert_awaited_once_with(expected_json)
+
+    @pytest.mark.skip("TODO")
+    async def test__run(self, client):
+        ...
+
+    @pytest.mark.skip("TODO")
+    async def test__run_once(self, client):
+        ...
+
+    async def test__send_heartbeat(self, client):
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+        client._last_heartbeat_sent = 0
+        client._seq = 10
+
+        with mock.patch.object(time, "monotonic", return_value=200):
+            await client._send_heartbeat()
+
+        client._ws.send_json.assert_awaited_once_with({"op": 1, "d": 10})
+        assert client._last_heartbeat_sent == 200
+
+    async def test__send_heartbeat_ack(self, client):
+        client._ws = mock.Mock(send_json=mock.AsyncMock())
+
+        await client._send_heartbeat_ack()
+
+        client._ws.send_json.assert_awaited_once_with({"op": 11, "d": None})
+
+    def test__serialize_activity_when_activity_is_None(self, client):
+        assert client._serialize_activity(None) is None
+
+    def test__serialize_activity_when_activity_is_not_None(self, client):
+        activity = mock.Mock(type="0", url="https://some.url")
+        activity.name = "some name"  # This has to be set seperate because if not, its set as the mock's name
+        assert client._serialize_activity(activity) == {"name": "some name", "type": 0, "url": "https://some.url"}
+
+    @pytest.mark.parametrize("idle_since", [datetime.datetime.now(), None])
+    @pytest.mark.parametrize("afk", [True, False])
     @pytest.mark.parametrize(
         "status",
-        [
-            undefined.UNDEFINED,
-            presences.Status.DO_NOT_DISTURB,
-            presences.Status.IDLE,
-            presences.Status.ONLINE,
-            presences.Status.OFFLINE,
-        ],
+        [presences.Status.DO_NOT_DISTURB, presences.Status.IDLE, presences.Status.ONLINE, presences.Status.OFFLINE],
     )
-    @pytest.mark.parametrize("activity", [undefined.UNDEFINED, presences.Activity(name="foo"), None])
-    async def test_serialize_presence_payload(self, client, idle_since, afk, status, activity):
+    @pytest.mark.parametrize("activity", [presences.Activity(name="foo"), None])
+    def test__serialize_and_store_presence_payload_when_all_args_undefined(
+        self, client, idle_since, afk, status, activity
+    ):
         client._activity = activity
         client._idle_since = idle_since
         client._is_afk = afk
         client._status = status
 
-        actual_result = client._serialize_presence_payload()
+        actual_result = client._serialize_and_store_presence_payload()
 
         if activity is not undefined.UNDEFINED and activity is not None:
             expected_activity = {
@@ -734,707 +1035,38 @@ class TestUpdatePresence:
         else:
             expected_activity = None
 
-        if status == undefined.UNDEFINED:
-            expected_status = "online"
-        elif status == presences.Status.OFFLINE:
+        if status == presences.Status.OFFLINE:
             expected_status = "invisible"
         else:
             expected_status = status.value
 
         expected_result = {
             "game": expected_activity,
-            "since": int(idle_since.timestamp() * 1_000) if idle_since is not undefined.UNDEFINED else None,
+            "since": int(idle_since.timestamp() * 1_000) if idle_since is not None else None,
             "afk": afk if afk is not undefined.UNDEFINED else False,
             "status": expected_status,
         }
 
         assert expected_result == actual_result
 
-    @pytest.mark.parametrize("is_alive", [True, False])
-    @pytest.mark.parametrize("idle_since", [undefined.UNDEFINED, datetime.datetime.now()])
-    @pytest.mark.parametrize("afk", [undefined.UNDEFINED, True, False])
+    @pytest.mark.parametrize("idle_since", [datetime.datetime.now(), None])
+    @pytest.mark.parametrize("afk", [True, False])
     @pytest.mark.parametrize(
         "status",
-        [
-            undefined.UNDEFINED,
-            presences.Status.DO_NOT_DISTURB,
-            presences.Status.IDLE,
-            presences.Status.ONLINE,
-            presences.Status.OFFLINE,
-        ],
+        [presences.Status.DO_NOT_DISTURB, presences.Status.IDLE, presences.Status.ONLINE, presences.Status.OFFLINE],
     )
-    @pytest.mark.parametrize("activity", [undefined.UNDEFINED, presences.Activity(name="foo"), None])
-    async def test_sets_state(self, client, idle_since, afk, status, activity, is_alive):
-        presence_payload = object()
-        client._connected_at = 1234.5 if is_alive else None
-        client._serialize_presence_payload = mock.Mock(return_value=presence_payload)
-
-        await client.update_presence(idle_since=idle_since, afk=afk, status=status, activity=activity)
+    @pytest.mark.parametrize("activity", [presences.Activity(name="foo"), None])
+    def test__serialize_and_store_presence_payload_sets_state(self, client, idle_since, afk, status, activity):
+        client._serialize_and_store_presence_payload(idle_since=idle_since, afk=afk, status=status, activity=activity)
 
         assert client._activity == activity
         assert client._idle_since == idle_since
         assert client._is_afk == afk
         assert client._status == status
 
-    @pytest.mark.parametrize("is_alive", [True, False])
-    async def test_sends_to_websocket_if_alive(self, client, is_alive):
-        presence_payload = object()
-        client._connected_at = 1234.5 if is_alive else None
-        client._serialize_presence_payload = mock.Mock(return_value=presence_payload)
-
-        await client.update_presence(
-            idle_since=datetime.datetime.now(), afk=True, status=presences.Status.IDLE, activity=None,
-        )
-
-        if is_alive:
-            client._send_json.assert_awaited_once_with({"op": 3, "d": presence_payload})
-        else:
-            client._send_json.assert_not_called()
-
-
-@pytest.mark.asyncio
-class TestUpdateVoiceState:
-    @pytest.fixture
-    def client(self, proxy_settings, http_settings):
-        client = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-            shard_id=3,
-            shard_count=17,
-        )
-        return hikari_test_helpers.mock_methods_on(
-            client, except_=("update_voice_state", "_InvalidSession", "_Reconnect", "_SocketClosed", "_Opcode",),
-        )
-
-    @pytest.mark.parametrize("channel", [12345, None])
-    @pytest.mark.parametrize("self_deaf", [True, False])
-    @pytest.mark.parametrize("self_mute", [True, False])
-    async def test_serialized_result_sent_on_websocket(self, client, channel, self_deaf, self_mute):
-        payload = {
-            "channel_id": str(channel) if channel is not None else None,
-            "guild_id": "6969420",
-            "deaf": self_deaf,
-            "mute": self_mute,
-        }
-
-        await client.update_voice_state("6969420", channel, self_mute=self_mute, self_deaf=self_deaf)
-
-        client._send_json.assert_awaited_once_with(
-            {"op": shard.GatewayShardImpl._Opcode.VOICE_STATE_UPDATE, "d": payload}
-        )
-
-
-@pytest.mark.asyncio
-class TestRequestGuildMembers:
-    @pytest.fixture
-    def client(self, proxy_settings, http_settings):
-        client = hikari_test_helpers.unslot_class(shard.GatewayShardImpl)(
-            url="wss://gateway.discord.gg",
-            token="lol",
-            event_consumer=mock.Mock(),
-            http_settings=http_settings,
-            proxy_settings=proxy_settings,
-            shard_id=3,
-            shard_count=17,
-        )
-        return hikari_test_helpers.mock_methods_on(
-            client, except_=("request_guild_members", "_InvalidSession", "_Reconnect", "_SocketClosed", "_Opcode",),
-        )
-
-    async def test_when_no_query_and_no_limit_and_GUILD_MEMBERS_not_enabled(self, client):
-        client._intents = intents.Intents.GUILD_INTEGRATIONS
-
-        with pytest.raises(errors.MissingIntentError):
-            await client.request_guild_members(123, query="", limit=0)
-
-    async def test_when_presences_and_GUILD_PRESENCES_not_enabled(self, client):
-        client._intents = intents.Intents.GUILD_INTEGRATIONS
-
-        with pytest.raises(errors.MissingIntentError):
-            await client.request_guild_members(123, query="test", limit=1, include_presences=True)
-
-    @pytest.mark.parametrize("kwargs", [{"query": "some query"}, {"limit": 1}])
-    async def test_when_specifiying_users_with_limit_or_query(self, client, kwargs):
-        client._intents = intents.Intents.GUILD_INTEGRATIONS
-
-        with pytest.raises(ValueError):
-            await client.request_guild_members(123, user_ids=[], **kwargs)
-
-    @pytest.mark.parametrize("limit", [-1, 101])
-    async def test_when_limit_under_0_or_over_100(self, client, limit):
-        client._intents = None
-
-        with pytest.raises(ValueError):
-            await client.request_guild_members(123, limit=limit)
-
-    async def test_when_users_over_100(self, client):
-        client._intents = None
-
-        with pytest.raises(ValueError):
-            await client.request_guild_members(123, user_ids=range(101))
-
-    async def test_request_guild_members(self, client):
-        client._intents = None
-        client._send_json = mock.AsyncMock()
-
-        await client.request_guild_members(123)
-
-        client._send_json.assert_awaited_once_with(
-            {"op": client._Opcode.REQUEST_GUILD_MEMBERS, "d": {"guild_id": "123", "query": "", "limit": 0}}
-        )
-
-
-@pytest.mark.asyncio
-class TestCloseWs:
-    async def test_when_connected(self, client):
-        client._ws = mock.Mock(spec_set=aiohttp.ClientWebSocketResponse)
-        client._ws.close = mock.AsyncMock()
-
-        await client._close_ws(6969420, "you got yeeted")
-
-        client._ws.close.assert_awaited_once_with(code=6969420, message=b"you got yeeted")
-
-    async def test_when_disconnected(self, client):
-        client._ws = None
-        await client._close_ws(6969420, "you got yeeted")
-        # Do not expect any error or anything to happen.
-        assert True
-
-
-@pytest.mark.asyncio
-class TestHandshake:
-    async def test__handshake_when__session_id_is_not_None(self, client):
-        client._expect_opcode = mock.AsyncMock()
-        client._session_id = 123
-        client._token = "token"
-        client._seq = 456
-        client._send_json = mock.AsyncMock()
-
-        await client._handshake()
-
-        expected_json = {"op": client._Opcode.RESUME, "d": {"token": "token", "seq": 456, "session_id": 123}}
-        client._send_json.assert_awaited_once_with(expected_json)
-
-    async def test__handshake_when__session_id_is_None_and_no_intents_and_no_activity(self, client):
-        client._expect_opcode = mock.AsyncMock()
-        client._session_id = None
-        client._token = "token"
-        client._intents = None
-        client._large_threshold = 123
-        client._activity = undefined.UNDEFINED
-        client._status = undefined.UNDEFINED
-        client._idle_since = undefined.UNDEFINED
-        client._is_afk = undefined.UNDEFINED
-        client._shard_id = 0
-        client._shard_count = 1
-        client._send_json = mock.AsyncMock()
-
-        await client._handshake()
-
-        expected_json = {
-            "op": client._Opcode.IDENTIFY,
-            "d": {
-                "token": "token",
-                "compress": False,
-                "large_threshold": 123,
-                "properties": {
-                    "$os": constants.SYSTEM_TYPE,
-                    "$browser": constants.AIOHTTP_VERSION,
-                    "$device": constants.LIBRARY_VERSION,
-                },
-                "shard": [0, 1],
-            },
-        }
-        client._send_json.assert_awaited_once_with(expected_json)
-
-    async def test__handshake_when__session_id_is_None_and_intents(self, client):
-        client._expect_opcode = mock.AsyncMock()
-        client._session_id = None
-        client._token = "token"
-        client._intents = intents.Intents.ALL_UNPRIVILEGED
-        client._large_threshold = 123
-        client._activity = undefined.UNDEFINED
-        client._status = undefined.UNDEFINED
-        client._idle_since = undefined.UNDEFINED
-        client._is_afk = undefined.UNDEFINED
-        client._shard_id = 0
-        client._shard_count = 1
-        client._send_json = mock.AsyncMock()
-
-        await client._handshake()
-
-        expected_json = {
-            "op": client._Opcode.IDENTIFY,
-            "d": {
-                "token": "token",
-                "compress": False,
-                "large_threshold": 123,
-                "properties": {
-                    "$os": constants.SYSTEM_TYPE,
-                    "$browser": constants.AIOHTTP_VERSION,
-                    "$device": constants.LIBRARY_VERSION,
-                },
-                "shard": [0, 1],
-                "intents": intents.Intents.ALL_UNPRIVILEGED,
-            },
-        }
-        client._send_json.assert_awaited_once_with(expected_json)
-
-    @pytest.mark.parametrize("idle_since", [undefined.UNDEFINED, datetime.datetime.now()])
-    @pytest.mark.parametrize("afk", [undefined.UNDEFINED, True, False])
-    @pytest.mark.parametrize(
-        "status",
-        [presences.Status.DO_NOT_DISTURB, presences.Status.IDLE, presences.Status.ONLINE, presences.Status.OFFLINE],
-    )
-    @pytest.mark.parametrize("activity", [undefined.UNDEFINED, presences.Activity(name="foo"), None])
-    async def test__handshake_when__session_id_is_None_and_activity(self, client, idle_since, afk, status, activity):
-        client._expect_opcode = mock.AsyncMock()
-        client._session_id = None
-        client._token = "token"
-        client._intents = None
-        client._large_threshold = 123
-        client._activity = activity
-        client._status = status
-        client._idle_since = idle_since
-        client._is_afk = afk
-        client._shard_id = 0
-        client._shard_count = 1
-        client._send_json = mock.AsyncMock()
-        client._app = mock.Mock()
-        client._serialize_presence_payload = mock.Mock(
-            return_value={
-                "since": int(idle_since.timestamp() * 1_000) if idle_since is not undefined.UNDEFINED else None,
-                "afk": afk if afk is not undefined.UNDEFINED else False,
-                "status": status if status is not undefined.UNDEFINED else presences.Status.ONLINE,
-                "game": activity if activity is not undefined.UNDEFINED else None,
-            }
-        )
-
-        await client._handshake()
-
-        expected_json = {
-            "op": client._Opcode.IDENTIFY,
-            "d": {
-                "token": "token",
-                "compress": False,
-                "large_threshold": 123,
-                "properties": {
-                    "$os": constants.SYSTEM_TYPE,
-                    "$browser": constants.AIOHTTP_VERSION,
-                    "$device": constants.LIBRARY_VERSION,
-                },
-                "shard": [0, 1],
-                "presence": {
-                    "since": int(idle_since.timestamp() * 1_000) if idle_since is not undefined.UNDEFINED else None,
-                    "afk": afk if afk is not undefined.UNDEFINED else False,
-                    "status": status if status is not undefined.UNDEFINED else presences.Status.ONLINE,
-                    "game": activity if activity is not undefined.UNDEFINED else None,
-                },
-            },
-        }
-        client._send_json.assert_awaited_once_with(expected_json)
-        client._serialize_presence_payload.assert_called_once_with()
-
-
-@pytest.mark.asyncio
-class TestHeartbeatKeepalive:
-    @hikari_test_helpers.timeout()
-    async def test_when_not_zombie(self, client):
-        client._last_message_received = 5
-        client._heartbeat_interval = 5
-        client._last_heartbeat_sent = 2
-        client._seq = 123
-        client._close_zombie = mock.AsyncMock()
-        client._send_json = mock.AsyncMock()
-        client._request_close_event = mock.Mock(is_set=mock.Mock(return_value=False))
-
-        with mock.patch.object(hikari_date, "monotonic", side_effect=[10, 10, asyncio.CancelledError]):
-            with mock.patch.object(asyncio, "wait_for", side_effect=asyncio.TimeoutError):
-                with mock.patch.object(asyncio, "sleep"):
-                    await client._heartbeat_keepalive()
-
-        client._close_zombie.assert_not_called()
-        client._send_json.assert_awaited_once_with({"op": client._Opcode.HEARTBEAT, "d": 123})
-        assert client._last_heartbeat_sent == 10
-
-    @hikari_test_helpers.timeout()
-    async def test_when_zombie(self, client):
-        client._last_message_received = 1
-        client._heartbeat_interval = 5
-        client._last_heartbeat_sent = 2
-        client._close_zombie = mock.AsyncMock()
-        client._send_json = mock.AsyncMock()
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=10):
-            with mock.patch.object(asyncio, "sleep"):
-                await client._heartbeat_keepalive()
-
-        client._close_zombie.assert_awaited_once_with()
-        client._send_json.assert_not_called()
-
-    @hikari_test_helpers.timeout()
-    async def test_when_request_close_event_set(self, client):
-        client._heartbeat_interval = 5
-        client._close_zombie = mock.AsyncMock()
-        client._send_json = mock.AsyncMock()
-        client._request_close_event = mock.Mock(is_set=mock.Mock(return_value=True))
-
-        with mock.patch.object(asyncio, "sleep"):
-            await client._heartbeat_keepalive()
-
-        client._close_zombie.assert_not_called()
-        client._send_json.assert_not_called()
-
-
-@pytest.mark.asyncio
-class TestCloseZombie:
-    async def test_close_zombie(self, client):
-        class AsyncMock:
-            def __init__(self):
-                self.await_count = 0
-
-            def __await__(self):
-                self.await_count += 1
-
-        client._close_ws = mock.Mock()
-        client._ws = mock.Mock()
-        client._zombied = False
-        mock_task = AsyncMock()
-
-        with mock.patch.object(asyncio, "create_task", return_value=mock_task) as create_task:
-            with mock.patch.object(asyncio, "sleep") as sleep:
-                await client._close_zombie()
-
-        assert client._zombied is True
-        client._close_ws.assert_called_once_with(code=errors.ShardCloseCode.PROTOCOL_ERROR, message="heartbeat timeout")
-        create_task.assert_called_once_with(client._close_ws())
-        assert mock_task.await_count == 1
-        sleep.assert_awaited_once_with(0.1)
-
-
-@pytest.mark.asyncio
-class TestPollEvents:
-    @pytest.fixture
-    def exit_error(self):
-        class ExitError(BaseException):
-            ...
-
-        return ExitError
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_DISPATCH_and_event_is_READY(self, client, exit_error):
-        data_payload = {"session_id": 123, "user": {"id": 456, "username": "hikari", "discriminator": "0001"}}
-        payload = {
-            "op": client._Opcode.DISPATCH,
-            "d": data_payload,
-            "t": "READY",
-            "s": 101,
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-        client._dispatch = mock.Mock()
-        timestamp = datetime.datetime.now()
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=timestamp):
-            with pytest.raises(exit_error):
-                await client._poll_events()
-
-        client._dispatch.assert_called_once_with("READY", data_payload)
-        assert client._handshake_event.is_set()
-        assert client._session_id == 123
-        assert client._seq == 101
-        assert client._user_id == snowflake.Snowflake(456)
-        assert client._session_started_at == timestamp
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_DISPATCH_and_event_is_RESUME(self, client, exit_error):
-        payload = {
-            "op": client._Opcode.DISPATCH,
-            "d": "some data",
-            "t": "RESUME",
-            "s": 101,
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-        client._dispatch = mock.Mock()
-
-        with pytest.raises(exit_error):
-            await client._poll_events()
-
-        client._dispatch.assert_called_once_with("RESUME", "some data")
-        assert client._handshake_event.is_set()
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_DISPATCH_and_event_is_not_handled(self, client, exit_error):
-        payload = {
-            "op": client._Opcode.DISPATCH,
-            "d": "some data",
-            "t": "UNKNOWN",
-            "s": 101,
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-        client._dispatch = mock.Mock()
-
-        with pytest.raises(exit_error):
-            await client._poll_events()
-
-        client._dispatch.assert_called_once_with("UNKNOWN", "some data")
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_HEARTBEAT(self, client, exit_error):
-        payload = {
-            "op": client._Opcode.HEARTBEAT,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-        client._send_json = mock.AsyncMock()
-
-        with pytest.raises(exit_error):
-            await client._poll_events()
-
-        client._send_json.assert_awaited_once_with({"op": client._Opcode.HEARTBEAT_ACK})
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_HEARTBEAT_ACK(self, client, exit_error):
-        payload = {
-            "op": client._Opcode.HEARTBEAT_ACK,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-        client._last_heartbeat_sent = 5
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=13):
-            with pytest.raises(exit_error):
-                await client._poll_events()
-
-        assert client._heartbeat_latency == 8
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_RECONNECT(self, client):
-        payload = {
-            "op": client._Opcode.RECONNECT,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(return_value=payload)
-
-        with pytest.raises(client._Reconnect):
-            await client._poll_events()
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_INVALID_SESSION(self, client):
-        payload = {
-            "op": client._Opcode.INVALID_SESSION,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(return_value=payload)
-
-        with pytest.raises(client._InvalidSession):
-            await client._poll_events()
-
-    @hikari_test_helpers.timeout()
-    async def test_when_opcode_is_unknown(self, client, exit_error):
-        payload = {
-            "op": 101,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(side_effect=[payload, exit_error])
-
-        with pytest.raises(exit_error):
-            await client._poll_events()
-
-    @hikari_test_helpers.timeout()
-    async def test_when_request_close_event_is_set(self, client, exit_error):
-        client._request_close_event.set()
-
-        await client._poll_events()
-
-
-@pytest.mark.asyncio()
-class TestExpectOpcode:
-    async def test_when_correct_opcode_received(self, client):
-        payload = {
-            "op": client._Opcode.HEARTBEAT,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(return_value=payload)
-
-        assert await client._expect_opcode(client._Opcode.HEARTBEAT) == "some data"
-
-    async def test_when_incorrect_opcode_received(self, client):
-        payload = {
-            "op": client._Opcode.HEARTBEAT_ACK,
-            "d": "some data",
-        }
-        client._receive_json = mock.AsyncMock(return_value=payload)
-        client._close_ws = mock.AsyncMock()
-
-        with pytest.raises(errors.GatewayError):
-            await client._expect_opcode(client._Opcode.HEARTBEAT)
-
-        client._close_ws.assert_awaited_once_with(
-            errors.ShardCloseCode.PROTOCOL_ERROR,
-            f"Unexpected opcode {client._Opcode.HEARTBEAT_ACK} received, expected {client._Opcode.HEARTBEAT}",
-        )
-
-
-class StubResponse:
-    extra = None
-
-    def __init__(self, type, data):
-        self.type = type
-        self.data = data
-
-    def __repr__(self):
-        return f"Stub Reponse (type:{self.type})"
-
-
-@pytest.mark.asyncio
-class TestReceiveJson:
-    async def test_when_type_is_BINARY(self, client):
-        client._receive_raw = mock.AsyncMock(return_value=StubResponse(aiohttp.WSMsgType.BINARY, "some data"))
-        client._receive_zlib_message = mock.AsyncMock(return_value=(4, '{"op": 1, "t": "some t"}'))
-
-        assert await client._receive_json() == {"op": 1, "t": "some t"}
-
-        client._receive_zlib_message.assert_awaited_once_with("some data")
-
-    async def test_when_type_is_TEXT(self, client):
-        client._receive_raw = mock.AsyncMock(
-            return_value=StubResponse(aiohttp.WSMsgType.TEXT, '{"op": 1, "t": "some t"}')
-        )
-
-        assert await client._receive_json() == {"op": 1, "t": "some t"}
-
-    async def test_when_type_is_UNKNOWN(self, client):
-        client._receive_raw = mock.AsyncMock(return_value=StubResponse("some type", "some data"))
-        with pytest.raises(TypeError):
-            await client._receive_json()
-
-
-@pytest.mark.asyncio
-class TestReceiveZlibMessage:
-    async def test_receive_zlib_message(self, client):
-        client._receive_raw = mock.AsyncMock(
-            side_effect=[
-                StubResponse(aiohttp.WSMsgType.BINARY, 0),
-                StubResponse(aiohttp.WSMsgType.BINARY, 255),
-                StubResponse(aiohttp.WSMsgType.BINARY, 255),
-            ]
-        )
-        mock_decompress_return = mock.Mock(decode=mock.Mock(return_value=b"final data"))
-        client._zlib = mock.Mock()
-        client._zlib.decompress = mock.Mock(return_value=mock_decompress_return)
-
-        assert await client._receive_zlib_message(b"\x00") == (4, b"final data")
-        client._zlib.decompress.assert_called_once_with(bytearray(b"\x00\x00\xff\xff"))
-        mock_decompress_return.decode.assert_called_once_with("utf-8")
-
-    async def test_when_next_received_is_not_BINARY(self, client):
-        client._receive_raw = mock.AsyncMock(return_value=StubResponse(aiohttp.WSMsgType.TEXT, 0))
-
-        with pytest.raises(errors.GatewayError):
-            await client._receive_zlib_message(b"\x00")
-
-
-@pytest.mark.asyncio
-class TestReceiveRaw:
-    async def test_receive_raw(self, client):
-        message = StubResponse(aiohttp.WSMsgType.TEXT, "some text")
-        client._ws = mock.Mock(receive=mock.AsyncMock(return_value=message))
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=123):
-            assert await client._receive_raw() == message
-
-        assert client._last_message_received == 123
-
-    @pytest.mark.parametrize(
-        ("received", "expected_error"),
-        [
-            (StubResponse(aiohttp.WSMsgType.CLOSE, 0), errors.GatewayServerClosedConnectionError),
-            (StubResponse(aiohttp.WSMsgType.CLOSING, 0), "_SocketClosed"),
-            (StubResponse(aiohttp.WSMsgType.CLOSED, 0), "_SocketClosed"),
-            (StubResponse(aiohttp.WSMsgType.ERROR, 0), errors.GatewayError),
-        ],
-    )
-    async def test_handling_types(self, client, received, expected_error):
-        if isinstance(expected_error, str):
-            expected_error = getattr(client, expected_error)
-
-        client._ws = mock.Mock()
-        client._ws.receive = mock.AsyncMock(return_value=received)
-        client._ws.exception = mock.Mock(return_value=RuntimeError)
-
-        with mock.patch.object(hikari_date, "monotonic", return_value=123):
-            with pytest.raises(expected_error):
-                await client._receive_raw()
-
-        assert client._last_message_received == 123
-
-
-@pytest.mark.asyncio
-class TestSendJson:
-    async def test_send_json(self, client):
-        client._ratelimiter = mock.Mock(acquire=mock.AsyncMock())
-        client._ws = mock.Mock(send_str=mock.AsyncMock())
-
-        await client._send_json({"some": "payload"})
-
-        client._ratelimiter.acquire.assert_awaited_once_with()
-        client._ws.send_str.assert_awaited_once_with('{"some": "payload"}')
-
-
-class TestDispatch:
-    def test_dispatch(self, client):
-        mock_task = object()
-        mock_coroutine = object()
-        client._app = mock.Mock()
-        client._event_consumer = mock.Mock(return_value=mock_coroutine)
-        client._shard_id = 123
-
-        with mock.patch.object(asyncio, "create_task", return_value=mock_task) as create_task:
-            assert client._dispatch("MESSAGE_CREATE", {"some": "payload"}) == mock_task
-
-        client._event_consumer.assert_called_once_with(client, "MESSAGE_CREATE", {"some": "payload"})
-        create_task.assert_called_once_with(mock_coroutine, name="gateway shard 123 dispatch MESSAGE_CREATE")
-
-
-class TestLogDebugPayload:
-    def test_when_logging_debug_disabled(self, client):
-        client._logger.isEnabledFor = mock.Mock(return_value=False)
-        client._logger.debug = mock.Mock()
-
-        client._log_debug_payload({"some": "payload"}, "some message", "args")
-
-        client._logger.debug.assert_not_called()
-
-    def test_when_debug(self, client):
-        client._logger.isEnabledFor = mock.Mock(return_value=True)
-        client._logger.debug = mock.Mock()
-        client._debug = True
-        client._session_id = 123
-        client._seq = 456
-
-        client._log_debug_payload({"some": "payload"}, "some message %s", "args")
-
-        client._logger.debug.assert_called_once_with(
-            "some message %s [seq:%s, session:%s, size:%s] with raw payload: %s",
-            "args",
-            456,
-            123,
-            1,
-            {"some": "payload"},
-        )
-
-    def test_when_not_debug(self, client):
-        client._logger.isEnabledFor = mock.Mock(return_value=True)
-        client._logger.debug = mock.Mock()
-        client._debug = False
-        client._session_id = 123
-        client._seq = 456
-
-        client._log_debug_payload({"some": "payload"}, "some message %s", "args")
-
-        client._logger.debug.assert_called_once_with(
-            "some message %s [seq:%s, session:%s, size:%s]", "args", 456, 123, 1
-        )
+    def test__serialize_datetime_when_datetime_is_None(self, client):
+        assert client._serialize_datetime(None) is None
+
+    def test__serialize_datetime_when_datetime_is_not_None(self, client):
+        dt = datetime.datetime(2004, 11, 22, tzinfo=datetime.timezone.utc)
+        assert client._serialize_datetime(dt) == 1101081600000

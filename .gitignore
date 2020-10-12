@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 
+# Stubgen defaults
+out/*
+
 # Virtual environments
 .venv*/
 venv*/
@@ -57,3 +60,6 @@ prof/
 
 # Generated stubs for MyPy --strict hackfixes.
 hikari/**/__init__.pyi
+
+# Logs
+*.log

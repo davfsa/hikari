@@ -23,7 +23,8 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
+    "GuildEvent",
     "GuildVisibilityEvent",
     "GuildAvailableEvent",
     "GuildUnavailableEvent",
@@ -35,7 +36,6 @@ __all__: typing.Final[typing.List[str]] = [
     "EmojisUpdateEvent",
     "IntegrationsUpdateEvent",
     "PresenceUpdateEvent",
-    "MemberChunkEvent",
 ]
 
 import abc
@@ -43,21 +43,21 @@ import typing
 
 import attr
 
+from hikari import intents
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
+    from hikari import channels as channels_
+    from hikari import emojis as emojis_
+    from hikari import guilds
+    from hikari import presences as presences_
+    from hikari import snowflakes
     from hikari import traits
+    from hikari import users
+    from hikari import voices
     from hikari.api import shard as gateway_shard
-    from hikari.models import channels as channels_
-    from hikari.models import emojis as emojis_
-    from hikari.models import guilds
-    from hikari.models import presences as presences_
-    from hikari.models import users
-    from hikari.models import voices
-    from hikari.utilities import snowflake
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
@@ -69,14 +69,47 @@ class GuildEvent(shard_events.ShardEvent, abc.ABC):
 
     @property
     @abc.abstractmethod
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         """ID of the guild that this event relates to.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the guild that relates to this event.
         """
+
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached guild that this event relates to, if known.
+
+        If not known, this will return `builtins.None` instead.
+
+        Returns
+        -------
+        typing.Optional[hikari.guilds.GatewayGuild]
+            The guild this event relates to, or `builtins.None` if not known.
+        """
+        return self.app.cache.get_available_guild(self.guild_id) or self.app.cache.get_unavailable_guild(self.guild_id)
+
+    async def fetch_guild(self) -> guilds.RESTGuild:
+        """Perform an API call to get the guild that this event relates to.
+
+        Returns
+        -------
+        hikari.guilds.RESTGuild
+            The guild this event occurred in.
+        """
+        return await self.app.rest.fetch_guild(self.guild_id)
+
+    async def fetch_guild_preview(self) -> guilds.GuildPreview:
+        """Perform an API call to get the preview of the event's guild.
+
+        Returns
+        -------
+        hikari.guilds.GuildPreview
+            The preview of the guild this event occurred in.
+        """
+        return await self.app.rest.fetch_guild_preview(self.guild_id)
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
@@ -100,7 +133,7 @@ class GuildAvailableEvent(GuildVisibilityEvent):
     This will occur on startup, after outages, and if the bot joins a new guild.
 
     !!! note
-        Some fields like `members` and `include_presences` are included here but not on
+        Some fields like `members` and `presences` are included here but not on
         the other `GuildUpdateEvent` and `GuildUnavailableEvent` guild visibility
         event models.
     """
@@ -116,66 +149,66 @@ class GuildAvailableEvent(GuildVisibilityEvent):
 
     Returns
     -------
-    hikari.models.guilds.Guild
+    hikari.guilds.Guild
         The guild that relates to this event.
     """
 
-    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    emojis: typing.Mapping[snowflakes.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
     """Mapping of emoji IDs to the emojis in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.emojis.KnownCustomEmoji]
         The emojis in the guild.
     """
 
-    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    roles: typing.Mapping[snowflakes.Snowflake, guilds.Role] = attr.ib(repr=False)
     """Mapping of role IDs to the roles in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.guilds.Role]
         The roles in the guild.
     """
 
-    channels: typing.Mapping[snowflake.Snowflake, channels_.GuildChannel] = attr.ib(repr=False)
+    channels: typing.Mapping[snowflakes.Snowflake, channels_.GuildChannel] = attr.ib(repr=False)
     """Mapping of channel IDs to the channels in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.channels.GuildChannel]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.channels.GuildChannel]
         The channels in the guild.
     """
 
-    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
+    members: typing.Mapping[snowflakes.Snowflake, guilds.Member] = attr.ib(repr=False)
     """Mapping of user IDs to the members in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.guilds.Member]
         The members in the guild.
     """
 
-    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
-    """Mapping of user IDs to the include_presences for the guild.
+    presences: typing.Mapping[snowflakes.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
+    """Mapping of user IDs to the presences for the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
-        The member include_presences in the guild.
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.presences.MemberPresence]
+        The member presences in the guild.
     """
 
-    voice_states: typing.Mapping[snowflake.Snowflake, voices.VoiceState] = attr.ib(repr=False)
+    voice_states: typing.Mapping[snowflakes.Snowflake, voices.VoiceState] = attr.ib(repr=False)
     """Mapping of user IDs to the voice states active in this guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.voices.VoiceState]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.voices.VoiceState]
         The voice states active in the guild.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildEvent>>.
         return self.guild.id
 
@@ -195,8 +228,13 @@ class GuildLeaveEvent(GuildVisibilityEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildEvent>>.
+
+    if typing.TYPE_CHECKING:
+        # This should always fail.
+        async def fetch_guild(self) -> typing.NoReturn:
+            ...
 
 
 @attr_extensions.with_copy
@@ -211,7 +249,7 @@ class GuildUnavailableEvent(GuildVisibilityEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildEvent>>.
 
 
@@ -232,30 +270,30 @@ class GuildUpdateEvent(GuildEvent):
 
     Returns
     -------
-    hikari.models.guilds.Guild
+    hikari.guilds.Guild
         The guild that relates to this event.
     """
 
-    emojis: typing.Mapping[snowflake.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
+    emojis: typing.Mapping[snowflakes.Snowflake, emojis_.KnownCustomEmoji] = attr.ib(repr=False)
     """Mapping of emoji IDs to the emojis in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.emojis.KnownCustomEmoji]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.emojis.KnownCustomEmoji]
         The emojis in the guild.
     """
 
-    roles: typing.Mapping[snowflake.Snowflake, guilds.Role] = attr.ib(repr=False)
+    roles: typing.Mapping[snowflakes.Snowflake, guilds.Role] = attr.ib(repr=False)
     """Mapping of role IDs to the roles in the guild.
 
     Returns
     -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Role]
+    typing.Mapping[hikari.snowflakes.Snowflake, hikari.guilds.Role]
         The roles in the guild.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildEvent>>.
         return self.guild.id
 
@@ -272,8 +310,17 @@ class BanEvent(GuildEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.users.User
+        hikari.users.User
             The user that this event concerns.
+        """
+
+    async def fetch_user(self) -> users.User:
+        """Perform an API call to fetch the user this ban event affects.
+
+        Returns
+        -------
+        hikari.users.User
+            The user affected by this event.
         """
 
 
@@ -289,11 +336,24 @@ class BanCreateEvent(BanEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildEvent>>.
 
     user: users.User = attr.ib()
     # <<inherited docstring from BanEvent>>.
+
+    async def fetch_ban(self) -> guilds.GuildMemberBan:
+        """Perform an API call to fetch the details about this ban.
+
+        This will include the optionally defined audit log reason for the
+        ban.
+
+        Returns
+        -------
+        hikari.guilds.GuildMemberBan
+            The ban details.
+        """
+        return await self.app.rest.fetch_ban(self.guild_id, self.user)
 
 
 @attr_extensions.with_copy
@@ -308,7 +368,7 @@ class BanDeleteEvent(BanEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildEvent>>.
 
     user: users.User = attr.ib()
@@ -327,7 +387,7 @@ class EmojisUpdateEvent(GuildEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildEvent>>.
 
     emojis: typing.Sequence[emojis_.KnownCustomEmoji] = attr.ib()
@@ -338,6 +398,16 @@ class EmojisUpdateEvent(GuildEvent):
     typing.Sequence[emojis_.KnownCustomEmoji]
         All emojis in the guild.
     """
+
+    async def fetch_emojis(self) -> typing.Sequence[emojis_.KnownCustomEmoji]:
+        """Perform an API call to retrieve an up-to-date view of the emojis.
+
+        Returns
+        -------
+        typing.Sequence[emojis_.KnownCustomEmoji]
+            All emojis in the guild.
+        """
+        return await self.app.rest.fetch_guild_emojis(self.guild_id)
 
 
 @attr_extensions.with_copy
@@ -364,8 +434,27 @@ class IntegrationsUpdateEvent(GuildEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
+
     # <<inherited docstring from ShardEvent>>.
+
+    async def fetch_integrations(self) -> typing.Sequence[guilds.Integration]:
+        """Perform an API call to fetch some number of guild integrations.
+
+        !!! warning
+            The results of this are not clearly defined by Discord. The current
+            behaviour appears to be that only the first 50 integrations actually
+            get returned. Discord have made it clear that they are not willing
+            to fix this in
+            https://github.com/discord/discord-api-docs/issues/1990.
+
+        Returns
+        -------
+        typing.Sequence[hikari.guilds.Integration]
+            Some possibly random subset of the integrations in a guild,
+            probably.
+        """
+        return await self.app.rest.fetch_integrations(self.guild_id)
 
 
 @attr_extensions.with_copy
@@ -396,7 +485,7 @@ class PresenceUpdateEvent(shard_events.ShardEvent):
 
     Returns
     -------
-    hikari.models.include_presences.MemberPresence
+    hikari.presences.MemberPresence
         Presence for the user in this guild.
     """
 
@@ -412,105 +501,49 @@ class PresenceUpdateEvent(shard_events.ShardEvent):
 
     Returns
     -------
-    hikari.models.users.PartialUser or builtins.None
+    typing.Optional[hikari.users.PartialUser]
         The partial user containing the updated fields.
     """
 
     @property
-    def user_id(self) -> snowflake.Snowflake:
+    def user_id(self) -> snowflakes.Snowflake:
         """User ID of the user that updated their presence.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             ID of the user the event concerns.
         """
         return self.presence.user_id
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         """Guild ID that the presence was updated in.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             ID of the guild the event occurred in.
         """
         return self.presence.guild_id
 
+    # TODO: make this nicer, as it is inconsistent with stuff elsewhere I guess.
+    def get_cached_user(self) -> typing.Optional[users.User]:
+        """Get the full cached user, if it is available.
 
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class MemberChunkEvent(shard_events.ShardEvent):
-    """Used to represent the response to Guild Request Members."""
+        Returns
+        -------
+        typing.Optional[hikari.users.User]
+            The full cached user, or `builtins.None` if not cached.
+        """
+        return self.app.cache.get_user(self.user_id)
 
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
+    async def fetch_user(self) -> users.User:
+        """Perform an API call to fetch the user this event concerns.
 
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<docstring inherited from ShardEvent>>.
-
-    guild_id: snowflake.Snowflake = attr.ib(repr=True)
-    # <<docstring inherited from ShardEvent>>.
-
-    members: typing.Mapping[snowflake.Snowflake, guilds.Member] = attr.ib(repr=False)
-    """Mapping of user IDs to the objects of the members in this chunk.
-
-    Returns
-    -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.guilds.Member]
-        Mapping of user IDs to corresponding member objects.
-    """
-
-    index: int = attr.ib(repr=True)
-    """Zero-indexed position of this within the queued up chunks for this request.
-
-    Returns
-    -------
-    builtins.int
-        The sequence index for this chunk.
-    """
-
-    count: int = attr.ib(repr=True)
-    """Total number of expected chunks for the request this is associated with.
-
-    Returns
-    -------
-    builtins.int
-        Total number of chunks to be expected.
-    """
-
-    not_found: typing.Sequence[snowflake.Snowflake] = attr.ib(repr=True)
-    """Sequence of the snowflakes that were not found while making this request.
-
-    This is only applicable when user IDs are specified while making the
-    member request the chunk is associated with.
-
-    Returns
-    -------
-    typing.Sequence[hikari.utilities.snowflake.Snowflake]
-        Sequence of user IDs that were not found.
-    """
-
-    presences: typing.Mapping[snowflake.Snowflake, presences_.MemberPresence] = attr.ib(repr=False)
-    """Mapping of user IDs to found member presence objects.
-
-    This will be empty if no include_presences are found or `include_presences` is not passed as
-    `True` while requesting the member chunks.
-
-    Returns
-    -------
-    typing.Mapping[hikari.utilities.snowflake.Snowflake, hikari.models.include_presences.MemberPresence]
-        Mapping of user IDs to corresponding include_presences.
-    """
-
-    nonce: typing.Optional[str] = attr.ib(repr=True)
-    """String nonce used to identify the request member chunks are associated with.
-
-    This is the nonce value passed while requesting member chunks.
-
-    Returns
-    -------
-    builtins.str or builtins.None
-        The request nonce if specified, or `builtins.None` otherwise.
-    """
+        Returns
+        -------
+        hikari.users.User
+            The user affected by this event.
+        """
+        return await self.app.rest.fetch_user(self.user_id)

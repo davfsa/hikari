@@ -73,24 +73,32 @@ SOFTWARE.
 
         ## Provide LaTeX math support
         <script async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/${mathjax_version}/latest.js?config=TeX-AMS_CHTML'></script>
-
-        ## If this is a merge request on GitLab, inject the visual feedback scripts.
-        % if "CI_MERGE_REQUEST_IID" in os.environ:
-            <% print("Injecting Visual Feedback GitLab scripts") %>
-            <script data-project-id="${os.environ['CI_PROJECT_ID']}"
-                    data-merge-request-id="${os.environ['CI_MERGE_REQUEST_IID']}"
-                    data-mr-url="https://gitlab.com"
-                    data-project-path="${os.environ['CI_PROJECT_PATH']}"
-                    id="review-app-toolbar-script"
-                    data-require-auth="false"
-                    src="https://gitlab.com/assets/webpack/visual_review_toolbar.js">
-            </script>
-        % endif
     </head>
 
     <body>
 
         <%include file="body.mako" />
+
+        <!-- Search script and dependencies -->
+        <script>
+            const input = document.getElementById('lunr-search');
+            input.disabled = false;
+            input.form.addEventListener('submit', (ev) => {
+                ev.preventDefault();
+                const url = new URL(window.location);
+                url.searchParams.set('q', input.value);
+                history.replaceState({}, null, url.toString());
+                search(input.value);
+            });
+            ## On page load
+            const query = new URL(window.location).searchParams.get('q');
+            if (query)
+                search(query);
+            function search(query) {
+                const url = '${'../' * (module.url().count('/') - 1)}search.html#' + encodeURIComponent(query);
+                window.location.href = url;
+            };
+        </script>
 
         ## Script dependencies for Bootstrap.
         <script src="https://code.jquery.com/jquery-${jquery_version}.slim.min.js"></script>

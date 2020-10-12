@@ -23,44 +23,46 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "HikariError",
     "HikariWarning",
+    "HikariInterrupt",
     "NotFoundError",
+    "RateLimitedError",
+    "RateLimitTooLongError",
     "UnauthorizedError",
     "ForbiddenError",
     "BadRequestError",
+    "RESTErrorCode",
     "HTTPError",
     "HTTPResponseError",
     "HTTPClientClosedError",
     "ClientHTTPResponseError",
     "InternalServerError",
     "ShardCloseCode",
+    "GatewayConnectionError",
     "GatewayServerClosedConnectionError",
-    "GatewayClientClosedError",
     "GatewayError",
     "MissingIntentWarning",
     "MissingIntentError",
-    "UnavailableGuildError",
     "BulkDeleteError",
     "VoiceError",
 ]
 
-import enum
 import http
 import typing
 
 import attr
 
-from hikari.models import messages
-from hikari.utilities import attr_extensions
-from hikari.utilities import snowflake
+from hikari.internal import attr_extensions
+from hikari.internal import enums
 
 if typing.TYPE_CHECKING:
-    from hikari.models import guilds
-    from hikari.models import intents as intents_
-    from hikari.utilities import data_binding
-    from hikari.utilities import routes
+    from hikari import intents as intents_
+    from hikari import messages
+    from hikari import snowflakes
+    from hikari.internal import data_binding
+    from hikari.internal import routes
 
 
 @attr_extensions.with_copy
@@ -88,6 +90,17 @@ class HikariWarning(RuntimeWarning):
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class HikariInterrupt(KeyboardInterrupt, HikariError):
+    """Exception raised when a kill signal is handled internally."""
+
+    signum: int = attr.ib()
+    """The signal number that was raised."""
+
+    signame: str = attr.ib()
+    """The signal name that was raised."""
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
 class GatewayError(HikariError):
     """A base exception type for anything that can be thrown by the Gateway."""
 
@@ -98,44 +111,44 @@ class GatewayError(HikariError):
         return self.reason
 
 
-@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
-class GatewayClientClosedError(GatewayError):
-    """An exception raised when you programmatically shut down the bot."""
-
-    reason: str = attr.ib(default="The gateway client has been closed")
-    """A string to explain the issue."""
-
-    def __str__(self) -> str:
-        return self.reason
-
-
-@enum.unique
 @typing.final
-class ShardCloseCode(enum.IntEnum):
+class ShardCloseCode(int, enums.Enum):
     """Reasons for a shard connection closure."""
 
-    NORMAL_CLOSURE = 1000
-    GOING_AWAY = 1001
-    PROTOCOL_ERROR = 1002
-    TYPE_ERROR = 1003
-    ENCODING_ERROR = 1007
-    POLICY_VIOLATION = 1008
-    TOO_BIG = 1009
-    UNEXPECTED_CONDITION = 1011
-    UNKNOWN_ERROR = 4000
-    UNKNOWN_OPCODE = 4001
-    DECODE_ERROR = 4002
-    NOT_AUTHENTICATED = 4003
-    AUTHENTICATION_FAILED = 4004
-    ALREADY_AUTHENTICATED = 4005
-    INVALID_SEQ = 4007
-    RATE_LIMITED = 4008
-    SESSION_TIMEOUT = 4009
-    INVALID_SHARD = 4010
-    SHARDING_REQUIRED = 4011
-    INVALID_VERSION = 4012
-    INVALID_INTENT = 4013
-    DISALLOWED_INTENT = 4014
+    NORMAL_CLOSURE = 1_000
+    GOING_AWAY = 1_001
+    PROTOCOL_ERROR = 1_002
+    TYPE_ERROR = 1_003
+    ENCODING_ERROR = 1_007
+    POLICY_VIOLATION = 1_008
+    TOO_BIG = 1_009
+    UNEXPECTED_CONDITION = 1_011
+    UNKNOWN_ERROR = 4_000
+    UNKNOWN_OPCODE = 4_001
+    DECODE_ERROR = 4_002
+    NOT_AUTHENTICATED = 4_003
+    AUTHENTICATION_FAILED = 4_004
+    ALREADY_AUTHENTICATED = 4_005
+    INVALID_SEQ = 4_007
+    RATE_LIMITED = 4_008
+    SESSION_TIMEOUT = 4_009
+    INVALID_SHARD = 4_010
+    SHARDING_REQUIRED = 4_011
+    INVALID_VERSION = 4_012
+    INVALID_INTENT = 4_013
+    DISALLOWED_INTENT = 4_014
+
+    @property
+    def is_standard(self) -> bool:
+        """Return `builtins.True` if this is a standard code."""
+        # Appears to be some MyPy bug where == is expected to
+        # return anything.
+        return bool((self.value // 1000) == 1)
+
+
+@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
+class GatewayConnectionError(GatewayError):
+    """An exception thrown if a connection issue occurs."""
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
@@ -193,17 +206,123 @@ class HTTPClientClosedError(HTTPError):
     """The error message."""
 
 
-_message_default_factory = attr.Factory(
-    lambda self: f"{self.status}: {self.raw_body}" if self.reason is None else self.reason, takes_self=True
-)
+@typing.final
+class RESTErrorCode(int, enums.Enum):
+    """Error codes provided as further info on errors returned by the REST API."""
 
+    UNKNOWN_ERROR = -1
+    """Error is not known."""
 
-@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
-class HTTPErrorResponse(HTTPError):
-    """Base exception for an erroneous HTTP response."""
+    GENERAL_ERROR = 0
+    """A general error, no further info provided."""
 
-    url: str = attr.ib()
-    """The URL that produced this error message."""
+    UNKNOWN_APPLICATION = 10_002
+    """Unknown application provided."""
+
+    UNKNOWN_CHANNEL = 10_003
+    """Unknown channel provided."""
+
+    UNKNOWN_GUILD = 10_004
+    """Unknown guild provided."""
+
+    UNKNOWN_INTEGRATION = 10_005
+    """Unknown integration provided."""
+
+    UNKNOWN_INVITE = 10_006
+    """Unknown invite provided."""
+
+    UNKNOWN_MEMBER = 10_007
+    """Unknown member provided."""
+
+    UNKNOWN_MESSAGE = 10_008
+    """Unknown message provided."""
+
+    UNKNOWN_PERMISSION_OVERWRITE = 10_009
+    """Unknown permission overwrite provided."""
+
+    UNKNOWN_ROLE = 10_011
+    """Unknown role provided."""
+
+    UNKNOWN_USER = 10_013
+    """Unknown user provided."""
+
+    UNKNOWN_EMOJI = 10_014
+    """Unknown emoji provided."""
+
+    UNKNOWN_WEBHOOK = 10_015
+    """Unknown webhook provided."""
+
+    UNKNOWN_BAN = 10_026
+    """Unknown ban provided."""
+
+    ANNOUNCEMENT_LIMIT_HIT = 20_022
+    """Message can not be edited due to announcement rate limits."""
+
+    WRITE_LIMIT_HIT = 20_028
+    """The global write limit on a channel has been hit."""
+
+    MAXIMUM_GUILDS = 30_001
+    """Maximum number of guilds reached (100)."""
+
+    MAXIMUM_PINS = 30_003
+    """Maximum number of pins reached for the channel (50)."""
+
+    MAXIMUM_ROLES = 30_005
+    """Maximum number of guild roles reached (250)."""
+
+    MAXIMUM_WEBHOOKS = 30_007
+    """Maximum number of webhooks in a channel reached (10)."""
+
+    MAXIMUM_REACTIONS = 30_010
+    """Maximum number of reactions on a message reached (20)."""
+
+    MAXIMUM_CHANNELS = 30_013
+    """Maximum number of guild channels reached (500)."""
+
+    MAXIMUM_INVITES = 30_016
+    """Maximum number of invites reached (1000)."""
+
+    REQUEST_TOO_LARGE = 40_005
+    """Request too large. Try sending something smaller in size."""
+
+    TEMPORARILY_DISABLED = 40_006
+    """This feature has been temporarily disabled server-side."""
+
+    ALREADY_CROSSPOSTED = 40_033
+    """This message has already been crossposted."""
+
+    MISSING_ACCESS = 50_001
+    """Missing access."""
+
+    PROHIBITED_ON_DM = 50_003
+    """Cannot execute action on a DM channel."""
+
+    NOT_MESSAGE_AUTHOR = 50_005
+    """Cannot edit a message authored by another user."""
+
+    EMPTY_MESSAGE = 50_006
+    """Cannot send an empty message."""
+
+    USER_DM_CLOSED = 50_007
+    """Cannot send messages to this user."""
+
+    MESSAGE_IN_VC = 50_008
+    """Cannot send messages in a voice channel."""
+
+    PINS_ONLY_ON_ORIGIN_CHANNEL = 50_019
+    """A message can only be pinned to the channel it was sent in."""
+
+    PROHIBITED_ON_SYSTEM_MESSAGE = 50_021
+    """Cannot execute action on a system message."""
+
+    MESSAGE_TOO_OLD = 50_034
+    """A message provided was too old to bulk delete."""
+
+    TWO_FACTOR_AUTHENTICATION_REQUIRED = 60_003
+    """2FA is required to use this endpoint."""
+
+    SYSTEM_OVERLOADED = 130_000
+    """API resource is currently overloaded. Try again a little later."""
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
@@ -222,27 +341,30 @@ class HTTPResponseError(HTTPError):
     raw_body: typing.Any = attr.ib()
     """The response body."""
 
-    reason: typing.Optional[str] = attr.ib(default=None)
-    """The error reason. If `builtins.None`, will generate one automatically."""
-
-    message: str = attr.ib(default=_message_default_factory, init=False)
+    message: str = attr.ib(default="")
     """The error message."""
 
+    code: typing.Union[RESTErrorCode, int] = attr.ib(default=RESTErrorCode.GENERAL_ERROR)
+    """The error code."""
+
     def __str__(self) -> str:
-        try:
-            raw_body = self.raw_body.decode("utf-8")
-        except (AttributeError, UnicodeDecodeError):
-            raw_body = str(self.raw_body)
-
-        chomped = len(raw_body) > 200
-
         if isinstance(self.status, http.HTTPStatus):
             name = self.status.name.replace("_", " ").title()
             name_value = f"{name} {self.status.value}"
         else:
             name_value = str(self.status).title()
 
-        return f"{name_value}: {raw_body[:200]}{'...' if chomped else ''} for {self.url}"
+        if self.message:
+            body = self.message
+        else:
+            try:
+                body = self.raw_body.decode("utf-8")
+            except (AttributeError, UnicodeDecodeError, TypeError, ValueError):
+                body = str(self.raw_body)
+
+        chomped = len(body) > 200
+
+        return f"{name_value}: '{body[:200]}{'...' if chomped else ''}' for {self.url}"
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
@@ -261,9 +383,6 @@ class BadRequestError(ClientHTTPResponseError):
     status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.BAD_REQUEST, init=False)
     """The HTTP status code for the response."""
 
-    message: str = attr.ib(default=_message_default_factory, init=False)
-    """The error message."""
-
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
 class UnauthorizedError(ClientHTTPResponseError):
@@ -271,9 +390,6 @@ class UnauthorizedError(ClientHTTPResponseError):
 
     status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.UNAUTHORIZED, init=False)
     """The HTTP status code for the response."""
-
-    message: str = attr.ib(default=_message_default_factory, init=False)
-    """The error message."""
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
@@ -288,9 +404,6 @@ class ForbiddenError(ClientHTTPResponseError):
     status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.FORBIDDEN, init=False)
     """The HTTP status code for the response."""
 
-    message: str = attr.ib(default=_message_default_factory, init=False)
-    """The error message."""
-
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
 class NotFoundError(ClientHTTPResponseError):
@@ -299,18 +412,10 @@ class NotFoundError(ClientHTTPResponseError):
     status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.NOT_FOUND, init=False)
     """The HTTP status code for the response."""
 
-    message: str = attr.ib(default=_message_default_factory, init=False)
-    """The error message."""
-
 
 @attr.s(auto_exc=True, kw_only=True, slots=True, repr=False, weakref_slot=False)
 class RateLimitedError(ClientHTTPResponseError):
-    """Raised when a non-global ratelimit that cannot be handled occurs.
-
-    This should only ever occur for specific routes that have additional
-    rate-limits applied to them by Discord. At the time of writing, the
-    PATCH CHANNEL _endpoint is the only one that knowingly implements this, and
-    does so by implementing rate-limits on the usage of specific fields only.
+    """Raised when a non-global rate limit that cannot be handled occurs.
 
     If you receive one of these, you should NOT try again until the given
     time has passed, either discarding the operation you performed, or waiting
@@ -323,14 +428,6 @@ class RateLimitedError(ClientHTTPResponseError):
     this, you may be able to send different requests that manipulate the same
     entities (in this case editing the same channel) that do not use the same
     collection of attributes as the previous request.
-
-    You should not usually see this occur, unless Discord vastly change their
-    ratelimit system without prior warning, which might happen in the future.
-
-    !!! note
-        If you receive this regularly, please file a bug report, or contact
-        Discord with the relevant debug information that can be obtained by
-        enabling debug logs and enabling the debug mode on the HTTP components.
     """
 
     route: routes.CompiledRoute = attr.ib()
@@ -342,15 +439,60 @@ class RateLimitedError(ClientHTTPResponseError):
     status: http.HTTPStatus = attr.ib(default=http.HTTPStatus.TOO_MANY_REQUESTS, init=False)
     """The HTTP status code for the response."""
 
-    reason: str = attr.ib(init=False)
-    """The error reason."""
+    message: str = attr.ib(init=False)
+    """The error message."""
 
-    @reason.default
+    @message.default
     def _(self) -> str:
         return f"You are being rate-limited for {self.retry_after:,} seconds on route {self.route}. Please slow down!"
 
-    message: str = attr.ib(default=_message_default_factory, init=False)
-    """The error message."""
+
+@attr.s(auto_exc=True, kw_only=True, slots=True, repr=False, weakref_slot=False)
+class RateLimitTooLongError(HTTPError):
+    """Internal error raised if the wait for a rate limit is too long.
+
+    This is similar to `asyncio.TimeoutError` in the way that it is used,
+    but this will be raised pre-emptively and immediately if the period
+    of time needed to wait is greater than a user-defined limit.
+
+    This will almost always be route-specific. If you receive this, it is
+    unlikely that performing the same call for a different channel/guild/user
+    will also have this rate limit.
+    """
+
+    route: routes.CompiledRoute = attr.ib()
+    """The route that produced this error."""
+
+    retry_after: float = attr.ib()
+    """How many seconds to wait before you can retry this specific request."""
+
+    max_retry_after: float = attr.ib()
+    """How long the client is allowed to wait for at a maximum before raising."""
+
+    reset_at: float = attr.ib()
+    """UNIX timestamp of when this limit will be lifted."""
+
+    limit: int = attr.ib()
+    """The maximum number of calls per window for this rate limit."""
+
+    period: float = attr.ib()
+    """How long the rate limit window lasts for from start to end."""
+
+    # This may support other types of limits in the future, this currently
+    # exists to be self-documenting to the user and for future compatibility
+    # only.
+    @property
+    def remaining(self) -> typing.Literal[0]:  # noqa: D401 - Imperative mood
+        """The number of requests that are remaining in this window.
+
+        This will always be `0` symbolically.
+
+        Returns
+        -------
+        builtins.int
+            The number of requests remaining. Always `0`.
+        """
+        return 0
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
@@ -378,10 +520,10 @@ class BulkDeleteError(HikariError):
     and will have a cause containing the initial exception.
     """
 
-    messages_deleted: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    messages_deleted: typing.Sequence[snowflakes.SnowflakeishOr[messages.PartialMessage]] = attr.ib()
     """Any message objects that were deleted before an exception occurred."""
 
-    messages_skipped: typing.Sequence[snowflake.SnowflakeishOr[messages.Message]] = attr.ib()
+    messages_skipped: typing.Sequence[snowflakes.SnowflakeishOr[messages.PartialMessage]] = attr.ib()
     """Any message objects that were skipped due to an exception."""
 
     @property
@@ -404,7 +546,7 @@ class VoiceError(HikariError):
 
 
 @attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
-class MissingIntentError(HikariError):
+class MissingIntentError(HikariError, ValueError):
     """Error raised when you try to perform an action without an intent.
 
     This is usually raised when querying the cache for something that is
@@ -415,12 +557,4 @@ class MissingIntentError(HikariError):
     """The combination of intents that are missing."""
 
     def __str__(self) -> str:
-        return f"You are missing the following intent(s): {str(self.intents)}"
-
-
-@attr.s(auto_exc=True, slots=True, repr=False, weakref_slot=False)
-class UnavailableGuildError(HikariError):
-    """Raised when a guild is unavailable due to an outage."""
-
-    guild: typing.Optional[guilds.GatewayGuild] = attr.ib()
-    """The guild that is unavailable, or `builtins.None` if not yet known."""
+        return "You are missing the following intent(s): " + ", ".join(map(str, self.intents.split()))

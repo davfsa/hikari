@@ -22,26 +22,26 @@
 """Special additional endpoints used by the REST API."""
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["TypingIndicator", "GuildBuilder"]
+__all__: typing.List[str] = ["TypingIndicator", "GuildBuilder"]
 
 import abc
 import typing
 
 import attr
 
-from hikari.utilities import undefined
+from hikari import undefined
 
 if typing.TYPE_CHECKING:
     import types
 
-    from hikari.models import channels
-    from hikari.models import colors
-    from hikari.models import guilds
-    from hikari.models import permissions as permissions_
-    from hikari.models import voices
-    from hikari.utilities import date
-    from hikari.utilities import files
-    from hikari.utilities import snowflake
+    from hikari import channels
+    from hikari import colors
+    from hikari import files
+    from hikari import guilds
+    from hikari import permissions as permissions_
+    from hikari import snowflakes
+    from hikari import voices
+    from hikari.internal import time
 
 
 class TypingIndicator(abc.ABC):
@@ -102,7 +102,7 @@ class GuildBuilder(abc.ABC):
     Creating a guild with an icon
 
     ```py
-    from hikari.models.files import WebResourceStream
+    from hikari.files import WebResourceStream
 
     guild_builder = rest.guild_builder("My Server!")
     guild_builder.icon = WebResourceStream("cat.png", "http://...")
@@ -112,7 +112,7 @@ class GuildBuilder(abc.ABC):
     Adding roles to your guild.
 
     ```py
-    from hikari.models.permissions import Permissions
+    from hikari.permissions import Permissions
 
     guild_builder = rest.guild_builder("My Server!")
 
@@ -131,7 +131,7 @@ class GuildBuilder(abc.ABC):
         text channels/voice channels/categories.
 
     !!! note
-        Functions that return a `hikari.utilities.snowflake.Snowflake` do
+        Functions that return a `hikari.snowflakes.Snowflake` do
         **not** provide the final ID that the object will have once the
         API call is made. The returned IDs are only able to be used to
         re-reference particular objects while building the guild format.
@@ -179,7 +179,9 @@ class GuildBuilder(abc.ABC):
     If not overridden, the guild will use the default voice region for Discord.
     """
 
-    verification_level: undefined.UndefinedOr[guilds.GuildVerificationLevel] = attr.ib(default=undefined.UNDEFINED)
+    verification_level: undefined.UndefinedOr[typing.Union[guilds.GuildVerificationLevel, int]] = attr.ib(
+        default=undefined.UNDEFINED
+    )
     """Verification level required to join the guild that can be overwritten.
 
     If not overridden, the guild will use the default verification level for
@@ -207,18 +209,18 @@ class GuildBuilder(abc.ABC):
 
         Returns
         -------
-        hikari.models.guilds.RESTGuild
+        hikari.guilds.RESTGuild
             The created guild.
 
         Raises
         ------
-        hikari.errors.BadRequest
+        hikari.errors.BadRequestError
             If any values set in the guild builder are invalid.
-        hikari.errors.Unauthorized
+        hikari.errors.UnauthorizedError
             If you are unauthorized to make the request (invalid/missing token).
-        hikari.errors.Forbidden
+        hikari.errors.ForbiddenError
             If you are already in 10 guilds.
-        hikari.errors.ServerHTTPErrorResponse
+        hikari.errors.InternalServerError
             If an internal error occurs on Discord while handling the request.
         """
 
@@ -228,13 +230,13 @@ class GuildBuilder(abc.ABC):
         name: str,
         /,
         *,
+        permissions: undefined.UndefinedOr[permissions_.Permissions] = undefined.UNDEFINED,
         color: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
         colour: undefined.UndefinedOr[colors.Colorish] = undefined.UNDEFINED,
-        hoisted: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
+        hoist: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
         mentionable: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
-        permissions: undefined.UndefinedOr[permissions_.Permissions] = undefined.UNDEFINED,
         position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
-    ) -> snowflake.Snowflake:
+    ) -> snowflakes.Snowflake:
         """Create a role.
 
         !!! warning
@@ -243,32 +245,27 @@ class GuildBuilder(abc.ABC):
         Parameters
         ----------
         name : builtins.str
-            The role name.
-        color : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
-            The colour of the role to use. If unspecified, then the default
-            colour is used instead.
-        colour : hikari.utilities.undefined.UndefinedOr[hikari.models.colors.Colorish]
-            Alias for the `color` parameter for non-american users.
-        hoisted : hikari.utilities.undefined.UndefinedOr[builtins.bool]
-            If `builtins.True`, the role will show up in the user sidebar in a separate
-            category if it is the highest hoisted role. If `builtins.False`, or
-            unspecified, then this will not occur.
-        mentionable : hikari.utilities.undefined.UndefinedOr[builtins.bool]
-            If `builtins.True`, then the role will be able to be mentioned.
-        permissions : hikari.utilities.undefined.UndefinedOr[hikari.models.permissions.Permissions]
-            The optional permissions to enforce on the role. If unspecified,
-            the default permissions for roles will be used.
+            The role's name.
 
-            !!! note
-                The default permissions are **NOT** the same as providing
-                zero permissions. To set no permissions, you should
-                pass `Permission(0)` explicitly.
-        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            If specified, the position to place the role in.
+        Other Parameters
+        ----------------
+        permissions : hikari.undefined.UndefinedOr[hikari.permissions.Permissions]
+            If provided, the permissions for the role.
+        color : hikari.undefined.UndefinedOr[hikari.colors.Colorish]
+            If provided, the role's color.
+        colour : hikari.undefined.UndefinedOr[hikari.colors.Colorish]
+            An alias for `color`.
+        hoist : hikari.undefined.UndefinedOr[builtins.bool]
+            If provided, whether to hoist the role.
+        mentionable : hikari.undefined.UndefinedOr[builtins.bool]
+            If provided, whether to make the role mentionable.
+        reason : hikari.undefined.UndefinedOr[builtins.str]
+            If provided, the reason that will be recorded in the audit logs.
+            Maximum of 512 characters.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The dummy ID for this role that can be used temporarily to refer
             to this object while designing the guild layout.
 
@@ -295,22 +292,24 @@ class GuildBuilder(abc.ABC):
         permission_overwrites: undefined.UndefinedOr[
             typing.Collection[channels.PermissionOverwrite]
         ] = undefined.UNDEFINED,
-    ) -> snowflake.Snowflake:
+    ) -> snowflakes.Snowflake:
         """Create a category channel.
 
         Parameters
         ----------
         name : builtins.str
-            The name of the category.
-        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            The position to place the category in, if specified.
-        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
-            If defined, a collection of one or more
-            `hikari.models.channels.PermissionOverwrite` objects.
+            The channels name. Must be between 2 and 1000 characters.
+
+        Other Parameters
+        ----------------
+        position : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the position of the category.
+        permission_overwrites : hikari.undefined.UndefinedOr[typing.Sequence[hikari.channels.PermissionOverwrite]]
+            If provided, the permission overwrites for the category.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The dummy ID for this channel that can be used temporarily to refer
             to this object while designing the guild layout.
 
@@ -324,42 +323,44 @@ class GuildBuilder(abc.ABC):
         name: str,
         /,
         *,
-        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        parent_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
         topic: undefined.UndefinedOr[str] = undefined.UNDEFINED,
-        rate_limit_per_user: undefined.UndefinedOr[date.Intervalish] = undefined.UNDEFINED,
+        rate_limit_per_user: undefined.UndefinedOr[time.Intervalish] = undefined.UNDEFINED,
         position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
         permission_overwrites: undefined.UndefinedOr[
             typing.Collection[channels.PermissionOverwrite]
         ] = undefined.UNDEFINED,
         nsfw: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
-    ) -> snowflake.Snowflake:
+    ) -> snowflakes.Snowflake:
         """Create a text channel.
 
         Parameters
         ----------
         name : builtins.str
-            The name of the category.
-        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            The position to place the category in, if specified.
-        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
-            If defined, a collection of one or more
-            `hikari.models.channels.PermissionOverwrite` objects.
-        nsfw : hikari.utilities.undefined.UndefinedOr[builtins.bool]
-            If `builtins.True`, the channel is marked as NSFW and only users
-            over 18 years of age should be given access.
-        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
-            If defined, should be a snowflake ID of a category channel
-            that was made with this builder. If provided, this channel will
-            become a child channel of that category.
-        topic : hikari.utilities.undefined.UndefinedOr[builtins.str]
-            If specified, the topic to set on the channel.
-        rate_limit_per_user : hikari.utilities.undefined.UndefinedOr[hikari.utilities.date.TimeSpan]
-            If specified, the time to wait between allowing consecutive messages
-            to be sent. If not specified, this will not be enabled.
+            The channels name. Must be between 2 and 1000 characters.
+
+        Other Parameters
+        ----------------
+        position : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the position of the channel (relative to the
+            category, if any).
+        topic : hikari.undefined.UndefinedOr[builtins.str]
+            If provided, the channels topic. Maximum 1024 characters.
+        nsfw : hikari.undefined.UndefinedOr[builtins.bool]
+            If provided, whether to mark the channel as NSFW.
+        rate_limit_per_user : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the ammount of seconds a user has to wait
+            before being able to send another message in the channel.
+            Maximum 21600 seconds.
+        permission_overwrites : hikari.undefined.UndefinedOr[typing.Sequence[hikari.channels.PermissionOverwrite]]
+            If provided, the permission overwrites for the channel.
+        category : hikari.undefined.UndefinedOr[hikari.snowflakes.SnowflakeishOr[hikari.channels.GuildCategory]]
+            The category to create the channel under. This may be the
+            object or the ID of an existing category.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The dummy ID for this channel that can be used temporarily to refer
             to this object while designing the guild layout.
 
@@ -373,38 +374,42 @@ class GuildBuilder(abc.ABC):
         name: str,
         /,
         *,
-        parent_id: undefined.UndefinedOr[snowflake.Snowflake] = undefined.UNDEFINED,
+        parent_id: undefined.UndefinedOr[snowflakes.Snowflake] = undefined.UNDEFINED,
         bitrate: undefined.UndefinedOr[int] = undefined.UNDEFINED,
         position: undefined.UndefinedOr[int] = undefined.UNDEFINED,
         permission_overwrites: undefined.UndefinedOr[
             typing.Collection[channels.PermissionOverwrite]
         ] = undefined.UNDEFINED,
         user_limit: undefined.UndefinedOr[int] = undefined.UNDEFINED,
-    ) -> snowflake.Snowflake:
+    ) -> snowflakes.Snowflake:
         """Create a voice channel.
 
         Parameters
         ----------
         name : builtins.str
-            The name of the category.
-        position : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            The position to place the category in, if specified.
-        permission_overwrites : hikari.utilities.undefined.UndefinedOr[typing.Collection[hikari.models.channels.PermissionOverwrite]]
-            If defined, a collection of one or more
-            `hikari.models.channels.PermissionOverwrite` objects.
-        parent_id : hikari.utilities.undefined.UndefinedOr[hikari.utilities.snowflake.Snowflake]
-            If defined, should be a snowflake ID of a category channel
-            that was made with this builder. If provided, this channel will
-            become a child channel of that category.
-        bitrate : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            If specified, the bitrate to set on the channel.
-        user_limit : hikari.utilities.undefined.UndefinedOr[builtins.int]
-            If specified, the maximum number of users to allow in the voice
-            channel.
+            The channels name. Must be between 2 and 1000 characters.
+
+        Other Parameters
+        ----------------
+        position : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the position of the channel (relative to the
+            category, if any).
+        user_limit : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the maximum users in the channel at once.
+            Must be between 0 and 99 with 0 meaning no limit.
+        bitrate : hikari.undefined.UndefinedOr[builtins.int]
+            If provided, the bitrate for the channel. Must be
+            between 8000 and 96000 or 8000 and 128000 for VIP
+            servers.
+        permission_overwrites : hikari.undefined.UndefinedOr[typing.Sequence[hikari.channels.PermissionOverwrite]]
+            If provided, the permission overwrites for the channel.
+        category : hikari.undefined.UndefinedOr[hikari.snowflakes.SnowflakeishOr[hikari.channels.GuildCategory]]
+            The category to create the channel under. This may be the
+            object or the ID of an existing category.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The dummy ID for this channel that can be used temporarily to refer
             to this object while designing the guild layout.
 

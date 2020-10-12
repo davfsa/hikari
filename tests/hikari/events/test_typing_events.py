@@ -22,45 +22,81 @@
 import mock
 import pytest
 
+from hikari import channels
+from hikari import users
 from hikari.events import typing_events
+from tests.hikari import hikari_test_helpers
 
 
 @pytest.mark.asyncio
 class TestTypingEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        class StubEvent(typing_events.TypingEvent):
-            channel_id = 123
-            user_id = 456
-            timestamp = None
-            shard = None
-            app = mock.Mock(rest=mock.AsyncMock())
+        cls = hikari_test_helpers.mock_class_namespace(
+            typing_events.TypingEvent,
+            channel_id=123,
+            user_id=456,
+            timestamp=object(),
+            shard=object(),
+        )
 
-        return StubEvent()
+        return cls()
 
-    async def test_fetch_channel(self, event):
-        await event.fetch_channel()
-
-        event.app.rest.fetch_channel.assert_awaited_once_with(123)
-
-    async def test_fetch_user(self, event):
-        await event.fetch_user()
-
-        event.app.rest.fetch_user.assert_awaited_once_with(456)
+    async def test_trigger_typing(self, event):
+        event.app.rest.trigger_typing = mock.Mock()
+        result = event.trigger_typing()
+        event.app.rest.trigger_typing.assert_called_once_with(123)
+        assert result is event.app.rest.trigger_typing.return_value
 
 
 @pytest.mark.asyncio
 class TestGuildTypingEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        return typing_events.GuildTypingEvent(
-            app=mock.AsyncMock(), shard=None, channel_id=123, user_id=456, guild_id=789, timestamp=None, member=None,
+        cls = hikari_test_helpers.mock_class_namespace(typing_events.GuildTypingEvent)
+
+        return cls(
+            channel_id=123,
+            timestamp=object(),
+            shard=object(),
+            app=mock.Mock(rest=mock.AsyncMock()),
+            guild_id=789,
+            user=mock.Mock(id=456),
         )
 
-    async def test_fetch_channel(self, event):
-        await event.fetch_member()
+    @pytest.mark.parametrize("guild_channel_impl", [channels.GuildNewsChannel, channels.GuildTextChannel])
+    async def test_channel(self, event, guild_channel_impl):
+        event.app.cache.get_guild_channel = mock.Mock(return_value=mock.Mock(spec_set=guild_channel_impl))
+        result = event.channel
 
-        event.app.rest.fetch_member.assert_awaited_once_with(789, 456)
+        assert result is event.app.cache.get_guild_channel.return_value
+        event.app.cache.get_guild_channel.assert_called_once_with(123)
+
+    def test_guild_when_available(self, event):
+        result = event.guild
+
+        assert result is event.app.cache.get_available_guild.return_value
+        event.app.cache.get_available_guild.assert_called_once_with(789)
+        event.app.cache.get_unavailable_guild.assert_not_called()
+
+    def test_guild_when_unavailable(self, event):
+        event.app.cache.get_available_guild.return_value = None
+        result = event.guild
+
+        assert result is event.app.cache.get_unavailable_guild.return_value
+        event.app.cache.get_unavailable_guild.assert_called_once_with(789)
+        event.app.cache.get_available_guild.assert_called_once_with(789)
+
+    def test_user_id(self, event):
+        assert event.user_id == event.user.id
+        assert event.user_id == 456
+
+    @pytest.mark.parametrize("guild_channel_impl", [channels.GuildNewsChannel, channels.GuildTextChannel])
+    async def test_fetch_channel(self, event, guild_channel_impl):
+        event.app.rest.fetch_channel = mock.AsyncMock(return_value=mock.Mock(spec_set=guild_channel_impl))
+        await event.fetch_channel()
+
+        event.app.rest.fetch_channel.assert_awaited_once_with(123)
 
     async def test_fetch_guild(self, event):
         await event.fetch_guild()
@@ -71,3 +107,39 @@ class TestGuildTypingEvent:
         await event.fetch_guild_preview()
 
         event.app.rest.fetch_guild_preview.assert_awaited_once_with(789)
+
+    async def test_fetch_user(self, event):
+        await event.fetch_user()
+
+        event.app.rest.fetch_member.assert_awaited_once_with(789, 456)
+
+
+@pytest.mark.asyncio
+class TestDMTypingEvent:
+    @pytest.fixture()
+    def event(self):
+        cls = hikari_test_helpers.mock_class_namespace(typing_events.DMTypingEvent)
+
+        return cls(
+            channel_id=123,
+            timestamp=object(),
+            shard=object(),
+            app=mock.Mock(rest=mock.AsyncMock()),
+            user_id=456,
+        )
+
+    def test_user(self, event):
+        event.app.cache.get_user = mock.Mock(return_value=mock.Mock(spec_set=users.User))
+
+        assert event.user is event.app.cache.get_user.return_value
+
+    async def test_fetch_channel(self, event):
+        event.app.rest.fetch_channel = mock.AsyncMock(return_value=mock.Mock(spec_set=channels.DMChannel))
+        await event.fetch_channel()
+
+        event.app.rest.fetch_channel.assert_awaited_once_with(123)
+
+    async def test_fetch_user(self, event):
+        await event.fetch_user()
+
+        event.app.rest.fetch_user.assert_awaited_once_with(456)

@@ -23,29 +23,26 @@
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = []
+__all__: typing.List[str] = ["VoiceComponentImpl"]
 
 import asyncio
-
-# noinspection PyUnresolvedReferences
 import logging
 import typing
 
+from hikari import channels
 from hikari import errors
+from hikari import guilds
+from hikari import snowflakes
 from hikari.api import event_dispatcher
 from hikari.api import voice
 from hikari.events import voice_events
 from hikari.impl import bot
-from hikari.models import channels
-from hikari.models import guilds
-from hikari.utilities import snowflake
+from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
     _VoiceEventCallbackT = typing.Callable[[voice_events.VoiceEvent], typing.Coroutine[None, typing.Any, None]]
 
-
 _LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari.voice.management")
-
 
 _VoiceConnectionT = typing.TypeVar("_VoiceConnectionT", bound="voice.VoiceConnection")
 
@@ -62,7 +59,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
     def __init__(self, app: bot.BotApp, dispatcher: event_dispatcher.EventDispatcher) -> None:
         self._app = app
         self._dispatcher = dispatcher
-        self._connections: typing.Dict[snowflake.Snowflake, voice.VoiceConnection] = {}
+        self._connections: typing.Dict[snowflakes.Snowflake, voice.VoiceConnection] = {}
         self._dispatcher.subscribe(voice_events.VoiceEvent, self._on_voice_event)
 
     @property
@@ -70,7 +67,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
         return self._app
 
     @property
-    def connections(self) -> typing.Mapping[snowflake.Snowflake, voice.VoiceConnection]:
+    def connections(self) -> typing.Mapping[snowflakes.Snowflake, voice.VoiceConnection]:
         return self._connections.copy()
 
     async def disconnect(self) -> None:
@@ -84,17 +81,16 @@ class VoiceComponentImpl(voice.VoiceComponent):
 
     async def connect_to(
         self,
-        channel: snowflake.SnowflakeishOr[channels.GuildVoiceChannel],
-        guild: snowflake.SnowflakeishOr[guilds.PartialGuild],
+        channel: snowflakes.SnowflakeishOr[channels.GuildVoiceChannel],
+        guild: snowflakes.SnowflakeishOr[guilds.PartialGuild],
         *,
         deaf: bool = False,
         mute: bool = False,
         voice_connection_type: typing.Type[_VoiceConnectionT],
         **kwargs: typing.Any,
     ) -> _VoiceConnectionT:
-        guild_id = snowflake.Snowflake(guild)
-        # TODO: this and the same logic in channels.py and guilds.py logic should go in a file somewhere
-        shard_id = (guild_id >> 22) % self._app.shard_count
+        guild_id = snowflakes.Snowflake(guild)
+        shard_id = snowflakes.calculate_shard_id(self._app, guild_id)
 
         if shard_id is None:
             raise errors.VoiceError(
@@ -122,13 +118,20 @@ class VoiceComponentImpl(voice.VoiceComponent):
             # for a little bit.
             raise errors.VoiceError(f"Cannot connect to shard {shard_id}, the shard is not online.")
 
-        _LOGGER.debug("attempting to connect to voice channel %s in %s via shard %s", channel, guild, shard_id)
+        _LOGGER.log(ux.TRACE, "attempting to connect to voice channel %s in %s via shard %s", channel, guild, shard_id)
 
-        user_id = await shard.get_user_id()
+        user = self._app.cache.get_me()
+        if user is None:
+            user = await self._app.rest.fetch_my_user()
+
         await asyncio.wait_for(shard.update_voice_state(guild, channel, self_deaf=deaf, self_mute=mute), timeout=5.0)
 
-        _LOGGER.debug(
-            "waiting for voice events for connecting to voice channel %s in %s via shard %s", channel, guild, shard_id
+        _LOGGER.log(
+            ux.TRACE,
+            "waiting for voice events for connecting to voice channel %s in %s via shard %s",
+            channel,
+            guild,
+            shard_id,
         )
 
         state_event, server_event = await asyncio.wait_for(
@@ -137,7 +140,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
                 self._dispatcher.wait_for(
                     voice_events.VoiceStateUpdateEvent,
                     timeout=None,
-                    predicate=self._init_state_update_predicate(guild_id, user_id),
+                    predicate=self._init_state_update_predicate(guild_id, user.id),
                 ),
                 # Server update:
                 self._dispatcher.wait_for(
@@ -161,8 +164,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
 
         try:
             voice_connection = await voice_connection_type.initialize(
-                channel_id=snowflake.Snowflake(channel),
-                debug=self._app.is_debug_enabled,
+                channel_id=snowflakes.Snowflake(channel),
                 endpoint=server_event.endpoint,
                 guild_id=guild_id,
                 on_close=self._on_connection_close,
@@ -170,7 +172,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
                 session_id=state_event.state.session_id,
                 shard_id=shard_id,
                 token=server_event.token,
-                user_id=user_id,
+                user_id=user.id,
                 **kwargs,
             )
         except Exception:
@@ -185,7 +187,8 @@ class VoiceComponentImpl(voice.VoiceComponent):
 
     @staticmethod
     def _init_state_update_predicate(
-        guild_id: snowflake.Snowflake, user_id: snowflake.Snowflake,
+        guild_id: snowflakes.Snowflake,
+        user_id: snowflakes.Snowflake,
     ) -> typing.Callable[[voice_events.VoiceStateUpdateEvent], bool]:
         def predicate(event: voice_events.VoiceStateUpdateEvent) -> bool:
             return event.state.guild_id == guild_id and event.state.user_id == user_id
@@ -194,7 +197,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
 
     @staticmethod
     def _init_server_update_predicate(
-        guild_id: snowflake.Snowflake,
+        guild_id: snowflakes.Snowflake,
     ) -> typing.Callable[[voice_events.VoiceServerUpdateEvent], bool]:
         def predicate(event: voice_events.VoiceServerUpdateEvent) -> bool:
             return event.guild_id == guild_id
@@ -208,7 +211,8 @@ class VoiceComponentImpl(voice.VoiceComponent):
             # Leave the voice channel explicitly, otherwise we will just appear to
             # not leave properly.
             await self._app.shards[connection.shard_id].update_voice_state(
-                guild=connection.guild_id, channel=None,
+                guild=connection.guild_id,
+                channel=None,
             )
 
             _LOGGER.debug(
@@ -228,5 +232,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
     async def _on_voice_event(self, event: voice_events.VoiceEvent) -> None:
         if event.guild_id in self._connections:
             connection = self._connections[event.guild_id]
-            _LOGGER.debug("notifying voice connection %s in guild %s of event %s", connection, event.guild_id, event)
+            _LOGGER.log(
+                ux.TRACE, "notifying voice connection %s in guild %s of event %s", connection, event.guild_id, event
+            )
             await connection.notify(event)

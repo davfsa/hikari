@@ -34,16 +34,16 @@ to document the theory of how this is handled here.
 What is the theory behind this implementation?
 ----------------------------------------------
 
-In this module, we refer to a `hikari.utilities.routes.CompiledRoute` as a definition
+In this module, we refer to a `hikari.internal.routes.CompiledRoute` as a definition
 of a route with specific major parameter values included (e.g.
-`POST /channels/123/messages`), and a `hikari.utilities.routes.Route` as a
+`POST /channels/123/messages`), and a `hikari.internal.routes.Route` as a
 definition of a route without specific parameter values included (e.g.
 `POST /channels/{channel}/messages`). We can compile a
-`hikari.utilities.routes.CompiledRoute` from a `hikari.utilities.routes.Route`
+`hikari.internal.routes.CompiledRoute` from a `hikari.internal.routes.Route`
 by providing the corresponding parameters as kwargs, as you may already know.
 
 In this module, a "bucket" is an internal data structure that tracks and
-enforces the rate limit state for a specific `hikari.utilities.routes.CompiledRoute`,
+enforces the rate limit state for a specific `hikari.internal.routes.CompiledRoute`,
 and can manage delaying tasks in the event that we begin to get rate limited.
 It also supports providing in-order execution of queued tasks.
 
@@ -68,12 +68,12 @@ major parameters. This is used for quick bucket indexing internally in this
 module.
 
 One issue that occurs from this is that we cannot effectively hash a
-`hikari.utilities.routes.CompiledRoute` that has not yet been hit, meaning that
+`hikari.internal.routes.CompiledRoute` that has not yet been hit, meaning that
 until we receive a response from this endpoint, we have no idea what our rate
 limits could be, nor the bucket that they sit in. This is usually not
 problematic, as the first request to an endpoint should never be rate limited
 unless you are hitting it from elsewhere in the same time window outside your
-hikari.models.applications. To manage this situation, unknown endpoints are allocated to
+hikari.applications. To manage this situation, unknown endpoints are allocated to
 a special unlimited bucket until they have an initial bucket hash code allocated
 from a response. Once this happens, the route is reallocated a dedicated bucket.
 Unknown buckets have a hardcoded initial hash code internally.
@@ -82,13 +82,13 @@ Initially acquiring time on a bucket
 ------------------------------------
 
 Each time you `BaseRateLimiter.acquire()` a request timeslice for a given
-`hikari.utilities.routes.Route`, several things happen. The first is that we
+`hikari.internal.routes.Route`, several things happen. The first is that we
 attempt to find the existing bucket for that route, if there is one, or get an
 unknown bucket otherwise. This is done by creating a real bucket hash from the
 compiled route. The initial hash is calculated using a lookup table that maps
-`hikari.utilities.routes.CompiledRoute` objects to their corresponding initial hash
+`hikari.internal.routes.CompiledRoute` objects to their corresponding initial hash
 codes, or to the unknown bucket hash code if not yet known. This initial hash is
-processed by the `hikari.utilities.routes.CompiledRoute` to provide the real bucket
+processed by the `hikari.internal.routes.CompiledRoute` to provide the real bucket
 hash we need to get the route's bucket object internally.
 
 The `BaseRateLimiter.acquire()` method will take the bucket and acquire a new
@@ -112,11 +112,6 @@ await on which completes when you are allowed to proceed with making a request,
 and a real bucket hash which should be stored temporarily. This will be
 explained in the next section.
 
-When you make your response, you should be sure to set the
-`X-RateLimit-Precision` header to `millisecond` to ensure a much greater
-accuracy against rounding errors for rate limits (reduces the error margin from
-`1` second to `1` millisecond).
-
 Handling the rate limit headers of a response
 ---------------------------------------------
 
@@ -128,11 +123,11 @@ These headers are:
     the response date on the server. This should be parsed to a
     `datetime.datetime` using `email.utils.parsedate_to_datetime`.
 * `X-RateLimit-Limit`:
-    an `builtins.int` describing the max requests in the bucket from empty to being rate
-    limited.
+    an `builtins.int` describing the max requests in the bucket from empty to
+    being rate limited.
 * `X-RateLimit-Remaining`:
-    an `builtins.int` describing the remaining number of requests before rate limiting
-    occurs in the current window.
+    an `builtins.int` describing the remaining number of requests before rate
+    limiting occurs in the current window.
 * `X-RateLimit-Bucket`:
     a `builtins.str` containing the initial bucket hash.
 * `X-RateLimit-Reset`:
@@ -207,21 +202,22 @@ and should be used sparingly.
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = ["UNKNOWN_HASH", "RESTBucket", "RESTBucketManager"]
+__all__: typing.List[str] = ["UNKNOWN_HASH", "RESTBucket", "RESTBucketManager"]
 
 import asyncio
 import datetime
 import logging
 import typing
 
+from hikari import errors
 from hikari.impl import rate_limits
-from hikari.utilities import aio
-from hikari.utilities import date
-from hikari.utilities import routes
+from hikari.internal import aio
+from hikari.internal import routes
+from hikari.internal import time
+from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
     import types
-
 
 UNKNOWN_HASH: typing.Final[str] = "UNKNOWN"
 """The hash used for an unknown bucket that has not yet been resolved."""
@@ -265,18 +261,31 @@ class RESTBucket(rate_limits.WindowedBurstRateLimiter):
         """Return `builtins.True` if the bucket represents an `UNKNOWN` bucket."""
         return self.name.startswith(UNKNOWN_HASH)
 
-    def acquire(self) -> asyncio.Future[None]:
+    def acquire(self, max_rate_limit: float = float("inf")) -> asyncio.Future[None]:
         """Acquire time on this rate limiter.
 
         !!! note
             You should afterwards invoke `RESTBucket.update_rate_limit` to
             update any rate limit information you are made aware of.
 
+        Parameters
+        ----------
+        max_rate_limit : builtins.float
+            The max number of seconds to backoff for when rate limited. Anything
+            greater than this will instead raise an error.
+
+            The default is an infinite value, which will thus never time out.
+
         Returns
         -------
         asyncio.Future[builtins.None]
             A future that should be awaited immediately. Once the future completes,
             you are allowed to proceed with your operation.
+
+
+            If the reset-after time for the bucket is greater than
+            `max_rate_limit`, then this will contain `RateLimitTooLongError`
+            as an exception.
         """
         return aio.completed_future(None) if self.is_unknown else super().acquire()
 
@@ -293,13 +302,13 @@ class RESTBucket(rate_limits.WindowedBurstRateLimiter):
             The epoch at which to reset the limit.
 
         !!! note
-            The `reset_at` epoch is expected to be a `date.monotonic_timestamp`
+            The `reset_at` epoch is expected to be a `time.monotonic_timestamp`
             monotonic epoch, rather than a `time.time` date-based epoch.
         """
         self.remaining = remaining
         self.limit = limit
         self.reset_at = reset_at
-        self.period = max(0.0, self.reset_at - date.monotonic())
+        self.period = max(0.0, self.reset_at - time.monotonic())
 
     def drip(self) -> None:
         """Decrement the remaining count for this bucket.
@@ -320,6 +329,12 @@ class RESTBucketManager:
     This is designed to provide bucketed rate limiting for Discord HTTP
     endpoints that respects the `X-RateLimit-Bucket` rate limit header. To do
     this, it makes the assumption that any limit can change at any time.
+
+    Parameters
+    ----------
+    max_rate_limit : builtins.float
+        The max number of seconds to backoff for when rate limited. Anything
+        greater than this will instead raise an error.
     """
 
     _POLL_PERIOD: typing.Final[typing.ClassVar[int]] = 20
@@ -330,6 +345,7 @@ class RESTBucketManager:
         "real_hashes_to_buckets",
         "closed_event",
         "gc_task",
+        "max_rate_limit",
     )
 
     routes_to_hashes: typing.Final[typing.MutableMapping[routes.Route, str]]
@@ -347,11 +363,18 @@ class RESTBucketManager:
     gc_task: typing.Optional[asyncio.Task[None]]
     """The internal garbage collector task."""
 
-    def __init__(self) -> None:
+    max_rate_limit: float
+    """The max number of seconds to backoff for when rate limited.
+
+    Anything greater than this will instead raise an error.
+    """
+
+    def __init__(self, max_rate_limit: float) -> None:
         self.routes_to_hashes = {}
         self.real_hashes_to_buckets = {}
         self.closed_event: asyncio.Event = asyncio.Event()
         self.gc_task: typing.Optional[asyncio.Task[None]] = None
+        self.max_rate_limit = max_rate_limit
 
     def __enter__(self) -> RESTBucketManager:
         return self
@@ -382,7 +405,7 @@ class RESTBucketManager:
             as the rate limit has reset. Defaults to `10` seconds.
         """
         if not self.gc_task:
-            self.gc_task = asyncio.get_running_loop().create_task(self.gc(poll_period, expire_after))
+            self.gc_task = asyncio.create_task(self.gc(poll_period, expire_after))
 
     def close(self) -> None:
         """Close the garbage collector and kill any tasks waiting on ratelimits.
@@ -396,6 +419,10 @@ class RESTBucketManager:
         self.real_hashes_to_buckets.clear()
         self.routes_to_hashes.clear()
 
+        if self.gc_task is not None:
+            self.gc_task.cancel()
+            self.gc_task = None
+
     # Ignore docstring not starting in an imperative mood
     async def gc(self, poll_period: float, expire_after: float) -> None:  # noqa: D401
         """The garbage collector loop.
@@ -403,7 +430,7 @@ class RESTBucketManager:
         This is designed to run in the background and manage removing unused
         _route references from the rate-limiter collection to save memory.
 
-        This will run forever until `RESTBucketManager. closed_event` is set.
+        This will run forever until `RESTBucketManager.closed_event` is set.
         This will invoke `RESTBucketManager.do_gc_pass` periodically.
 
         Parameters
@@ -424,12 +451,12 @@ class RESTBucketManager:
         """
         # Prevent filling memory increasingly until we run out by removing dead buckets every 20s
         # Allocations are somewhat cheap if we only do them every so-many seconds, after all.
-        _LOGGER.debug("rate limit garbage collector started")
+        _LOGGER.log(ux.TRACE, "rate limit garbage collector started")
         while not self.closed_event.is_set():
             try:
                 await asyncio.wait_for(self.closed_event.wait(), timeout=poll_period)
             except asyncio.TimeoutError:
-                _LOGGER.debug("performing rate limit garbage collection pass")
+                _LOGGER.log(ux.TRACE, "performing rate limit garbage collection pass")
                 self.do_gc_pass(expire_after)
         self.gc_task = None
 
@@ -458,7 +485,7 @@ class RESTBucketManager:
         """
         buckets_to_purge = []
 
-        now = date.monotonic()
+        now = time.monotonic()
 
         # We have three main states that a bucket can be in:
         # 1. active - the bucket is active and is not at risk of deallocation
@@ -486,14 +513,14 @@ class RESTBucketManager:
             self.real_hashes_to_buckets[full_hash].close()
             del self.real_hashes_to_buckets[full_hash]
 
-        _LOGGER.debug("purged %s stale buckets, %s remain in survival, %s active", dead, survival, active)
+        _LOGGER.log(ux.TRACE, "purged %s stale buckets, %s remain in survival, %s active", dead, survival, active)
 
     def acquire(self, compiled_route: routes.CompiledRoute) -> asyncio.Future[None]:
         """Acquire a bucket for the given _route.
 
         Parameters
         ----------
-        compiled_route : hikari.utilities.routes.CompiledRoute
+        compiled_route : hikari.internal.routes.CompiledRoute
             The _route to get the bucket for.
 
         Returns
@@ -528,7 +555,21 @@ class RESTBucketManager:
             bucket = RESTBucket(real_bucket_hash, compiled_route)
             self.real_hashes_to_buckets[real_bucket_hash] = bucket
 
-        return bucket.acquire()
+        now = time.monotonic()
+
+        if bucket.is_rate_limited(now):
+            if bucket.reset_at > self.max_rate_limit:
+                raise errors.RateLimitTooLongError(
+                    route=compiled_route,
+                    retry_after=bucket.reset_at - now,
+                    max_retry_after=self.max_rate_limit,
+                    reset_at=bucket.reset_at,
+                    limit=bucket.limit,
+                    period=bucket.period,
+                    message="The request has been rejected, as you would be waiting for more than the max retry-after",
+                )
+
+        return bucket.acquire(self.max_rate_limit)
 
     def update_rate_limits(
         self,
@@ -543,9 +584,9 @@ class RESTBucketManager:
 
         Parameters
         ----------
-        compiled_route : hikari.utilities.routes.CompiledRoute
+        compiled_route : hikari.internal.routes.CompiledRoute
             The compiled _route to get the bucket for.
-        bucket_header : builtins.str or builtins.None
+        bucket_header : typing.Optional[builtins.str]
             The `X-RateLimit-Bucket` header that was provided in the response.
         remaining_header : builtins.int
             The `X-RateLimit-Remaining` header cast to an `builtins.int`.
@@ -561,7 +602,7 @@ class RESTBucketManager:
         real_bucket_hash = compiled_route.create_real_bucket_hash(bucket_header)
 
         reset_after = (reset_at_header - date_header).total_seconds()
-        reset_at_monotonic = date.monotonic() + reset_after
+        reset_at_monotonic = time.monotonic() + reset_after
 
         if real_bucket_hash in self.real_hashes_to_buckets:
             bucket = self.real_hashes_to_buckets[real_bucket_hash]

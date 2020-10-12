@@ -22,10 +22,10 @@
 """Events fired when users begin typing in channels."""
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "TypingEvent",
     "GuildTypingEvent",
-    "PrivateTypingEvent",
+    "DMTypingEvent",
 ]
 
 import abc
@@ -33,45 +33,46 @@ import typing
 
 import attr
 
+from hikari import channels
+from hikari import intents
+from hikari import users
+from hikari.api import special_endpoints
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     import datetime
 
+    from hikari import guilds
+    from hikari import snowflakes
     from hikari import traits
     from hikari.api import shard as gateway_shard
-    from hikari.models import channels
-    from hikari.models import guilds
-    from hikari.models import users
-    from hikari.utilities import snowflake
 
 
-@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_TYPING, intents.Intents.PRIVATE_MESSAGE_TYPING)
+@base_events.requires_intents(intents.Intents.GUILD_MESSAGE_TYPING, intents.Intents.DM_MESSAGE_TYPING)
 class TypingEvent(shard_events.ShardEvent, abc.ABC):
     """Base event fired when a user begins typing in a channel."""
 
     @property
     @abc.abstractmethod
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         """ID of the channel that this event concerns.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the channel that this event concerns.
         """
 
     @property
     @abc.abstractmethod
-    def user_id(self) -> snowflake.Snowflake:
+    def user_id(self) -> snowflakes.Snowflake:
         """ID of the user who triggered this typing event.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             ID of the user who is typing.
         """
 
@@ -86,25 +87,47 @@ class TypingEvent(shard_events.ShardEvent, abc.ABC):
             UTC timestamp of when the user started typing.
         """
 
+    @property
+    @abc.abstractmethod
+    def user(self) -> typing.Optional[users.User]:
+        """Get the cached user that is typing, if known.
+
+        Returns
+        -------
+        typing.Optional[hikari.users.User]
+            The user, if known.
+        """
+
+    @abc.abstractmethod
     async def fetch_channel(self) -> channels.TextChannel:
         """Perform an API call to fetch an up-to-date image of this channel.
 
         Returns
         -------
-        hikari.models.channels.TextChannel
+        hikari.channels.TextChannel
             The channel.
         """
-        return typing.cast("channels.TextChannel", await self.app.rest.fetch_channel(self.channel_id))
 
+    @abc.abstractmethod
     async def fetch_user(self) -> users.User:
         """Perform an API call to fetch an up-to-date image of this user.
 
         Returns
         -------
-        hikari.models.users.user
+        hikari.users.User
             The user.
         """
-        return await self.app.rest.fetch_user(self.user_id)
+
+    def trigger_typing(self) -> special_endpoints.TypingIndicator:
+        """Return a typing indicator for this channel that can be awaited.
+
+        Returns
+        -------
+        hikari.api.special_endpoints.TypingIndicator
+            A typing indicator context manager and awaitable to trigger typing
+            in a channel with.
+        """
+        return self.app.rest.trigger_typing(self.channel_id)
 
 
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGE_TYPING)
@@ -119,54 +142,86 @@ class GuildTypingEvent(TypingEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
-    # <<inherited docstring from TypingEvent>>.
-
-    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from TypingEvent>>.
 
     timestamp: datetime.datetime = attr.ib(repr=False)
     # <<inherited docstring from TypingEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     """ID of the guild that this event relates to.
 
     Returns
     -------
-    hikari.utilities.snowflake.Snowflake
+    hikari.snowflakes.Snowflake
         The ID of the guild that relates to this event.
     """
 
-    member: guilds.Member = attr.ib(repr=False)
+    user: guilds.Member = attr.ib(repr=False)
     """Member object of the user who triggered this typing event.
+
+    Unlike on `PrivateTypingEvent` instances, Discord will always send
+    this field in any payload.
 
     Returns
     -------
-    hikari.models.guilds.Member
+    hikari.guilds.Member
         Member of the user who triggered this typing event.
     """
 
-    if typing.TYPE_CHECKING:
-
-        async def fetch_channel(self) -> channels.GuildTextChannel:
-            ...
-
-    async def fetch_member(self) -> guilds.Member:
-        """Perform an API call to fetch an up-to-date image of this member.
+    @property
+    def channel(self) -> typing.Union[channels.GuildTextChannel, channels.GuildNewsChannel]:
+        """Get the cached channel object this typing event occurred in.
 
         Returns
         -------
-        hikari.models.guilds.Member
-            The member.
+        typing.Union[hikari.channels.GuildTextChannel, hikari.channels.GuildNewsChannel]
+            The channel.
         """
-        return await self.app.rest.fetch_member(self.guild_id, self.user_id)
+        channel = self.app.cache.get_guild_channel(self.channel_id)
+        assert isinstance(
+            channel, (channels.GuildTextChannel, channels.GuildNewsChannel)
+        ), f"expected GuildTextChannel or GuildNewsChannel from cache, got {channel}"
+        return channel
+
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached object of the guild this typing event occurred in.
+
+        If the guild is not found then this will return `builtins.None`.
+
+        Returns
+        -------
+        typing.Optional[hikari.guilds.GatewayGuild]
+            The object of the gateway guild if found else `builtins.None`.
+        """
+        return self.app.cache.get_available_guild(self.guild_id) or self.app.cache.get_unavailable_guild(self.guild_id)
+
+    @property
+    def user_id(self) -> snowflakes.Snowflake:
+        # <<inherited docstring from TypingEvent>>.
+        return self.user.id
+
+    async def fetch_channel(self) -> typing.Union[channels.GuildTextChannel, channels.GuildNewsChannel]:
+        """Perform an API call to fetch an up-to-date image of this channel.
+
+        Returns
+        -------
+        typing.Union[hikari.channels.GuildTextChannel, hikari.channels.GuildNewsChannel]
+            The channel.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(
+            channel, (channels.GuildTextChannel, channels.GuildNewsChannel)
+        ), f"expected GuildTextChannel or GuildNewsChannel from API, got {channel}"
+        return channel
 
     async def fetch_guild(self) -> guilds.Guild:
         """Perform an API call to fetch an up-to-date image of this guild.
 
         Returns
         -------
-        hikari.models.guilds.Guild
+        hikari.guilds.Guild
             The guild.
         """
         return await self.app.rest.fetch_guild(self.guild_id)
@@ -176,16 +231,26 @@ class GuildTypingEvent(TypingEvent):
 
         Returns
         -------
-        hikari.models.guilds.GuildPreview
+        hikari.guilds.GuildPreview
             The guild.
         """
         return await self.app.rest.fetch_guild_preview(self.guild_id)
 
+    async def fetch_user(self) -> guilds.Member:
+        """Perform an API call to fetch an up-to-date image of this member.
 
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
+        Returns
+        -------
+        hikari.guilds.Member
+            The member.
+        """
+        return await self.app.rest.fetch_member(self.guild_id, self.user_id)
+
+
+@base_events.requires_intents(intents.Intents.DM_MESSAGES)
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateTypingEvent(TypingEvent):
+class DMTypingEvent(TypingEvent):
     """Event fired when a user starts typing in a guild channel."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
@@ -194,16 +259,38 @@ class PrivateTypingEvent(TypingEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from TypingEvent>>.
 
-    user_id: snowflake.Snowflake = attr.ib(repr=True)
+    user_id: snowflakes.Snowflake = attr.ib(repr=True)
     # <<inherited docstring from TypingEvent>>.
 
     timestamp: datetime.datetime = attr.ib(repr=False)
     # <<inherited docstring from TypingEvent>>.
 
-    if typing.TYPE_CHECKING:
+    @property
+    def user(self) -> typing.Optional[users.User]:
+        # <<inherited docstring from TypingEvent>>.
+        return self.app.cache.get_user(self.user_id)
 
-        async def fetch_channel(self) -> channels.PrivateTextChannel:
-            ...
+    async def fetch_channel(self) -> channels.DMChannel:
+        """Perform an API call to fetch an up-to-date image of this channel.
+
+        Returns
+        -------
+        hikari.channels.DMChannel
+            The channel.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(channel, channels.DMChannel), f"expected DMChannel from API, got {channel}"
+        return channel
+
+    async def fetch_user(self) -> users.User:
+        """Perform an API call to fetch an up-to-date image of the user.
+
+        Returns
+        -------
+        hikari.users.User
+            The user.
+        """
+        return await self.app.rest.fetch_user(self.user_id)

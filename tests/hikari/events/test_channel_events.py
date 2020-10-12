@@ -22,36 +22,65 @@
 import mock
 import pytest
 
+from hikari import channels
+from hikari import snowflakes
 from hikari.events import channel_events
 from tests.hikari import hikari_test_helpers
 
 
-@pytest.mark.asyncio
-class TestChannelEvent:
-    @pytest.fixture
+class TestGuildChannelEvent:
+    @pytest.fixture()
     def event(self):
-        class StubEvent(channel_events.ChannelEvent):
-            channel_id = 123
-            shard = None
-            app = mock.Mock(rest=mock.AsyncMock())
+        cls = hikari_test_helpers.mock_class_namespace(
+            channel_events.GuildChannelEvent,
+            guild_id=mock.PropertyMock(return_value=snowflakes.Snowflake(929292929)),
+            channel_id=mock.PropertyMock(return_value=snowflakes.Snowflake(432432432)),
+        )
+        return cls()
 
-        return StubEvent()
+    def test_guild_when_available(self, event):
+        result = event.guild
 
+        assert result is event.app.cache.get_available_guild.return_value
+        event.app.cache.get_available_guild.assert_called_once_with(929292929)
+        event.app.cache.get_unavailable_guild.assert_not_called()
+
+    def test_guild_when_unavailable(self, event):
+        event.app.cache.get_available_guild.return_value = None
+        result = event.guild
+
+        assert result is event.app.cache.get_unavailable_guild.return_value
+        event.app.cache.get_available_guild.assert_called_once_with(929292929)
+        event.app.cache.get_unavailable_guild.assert_called_once_with(929292929)
+
+    @pytest.mark.asyncio
+    async def test_fetch_guild(self, event):
+        event.app.rest.fetch_guild = mock.AsyncMock()
+        result = await event.fetch_guild()
+
+        assert result is event.app.rest.fetch_guild.return_value
+        event.app.rest.fetch_guild.assert_awaited_once_with(929292929)
+
+    def test_channel(self, event):
+        result = event.channel
+
+        assert result is event.app.cache.get_guild_channel.return_value
+        event.app.cache.get_guild_channel.assert_called_once_with(432432432)
+
+    @pytest.mark.asyncio
     async def test_fetch_channel(self, event):
-        await event.fetch_channel()
+        event.app.rest.fetch_channel = mock.AsyncMock(return_value=mock.MagicMock(spec=channels.GuildChannel))
+        result = await event.fetch_channel()
 
-        event.app.rest.fetch_channel.assert_awaited_once_with(123)
+        assert result is event.app.rest.fetch_channel.return_value
+        event.app.rest.fetch_channel.assert_awaited_once_with(432432432)
 
 
 class TestChannelCreateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        class StubEvent(channel_events.ChannelCreateEvent):
-            channel = mock.Mock()
-            shard = None
-            app = None
-
-        return StubEvent()
+        cls = hikari_test_helpers.mock_class_namespace(channel_events.ChannelCreateEvent)
+        return cls()
 
     def test_channel_id_property(self, event):
         event.channel.id = 123
@@ -59,7 +88,7 @@ class TestChannelCreateEvent:
 
 
 class TestGuildChannelCreateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return channel_events.GuildChannelCreateEvent(app=None, channel=mock.Mock(), shard=None)
 
@@ -69,14 +98,9 @@ class TestGuildChannelCreateEvent:
 
 
 class TestChannelUpdateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        class StubEvent(channel_events.ChannelUpdateEvent):
-            channel = mock.Mock()
-            shard = None
-            app = None
-
-        return StubEvent()
+        return hikari_test_helpers.mock_class_namespace(channel_events.ChannelUpdateEvent)()
 
     def test_channel_id_property(self, event):
         event.channel.id = 123
@@ -84,7 +108,7 @@ class TestChannelUpdateEvent:
 
 
 class TestGuildChannelUpdateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return channel_events.GuildChannelUpdateEvent(app=None, channel=mock.Mock(), shard=None)
 
@@ -94,14 +118,9 @@ class TestGuildChannelUpdateEvent:
 
 
 class TestChannelDeleteEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        class StubEvent(channel_events.ChannelDeleteEvent):
-            channel = mock.Mock()
-            shard = None
-            app = None
-
-        return StubEvent()
+        return hikari_test_helpers.mock_class_namespace(channel_events.ChannelDeleteEvent)()
 
     def test_channel_id_property(self, event):
         event.channel.id = 123
@@ -109,7 +128,7 @@ class TestChannelDeleteEvent:
 
 
 class TestGuildChannelDeleteEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return channel_events.GuildChannelDeleteEvent(app=None, channel=mock.Mock(), shard=None)
 
@@ -120,18 +139,15 @@ class TestGuildChannelDeleteEvent:
 
 @pytest.mark.asyncio
 class TestInviteEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        class StubEvent(channel_events.InviteEvent):
-            code = "Jx4cNGG"
-            shard = None
-            channel_id = None
-            guild_id = None
-            app = mock.Mock(rest=mock.AsyncMock())
-
-        return StubEvent()
+        return hikari_test_helpers.mock_class_namespace(
+            channel_events.InviteEvent, slots_=False, code=mock.PropertyMock(return_value="Jx4cNGG")
+        )()
 
     async def test_fetch_invite(self, event):
+        event.app.rest.fetch_invite = mock.AsyncMock()
+
         await event.fetch_invite()
 
         event.app.rest.fetch_invite.assert_awaited_once_with("Jx4cNGG")
@@ -139,7 +155,7 @@ class TestInviteEvent:
 
 @pytest.mark.asyncio
 class TestInviteCreateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return channel_events.InviteCreateEvent(app=None, shard=None, invite=mock.Mock)
 
@@ -158,12 +174,9 @@ class TestInviteCreateEvent:
 
 @pytest.mark.asyncio
 class TestWebhookUpdateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
-        obj = hikari_test_helpers.unslot_class(channel_events.WebhookUpdateEvent)(
-            app=mock.AsyncMock(), shard=None, channel_id=123, guild_id=456
-        )
-        return obj
+        return channel_events.WebhookUpdateEvent(app=mock.AsyncMock(), shard=mock.Mock(), channel_id=123, guild_id=456)
 
     async def test_fetch_channel_webhooks(self, event):
         await event.fetch_channel_webhooks()

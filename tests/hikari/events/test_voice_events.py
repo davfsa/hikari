@@ -22,12 +22,12 @@
 import mock
 import pytest
 
+from hikari import voices
 from hikari.events import voice_events
-from hikari.models import voices
 
 
 class TestVoiceStateUpdateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return voice_events.VoiceStateUpdateEvent(app=None, shard=object(), state=mock.Mock(voices.VoiceState))
 
@@ -37,11 +37,11 @@ class TestVoiceStateUpdateEvent:
 
 
 class TestVoiceServerUpdateEvent:
-    @pytest.fixture
+    @pytest.fixture()
     def event(self):
         return voice_events.VoiceServerUpdateEvent(
             app=None, shard=object(), guild_id=123, token="token", raw_endpoint="voice.discord.com:123"
         )
 
     def test_endpoint_property(self, event):
-        assert event.endpoint == "wss://voice.discord.com:443"
+        assert event.endpoint == "wss://voice.discord.com:123"

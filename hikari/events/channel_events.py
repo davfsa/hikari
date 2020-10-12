@@ -26,22 +26,19 @@ This does not include message events, nor reaction events.
 
 from __future__ import annotations
 
-__all__: typing.Final[typing.List[str]] = [
+__all__: typing.List[str] = [
     "ChannelEvent",
     "GuildChannelEvent",
-    "PrivateChannelEvent",
+    "DMChannelEvent",
     "ChannelCreateEvent",
     "GuildChannelCreateEvent",
-    "PrivateChannelCreateEvent",
     "ChannelUpdateEvent",
     "GuildChannelUpdateEvent",
-    "PrivateChannelUpdateEvent",
     "ChannelDeleteEvent",
     "GuildChannelDeleteEvent",
-    "PrivateChannelDeleteEvent",
     "PinsUpdateEvent",
     "GuildPinsUpdateEvent",
-    "PrivatePinsUpdateEvent",
+    "DMPinsUpdateEvent",
     "InviteCreateEvent",
     "InviteDeleteEvent",
     "WebhookUpdateEvent",
@@ -52,38 +49,41 @@ import typing
 
 import attr
 
+from hikari import channels
+from hikari import intents
 from hikari import traits
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.models import intents
-from hikari.utilities import attr_extensions
+from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     import datetime
 
+    from hikari import guilds
+    from hikari import invites
+    from hikari import messages
+    from hikari import snowflakes
+    from hikari import webhooks
     from hikari.api import shard as gateway_shard
-    from hikari.models import channels
-    from hikari.models import invites
-    from hikari.models import webhooks
-    from hikari.utilities import snowflake
 
 
-@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.PRIVATE_MESSAGES)
+@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.DM_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
 class ChannelEvent(shard_events.ShardEvent, abc.ABC):
     """Event base for any channel-bound event in guilds or private messages."""
 
     @property
     @abc.abstractmethod
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         """ID of the channel the event relates to.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the channel this event relates to.
         """
 
+    @abc.abstractmethod
     async def fetch_channel(self) -> channels.PartialChannel:
         """Perform an API call to fetch the details about this channel.
 
@@ -93,12 +93,11 @@ class ChannelEvent(shard_events.ShardEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
-            A derivative of `hikari.models.channels.PartialChannel`. The actual
+        hikari.channels.PartialChannel
+            A derivative of `hikari.channels.PartialChannel`. The actual
             type will vary depending on the type of channel this event
             concerns.
         """
-        return await self.app.rest.fetch_channel(self.channel_id)
 
 
 @base_events.requires_intents(intents.Intents.GUILDS)
@@ -108,32 +107,96 @@ class GuildChannelEvent(ChannelEvent, abc.ABC):
 
     @property
     @abc.abstractmethod
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         """ID of the guild that this event relates to.
 
         Returns
         -------
-        hikari.utilities.snowflake.Snowflake
+        hikari.snowflakes.Snowflake
             The ID of the guild that relates to this event.
         """
 
-    if typing.TYPE_CHECKING:
+    @property
+    def guild(self) -> typing.Optional[guilds.GatewayGuild]:
+        """Get the cached guild that this event relates to, if known.
 
-        async def fetch_channel(self) -> channels.GuildChannel:
-            ...
+        If not, return `builtins.None`.
+
+        Returns
+        -------
+        typing.Optional[hikari.guilds.GatewayGuild]
+            The gateway guild this event relates to, if known. Otherwise
+            this will return `builtins.None`.
+        """
+        return self.app.cache.get_available_guild(self.guild_id) or self.app.cache.get_unavailable_guild(self.guild_id)
+
+    async def fetch_guild(self) -> guilds.RESTGuild:
+        """Perform an API call to fetch the guild that this event relates to.
+
+        Returns
+        -------
+        hikari.guilds.RESTGuild
+            The guild that this event occurred in.
+        """
+        return await self.app.rest.fetch_guild(self.guild_id)
+
+    @property
+    def channel(self) -> typing.Optional[channels.GuildChannel]:
+        """Get the cached channel that this event relates to, if known.
+
+        If not, return `builtins.None`.
+
+        Returns
+        -------
+        typing.Optional[hikari.channels.GuildChannel]
+            The cached channel this event relates to. If not known, this
+            will return `builtins.None` instead.
+        """
+        return self.app.cache.get_guild_channel(self.channel_id)
+
+    async def fetch_channel(self) -> channels.GuildChannel:
+        """Perform an API call to fetch the details about this channel.
+
+        !!! note
+            For `ChannelDeleteEvent`-derived events, this will always raise
+            an exception, since the channel will have already been removed.
+
+        Returns
+        -------
+        hikari.channels.GuildChannel
+            A derivative of `hikari.channels.GuildChannel`. The actual
+            type will vary depending on the type of channel this event
+            concerns.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(channel, channels.GuildChannel)
+        return channel
 
 
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateChannelEvent(ChannelEvent, abc.ABC):
+class DMChannelEvent(ChannelEvent, abc.ABC):
     """Event base for any channel-bound event in private messages."""
 
-    if typing.TYPE_CHECKING:
+    async def fetch_channel(self) -> channels.PrivateChannel:
+        """Perform an API call to fetch the details about this channel.
 
-        async def fetch_channel(self) -> channels.PrivateChannel:
-            ...
+        !!! note
+            For `ChannelDeleteEvent`-derived events, this will always raise
+            an exception, since the channel will have already been removed.
+
+        Returns
+        -------
+        hikari.channels.PrivateChannel
+            A derivative of `hikari.channels.PrivateChannel`. The actual
+            type will vary depending on the type of channel this event
+            concerns.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(channel, channels.PrivateChannel)
+        return channel
 
 
-@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.PRIVATE_MESSAGES)
+@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.DM_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
 class ChannelCreateEvent(ChannelEvent, abc.ABC):
     """Base event for any channel being created."""
@@ -145,12 +208,12 @@ class ChannelCreateEvent(ChannelEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
+        hikari.channels.PartialChannel
             The channel that was created.
         """
 
     @property
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from ChannelEvent>>.
         return self.channel.id
 
@@ -172,39 +235,17 @@ class GuildChannelCreateEvent(GuildChannelEvent, ChannelCreateEvent):
 
     Returns
     -------
-    hikari.models.channels.GuildChannel
+    hikari.channels.GuildChannel
         The guild channel that was created.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildChannelEvent>>.
         return self.channel.guild_id
 
 
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateChannelCreateEvent(PrivateChannelEvent, ChannelCreateEvent):
-    """Event fired when a private channel is created."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    channel: channels.PrivateChannel = attr.ib(repr=True)
-    """Private channel that this event represents.
-
-    Returns
-    -------
-    hikari.models.channels.PrivateChannel
-        The guild channel that was created.
-    """
-
-
-@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.PRIVATE_MESSAGES)
+@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.DM_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
 class ChannelUpdateEvent(ChannelEvent, abc.ABC):
     """Base event for any channel being updated."""
@@ -216,12 +257,12 @@ class ChannelUpdateEvent(ChannelEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
+        hikari.channels.PartialChannel
             The channel that was updated.
         """
 
     @property
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from ChannelEvent>>.
         return self.channel.id
 
@@ -243,39 +284,17 @@ class GuildChannelUpdateEvent(GuildChannelEvent, ChannelUpdateEvent):
 
     Returns
     -------
-    hikari.models.channels.GuildChannel
+    hikari.channels.GuildChannel
         The guild channel that was updated.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildChannelEvent>>.
         return self.channel.guild_id
 
 
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateChannelUpdateEvent(PrivateChannelEvent, ChannelUpdateEvent):
-    """Event fired when a private channel is edited."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from ShardEvent>>.
-
-    channel: channels.PrivateChannel = attr.ib(repr=True)
-    """Private channel that this event represents.
-
-    Returns
-    -------
-    hikari.models.channels.PrivateChannel
-        The private channel that was updated.
-    """
-
-
-@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.PRIVATE_MESSAGES)
+@base_events.requires_intents(intents.Intents.GUILDS, intents.Intents.DM_MESSAGES)
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
 class ChannelDeleteEvent(ChannelEvent, abc.ABC):
     """Base event for any channel being deleted."""
@@ -287,12 +306,12 @@ class ChannelDeleteEvent(ChannelEvent, abc.ABC):
 
         Returns
         -------
-        hikari.models.channels.PartialChannel
+        hikari.channels.PartialChannel
             The channel that was deleted.
         """
 
     @property
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from ChannelEvent>>.
         return self.channel.id
 
@@ -319,42 +338,14 @@ class GuildChannelDeleteEvent(GuildChannelEvent, ChannelDeleteEvent):
 
     Returns
     -------
-    hikari.models.channels.GuildChannel
+    hikari.channels.GuildChannel
         The guild channel that was deleted.
     """
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildChannelEvent>>.
         return self.channel.guild_id
-
-    if typing.TYPE_CHECKING:
-        # Channel will never be found.
-        async def fetch_channel(self) -> typing.NoReturn:
-            ...
-
-
-# TODO: can this actually ever get fired?
-@base_events.requires_intents(intents.Intents.PRIVATE_MESSAGES)
-@attr_extensions.with_copy
-@attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivateChannelDeleteEvent(PrivateChannelEvent, ChannelDeleteEvent):
-    """Event fired when a private channel is deleted."""
-
-    app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring from Event>>.
-
-    shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    # <<inherited docstring>>.
-
-    channel: channels.PrivateChannel = attr.ib(repr=True)
-    """Private channel that this event represents.
-
-    Returns
-    -------
-    hikari.models.channels.PrivateChannel
-        The private channel that was deleted.
-    """
 
     if typing.TYPE_CHECKING:
         # Channel will never be found.
@@ -377,15 +368,32 @@ class PinsUpdateEvent(ChannelEvent, abc.ABC):
 
         Returns
         -------
-        datetime.datetime or builtins.None
+        typing.Optional[datetime.datetime]
             The datetime of the most recent pinned message in the channel,
             or `builtins.None` if no pins are available.
         """
 
-    if typing.TYPE_CHECKING:
+    @abc.abstractmethod
+    async def fetch_channel(self) -> channels.TextChannel:
+        """Perform an API call to fetch the details about this channel.
 
-        async def fetch_channel(self) -> channels.TextChannel:
-            ...
+        Returns
+        -------
+        hikari.channels.TextChannel
+            A derivative of `hikari.channels.TextChannel`. The actual
+            type will vary depending on the type of channel this event
+            concerns.
+        """
+
+    async def fetch_pins(self) -> typing.Sequence[messages.Message]:
+        """Perform an API call to fetch the pinned messages in this channel.
+
+        Returns
+        -------
+        typing.Sequence[hikari.messages.Message]
+            The pinned messages in this channel.
+        """
+        return await self.app.rest.fetch_pins(self.channel_id)
 
 
 @base_events.requires_intents(intents.Intents.GUILDS)
@@ -400,25 +408,51 @@ class GuildPinsUpdateEvent(PinsUpdateEvent, GuildChannelEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ChannelEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildChannelEvent>>.
 
     last_pin_timestamp: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+
     # <<inherited docstring from ChannelPinsUpdateEvent>>.
 
-    if typing.TYPE_CHECKING:
+    @property
+    def channel(self) -> typing.Optional[channels.GuildTextChannel]:
+        """Get the cached channel that this event relates to, if known.
 
-        async def fetch_channel(self) -> channels.GuildTextChannel:
-            ...
+        If not, return `builtins.None`.
+
+        Returns
+        -------
+        typing.Optional[hikari.channels.GuildTextChannel]
+            The cached channel this event relates to. If not known, this
+            will return `builtins.None` instead.
+        """
+        channel = self.app.cache.get_guild_channel(self.channel_id)
+        assert isinstance(channel, channels.GuildTextChannel)
+        return channel
+
+    async def fetch_channel(self) -> channels.GuildTextChannel:
+        """Perform an API call to fetch the details about this channel.
+
+        Returns
+        -------
+        hikari.channels.GuildTextChannel
+            A derivative of `hikari.channels.GuildTextChannel`. The actual
+            type will vary depending on the type of channel this event
+            concerns.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(channel, channels.GuildTextChannel)
+        return channel
 
 
 # TODO: This is not documented as having an intent, is this right? The guild version requires GUILDS intent.
 @attr_extensions.with_copy
 @attr.s(kw_only=True, slots=True, weakref_slot=False)
-class PrivatePinsUpdateEvent(PinsUpdateEvent, PrivateChannelEvent):
+class DMPinsUpdateEvent(PinsUpdateEvent, DMChannelEvent):
     """Event fired when a message is pinned/unpinned in a private channel."""
 
     app: traits.RESTAware = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
@@ -427,16 +461,26 @@ class PrivatePinsUpdateEvent(PinsUpdateEvent, PrivateChannelEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ChannelEvent>>.
 
     last_pin_timestamp: typing.Optional[datetime.datetime] = attr.ib(repr=True)
+
     # <<inherited docstring from ChannelPinsUpdateEvent>>.
 
-    if typing.TYPE_CHECKING:
+    async def fetch_channel(self) -> channels.DMChannel:
+        """Perform an API call to fetch the details about this channel.
 
-        async def fetch_channel(self) -> channels.PrivateTextChannel:
-            ...
+        Returns
+        -------
+        hikari.channels.DMChannel
+            A derivative of `hikari.channels.DMChannel`. The actual
+            type will vary depending on the type of channel this event
+            concerns.
+        """
+        channel = await self.app.rest.fetch_channel(self.channel_id)
+        assert isinstance(channel, channels.DMChannel)
+        return channel
 
 
 @base_events.requires_intents(intents.Intents.GUILD_INVITES)
@@ -455,17 +499,12 @@ class InviteEvent(GuildChannelEvent, abc.ABC):
             The invite code.
         """
 
-    if typing.TYPE_CHECKING:
-
-        async def fetch_channel(self) -> channels.GuildTextChannel:
-            ...
-
     async def fetch_invite(self) -> invites.Invite:
         """Perform an API call to retrieve an up-to-date image of this invite.
 
         Returns
         -------
-        hikari.models.invites.Invite
+        hikari.invites.Invite
             The invite object.
         """
         return await self.app.rest.fetch_invite(self.code)
@@ -488,17 +527,17 @@ class InviteCreateEvent(InviteEvent):
 
     Returns
     -------
-    hikari.models.invites.InviteWithMetaData
+    hikari.invites.InviteWithMetadata
         The created invite object.
     """
 
     @property
-    def channel_id(self) -> snowflake.Snowflake:
+    def channel_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from ChannelEvent>>.
         return self.invite.channel_id
 
     @property
-    def guild_id(self) -> snowflake.Snowflake:
+    def guild_id(self) -> snowflakes.Snowflake:
         # <<inherited docstring from GuildChannelEvent>>.
         # This will always be non-None for guild channel invites.
         assert self.invite.guild_id is not None
@@ -522,10 +561,10 @@ class InviteDeleteEvent(InviteEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ChannelEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from GuildChannelEvent>>.
 
     code: str = attr.ib()
@@ -555,10 +594,11 @@ class WebhookUpdateEvent(GuildChannelEvent):
     shard: gateway_shard.GatewayShard = attr.ib(metadata={attr_extensions.SKIP_DEEP_COPY: True})
     # <<inherited docstring from ShardEvent>>.
 
-    channel_id: snowflake.Snowflake = attr.ib()
+    channel_id: snowflakes.Snowflake = attr.ib()
     # <<inherited docstring from ChannelEvent>>.
 
-    guild_id: snowflake.Snowflake = attr.ib()
+    guild_id: snowflakes.Snowflake = attr.ib()
+
     # <<inherited docstring from GuildChannelEvent>>.
 
     async def fetch_channel_webhooks(self) -> typing.Sequence[webhooks.Webhook]:
@@ -566,7 +606,7 @@ class WebhookUpdateEvent(GuildChannelEvent):
 
         Returns
         -------
-        typing.Sequence[hikari.models.webhooks.Webhook]
+        typing.Sequence[hikari.webhooks.Webhook]
             The webhooks in this channel.
         """
         return await self.app.rest.fetch_channel_webhooks(self.channel_id)
@@ -576,12 +616,7 @@ class WebhookUpdateEvent(GuildChannelEvent):
 
         Returns
         -------
-        typing.Sequence[hikari.models.webhooks.Webhook]
+        typing.Sequence[hikari.webhooks.Webhook]
             The webhooks in this guild.
         """
         return await self.app.rest.fetch_guild_webhooks(self.guild_id)
-
-    if typing.TYPE_CHECKING:
-
-        async def fetch_channel(self) -> channels.GuildTextChannel:
-            ...

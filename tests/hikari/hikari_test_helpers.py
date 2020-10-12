@@ -21,7 +21,6 @@
 
 import asyncio
 import contextlib
-import copy
 import functools
 import inspect
 import os
@@ -39,76 +38,14 @@ import pytest
 # good way to advance the state of an asyncio coroutine without manually
 # iterating it, which I consider to be far more evil and will vary in results
 # if unrelated changes are made in the same function.
-REASONABLE_SLEEP_TIME = 0.05
+REASONABLE_SLEEP_TIME = 0.2
 
 # How long to reasonably expect something to take if it is considered instant.
-REASONABLE_QUICK_RESPONSE_TIME = 0.05
+REASONABLE_QUICK_RESPONSE_TIME = 0.2
 
 # How long to wait for before considering a test to be jammed in an unbreakable
 # condition, and thus acceptable to terminate the test and fail it.
 REASONABLE_TIMEOUT_AFTER = 10
-
-
-def mock_methods_on(obj, except_=(), also_mock=()):
-    # Mock any methods we don't care about. also_mock is a collection of attribute names that we can eval to access
-    # and mock specific application with a coroutine mock to mock other external application quickly :)
-    magics = ["__enter__", "__exit__", "__aenter__", "__aexit__", "__iter__", "__aiter__"]
-
-    except_ = set(except_)
-    also_mock = set(also_mock)
-    checked = set()
-
-    def predicate(name, member):
-        is_callable = callable(member)
-        has_name = bool(name)
-        name_is_allowed = name not in except_
-
-        if not name_is_allowed:
-            checked.add(name)
-
-        is_not_disallowed_magic = not name.startswith("__") or name in magics
-        # print(name, is_callable, has_name, name_is_allowed, is_not_disallowed_magic)
-        return is_callable and has_name and name_is_allowed and is_not_disallowed_magic
-
-    copy_ = copy.copy(obj)
-    for name, method in inspect.getmembers(obj):
-        if predicate(name, method):
-            # print('Mocking', name, 'on', type(obj))
-
-            if asyncio.iscoroutinefunction(method):
-                _mock = mock.AsyncMock()
-            else:
-                _mock = mock.Mock()
-
-            copy_.__dict__[name] = _mock
-
-    for expr in also_mock:
-        owner, _, attr = ("copy_." + expr).rpartition(".")
-        # sue me.
-        owner = eval(owner)
-        setattr(owner, attr, mock.Mock())
-
-    assert not (except_ - checked), f"Some attributes didn't exist, so were not mocked: {except_ - checked}"
-
-    return copy_
-
-
-def fqn1(obj_):
-    return obj_.__module__ + "." + obj_.__qualname__
-
-
-def fqn2(module, item_identifier):
-    return module.__name__ + "." + item_identifier
-
-
-_unslotted_classes = {}
-
-
-def unslot_class(klass):
-    """Get a modified version of a class without slots."""
-    if klass not in _unslotted_classes:
-        _unslotted_classes[klass] = type(klass.__name__ + "Unslotted", (klass,), {})
-    return _unslotted_classes[klass]
 
 
 _stubbed_classes = {}
@@ -119,7 +56,8 @@ def _stub_init(self, kwargs: typing.Mapping[str, typing.Any]):
         setattr(self, attr, value)
 
 
-def stub_class(klass, **kwargs: typing.Any):
+# TODO: replace all of these with mock_class_namespace
+def mock_entire_class_namespace(klass, **kwargs: typing.Any):
     """Get an instance of a class with only attributes provided in the passed kwargs set."""
     if klass not in _stubbed_classes:
         namespace = {"__init__": _stub_init}
@@ -134,15 +72,45 @@ def stub_class(klass, **kwargs: typing.Any):
     return new_klass(kwargs)
 
 
-def mock_class_namespace(klass, *, init: bool = True, slots: typing.Optional[bool] = None, **namespace: typing.Any):
+def mock_class_namespace(
+    klass,
+    /,
+    *,
+    init_: bool = True,
+    slots_: typing.Optional[bool] = None,
+    implement_abstract_methods_: bool = True,
+    rename_impl_: bool = True,
+    **namespace: typing.Any,
+):
     """Get a version of a class with the provided namespace fields set as class attributes."""
-    if slots or slots is None and hasattr(klass, "__slots__"):
+    if slots_ or slots_ is None and hasattr(klass, "__slots__"):
         namespace["__slots__"] = ()
 
-    if init is False:
+    if init_ is False:
         namespace["__init__"] = lambda _: None
 
-    return type("Mock" + klass.__name__, (klass,), namespace)
+    if implement_abstract_methods_ and hasattr(klass, "__abstractmethods__"):
+        for method_name in klass.__abstractmethods__:
+            if method_name in namespace:
+                continue
+
+            attr = getattr(klass, method_name)
+
+            if inspect.isdatadescriptor(attr) or inspect.isgetsetdescriptor(attr):
+                # Do not use property mock here: it prevents us overwriting it later
+                # (e.g. when restubbing for specific test cases)
+                namespace[method_name] = mock.Mock(__isabstractmethod__=False)
+            elif asyncio.iscoroutinefunction(attr):
+                namespace[method_name] = mock.AsyncMock(spec_set=attr, __isabstractmethod__=False)
+            else:
+                namespace[method_name] = mock.Mock(spec_set=attr, __isabstractmethod__=False)
+
+    for attribute in namespace.keys():
+        assert hasattr(klass, attribute), f"invalid namespace attribute {attribute!r} provided"
+
+    name = "Mock" + klass.__name__ if rename_impl_ else klass.__name__
+
+    return type(name, (klass,), namespace)
 
 
 def retry(max_retries):
@@ -154,7 +122,7 @@ def retry(max_retries):
             ex = None
             for i in range(max_retries + 1):
                 if i:
-                    print("retry", i, "of", max_retries)
+                    print("retry", i, "of", max_retries)  # noqa: T001 - Print found
                 try:
                     await func(*args, **kwargs)
                     return
@@ -190,8 +158,16 @@ def timeout(time_period=REASONABLE_TIMEOUT_AFTER):
     return decorator
 
 
-def stupid_windows_please_stop_breaking_my_tests(test):
-    return pytest.mark.skipif(os.name == "nt", reason="This test will not pass on Windows :(")(test)
+def skip_on_system(os_name: str):
+    """Skip a test on certain systems.
+
+    The valid system names are based on `os.system`
+    """
+
+    def decorator(test):
+        return pytest.mark.skipif(os.name == os_name, reason=f"This test will not pass on {os_name} systems")(test)
+
+    return decorator
 
 
 def has_sem_open_impl():
@@ -209,8 +185,8 @@ def skip_if_no_sem_open(test):
     return pytest.mark.skipif(not has_sem_open_impl(), reason="Your platform lacks a sem_open implementation")(test)
 
 
-async def idle():
-    await asyncio.sleep(REASONABLE_SLEEP_TIME)
+async def idle(for_=REASONABLE_SLEEP_TIME, /):
+    await asyncio.sleep(for_)
 
 
 @contextlib.contextmanager
@@ -243,3 +219,30 @@ def assert_does_not_raise(type_=BaseException):
         return decorator(decorated_func)
     else:
         return decorator
+
+
+async def gather_all_tasks():
+    """Ensure all created tasks except the current are finished before asserting anything."""
+    await asyncio.gather(*(task for task in asyncio.all_tasks() if task is not asyncio.current_task()))
+
+
+def raiser(ex, should_raise=True):
+    """Stop lints complaining about unreachable code."""
+    if should_raise:
+        raise ex
+
+
+class AsyncContextManagerMock:
+    aenter_count = 0
+    aexit_count = 0
+
+    async def __aenter__(self):
+        self.aenter_count += 1
+        return self
+
+    async def __aexit__(self, *args):
+        self.aexit_count += 1
+
+    def assert_used_once(self):
+        assert self.aenter_count == 1
+        assert self.aexit_count == 1
