@@ -18,10 +18,15 @@ _linux_test_job: &linux_test_job
   language: shell
   script:
     # Inherit all enviroment variables into the docker
-    - env >> environ.list
+    #
+    # This code will generate the independent arguments to inherit all the enviroment variables.
+    # This is done instead of dumping `env` to a file and passing that to fix variables with
+    # new lines.
+    - ENV_ARGS=`env | sed -n '/^[^\t]/s/=.*//p' | sed '/^$/d' | sed 's/^/-e /g' | tr '\n' ' '`
+    - echo $ENV_ARGS
     - >
       docker run
-      --env-file environ.list
+      $ENV_ARGS
       --mount "type=bind,src=$(pwd),dst=/hikari"
       "${PYTHON_IMAGE}"
       /bin/bash -c "cd /hikari && bash /hikari/scripts/test-job.sh"
