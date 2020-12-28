@@ -254,6 +254,7 @@ class _GatewayTransport(aiohttp.ClientWebSocketResponse):
 
             web_socket = await exit_stack.enter_async_context(
                 client_session.ws_connect(
+                    autoclose=False,
                     max_msg_size=0,
                     proxy=proxy_settings.url,
                     proxy_headers=proxy_settings.headers,
