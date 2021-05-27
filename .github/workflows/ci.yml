@@ -184,6 +184,8 @@ jobs:
 
       - name: Deploy
         run: |
+          set -e
+
           python -m pip install \
               setuptools \
               wheel \
