@@ -184,14 +184,11 @@ jobs:
 
       - name: Deploy
         run: |
-          set -e
-
           python -m pip install \
               setuptools \
               wheel \
               nox \
               twine \
-              requests \
               -r requirements.txt
 
           # These changes should never see the light of day
