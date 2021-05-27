@@ -164,7 +164,7 @@ jobs:
 
     env:
 #      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      GITHUB_TAG: ${{ github.event.release.tag_name }}
+      GITHUB_TAG: 1.0.0
       GITHUB_REPO_SLUG: ${{ github.repository }}
       GITHUB_BUILD_NUMBER: ${{ github.run_number }}
 #      DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
@@ -184,9 +184,14 @@ jobs:
 
       - name: Deploy
         run: |
-          python -m pip install \
-              -r deploy-requirements.txt \
-              -r requirements.txt
+          pip install setuptools
+          pip install wheel
+          pip install twine
+          pip install nox
+          pip install -r requirements.txt
+
+          VERSION=${GITHUB_TAG}
+          REF=${GITHUB_SHA}
 
           # These changes should never see the light of day
           echo "-- Bumping repository version to ${VERSION} (ref: ${REF}) --"
@@ -199,8 +204,10 @@ jobs:
           echo "-- Bumping master version to ${new_version} --"
           git fetch origin
           git checkout -f master
+          git config user.name "davfsa"
+          git config user.email "29100934+davfsa@users.noreply.github.com"
           sed "s|^__version__.*|__version__ = \"${new_version}\"|g" -i hikari/_about.py
 
           echo "-- Pushing to repository --"
-          git commit -m "Bump version to ${new_version}"
+          git commit -am "Bump version to ${new_version}"
           git push
