@@ -11,6 +11,8 @@
 
 [![discord](https://discord.com/api/guilds/574921006817476608/widget.png?style=banner2)](https://discord.gg/Jx4cNGG)
 
+hi
+
 # hikari
 
 An opinionated, static typed Discord microframework for Python3 and asyncio
