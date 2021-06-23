@@ -11,7 +11,7 @@
 
 [![discord](https://discord.com/api/guilds/574921006817476608/widget.png?style=banner2)](https://discord.gg/Jx4cNGG)
 
-hi
+hi hi
 
 # hikari
 
