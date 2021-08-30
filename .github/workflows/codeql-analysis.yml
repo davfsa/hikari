@@ -10,7 +10,8 @@ on:
 
 jobs:
   analyze:
-    name: Analyze
+    if: github.repository == 'hikari-py/hikari'
+
     runs-on: ubuntu-20.04
 
     steps:

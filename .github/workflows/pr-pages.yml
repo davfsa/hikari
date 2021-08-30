@@ -1,0 +1,114 @@
+name: pr-pages
+
+on:
+  # Trigger to create the pages repository
+  issue_comment:
+    types: [created]
+
+  # Trigger to delete the pages repository
+  pull_request:
+    types: [closed]
+
+jobs:
+  run-guard:
+    if: github.repository == 'hikari-py/hikari'
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Allow CI to run
+        run: exit 0
+
+  build-temporary-pages:
+    if: github.event.issue.pull_request && contains(github.event.comment, '@hikari-testing build-pages') && github.event.issue.comment.author_association == 'MEMBER'
+    needs: [run-guard]
+
+    runs-on: ubuntu-20.04
+    env:
+      PR_REPO: pr-docs-${{ github.event.issue.pull_request.node_id }}
+      ACCOUNT: hikari-testing
+
+    steps:
+      - name: Add reaction to comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          comment-id: ${{ github.event.comment.id }}
+          reactions: '+1'
+
+      - name: Build docs
+        run: |
+          nox -s pdoc
+          test -d public/docs || exit 1
+
+      - name: Create and setup the temporary repository
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_HIKARI_TESTING }}
+        run: |
+          curl https://api.github.com/repos/${ACCOUNT}/${PR_REPO} -f &>/dev/null && found=true || found=false
+
+          if [ found = 'true' ]; then
+            git init ${PR_REPO}
+            cd ${PR_REPO}
+            git remote add origin "https://github-actions:${GITHUB_TOKEN}@github.com/${ACCOUNT}/${PR_REPO}"
+
+          else
+            gh repo create ${ACCOUNT}/${PR_REPO} --public --enable-issues=false --enable-wiki=false -y
+            cd ${PR_REPO}
+
+            curl \
+              -X POST \
+              -u "github-actions:${GH_TOKEN}" \
+              -H "Accept: application/vnd.github.switcheroo-preview+json" \
+              "https://api.github.com/repos/${ACCOUNT}/${PR_REPO}/pages" \
+              -d '{"source": {"branch": "master", "path": "/"}}'
+          fi
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+      - name: Push documentation
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_HIKARI_TESTING }}
+        run: |
+          mv ../public/docs .
+          git commit -am "PR documentation for https://github.com/${{ github.repository }}/pulls/${{ github.event.issue.pull_request.number }}"
+          git push -u -f origin master
+
+      - name: Send confirmation
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.pull_request.number }}
+          body: |
+            ## :rocket: Documentation is up :rocket:
+
+            You can check it out [here](https://${{ env.ACCOUNT }}).github.io/${{ env.PR_REPO }})
+            Note that it might take a few minutes to complete the setup.
+
+            *Build requested by @${{ github.event.sender.login }}*
+
+      - name: Send failure warning
+        if: failure()
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.pull_request.number }}
+          body: |
+            ## :warning: Documentation build failed :warning:
+
+            For more information please check [the logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+            *Build requested by @${{ github.event.sender.login }}*
+
+  delete-temporary-pages:
+    if: github.event.pull_request
+    needs: [run-guard]
+
+    runs-on: ubuntu-20.04
+    env:
+      PR_REPO: ${{ github.event.pull_request.node_id }}
+
+    steps:
+      - name: Delete repository
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN_HIKARI_TESTING }}
+        run:
+          - gh api -X DELETE repos/${PR_REPO} || exit 0

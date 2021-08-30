@@ -39,6 +39,5 @@ git checkout "${GITHUB_TAG}"
 GITHUB_SHA=$(git rev-parse HEAD)
 echo "Detected GITHUB_SHA to be ${GITHUB_SHA}"
 
-set -x
 rm public -Rf || true
 bash scripts/deploy.sh

@@ -18,17 +18,25 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-rm public -Rf || true
+rm -rf public
 mkdir public
-nox --sessions pages
-cd public || exit 1
+
+nox -s pdoc
+cd public/docs || exit 1
 
 git init
 git config user.name "github-actions"
 git config user.email "github-actions@github.com"
-git remote add origin "https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPO_SLUG}"
+git remote add origin "https://github-actions:${GITHUB_TOKEN}@github.com/hikari-py/hikari-py.github.io"
 
-git checkout -B gh-pages
+git checkout -B "task/docs-${VERSION}"
 git add -Av .
-git commit -am "Deployed documentation for ${VERSION}"
-git push origin gh-pages --force
+git commit -am "Documentation for ${VERSION}"
+git push -u origin "task/docs-${VERSION}"
+
+curl \
+  -X POST \
+  -u "github-actions:${GITHUB_TOKEN}" \
+  -H "Accept: application/vnd.github.v3+json" \
+  /repos/hikari-py/hikari-py.github.io/actions/workflows/pages/dispatches \
+  -d '{"ref": '"task/docs-${VERSION}"', "inputs": {"version": '"${VERSION}"'}}'

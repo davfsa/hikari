@@ -261,7 +261,7 @@ _VERSION_REGEX: typing.Final[typing.Pattern[str]] = re.compile(r"^(\d+)\.(\d+)\.
 
 
 # This is a modified version of packaging.version.Version to better suit our needs
-class HikariVersion:
+class HikariVersion(str):
     """Hikari strict version."""
 
     __slots__: typing.Sequence[str] = ("version", "prerelease", "_cmp")
@@ -286,6 +286,9 @@ class HikariVersion:
             vstring += "".join(map(str, self.prerelease))
 
         return vstring
+
+    def __hash__(self) -> int:
+        return super().__hash__()
 
     def __repr__(self) -> str:
         return f"HikariVersion('{str(self)}')"

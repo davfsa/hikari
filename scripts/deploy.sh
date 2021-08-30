@@ -24,18 +24,18 @@ set -e
 echo "Defined environment variables"
 env | grep -oP "^[^=]+" | sort
 
-if [ -z ${GITHUB_TAG+x} ]; then echo '$GITHUB_TAG environment variable is missing' && exit 1; fi
-if [ -z "${GITHUB_TAG}" ]; then echo '$GITHUB_TAG environment variable is empty' && exit 1; fi
-if [ -z ${GITHUB_SHA+x} ]; then echo '$GITHUB_SHA environment variable is missing' && exit 1; fi
-if [ -z "${GITHUB_SHA}" ]; then echo '$GITHUB_SHA environment variable is empty' && exit 1; fi
-if [ -z ${GITHUB_TOKEN+x} ]; then echo '$GITHUB_TOKEN environment variable is missing' && exit 1; fi
-if [ -z "${GITHUB_TOKEN}" ]; then echo '$GITHUB_TOKEN environment variable is empty' && exit 1; fi
-if [ -z ${DEPLOY_WEBHOOK_URL+x} ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is missing' && exit 1; fi
-if [ -z "${DEPLOY_WEBHOOK_URL}" ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is empty' && exit 1; fi
-if [ -z ${TWINE_USERNAME+x} ]; then echo '$TWINE_USERNAME environment variable is missing' && exit 1; fi
-if [ -z "${TWINE_USERNAME}" ]; then echo '$TWINE_USERNAME environment variable is empty' && exit 1; fi
-if [ -z ${TWINE_PASSWORD+x} ]; then echo '$TWINE_PASSWORD environment variable is missing' && exit 1; fi
-if [ -z "${TWINE_PASSWORD}" ]; then echo '$TWINE_PASSWORD environment variable is empty' && exit 1; fi
+if [ -z ${GITHUB_TAG+x} ]; then echo "GITHUB_TAG environment variable is missing" && exit 1; fi
+if [ -z "${GITHUB_TAG}" ]; then echo "GITHUB_TAG environment variable is empty" && exit 1; fi
+if [ -z ${GITHUB_SHA+x} ]; then echo "GITHUB_SHA environment variable is missing" && exit 1; fi
+if [ -z "${GITHUB_SHA}" ]; then echo "GITHUB_SHA environment variable is empty" && exit 1; fi
+if [ -z ${GITHUB_TOKEN+x} ]; then echo "GITHUB_TOKEN environment variable is missing" && exit 1; fi
+if [ -z "${GITHUB_TOKEN}" ]; then echo "GITHUB_TOKEN environment variable is empty" && exit 1; fi
+if [ -z ${DEPLOY_WEBHOOK_URL+x} ]; then echo "DEPLOY_WEBHOOK_URL environment variable is missing" && exit 1; fi
+if [ -z "${DEPLOY_WEBHOOK_URL}" ]; then echo "DEPLOY_WEBHOOK_URL environment variable is empty" && exit 1; fi
+if [ -z ${TWINE_USERNAME+x} ]; then echo "TWINE_USERNAME environment variable is missing" && exit 1; fi
+if [ -z "${TWINE_USERNAME}" ]; then echo "TWINE_USERNAME environment variable is empty" && exit 1; fi
+if [ -z ${TWINE_PASSWORD+x} ]; then echo "TWINE_PASSWORD environment variable is missing" && exit 1; fi
+if [ -z "${TWINE_PASSWORD}" ]; then echo "TWINE_PASSWORD environment variable is empty" && exit 1; fi
 
 export VERSION=${GITHUB_TAG}
 export REF=${GITHUB_SHA}
@@ -50,6 +50,7 @@ pip install nox
 pip install -r requirements.txt
 
 echo "-- Bumping repository version to ${VERSION} (ref: ${REF}) --"
+sed "s|^__docs__.*|__docs__ = \"https://hikari-py.github.io/docs/${VERSION}\"|g" -i hikari/_about.py
 sed "s|^__version__.*|__version__ = \"${VERSION}\"|g" -i hikari/_about.py
 sed "s|^__git_sha1__.*|__git_sha1__ = \"${REF}\"|g" -i hikari/_about.py
 echo "=========================================================================="
