@@ -29,8 +29,7 @@ jobs:
         env:
           VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run:
-          - bash scripts/prepare-release.sh
+        run: bash scripts/prepare-release.sh
 
       - name: Generate token
         id: generate_token
