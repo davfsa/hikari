@@ -184,10 +184,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+    
       - name: Checkout repo
         uses: actions/checkout@v2.3.4
         with:
-          persist-credentials: false
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Setup python
         uses: actions/setup-python@v2.2.2
@@ -198,13 +205,6 @@ jobs:
         run: |
           git config user.name --global "hikari-bot"
           git config user.email --global "90276125+hikari-bot[bot]@users.noreply.github.com"
-
-      - name: Generate token
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Deploy
         env:
