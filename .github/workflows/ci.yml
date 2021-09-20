@@ -7,180 +7,179 @@ on:
     types: [published]
 
 jobs:
-  test:
-    strategy:
-      # Allows for matrix sub-jobs to fail without canceling the rest
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, 3.10-dev]
+#   test:
+#     strategy:
+#       # Allows for matrix sub-jobs to fail without canceling the rest
+#       fail-fast: false
+#       matrix:
+#         os: [ubuntu-latest, macos-latest, windows-latest]
+#         python-version: [3.8, 3.9, 3.10-dev]
 
-    runs-on: ${{ matrix.os }}
+#     runs-on: ${{ matrix.os }}
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v2.3.4
 
-      - name: Setup python
-        if: ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ matrix.python-version }}
+#       - name: Setup python
+#         if: ${{ matrix.python-version }}
+#         uses: actions/setup-python@v2.2.2
+#         with:
+#           python-version: ${{ matrix.python-version }}
 
-      - name: Test Installation
-        run: |
-          pip install wheel
+#       - name: Test Installation
+#         run: |
+#           pip install wheel
 
-          pip install .
-          pip uninstall -y hikari
+#           pip install .
+#           pip uninstall -y hikari
 
-          pip install .[speedups]
-          pip uninstall -y hikari
+#           pip install .[speedups]
+#           pip uninstall -y hikari
 
-      - name: Run tests
-        run: |
-          pip install nox
-          nox -s pytest
-          nox -s pytest-speedups -- --cov-append
+#       - name: Run tests
+#         run: |
+#           pip install nox
+#           nox -s pytest
+#           nox -s pytest-speedups -- --cov-append
 
-          mv .coverage .coverage.${{ matrix.os }}.${{ matrix.python-version }}
+#           mv .coverage .coverage.${{ matrix.os }}.${{ matrix.python-version }}
 
-      - name: Upload coverage
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage
-          path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
-          retention-days: 1
-          if-no-files-found: error
+#       - name: Upload coverage
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: coverage
+#           path: .coverage.${{ matrix.os }}.${{ matrix.python-version }}
+#           retention-days: 1
+#           if-no-files-found: error
 
 
-  upload-coverage:
-    needs: [test]
-    runs-on: ubuntu-latest
+#   upload-coverage:
+#     needs: [test]
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v2.3.4
 
-      - name: Setup python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
+#       - name: Setup python
+#         uses: actions/setup-python@v2.2.2
+#         with:
+#           python-version: 3.8
 
-      - name: Download coverage
-        uses: actions/download-artifact@v2
-        with:
-          name: coverage
+#       - name: Download coverage
+#         uses: actions/download-artifact@v2
+#         with:
+#           name: coverage
 
-      - name: Combine coverage
-        run: |
-          pip install coverage
-          coverage combine
-          coverage xml -i
+#       - name: Combine coverage
+#         run: |
+#           pip install coverage
+#           coverage combine
+#           coverage xml -i
 
-      - name: Upload to codeclimate
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter after-build --id "d40e64ea0ff74713f79365fea4378ab51a2141ad4fcf0fb118496bbf560d4192"
+#       - name: Upload to codeclimate
+#         run: |
+#           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#           chmod +x ./cc-test-reporter
+#           ./cc-test-reporter after-build --id "d40e64ea0ff74713f79365fea4378ab51a2141ad4fcf0fb118496bbf560d4192"
 
-  linting:
-    runs-on: ubuntu-latest
+#   linting:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v2.3.4
 
-      - name: Setup python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
+#       - name: Setup python
+#         uses: actions/setup-python@v2.2.2
+#         with:
+#           python-version: 3.8
 
-      - name: Check stubs
-        run: |
-          pip install nox
-          nox -s generate-stubs
-          if [ "$(git status --short)" ]; then
-            echo "Stubs were not updated accordingly to the changes. Please run 'nox -s generate-stubs' and commit the changes to fix this."
-            exit 1
-          fi
+#       - name: Check stubs
+#         run: |
+#           pip install nox
+#           nox -s generate-stubs
+#           if [ "$(git status --short)" ]; then
+#             echo "Stubs were not updated accordingly to the changes. Please run 'nox -s generate-stubs' and commit the changes to fix this."
+#             exit 1
+#           fi
 
-      - name: Linting
-        run: |
-          nox -s safety mypy flake8 codespell
+#       - name: Linting
+#         run: |
+#           nox -s safety mypy flake8 codespell
 
-  twemoji:
-    runs-on: ubuntu-latest
+#   twemoji:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v2.3.4
 
-      - name: Setup python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
+#       - name: Setup python
+#         uses: actions/setup-python@v2.2.2
+#         with:
+#           python-version: 3.8
 
-      - name: Test twemoji mapping
-        run: |
-          pip install nox
-          nox -s twemoji-test
+#       - name: Test twemoji mapping
+#         run: |
+#           pip install nox
+#           nox -s twemoji-test
 
-  pages:
-    runs-on: ubuntu-latest
+#   pages:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2.3.4
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v2.3.4
 
-      - name: Setup python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: 3.8
+#       - name: Setup python
+#         uses: actions/setup-python@v2.2.2
+#         with:
+#           python-version: 3.8
 
-      - name: Setup node
-        uses: actions/setup-node@v2.4.0
+#       - name: Setup node
+#         uses: actions/setup-node@v2.4.0
 
-      - name: Build pages
-        run: |
-          pip install nox
-          nox -s pages
+#       - name: Build pages
+#         run: |
+#           pip install nox
+#           nox -s pages
 
-      - name: Upload artifacts
-        if: github.event_name != 'release'
-        uses: actions/upload-artifact@v2
-        with:
-          name: pages
-          path: public
-          retention-days: 2
-          if-no-files-found: error
+#       - name: Upload artifacts
+#         if: github.event_name != 'release'
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: pages
+#           path: public
+#           retention-days: 2
+#           if-no-files-found: error
 
-  # Allows us to add this as a required check in Github branch rules, as all the
-  # other jobs are subject to change
-  ci-done:
-    needs: [upload-coverage, linting, twemoji, pages]
-    if: always()
+#   # Allows us to add this as a required check in Github branch rules, as all the
+#   # other jobs are subject to change
+#   ci-done:
+#     needs: [upload-coverage, linting, twemoji, pages]
+#     if: always()
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Mark status based on past job status
-        env:
-          # All new need jobs need to be added here with the prefix "RESULT_"
-          RESULT_UPLOAD_COVERAGE: ${{ needs.upload-coverage.result }}
-          RESULT_LINTING: ${{ needs.linting.result }}
-          RESULT_TWEMOJI: ${{ needs.twemoji.result }}
-          RESULT_PAGES: ${{ needs.pages.result }}
-        run: |
-          if [ "$(env | grep 'RESULT_')" = "$(env | grep "RESULT_" | grep '=success')" ]; then
-            exit 0
-          else
-            exit 1
-          fi
+#     steps:
+#       - name: Mark status based on past job status
+#         env:
+#           # All new need jobs need to be added here with the prefix "RESULT_"
+#           RESULT_UPLOAD_COVERAGE: ${{ needs.upload-coverage.result }}
+#           RESULT_LINTING: ${{ needs.linting.result }}
+#           RESULT_TWEMOJI: ${{ needs.twemoji.result }}
+#           RESULT_PAGES: ${{ needs.pages.result }}
+#         run: |
+#           if [ "$(env | grep 'RESULT_')" = "$(env | grep "RESULT_" | grep '=success')" ]; then
+#             exit 0
+#           else
+#             exit 1
+#           fi
 
   deploy:
     if: github.event_name == 'release'
-    needs: [ci-done]
 
     runs-on: ubuntu-latest
 
@@ -198,13 +197,20 @@ jobs:
           git config user.name --global "hikari-bot"
           git config user.email --global "90276125+hikari-bot[bot]@users.noreply.github.com"
 
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
       - name: Deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
           VERSION: ${{ github.event.release.tag_name }}
           REF: ${{ github.sha }}
           GITHUB_REPO_SLUG: ${{ github.repository }}
-          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+#           DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+#           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+#           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: bash scripts/deploy.sh
