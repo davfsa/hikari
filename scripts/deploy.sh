@@ -21,10 +21,10 @@
 # SOFTWARE.
 set -e
 
-if [ $(ls -1 changes/*.*.md 2>/dev/null | wc -l) = 0]; then
-    echo "Cannot create release if CHANGELOG fragment files exist under 'changes/'!"
-    exit 1
-fi
+# if [ $(ls -1 changes/*.*.md 2>/dev/null | wc -l) = 0]; then
+#     echo "Cannot create release if CHANGELOG fragment files exist under 'changes/'!"
+#     exit 1
+# fi
 
 echo "Defined environment variables"
 env | grep -oP "^[^=]+" | sort
@@ -35,12 +35,12 @@ if [ -z ${REF+x} ]; then echo '$REF environment variable is missing' && exit 1; 
 if [ -z "${REF}" ]; then echo '$REF environment variable is empty' && exit 1; fi
 if [ -z ${GITHUB_TOKEN+x} ]; then echo '$GITHUB_TOKEN environment variable is missing' && exit 1; fi
 if [ -z "${GITHUB_TOKEN}" ]; then echo '$GITHUB_TOKEN environment variable is empty' && exit 1; fi
-if [ -z ${DEPLOY_WEBHOOK_URL+x} ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is missing' && exit 1; fi
-if [ -z "${DEPLOY_WEBHOOK_URL}" ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is empty' && exit 1; fi
-if [ -z ${TWINE_USERNAME+x} ]; then echo '$TWINE_USERNAME environment variable is missing' && exit 1; fi
-if [ -z "${TWINE_USERNAME}" ]; then echo '$TWINE_USERNAME environment variable is empty' && exit 1; fi
-if [ -z ${TWINE_PASSWORD+x} ]; then echo '$TWINE_PASSWORD environment variable is missing' && exit 1; fi
-if [ -z "${TWINE_PASSWORD}" ]; then echo '$TWINE_PASSWORD environment variable is empty' && exit 1; fi
+# if [ -z ${DEPLOY_WEBHOOK_URL+x} ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is missing' && exit 1; fi
+# if [ -z "${DEPLOY_WEBHOOK_URL}" ]; then echo '$DEPLOY_WEBHOOK_URL environment variable is empty' && exit 1; fi
+# if [ -z ${TWINE_USERNAME+x} ]; then echo '$TWINE_USERNAME environment variable is missing' && exit 1; fi
+# if [ -z "${TWINE_USERNAME}" ]; then echo '$TWINE_USERNAME environment variable is empty' && exit 1; fi
+# if [ -z ${TWINE_PASSWORD+x} ]; then echo '$TWINE_PASSWORD environment variable is missing' && exit 1; fi
+# if [ -z "${TWINE_PASSWORD}" ]; then echo '$TWINE_PASSWORD environment variable is empty' && exit 1; fi
 
 echo "===== INSTALLING DEPENDENCIES ====="
 # Note: We install each of these separately due to issues with the new PIP resolver
@@ -51,28 +51,28 @@ pip install twine
 pip install nox
 pip install -r requirements.txt
 
-echo "===== DEPLOYING TO PYPI ====="
-echo "-- Setting __git_sha1__ (ref: ${REF}) --"
-sed "s|^__git_sha1__.*|__git_sha1__ = \"${REF}\"|g" -i hikari/_about.py
-echo "=========================================================================="
-cat hikari/_about.py
-echo "=========================================================================="
+# echo "===== DEPLOYING TO PYPI ====="
+# echo "-- Setting __git_sha1__ (ref: ${REF}) --"
+# sed "s|^__git_sha1__.*|__git_sha1__ = \"${REF}\"|g" -i hikari/_about.py
+# echo "=========================================================================="
+# cat hikari/_about.py
+# echo "=========================================================================="
 
-python setup.py sdist bdist_wheel
-echo "-- Contents of . --"
-ls -ahl
-echo
-echo "-- Contents of ./dist --"
-ls -ahl dist
+# python setup.py sdist bdist_wheel
+# echo "-- Contents of . --"
+# ls -ahl
+# echo
+# echo "-- Contents of ./dist --"
+# ls -ahl dist
 
-echo "-- Checking generated dists --"
-python -m twine check dist/*
-echo
-echo "-- Uploading to PyPI --"
-python -m twine upload --disable-progress-bar --skip-existing dist/* --non-interactive --repository-url https://upload.pypi.org/legacy/
+# echo "-- Checking generated dists --"
+# python -m twine check dist/*
+# echo
+# echo "-- Uploading to PyPI --"
+# python -m twine upload --disable-progress-bar --skip-existing dist/* --non-interactive --repository-url https://upload.pypi.org/legacy/
 
-echo "===== DEPLOYING PAGES ====="
-bash scripts/deploy-pages.sh
+# echo "===== DEPLOYING PAGES ====="
+# bash scripts/deploy-pages.sh
 
 echo "===== UPDATING VERSION IN REPOSITORY ====="
 NEW_VERSION=$(python scripts/increase_version_number.py "${VERSION}")
@@ -88,5 +88,5 @@ echo "-- Pushing to repository --"
 git commit -am "Bump to development version (${NEW_VERSION})"
 git push
 
-echo "===== SENDING WEBHOOK ====="
-bash scripts/deploy-webhook.sh
+# echo "===== SENDING WEBHOOK ====="
+# bash scripts/deploy-webhook.sh
