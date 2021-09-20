@@ -186,6 +186,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2.3.4
+        with:
+          persist-credentials: false
 
       - name: Setup python
         uses: actions/setup-python@v2.2.2
