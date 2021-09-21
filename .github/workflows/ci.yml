@@ -206,9 +206,15 @@ jobs:
           git config user.name --global "hikari-bot"
           git config user.email --global "90276125+hikari-bot[bot]@users.noreply.github.com"
 
+      - name: Temporarily disable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        with:
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          enforce_admins: false
+
       - name: Deploy
         env:
-          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           VERSION: ${{ github.event.release.tag_name }}
           REF: ${{ github.sha }}
           GITHUB_REPO_SLUG: ${{ github.repository }}
@@ -216,3 +222,10 @@ jobs:
 #           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
 #           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: bash scripts/deploy.sh
+
+      - name: Re-enable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        if: always()
+        with:
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          enforce_admins: true
