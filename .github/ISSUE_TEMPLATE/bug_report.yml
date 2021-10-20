@@ -1,61 +1,59 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-assignees:
-  - octocat
+name: Bug report
+description: Found a bug? Let us know so we can fix it!
+labels: ["bug"]
+
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
+
+        Please make sure to search the issue tracker and have make sure it's not a duplicate.
+        If it is a follow up of another issue, please make sure to specify it.
   - type: textarea
-    id: what-happened
+    id: steps-to-reproduce
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Steps to reproduce
+      description: |
+        Steps to reproduce the bug. This can also be a code snippet.
+        **Make sure you have removed your bot token (if visible).**
+      value: |
+        1.
+        2.
+        3.
     validations:
       required: true
-  - type: dropdown
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: What should have happened if the bug wasn't there?
+    validations:
+      required: true
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual result
+      description: |
+        What happened exactly? If you have a traceback, please provide all of it.
+        **Make sure to remove ANY sensitive information (bot token, passwords, credentials, personal details, etc...)**
+    validations:
+      required: true
+  - type: textarea
     id: version
     attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+      label: System version
+      description: Please place here the output of running `python -m hikari`
+      render: shell
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
   - type: textarea
-    id: logs
+    id: further-info
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
+      label: Further info
+      description: Any further info or images go here.
+      value: "None"
+  - type: markdown
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      value: |
+        By sumbitting this bug report you agree to our [Code of Conduct](https://github.com/hikari-py/hikari/blob/master/CODE_OF_CONDUCT.md)
