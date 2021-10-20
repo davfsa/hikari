@@ -25,9 +25,9 @@ body:
     validations:
       required: true
   - type: textarea
-    id: further-info
+    id: ideal-implementation
     attributes:
-      label: Further info
+      label: Ideal implementation
       description: How should this feature be implemented?
       value: "To be discussed"
   - type: markdown
