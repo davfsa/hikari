@@ -28,7 +28,6 @@ __all__: typing.List[str] = ["EventManagerImpl"]
 
 import asyncio
 import base64
-import logging
 import random
 import typing
 
@@ -49,7 +48,6 @@ from hikari.events import user_events
 from hikari.events import voice_events
 from hikari.impl import event_manager_base
 from hikari.internal import time
-from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
     from hikari import guilds
@@ -60,9 +58,6 @@ if typing.TYPE_CHECKING:
     from hikari.api import event_factory as event_factory_
     from hikari.api import shard as gateway_shard
     from hikari.internal import data_binding
-
-
-_LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari.event_manager")
 
 
 def _fixed_size_nonce() -> str:
@@ -162,49 +157,54 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
         # TODO: we need a method for this specifically
         await self.dispatch(self._event_factory.deserialize_channel_pins_update_event(shard, payload))
 
-    # Internal granularity is preferred for GUILD_CREATE over decorator based filtering due to its large cache scope.
-    async def on_guild_create(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
+    @event_manager_base.filtered(
+        (guild_events.GuildAvailableEvent, guild_events.GuildJoinEvent),
+        config.CacheComponents.GUILDS
+        | config.CacheComponents.GUILD_CHANNELS
+        | config.CacheComponents.EMOJIS
+        | config.CacheComponents.ROLES
+        | config.CacheComponents.PRESENCES
+        | config.CacheComponents.VOICE_STATES
+        | config.CacheComponents.MEMBERS,
+    )
+    async def on_guild_create(  # noqa: C901 - Function too complex
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -> None:
         """See https://discord.com/developers/docs/topics/gateway#guild-create for more info."""
-        enabled_for_event = self._enabled_for_event(guild_events.GuildAvailableEvent)
-        if not enabled_for_event and self._cache:
-            _LOGGER.log(ux.TRACE, "Skipping on_guild_create dispatch due to lack of any registered listeners")
-            event: typing.Union[guild_events.GuildAvailableEvent, guild_events.GuildJoinEvent, None] = None
+        event: typing.Union[guild_events.GuildAvailableEvent, guild_events.GuildJoinEvent, None]
+        members_cache_enabled = self._cache_enabled_for(config.CacheComponents.MEMBERS)
+
+        if "unavailable" in payload and self._enabled_for_event(guild_events.GuildAvailableEvent):
+            event = self._event_factory.deserialize_guild_available_event(shard, payload)
+        elif self._enabled_for_event(guild_events.GuildJoinEvent):
+            event = self._event_factory.deserialize_guild_join_event(shard, payload)
+        else:
+            event = None
+
+        if event is not None:
+            # We also filter here to prevent iterating over them and calling a function that wont do anything
+            channels = event.channels if self._cache_enabled_for(config.CacheComponents.GUILD_CHANNELS) else None
+            emojis = event.emojis if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
+            guild = event.guild if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
+            guild_id = event.guild.id
+            members = event.members if members_cache_enabled else None
+            presences = event.presences if self._cache_enabled_for(config.CacheComponents.PRESENCES) else None
+            roles = event.roles if self._cache_enabled_for(config.CacheComponents.ROLES) else None
+            voice_states = event.voice_states if self._cache_enabled_for(config.CacheComponents.VOICE_STATES) else None
+
+        else:
+            # We are not going to dispatch the event, but if this got called its because the cache is enabled for
+            # something
             gd = self._entity_factory.deserialize_gateway_guild(payload)
 
             channels = gd.channels() if self._cache_enabled_for(config.CacheComponents.GUILD_CHANNELS) else None
             emojis = gd.emojis() if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = gd.guild() if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
             guild_id = gd.id
-            members = gd.members() if self._cache_enabled_for(config.CacheComponents.MEMBERS) else None
+            members = gd.members() if members_cache_enabled else None
             presences = gd.presences() if self._cache_enabled_for(config.CacheComponents.PRESENCES) else None
             roles = gd.roles() if self._cache_enabled_for(config.CacheComponents.ROLES) else None
             voice_states = gd.voice_states() if self._cache_enabled_for(config.CacheComponents.VOICE_STATES) else None
-
-        elif enabled_for_event:
-            if "unavailable" in payload:
-                event = self._event_factory.deserialize_guild_available_event(shard, payload)
-            else:
-                event = self._event_factory.deserialize_guild_join_event(shard, payload)
-
-            channels = event.channels
-            emojis = event.emojis
-            guild = event.guild
-            guild_id = guild.id
-            members = event.members
-            presences = event.presences
-            roles = event.roles
-            voice_states = event.voice_states
-
-        else:
-            event = None
-            channels = None
-            emojis = None
-            guild = None
-            guild_id = snowflakes.Snowflake(payload["id"])
-            members = None
-            presences = None
-            roles = None
-            voice_states = None
 
         if self._cache:
             if guild:
@@ -241,16 +241,17 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
                 for voice_state in voice_states.values():
                     self._cache.set_voice_state(voice_state)
 
-        recv_chunks = self._enabled_for_event(shard_events.MemberChunkEvent) or self._cache_enabled_for(
-            config.CacheComponents.MEMBERS
-        )
         members_declared = self._intents & intents_.Intents.GUILD_MEMBERS
         presences_declared = self._intents & intents_.Intents.GUILD_PRESENCES
 
-        # When intents are enabled discord will only send other member objects on the guild create
+        # When intents are enabled Discord will only send the member objects on the guild create
         # payload if presence intents are also declared, so if this isn't the case then we also want
         # to chunk small guilds.
-        if recv_chunks and members_declared and (payload.get("large") or not presences_declared):
+        if (
+            members_declared
+            and (payload.get("large") or not presences_declared)
+            and (members_cache_enabled or self._enabled_for_event(shard_events.MemberChunkEvent))
+        ):
             # We create a task here instead of awaiting the result to avoid any rate-limits from delaying dispatch.
             nonce = f"{shard.id}.{_fixed_size_nonce()}"
 
@@ -263,33 +264,31 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
         if event:
             await self.dispatch(event)
 
-    # Internal granularity is preferred for GUILD_UPDATE over decorator based filtering due to its large cache scope.
+    @event_manager_base.filtered(
+        guild_events.GuildUpdateEvent,
+        config.CacheComponents.GUILDS | config.CacheComponents.EMOJIS | config.CacheComponents.ROLES,
+    )
     async def on_guild_update(self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject) -> None:
         """See https://discord.com/developers/docs/topics/gateway#guild-update for more info."""
-        enabled_for_event = self._enabled_for_event(guild_events.GuildUpdateEvent)
+        event: typing.Optional[guild_events.GuildUpdateEvent]
+        if self._enabled_for_event(guild_events.GuildUpdateEvent):
+            guild_id = snowflakes.Snowflake(payload["id"])
+            old = self._cache.get_guild(guild_id) if self._cache else None
+            event = self._event_factory.deserialize_guild_update_event(shard, payload, old_guild=old)
 
-        if not enabled_for_event and self._cache:
-            _LOGGER.log(ux.TRACE, "Skipping on_guild_update raw dispatch due to lack of any registered listeners")
-            event: typing.Optional[guild_events.GuildUpdateEvent] = None
+            # We also filter here to prevent iterating over them and calling a function that wont do anything
+            emojis = event.emojis if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
+            guild = event.guild if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
+            roles = event.roles if self._cache_enabled_for(config.CacheComponents.ROLES) else None
+
+        else:
+            event = None
+            # We dont dispatch the event, so there must be some cache we need to update
             gd = self._entity_factory.deserialize_gateway_guild(payload)
             emojis = gd.emojis() if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = gd.guild() if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
             guild_id = gd.id
             roles = gd.roles() if self._cache_enabled_for(config.CacheComponents.ROLES) else None
-
-        elif enabled_for_event:
-            guild_id = snowflakes.Snowflake(payload["id"])
-            old = self._cache.get_guild(guild_id) if self._cache else None
-            event = self._event_factory.deserialize_guild_update_event(shard, payload, old_guild=old)
-            emojis = event.emojis
-            guild = event.guild
-            roles = event.roles
-
-        else:
-            _LOGGER.log(
-                ux.TRACE, "Skipping on_guild_update raw dispatch due to lack of any registered listeners or cache need"
-            )
-            return
 
         if self._cache:
             if guild:
