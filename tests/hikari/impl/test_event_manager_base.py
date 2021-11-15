@@ -736,7 +736,7 @@ class TestEventManagerBase:
             member_events.MemberEvent: ["coroutine1"],
             member_events.MemberCreateEvent: ["hi", "i am"],
             member_events.MemberUpdateEvent: ["hidden"],
-            base_events.ExceptionEvent: ["so i wont be seen"],
+            base_events.ExceptionEvent: ["so you won't see me"],
         }
 
         assert event_manager.get_listeners(member_events.MemberEvent) == ["coroutine1", "coroutine0"]

@@ -182,7 +182,7 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
             event = None
 
         if event is not None:
-            # We also filter here to prevent iterating over them and calling a function that wont do anything
+            # We also filter here to prevent iterating over them and calling a function that won't do anything
             channels = event.channels if self._cache_enabled_for(config.CacheComponents.GUILD_CHANNELS) else None
             emojis = event.emojis if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = event.guild if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
@@ -276,7 +276,7 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
             old = self._cache.get_guild(guild_id) if self._cache else None
             event = self._event_factory.deserialize_guild_update_event(shard, payload, old_guild=old)
 
-            # We also filter here to prevent iterating over them and calling a function that wont do anything
+            # We also filter here to prevent iterating over them and calling a function that won't do anything
             emojis = event.emojis if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = event.guild if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
             roles = event.roles if self._cache_enabled_for(config.CacheComponents.ROLES) else None
