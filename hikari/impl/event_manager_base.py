@@ -297,6 +297,7 @@ def filtered(
     return decorator
 
 
+# FIXME: Provide what enabled the event (what cache is enabled and what event it is enabled for)
 @attr.define(weakref_slot=False, hash=True)
 class _Consumer:
     callback: ConsumerT = attr.ib(hash=True)

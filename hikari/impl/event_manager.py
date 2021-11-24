@@ -48,6 +48,7 @@ from hikari.events import user_events
 from hikari.events import voice_events
 from hikari.impl import event_manager_base
 from hikari.internal import time
+from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
     from hikari import guilds
@@ -59,6 +60,8 @@ if typing.TYPE_CHECKING:
     from hikari.api import shard as gateway_shard
     from hikari.internal import data_binding
 
+
+_LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari.event_manager")
 
 def _fixed_size_nonce() -> str:
     # This generates nonces of length 28 for use in member chunking.
@@ -157,50 +160,48 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
         # TODO: we need a method for this specifically
         await self.dispatch(self._event_factory.deserialize_channel_pins_update_event(shard, payload))
 
-    @event_manager_base.filtered(
-        (guild_events.GuildAvailableEvent, guild_events.GuildJoinEvent),
-        config.CacheComponents.GUILDS
-        | config.CacheComponents.GUILD_CHANNELS
-        | config.CacheComponents.EMOJIS
-        | config.CacheComponents.ROLES
-        | config.CacheComponents.PRESENCES
-        | config.CacheComponents.VOICE_STATES
-        | config.CacheComponents.MEMBERS,
-    )
+    # Internal granularity is preferred for GUILD_CREATE over decorator based filtering due to its large scope.
     async def on_guild_create(  # noqa: C901 - Function too complex
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
     ) -> None:
         """See https://discord.com/developers/docs/topics/gateway#guild-create for more info."""
         event: typing.Union[guild_events.GuildAvailableEvent, guild_events.GuildJoinEvent, None]
-        members_cache_enabled = self._cache_enabled_for(config.CacheComponents.MEMBERS)
+        chunking_event_enabled = self._enabled_for_event(shard_events.MemberChunkEvent)
 
         if "unavailable" in payload and self._enabled_for_event(guild_events.GuildAvailableEvent):
             event = self._event_factory.deserialize_guild_available_event(shard, payload)
         elif self._enabled_for_event(guild_events.GuildJoinEvent):
             event = self._event_factory.deserialize_guild_join_event(shard, payload)
-        else:
+        elif self._cache or chunking_event_enabled:
             event = None
+        else:
+            _LOGGER.log(
+                ux.TRACE, "Skipping raw dispatch for on_guild_create due to lack of any registered listeners or cache need",
+            )
+            return
 
-        if event is not None:
+        members_cache_enabled = self._cache_enabled_for(config.CacheComponents.MEMBERS)
+
+        if event:
             # We also filter here to prevent iterating over them and calling a function that won't do anything
+            guild_id = event.guild.id
             channels = event.channels if self._cache_enabled_for(config.CacheComponents.GUILD_CHANNELS) else None
             emojis = event.emojis if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = event.guild if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
-            guild_id = event.guild.id
             members = event.members if members_cache_enabled else None
             presences = event.presences if self._cache_enabled_for(config.CacheComponents.PRESENCES) else None
             roles = event.roles if self._cache_enabled_for(config.CacheComponents.ROLES) else None
             voice_states = event.voice_states if self._cache_enabled_for(config.CacheComponents.VOICE_STATES) else None
 
         else:
-            # We are not going to dispatch the event, but if this got called its because the cache is enabled for
+            # We are not going to dispatch any event, but if this got called its because the cache is enabled for
             # something
             gd = self._entity_factory.deserialize_gateway_guild(payload)
 
+            guild_id = gd.id
             channels = gd.channels() if self._cache_enabled_for(config.CacheComponents.GUILD_CHANNELS) else None
             emojis = gd.emojis() if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = gd.guild() if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
-            guild_id = gd.id
             members = gd.members() if members_cache_enabled else None
             presences = gd.presences() if self._cache_enabled_for(config.CacheComponents.PRESENCES) else None
             roles = gd.roles() if self._cache_enabled_for(config.CacheComponents.ROLES) else None
@@ -241,16 +242,15 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
                 for voice_state in voice_states.values():
                     self._cache.set_voice_state(voice_state)
 
-        members_declared = self._intents & intents_.Intents.GUILD_MEMBERS
-        presences_declared = self._intents & intents_.Intents.GUILD_PRESENCES
+        presences_intent_declared = self._intents & intents_.Intents.GUILD_PRESENCES
 
-        # When intents are enabled Discord will only send the member objects on the guild create
+        # When intents are enabled Discord will only send other member objects on the guild create
         # payload if presence intents are also declared, so if this isn't the case then we also want
         # to chunk small guilds.
         if (
-            members_declared
-            and (payload.get("large") or not presences_declared)
-            and (members_cache_enabled or self._enabled_for_event(shard_events.MemberChunkEvent))
+            self._intents & intents_.Intents.GUILD_MEMBERS
+            and (payload.get("large") or not presences_intent_declared)
+            and (members_cache_enabled or chunking_event_enabled)
         ):
             # We create a task here instead of awaiting the result to avoid any rate-limits from delaying dispatch.
             nonce = f"{shard.id}.{_fixed_size_nonce()}"
@@ -258,7 +258,7 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
             if event:
                 event.chunk_nonce = nonce
 
-            coroutine = _request_guild_members(shard, guild_id, include_presences=bool(presences_declared), nonce=nonce)
+            coroutine = _request_guild_members(shard, guild_id, include_presences=bool(presences_intent_declared), nonce=nonce)
             asyncio.create_task(coroutine, name=f"{shard.id}:{guild_id} guild create members request")
 
         if event:
@@ -285,9 +285,10 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
             event = None
             # We dont dispatch the event, so there must be some cache we need to update
             gd = self._entity_factory.deserialize_gateway_guild(payload)
+            
+            guild_id = gd.id
             emojis = gd.emojis() if self._cache_enabled_for(config.CacheComponents.EMOJIS) else None
             guild = gd.guild() if self._cache_enabled_for(config.CacheComponents.GUILDS) else None
-            guild_id = gd.id
             roles = gd.roles() if self._cache_enabled_for(config.CacheComponents.ROLES) else None
 
         if self._cache:
