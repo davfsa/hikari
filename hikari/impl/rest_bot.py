@@ -318,8 +318,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
     def executor(self) -> typing.Optional[concurrent.futures.Executor]:
         return self._executor
 
-    @staticmethod
-    def print_banner(banner: typing.Optional[str], allow_color: bool, force_color: bool) -> None:
+    def print_banner(self, banner: typing.Optional[str], allow_color: bool, force_color: bool) -> None:
         """Print the banner.
 
         This allows library vendors to override this behaviour, or choose to

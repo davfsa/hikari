@@ -648,8 +648,7 @@ class GatewayBot(traits.GatewayBotAware):
         """
         return self._event_manager.listen(event_type)
 
-    @staticmethod
-    def print_banner(banner: typing.Optional[str], allow_color: bool, force_color: bool) -> None:
+    def print_banner(self, banner: typing.Optional[str], allow_color: bool, force_color: bool) -> None:
         """Print the banner.
 
         This allows library vendors to override this behaviour, or choose to
