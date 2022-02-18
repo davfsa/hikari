@@ -204,7 +204,7 @@ def print_banner(package: typing.Optional[str], allow_color: bool, force_color: 
         for code in colorlog.escape_codes.escape_codes:
             args[code] = ""
 
-    sys.stdout.write(string.Template(raw_banner).safe_substitute(args))
+    sys.stdout.write(string.Template(raw_banner).safe_substitute(args).encode("utf-8").decode("utf-8"))
     # Give the stream some time to flush
     sys.stdout.flush()
     time.sleep(0.125)
