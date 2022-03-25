@@ -778,7 +778,8 @@ class GatewayShardImpl(shard.GatewayShard):
             now = time.monotonic()
             self._last_heartbeat_ack_received = now
             self._heartbeat_latency = now - self._last_heartbeat_sent
-            self._logger.log(ux.TRACE, "received HEARTBEAT ACK in %.1fms", self._heartbeat_latency * 1_000)
+            # self._logger.log(ux.TRACE, "received HEARTBEAT ACK in %.1fms", self._heartbeat_latency * 1_000)
+            self._logger.debug("received HEARTBEAT ACK in %.1fms", self._heartbeat_latency * 1_000)
         elif op == _RECONNECT:
             # We should be able to resume...
             self._logger.info("received instruction to reconnect, will resume existing session")
@@ -941,10 +942,7 @@ class GatewayShardImpl(shard.GatewayShard):
                     "shard has requested graceful termination, so will not attempt to reconnect "
                     "(_run_once => do not reconnect)"
                 )
-                await self._get_ws().send_close(
-                    code=errors.ShardCloseCode.GOING_AWAY,
-                    message=b"shard disconnecting",
-                )
+                await self._get_ws().send_close(code=errors.ShardCloseCode.GOING_AWAY, message=b"shard disconnecting")
                 return False
 
             finally:
@@ -975,7 +973,8 @@ class GatewayShardImpl(shard.GatewayShard):
     async def _send_heartbeat(self) -> None:
         await self._send_json({_OP: _HEARTBEAT, _D: self._seq})
         self._last_heartbeat_sent = time.monotonic()
-        self._logger.log(ux.TRACE, "sent HEARTBEAT")
+        # self._logger.log(ux.TRACE, "sent HEARTBEAT")
+        self._logger.debug("sent HEARTBEAT")
 
     @staticmethod
     def _serialize_activity(activity: typing.Optional[presences.Activity]) -> data_binding.JSONish:

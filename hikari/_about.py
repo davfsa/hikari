@@ -40,4 +40,4 @@ __issue_tracker__: typing.Final[str] = "https://github.com/hikari-py/hikari/issu
 __license__: typing.Final[str] = "MIT"
 __url__: typing.Final[str] = "https://github.com/hikari-py/hikari"
 __version__: typing.Final[str] = "2.0.0.dev108"
-__git_sha1__: typing.Final[str] = "HEAD"
+__git_sha1__: typing.Final[str] = "HEAD + testing 1"
