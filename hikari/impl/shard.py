@@ -774,7 +774,6 @@ class GatewayShardImpl(shard.GatewayShard):
             self._dispatch(t, s, d)
         elif op == _HEARTBEAT:
             await self._send_heartbeat()
-            self._logger.log(ux.TRACE, "sent HEARTBEAT")
         elif op == _HEARTBEAT_ACK:
             now = time.monotonic()
             self._last_heartbeat_ack_received = now
@@ -956,7 +955,7 @@ class GatewayShardImpl(shard.GatewayShard):
             raise
 
         finally:
-            ws = self._ws
+            ws = self._get_ws()
             self._ws = None
             await exit_stack.aclose()
             if dispatch_disconnect:
@@ -970,12 +969,13 @@ class GatewayShardImpl(shard.GatewayShard):
 
             # Check if we made the socket close or handled it. If we didn't, we should always try to
             # reconnect, as aiohttp is probably closing it internally without telling us properly.
-            if exception is None and not ws.sent_close:  # type: ignore[union-attr]
+            if exception is None and not ws.sent_close:
                 return True
 
     async def _send_heartbeat(self) -> None:
         await self._send_json({_OP: _HEARTBEAT, _D: self._seq})
         self._last_heartbeat_sent = time.monotonic()
+        self._logger.log(ux.TRACE, "sent HEARTBEAT")
 
     @staticmethod
     def _serialize_activity(activity: typing.Optional[presences.Activity]) -> data_binding.JSONish:
