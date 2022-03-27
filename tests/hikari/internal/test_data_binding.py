@@ -32,7 +32,7 @@ from hikari import undefined
 from hikari.internal import data_binding
 
 
-@attr.define()
+@attr.define(weakref_slot=False)
 class MyUnique(snowflakes.Unique):
     id: snowflakes.Snowflake = attr.field(converter=snowflakes.Snowflake)
 

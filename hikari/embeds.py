@@ -46,7 +46,6 @@ from hikari import colors
 from hikari import errors
 from hikari import files
 from hikari import undefined
-from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     import concurrent.futures
@@ -57,8 +56,7 @@ if typing.TYPE_CHECKING:
 AsyncReaderT = typing.TypeVar("AsyncReaderT", bound=files.AsyncReader)
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class EmbedResource(files.Resource[AsyncReaderT]):
     """A base type for any resource provided in an embed.
 
@@ -113,7 +111,7 @@ class EmbedResource(files.Resource[AsyncReaderT]):
         return self.resource.stream(executor=executor, head_only=head_only)
 
 
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class EmbedResourceWithProxy(EmbedResource[AsyncReaderT]):
     """Resource with a corresponding proxied element."""
 
@@ -153,7 +151,6 @@ class EmbedResourceWithProxy(EmbedResource[AsyncReaderT]):
         return self.proxy_resource.filename if self.proxy_resource else None
 
 
-@attr_extensions.with_copy
 @attr.define(hash=False, kw_only=True, weakref_slot=False)
 class EmbedFooter:
     """Represents an embed footer."""
@@ -167,7 +164,7 @@ class EmbedFooter:
     """The URL of the footer icon, or `builtins.None` if not present."""
 
 
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class EmbedImage(EmbedResourceWithProxy[AsyncReaderT]):
     """Represents an embed image."""
 
@@ -210,8 +207,7 @@ class EmbedVideo(EmbedResourceWithProxy[AsyncReaderT]):
     """The width of the video."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class EmbedProvider:
     """Represents an embed provider.
 
@@ -232,7 +228,6 @@ class EmbedProvider:
     """The URL of the provider."""
 
 
-@attr_extensions.with_copy
 @attr.define(hash=False, kw_only=True, weakref_slot=False)
 class EmbedAuthor:
     """Represents an author of an embed."""
@@ -250,10 +245,9 @@ class EmbedAuthor:
     """The author's icon, or `builtins.None` if not present."""
 
 
-@attr_extensions.with_copy
 @attr.define(hash=False, kw_only=True, weakref_slot=False)
 class EmbedField:
-    """Represents a field in a embed."""
+    """Represents a field in an embed."""
 
     name: str = attr.field(repr=True)
     """The name of the field."""
@@ -278,7 +272,10 @@ class EmbedField:
         self._inline = value
 
 
-def _ensure_embed_resource(resource: files.Resourceish, cls: typing.Type[_T]) -> _T:
+def _ensure_embed_resource(resource: files.Resourceish, cls: typing.Type[_T]) -> typing.Optional[_T]:
+    if resource is None:
+        return None
+
     if isinstance(resource, EmbedResource):
         return cls(resource=resource.resource)
 
@@ -321,7 +318,7 @@ class Embed:
         author: typing.Optional[EmbedAuthor],
         provider: typing.Optional[EmbedProvider],
         footer: typing.Optional[EmbedFooter],
-        fields: typing.Optional[typing.MutableSequence[EmbedField]],
+        fields: typing.Optional[typing.Sequence[EmbedField]],
     ) -> Embed:
         """Generate an embed from the given attributes.
 
@@ -341,7 +338,7 @@ class Embed:
         embed._author = author
         embed._provider = provider
         embed._footer = footer
-        embed._fields = fields
+        embed._fields = list(fields) if fields else None
         return embed
 
     def __init__(
@@ -742,8 +739,11 @@ class Embed:
         if name is None and url is None and icon is None:
             self._author = None
         else:
-            real_icon = _ensure_embed_resource(icon, EmbedResourceWithProxy) if icon is not None else None
-            self._author = EmbedAuthor(name=name, url=url, icon=real_icon)
+            self._author = EmbedAuthor(
+                name=name,
+                url=url,
+                icon=_ensure_embed_resource(icon, EmbedResourceWithProxy),
+            )
         return self
 
     def set_footer(self, text: typing.Optional[str], *, icon: typing.Optional[files.Resourceish] = None) -> Embed:
@@ -791,8 +791,10 @@ class Embed:
 
             self._footer = None
         else:
-            real_icon = _ensure_embed_resource(icon, EmbedResourceWithProxy) if icon is not None else None
-            self._footer = EmbedFooter(icon=real_icon, text=text)
+            self._footer = EmbedFooter(
+                icon=_ensure_embed_resource(icon, EmbedResourceWithProxy),
+                text=text,
+            )
         return self
 
     def set_image(self, image: typing.Optional[files.Resourceish] = None, /) -> Embed:
@@ -828,11 +830,7 @@ class Embed:
         Embed
             This embed. Allows for call chaining.
         """
-        if image is not None:
-            self._image = _ensure_embed_resource(image, EmbedImage)
-        else:
-            self._image = None
-
+        self._image = _ensure_embed_resource(image, EmbedImage)
         return self
 
     def set_thumbnail(self, image: typing.Optional[files.Resourceish] = None, /) -> Embed:
@@ -867,11 +865,7 @@ class Embed:
         Embed
             This embed. Allows for call chaining.
         """
-        if image is not None:
-            self._thumbnail = _ensure_embed_resource(image, EmbedImage)
-        else:
-            self._thumbnail = None
-
+        self._thumbnail = _ensure_embed_resource(image, EmbedImage)
         return self
 
     def add_field(self, name: str, value: str, *, inline: bool = False) -> Embed:
@@ -900,6 +894,7 @@ class Embed:
         """
         if self._fields is None:
             self._fields = []
+
         self._fields.append(EmbedField(name=name, value=value, inline=inline))
         return self
 

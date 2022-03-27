@@ -50,7 +50,6 @@ from hikari import traits
 from hikari import undefined
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import embeds as embeds_
@@ -209,7 +208,6 @@ class MessageCreateEvent(MessageEvent, abc.ABC):
         return self.message.id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
 class GuildMessageCreateEvent(MessageCreateEvent):
@@ -221,7 +219,7 @@ class GuildMessageCreateEvent(MessageCreateEvent):
     message: messages.Message = attr.field()
     # <<inherited docstring from MessageCreateEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
     @property
@@ -311,7 +309,6 @@ class GuildMessageCreateEvent(MessageCreateEvent):
         return None
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.DM_MESSAGES)
 class DMMessageCreateEvent(MessageCreateEvent):
@@ -323,7 +320,7 @@ class DMMessageCreateEvent(MessageCreateEvent):
     message: messages.Message = attr.field()
     # <<inherited docstring from MessageCreateEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
 
@@ -471,7 +468,6 @@ class MessageUpdateEvent(MessageEvent, abc.ABC):
         return self.message.id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
 class GuildMessageUpdateEvent(MessageUpdateEvent):
@@ -491,7 +487,7 @@ class GuildMessageUpdateEvent(MessageUpdateEvent):
     message: messages.PartialMessage = attr.field()
     # <<inherited docstring from MessageUpdateEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
     @property
@@ -569,7 +565,6 @@ class GuildMessageUpdateEvent(MessageUpdateEvent):
         return self.app.cache.get_guild(self.guild_id)
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.DM_MESSAGES)
 class DMMessageUpdateEvent(MessageUpdateEvent):
@@ -589,7 +584,7 @@ class DMMessageUpdateEvent(MessageUpdateEvent):
     message: messages.PartialMessage = attr.field()
     # <<inherited docstring from MessageUpdateEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
 
@@ -618,7 +613,6 @@ class MessageDeleteEvent(MessageEvent, abc.ABC):
         """
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
 class GuildMessageDeleteEvent(MessageDeleteEvent):
@@ -629,7 +623,7 @@ class GuildMessageDeleteEvent(MessageDeleteEvent):
         during deletion events.
     """
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>
 
     channel_id: snowflakes.Snowflake = attr.field()
@@ -644,7 +638,7 @@ class GuildMessageDeleteEvent(MessageDeleteEvent):
     old_message: typing.Optional[messages.Message] = attr.field()
     # <<inherited docstring from MessageDeleteEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
     def get_channel(self) -> typing.Optional[channels.TextableGuildChannel]:
@@ -684,7 +678,6 @@ class GuildMessageDeleteEvent(MessageDeleteEvent):
         return self.app.cache.get_guild(self.guild_id)
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.DM_MESSAGES)
 class DMMessageDeleteEvent(MessageDeleteEvent):
@@ -695,7 +688,7 @@ class DMMessageDeleteEvent(MessageDeleteEvent):
         during deletion events.
     """
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>
 
     channel_id: snowflakes.Snowflake = attr.field()
@@ -707,11 +700,10 @@ class DMMessageDeleteEvent(MessageDeleteEvent):
     old_message: typing.Optional[messages.Message] = attr.field()
     # <<inherited docstring from MessageDeleteEvent>>
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_MESSAGES)
 class GuildBulkMessageDeleteEvent(shard_events.ShardEvent):
@@ -722,7 +714,7 @@ class GuildBulkMessageDeleteEvent(shard_events.ShardEvent):
         during deletion events.
     """
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>
 
     channel_id: snowflakes.Snowflake = attr.field()
@@ -740,7 +732,7 @@ class GuildBulkMessageDeleteEvent(shard_events.ShardEvent):
     If the message was not found in the cache it will be missing from the mapping.
     """
 
-    shard: shard_.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: shard_.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>
 
     def get_channel(self) -> typing.Optional[channels.TextableGuildChannel]:

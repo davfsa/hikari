@@ -45,7 +45,6 @@ from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
 from hikari.interactions import base_interactions
-from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import guilds
@@ -79,8 +78,7 @@ The following types are valid for this:
 """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class InteractionChannel(channels.PartialChannel):
     """Represents partial channels returned as resolved entities on interactions."""
 
@@ -88,8 +86,7 @@ class InteractionChannel(channels.PartialChannel):
     """Permissions the command's executor has in this channel."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ResolvedOptionData:
     """Represents the resolved objects of entities referenced in a command's options."""
 
@@ -112,8 +109,7 @@ class ResolvedOptionData:
     """Mapping of snowflake IDs to the resolved option user objects."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class CommandInteractionOption:
     """Represents the options passed for a command interaction."""
 
@@ -143,8 +139,7 @@ class CommandInteractionOption:
     """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class AutocompleteInteractionOption(CommandInteractionOption):
     """Represents the options passed for a command autocomplete interaction."""
 
@@ -168,8 +163,7 @@ class AutocompleteInteractionOption(CommandInteractionOption):
     """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class BaseCommandInteraction(base_interactions.PartialInteraction):
     """Represents a base command interaction on Discord."""
 
@@ -362,8 +356,7 @@ class BaseCommandInteraction(base_interactions.PartialInteraction):
         return None
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class CommandInteraction(BaseCommandInteraction, base_interactions.MessageResponseMixin[CommandResponseTypesT]):
     """Represents a command interaction on Discord."""
 
@@ -421,8 +414,7 @@ class CommandInteraction(BaseCommandInteraction, base_interactions.MessageRespon
         return self.app.rest.interaction_deferred_builder(base_interactions.ResponseType.DEFERRED_MESSAGE_CREATE)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class AutocompleteInteraction(BaseCommandInteraction):
     """Represents an autocomplete interaction on Discord."""
 

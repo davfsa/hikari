@@ -45,7 +45,6 @@ import attr
 from hikari import files
 from hikari import snowflakes
 from hikari import urls
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -94,8 +93,7 @@ class ActivityType(int, enums.Enum):
     """Shows up as `Competing in <name>`."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ActivityTimestamps:
     """The datetimes for the start and/or end of an activity session."""
 
@@ -106,8 +104,7 @@ class ActivityTimestamps:
     """When this activity's session will end, if applicable."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ActivityParty:
     """Used to represent activity groups of users."""
 
@@ -124,8 +121,7 @@ class ActivityParty:
 _DYNAMIC_URLS = {"mp": urls.MEDIA_PROXY_URL + "/{}"}
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ActivityAssets:
     """Used to represent possible assets for an activity."""
 
@@ -251,8 +247,7 @@ class ActivityAssets:
         return self._make_asset_url(self.small_image, ext, size)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ActivitySecret:
     """The secrets used for interacting with an activity party."""
 
@@ -302,8 +297,9 @@ class ActivityFlag(enums.Flag):
 
 
 # TODO: add strict type checking to gateway for this type in an invariant way.
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+
+
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class Activity:
     """Represents a regular activity that can be associated with a presence."""
 
@@ -320,7 +316,7 @@ class Activity:
         return self.name
 
 
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class RichActivity(Activity):
     """Represents a rich activity that can be associated with a presence."""
 
@@ -380,8 +376,7 @@ class Status(str, enums.Enum):
     """Offline or invisible/grey."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ClientStatus:
     """The client statuses for this member."""
 
@@ -395,14 +390,11 @@ class ClientStatus:
     """The status of the target user's web session."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class MemberPresence:
     """Used to represent a guild member's presence."""
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     user_id: snowflakes.Snowflake = attr.field(repr=True, hash=True)

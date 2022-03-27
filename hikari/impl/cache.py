@@ -1251,10 +1251,7 @@ class CacheImpl(cache.MutableCache):
             return cache_utility.EmptyCacheView()
 
         cached_users = self._user_entries.freeze()
-        unwrapper = typing.cast(
-            "typing.Callable[[cache_utility.RefCell[users.User]], users.User]", cache_utility.unwrap_ref_cell
-        )
-        return cache_utility.CacheMappingView(cached_users, builder=unwrapper)  # type: ignore[type-var]
+        return cache_utility.CacheMappingView(cached_users, builder=lambda c: c.object)  # type: ignore[type-var]
 
     def _set_user(self, user: users.User, /) -> cache_utility.RefCell[users.User]:
         try:

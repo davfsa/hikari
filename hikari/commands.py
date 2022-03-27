@@ -43,7 +43,6 @@ import attr
 from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 
 if typing.TYPE_CHECKING:
@@ -108,8 +107,7 @@ class OptionType(int, enums.Enum):
     """Denotes a command option where the value will be an attachment."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class CommandChoice:
     """Represents the choices set for an application command's argument."""
 
@@ -120,8 +118,7 @@ class CommandChoice:
     """Value of the choice (up to 100 characters if a string)."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class CommandOption:
     """Represents an application command's argument."""
 
@@ -183,8 +180,7 @@ class CommandOption:
     """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PartialCommand(snowflakes.Unique):
     """Represents any application command on Discord."""
 
@@ -440,8 +436,7 @@ class PartialCommand(snowflakes.Unique):
         )
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class SlashCommand(PartialCommand):
     """Represents a slash command on Discord."""
 
@@ -458,8 +453,7 @@ class SlashCommand(PartialCommand):
     """Sequence of up to (and including) 25 of the options for this command."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ContextMenuCommand(PartialCommand):
     """Represents a slash command on Discord."""
 
@@ -474,8 +468,7 @@ class CommandPermissionType(int, enums.Enum):
     """A command permission which toggles access for a specific user."""
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class CommandPermission:
     """Representation of a permission which enables or disables a command for a user or role."""
 
@@ -489,8 +482,7 @@ class CommandPermission:
     """Whether this permission marks the target entity as having access to the command."""
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class GuildCommandPermissions:
     """Representation of the permissions set for a command within a guild."""
 

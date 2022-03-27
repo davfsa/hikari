@@ -43,7 +43,6 @@ from hikari import guilds
 from hikari import snowflakes
 from hikari import undefined
 from hikari import webhooks
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 
 if typing.TYPE_CHECKING:
@@ -171,12 +170,14 @@ The following are valid for this:
 """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PartialInteraction(snowflakes.Unique, webhooks.ExecutableWebhook):
     """The base model for all interaction models."""
 
-    app: traits.RESTAware = attr.field(repr=False, eq=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field(
+        repr=False,
+        eq=False,
+    )
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -565,7 +566,7 @@ class MessageResponseMixin(PartialInteraction, typing.Generic[_CommandResponseTy
         await self.app.rest.delete_interaction_response(self.application_id, self.token)
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class InteractionMember(guilds.Member):
     """Model of the member who triggered an interaction.
 

@@ -56,7 +56,6 @@ from hikari import traits
 from hikari import undefined
 from hikari import urls
 from hikari import webhooks
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -111,8 +110,7 @@ class VideoQualityMode(int, enums.Enum):
     """Video quality will be set to 720p."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ChannelFollow:
     """Relationship between a news channel and a subscriber channel.
 
@@ -120,9 +118,7 @@ class ChannelFollow:
     to any "broadcast" announcements that the news channel creates.
     """
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """Return the client application that models may use for procedures.
 
     Returns
@@ -254,8 +250,7 @@ class PermissionOverwriteType(int, enums.Enum):
     """A permission overwrite that targets a specific guild member."""
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class PermissionOverwrite:
     """Represents permission overwrites for a channel or role in a channel.
 
@@ -304,8 +299,7 @@ class PermissionOverwrite:
         return ~(self.allow | self.deny)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PartialChannel(snowflakes.Unique):
     """Channel representation for cases where further detail is not provided.
 
@@ -313,9 +307,7 @@ class PartialChannel(snowflakes.Unique):
     not available from Discord.
     """
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -802,7 +794,7 @@ class TextableChannel(PartialChannel):
         return await self.app.rest.delete_messages(self.id, messages, *other_messages)
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PrivateChannel(PartialChannel):
     """The base for anything that is a private (non-guild bound) channel."""
 
@@ -815,7 +807,7 @@ class PrivateChannel(PartialChannel):
     """
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class DMChannel(PrivateChannel, TextableChannel):
     """Represents a direct message text channel that is between you and another user."""
 
@@ -831,7 +823,7 @@ class DMChannel(PrivateChannel, TextableChannel):
         return f"{self.__class__.__name__} with: {self.recipient}"
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GroupDMChannel(PrivateChannel):
     """Represents a group direct message channel.
 
@@ -904,7 +896,7 @@ class GroupDMChannel(PrivateChannel):
         )
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildChannel(PartialChannel):
     """The base for anything that is a guild channel."""
 
@@ -1219,7 +1211,7 @@ class TextableGuildChannel(GuildChannel, TextableChannel):
     __slots__: typing.Sequence[str] = ()
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildCategory(GuildChannel):
     """Represents a guild category channel.
 
@@ -1228,7 +1220,7 @@ class GuildCategory(GuildChannel):
     """
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildTextChannel(TextableGuildChannel):
     """Represents a guild text channel."""
 
@@ -1263,7 +1255,7 @@ class GuildTextChannel(TextableGuildChannel):
     """
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildNewsChannel(TextableGuildChannel):
     """Represents an news channel."""
 
@@ -1287,7 +1279,7 @@ class GuildNewsChannel(TextableGuildChannel):
     """
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildVoiceChannel(GuildChannel):
     """Represents a voice channel."""
 
@@ -1312,7 +1304,7 @@ class GuildVoiceChannel(GuildChannel):
     """The video quality mode for the voice channel."""
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildStageChannel(GuildChannel):
     """Represents a stage channel."""
 

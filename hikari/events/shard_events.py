@@ -41,7 +41,6 @@ import typing
 import attr
 
 from hikari.events import base_events
-from hikari.internal import attr_extensions
 from hikari.internal import collections
 
 if typing.TYPE_CHECKING:
@@ -71,7 +70,6 @@ class ShardEvent(base_events.Event, abc.ABC):
         """
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ShardPayloadEvent(ShardEvent):
     """Event fired for most shard events with their raw payload.
@@ -81,10 +79,10 @@ class ShardPayloadEvent(ShardEvent):
         Discord and not artificial events like the `ShardStateEvent` events.
     """
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
     name: str = attr.field()
@@ -103,36 +101,33 @@ class ShardStateEvent(ShardEvent, abc.ABC):
     __slots__: typing.Sequence[str] = ()
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ShardConnectedEvent(ShardStateEvent):
     """Event fired when a shard connects."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ShardDisconnectedEvent(ShardStateEvent):
     """Event fired when a shard disconnects."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ShardReadyEvent(ShardStateEvent):
     """Event fired when a shard declares it is ready."""
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
     actual_gateway_version: int = attr.field(repr=True)
@@ -198,27 +193,25 @@ class ShardReadyEvent(ShardStateEvent):
         return self.my_user.app
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ShardResumedEvent(ShardStateEvent):
     """Event fired when a shard resumes an existing session."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class MemberChunkEvent(ShardEvent, typing.Sequence["guilds.Member"]):
     """Event fired when a member chunk payload is received on a gateway shard."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<docstring inherited from ShardEvent>>.
 
     guild_id: snowflakes.Snowflake = attr.field(repr=True)

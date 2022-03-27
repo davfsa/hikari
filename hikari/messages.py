@@ -57,7 +57,6 @@ from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
 from hikari import urls
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -192,8 +191,7 @@ class MessageActivityType(int, enums.Enum):
     """Request to join an activity."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class Attachment(snowflakes.Unique, files.WebResource):
     """Represents a file attached to a message.
 
@@ -237,8 +235,7 @@ class Attachment(snowflakes.Unique, files.WebResource):
         return self.filename
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class Reaction:
     """Represents a reaction in a message."""
 
@@ -255,8 +252,7 @@ class Reaction:
         return str(self.emoji)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MessageActivity:
     """Represents the activity of a rich presence-enabled message."""
 
@@ -267,8 +263,7 @@ class MessageActivity:
     """The party ID of the message activity."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class Mentions:
     """Description of mentions that exist in the message."""
 
@@ -387,8 +382,7 @@ class Mentions:
         return results
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MessageReference:
     """Represents information about a referenced message.
 
@@ -396,9 +390,7 @@ class MessageReference:
     message, pin add messages and replies.
     """
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: typing.Optional[snowflakes.Snowflake] = attr.field(repr=True)
@@ -419,8 +411,7 @@ class MessageReference:
     """
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class MessageApplication(guilds.PartialApplication):
     """The representation of an application used in messages."""
 
@@ -473,8 +464,7 @@ class MessageApplication(guilds.PartialApplication):
         )
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, repr=True, hash=True, weakref_slot=False)
+@attr.frozen(kw_only=True, repr=True, hash=True, weakref_slot=False)
 class MessageInteraction:
     """Representation of information provided for a message from an interaction."""
 
@@ -586,7 +576,7 @@ The following values are included in this:
 """
 
 
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class PartialComponent:
     """Base class for all component entities."""
 
@@ -594,7 +584,7 @@ class PartialComponent:
     """The type of component this is."""
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ButtonComponent(PartialComponent):
     """Represents a message button component.
 
@@ -631,7 +621,7 @@ class ButtonComponent(PartialComponent):
     """Whether the button is disabled."""
 
 
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class SelectMenuOption:
     """Represents an option for a `SelectMenuComponent`."""
 
@@ -651,7 +641,7 @@ class SelectMenuOption:
     """Whether this option will be selected by default."""
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class SelectMenuComponent(PartialComponent):
     """Represents a message button component.
 
@@ -687,7 +677,7 @@ class SelectMenuComponent(PartialComponent):
     """Whether the select menu is disabled."""
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class ActionRowComponent(PartialComponent):
     """Represents a row of components attached to a message.
 
@@ -719,8 +709,7 @@ class ActionRowComponent(PartialComponent):
         return len(self.components)
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, repr=True, eq=False, weakref_slot=False)
+@attr.frozen(kw_only=True, repr=True, eq=False, weakref_slot=False)
 class PartialMessage(snowflakes.Unique):
     """A message representation containing partially populated information.
 
@@ -735,9 +724,7 @@ class PartialMessage(snowflakes.Unique):
         nullability.
     """
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -1528,7 +1515,7 @@ class PartialMessage(snowflakes.Unique):
             )
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class Message(PartialMessage):
     """Represents a message with all known details."""
 

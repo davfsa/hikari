@@ -57,7 +57,6 @@ from hikari import snowflakes
 from hikari import undefined
 from hikari.api import special_endpoints
 from hikari.interactions import base_interactions
-from hikari.internal import attr_extensions
 from hikari.internal import data_binding
 from hikari.internal import mentions
 from hikari.internal import routes
@@ -183,7 +182,6 @@ class TypingIndicator(special_endpoints.TypingIndicator):
 
 
 # As a note, slotting allows us to override the settable properties while staying within the interface's spec.
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class GuildBuilder(special_endpoints.GuildBuilder):
     """Result type of `hikari.api.rest.RESTClient.guild_builder`.
@@ -259,14 +257,12 @@ class GuildBuilder(special_endpoints.GuildBuilder):
     """
 
     # Required arguments.
-    _entity_factory: entity_factory_.EntityFactory = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
-    _executor: typing.Optional[concurrent.futures.Executor] = attr.field(
-        metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    _entity_factory: entity_factory_.EntityFactory = attr.field()
+    _executor: typing.Optional[concurrent.futures.Executor] = attr.field()
     _name: str = attr.field()
     _request_call: typing.Callable[
         ..., typing.Coroutine[None, None, typing.Union[None, data_binding.JSONObject, data_binding.JSONArray]]
-    ] = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    ] = attr.field()
 
     # Optional arguments.
     default_message_notifications: undefined.UndefinedOr[guilds.GuildMessageNotificationsLevel] = attr.field(
@@ -760,7 +756,6 @@ class AuditLogIterator(iterators.LazyIterator["audit_logs.AuditLog"]):
         return log
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=False, weakref_slot=False)
 class InteractionAutocompleteBuilder(special_endpoints.InteractionAutocompleteBuilder):
     """Standard implementation of `hikari.api.special_endpoints.InteractionAutocompleteBuilder`."""
@@ -793,7 +788,6 @@ class InteractionAutocompleteBuilder(special_endpoints.InteractionAutocompleteBu
         return {"type": self.type, "data": data}
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=False, weakref_slot=False)
 class InteractionDeferredBuilder(special_endpoints.InteractionDeferredBuilder):
     """Standard implementation of `hikari.api.special_endpoints.InteractionDeferredBuilder`.
@@ -835,7 +829,6 @@ class InteractionDeferredBuilder(special_endpoints.InteractionDeferredBuilder):
         return {"type": self._type}
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=False, weakref_slot=False)
 class InteractionMessageBuilder(special_endpoints.InteractionMessageBuilder):
     """Standard implementation of `hikari.api.special_endpoints.InteractionMessageBuilder`.
@@ -1031,7 +1024,6 @@ class CommandBuilder(special_endpoints.CommandBuilder):
         return data
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=False, weakref_slot=False)
 class SlashCommandBuilder(CommandBuilder, special_endpoints.SlashCommandBuilder):
     """Builder class for slash commands."""
@@ -1062,7 +1054,6 @@ class SlashCommandBuilder(CommandBuilder, special_endpoints.SlashCommandBuilder)
         return data
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=False, weakref_slot=False)
 class ContextMenuCommandBuilder(CommandBuilder, special_endpoints.ContextMenuCommandBuilder):
     """Builder class for context menu commands."""
@@ -1102,7 +1093,6 @@ def _build_emoji(
     return undefined.UNDEFINED, undefined.UNDEFINED
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class _ButtonBuilder(special_endpoints.ButtonBuilder[_ContainerProtoT]):
     _container: _ContainerProtoT = attr.field()
@@ -1198,7 +1188,6 @@ class InteractiveButtonBuilder(
         return self._custom_id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class _SelectOptionBuilder(special_endpoints.SelectOptionBuilder["_SelectMenuBuilderT"]):
     """Builder class for select menu options."""
@@ -1272,7 +1261,6 @@ class _SelectOptionBuilder(special_endpoints.SelectOptionBuilder["_SelectMenuBui
         return data
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class SelectMenuBuilder(special_endpoints.SelectMenuBuilder[_ContainerProtoT]):
     """Builder class for select menus."""

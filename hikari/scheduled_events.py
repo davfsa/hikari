@@ -40,7 +40,6 @@ import attr
 
 from hikari import snowflakes
 from hikari import urls
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -92,17 +91,14 @@ class ScheduledEventStatus(int, enums.Enum):
     """Alias of `ScheduledEventStatus.CANCELED`."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ScheduledEvent(snowflakes.Unique):
     """Base class for scheduled events."""
 
     # entity_id is ignored right now due to always being null
     # creator_id is ignored as it just dupes creator.id
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -190,8 +186,7 @@ class ScheduledEvent(snowflakes.Unique):
         )
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ScheduledExternalEvent(ScheduledEvent):
     """A scheduled event that takes place outside of Discord."""
 
@@ -207,8 +202,7 @@ class ScheduledExternalEvent(ScheduledEvent):
     """When the event is scheduled to end."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ScheduledStageEvent(ScheduledEvent):
     """A scheduled event that takes place in a stage channel."""
 
@@ -216,8 +210,7 @@ class ScheduledStageEvent(ScheduledEvent):
     """ID of the stage channel this event is scheduled in."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ScheduledVoiceEvent(ScheduledEvent):
     """A scheduled event that takes place in a voice channel."""
 
@@ -225,8 +218,7 @@ class ScheduledVoiceEvent(ScheduledEvent):
     """ID of the voice channel this scheduled event is in."""
 
 
-@attr_extensions.with_copy
-@attr.define(kw_only=True, weakref_slot=False)
+@attr.frozen(kw_only=True, weakref_slot=False)
 class ScheduledEventUser:
     """A user who is subscribed to a scheduled event."""
 

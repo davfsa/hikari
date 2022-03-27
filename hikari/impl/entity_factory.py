@@ -61,7 +61,6 @@ from hikari.api import entity_factory
 from hikari.interactions import base_interactions
 from hikari.interactions import command_interactions
 from hikari.interactions import component_interactions
-from hikari.internal import attr_extensions
 from hikari.internal import data_binding
 from hikari.internal import time
 
@@ -103,7 +102,6 @@ def _deserialize_max_age(seconds: int) -> typing.Optional[datetime.timedelta]:
     return datetime.timedelta(seconds=seconds) if seconds > 0 else None
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=False, weakref_slot=False)
 class _GuildChannelFields:
     id: snowflakes.Snowflake = attr.field()
@@ -116,7 +114,6 @@ class _GuildChannelFields:
     parent_id: typing.Optional[snowflakes.Snowflake] = attr.field()
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=False, weakref_slot=False)
 class _IntegrationFields:
     id: snowflakes.Snowflake = attr.field()
@@ -125,13 +122,12 @@ class _IntegrationFields:
     account: guild_models.IntegrationAccount = attr.field()
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=False, weakref_slot=False)
 class _GuildFields:
     id: snowflakes.Snowflake = attr.field()
     name: str = attr.field()
     icon_hash: str = attr.field()
-    features: typing.List[typing.Union[guild_models.GuildFeature, str]] = attr.field()
+    features: typing.Tuple[typing.Union[guild_models.GuildFeature, str], ...] = attr.field()
     splash_hash: typing.Optional[str] = attr.field()
     discovery_splash_hash: typing.Optional[str] = attr.field()
     owner_id: snowflakes.Snowflake = attr.field()
@@ -178,7 +174,7 @@ class _GuildFields:
             id=snowflakes.Snowflake(payload["id"]),
             name=payload["name"],
             icon_hash=payload["icon"],
-            features=[guild_models.GuildFeature(feature) for feature in payload["features"]],
+            features=tuple(guild_models.GuildFeature(feature) for feature in payload["features"]),
             splash_hash=payload["splash"],
             # This is documented as always being present, but we have found old guilds where this is
             # not present. Quicker to just assume the documentation is wrong at this point than try
@@ -209,7 +205,6 @@ class _GuildFields:
         )
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=False, weakref_slot=False)
 class _InviteFields:
     code: str = attr.field()
@@ -225,7 +220,6 @@ class _InviteFields:
     approximate_member_count: typing.Optional[int] = attr.field()
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=False, weakref_slot=False)
 class _UserFields:
     id: snowflakes.Snowflake = attr.field()
@@ -238,7 +232,6 @@ class _UserFields:
     is_system: bool = attr.field()
 
 
-@attr_extensions.with_copy
 @attr.define(weakref_slot=False)
 class _GatewayGuildDefinition(entity_factory.GatewayGuildDefinition):
     id: snowflakes.Snowflake = attr.field()
@@ -509,9 +502,9 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
 
     def deserialize_own_connection(self, payload: data_binding.JSONObject) -> application_models.OwnConnection:
         if (integration_payloads := payload.get("integrations")) is not None:
-            integrations = [self.deserialize_partial_integration(integration) for integration in integration_payloads]
+            integrations = tuple(self.deserialize_partial_integration(i) for i in integration_payloads)
         else:
-            integrations = []
+            integrations = ()
 
         return application_models.OwnConnection(
             id=payload["id"],
@@ -543,7 +536,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             for member_payload in team_payload["members"]:
                 team_member = application_models.TeamMember(
                     membership_state=application_models.TeamMembershipState(member_payload["membership_state"]),
-                    permissions=member_payload["permissions"],
+                    permissions=tuple(member_payload["permissions"]),
                     team_id=snowflakes.Snowflake(member_payload["team_id"]),
                     user=self.deserialize_user(member_payload["user"]),
                 )
@@ -566,7 +559,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             is_bot_public=payload["bot_public"],
             is_bot_code_grant_required=payload["bot_require_code_grant"],
             owner=self.deserialize_user(payload["owner"]),
-            rpc_origins=payload.get("rpc_origins"),
+            rpc_origins=tuple(payload["rpc_origins"]) if "rpc_origins" in payload else None,
             public_key=bytes.fromhex(payload["verify_key"]),
             flags=application_models.ApplicationFlags(payload["flags"]),
             icon_hash=payload.get("icon"),
@@ -594,7 +587,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
 
         return application_models.AuthorizationInformation(
             application=application,
-            scopes=[application_models.OAuth2Scope(scope) for scope in payload["scopes"]],
+            scopes=tuple(application_models.OAuth2Scope(scope) for scope in payload["scopes"]),
             expires_at=time.iso8601_datetime_string_to_datetime(payload["expires"]),
             user=self.deserialize_user(payload["user"]) if "user" in payload else None,
         )
@@ -604,7 +597,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             access_token=payload["access_token"],
             token_type=application_models.TokenType(payload["token_type"]),
             expires_in=datetime.timedelta(seconds=int(payload["expires_in"])),
-            scopes=[application_models.OAuth2Scope(scope) for scope in payload["scope"].split(" ")],
+            scopes=tuple(application_models.OAuth2Scope(scope) for scope in payload["scope"].split(" ")),
         )
 
     def deserialize_authorization_token(
@@ -614,7 +607,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             access_token=payload["access_token"],
             token_type=application_models.TokenType(payload["token_type"]),
             expires_in=datetime.timedelta(seconds=int(payload["expires_in"])),
-            scopes=[application_models.OAuth2Scope(scope) for scope in payload["scope"].split(" ")],
+            scopes=tuple(application_models.OAuth2Scope(scope) for scope in payload["scope"].split(" ")),
             refresh_token=payload["refresh_token"],
             webhook=self.deserialize_incoming_webhook(payload["webhook"]) if "webhook" in payload else None,
             guild=self.deserialize_rest_guild(payload["guild"]) if "guild" in payload else None,
@@ -625,7 +618,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             access_token=query["access_token"],
             token_type=application_models.TokenType(query["token_type"]),
             expires_in=datetime.timedelta(seconds=int(query["expires_in"])),
-            scopes=[application_models.OAuth2Scope(scope) for scope in query["scope"].split(" ")],
+            scopes=tuple(application_models.OAuth2Scope(scope) for scope in query["scope"].split(" ")),
             state=query.get("state"),
         )
 
@@ -705,48 +698,52 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             app=self._app, channel_id=snowflakes.Snowflake(payload["channel_id"]), count=int(payload["count"])
         )
 
+    def _deserialize_change(self, payload: data_binding.JSONObject) -> audit_log_models.AuditLogChange:
+        key: typing.Union[audit_log_models.AuditLogChangeKey, str] = audit_log_models.AuditLogChangeKey(payload["key"])
+
+        new_value = payload.get("new_value")
+        old_value = payload.get("old_value")
+        if value_converter := self._audit_log_entry_converters.get(key):
+            new_value = value_converter(new_value) if new_value is not None else None
+            old_value = value_converter(old_value) if old_value is not None else None
+
+        elif not isinstance(key, audit_log_models.AuditLogChangeKey):
+            _LOGGER.debug("Unknown audit log change key found %r", key)
+
+        return audit_log_models.AuditLogChange(key=key, new_value=new_value, old_value=old_value)
+
     def deserialize_audit_log(self, payload: data_binding.JSONObject) -> audit_log_models.AuditLog:
         entries = {}
         for entry_payload in payload["audit_log_entries"]:
             entry_id = snowflakes.Snowflake(entry_payload["id"])
 
-            changes = []
-            if (change_payloads := entry_payload.get("changes")) is not None:
-                for change_payload in change_payloads:
-                    key: typing.Union[audit_log_models.AuditLogChangeKey, str] = audit_log_models.AuditLogChangeKey(
-                        change_payload["key"]
-                    )
+            if change_payloads := entry_payload.get("changes"):
+                changes = tuple(self._deserialize_change(change_payload) for change_payload in change_payloads)
+            else:
+                changes = ()
 
-                    new_value = change_payload.get("new_value")
-                    old_value = change_payload.get("old_value")
-                    if value_converter := self._audit_log_entry_converters.get(key):
-                        new_value = value_converter(new_value) if new_value is not None else None
-                        old_value = value_converter(old_value) if old_value is not None else None
-
-                    elif not isinstance(key, audit_log_models.AuditLogChangeKey):
-                        _LOGGER.debug("Unknown audit log change key found %r", key)
-
-                    changes.append(audit_log_models.AuditLogChange(key=key, new_value=new_value, old_value=old_value))
-
-            target_id: typing.Optional[snowflakes.Snowflake] = None
-            if (raw_target_id := entry_payload["target_id"]) is not None:
+            if raw_target_id := entry_payload["target_id"]:
                 target_id = snowflakes.Snowflake(raw_target_id)
+            else:
+                target_id = None
 
-            user_id: typing.Optional[snowflakes.Snowflake] = None
-            if (raw_user_id := entry_payload["user_id"]) is not None:
+            if raw_user_id := entry_payload["user_id"]:
                 user_id = snowflakes.Snowflake(raw_user_id)
+            else:
+                user_id = None
 
             action_type: typing.Union[audit_log_models.AuditLogEventType, int]
             action_type = audit_log_models.AuditLogEventType(entry_payload["action_type"])
 
-            options: typing.Optional[audit_log_models.BaseAuditLogEntryInfo] = None
-            if (raw_option := entry_payload.get("options")) is not None:
+            if raw_option := entry_payload.get("options"):
                 if option_converter := self._audit_log_event_mapping.get(action_type):
                     options = option_converter(raw_option)
 
                 else:
                     _LOGGER.debug("Unknown audit log action type found %r", action_type)
                     continue
+            else:
+                options = None
 
             entries[entry_id] = audit_log_models.AuditLogEntry(
                 app=self._app,
@@ -1039,14 +1036,6 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
     ################
 
     def deserialize_embed(self, payload: data_binding.JSONObject) -> embed_models.Embed:
-        # Keep these separate to aid debugging later.
-        title = payload.get("title")
-        description = payload.get("description")
-        url = payload.get("url")
-        color = color_models.Color(payload["color"]) if "color" in payload else None
-        timestamp = time.iso8601_datetime_string_to_datetime(payload["timestamp"]) if "timestamp" in payload else None
-        fields: typing.Optional[typing.List[embed_models.EmbedField]] = None
-
         image: typing.Optional[embed_models.EmbedImage[files.AsyncReader]] = None
         if (image_payload := payload.get("image")) and "url" in image_payload:
             proxy = files.ensure_resource(image_payload["proxy_url"]) if "proxy_url" in image_payload else None
@@ -1081,51 +1070,58 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
         if provider_payload := payload.get("provider"):
             provider = embed_models.EmbedProvider(name=provider_payload.get("name"), url=provider_payload.get("url"))
 
-        icon: typing.Optional[embed_models.EmbedResourceWithProxy[files.AsyncReader]]
-        author: typing.Optional[embed_models.EmbedAuthor] = None
         if author_payload := payload.get("author"):
-            icon = None
             if "icon_url" in author_payload:
                 raw_proxy_url = author_payload.get("proxy_icon_url")
                 icon = embed_models.EmbedResourceWithProxy(
                     resource=files.ensure_resource(author_payload["icon_url"]),
                     proxy_resource=files.ensure_resource(raw_proxy_url) if raw_proxy_url else None,
                 )
+            else:
+                icon = None
 
             author = embed_models.EmbedAuthor(
                 name=author_payload.get("name"),
                 url=author_payload.get("url"),
                 icon=icon,
             )
+        else:
+            author = None
 
-        footer: typing.Optional[embed_models.EmbedFooter] = None
         if footer_payload := payload.get("footer"):
-            icon = None
             if "icon_url" in footer_payload:
                 raw_proxy_url = footer_payload.get("proxy_icon_url")
                 icon = embed_models.EmbedResourceWithProxy(
                     resource=files.ensure_resource(footer_payload["icon_url"]),
                     proxy_resource=files.ensure_resource(raw_proxy_url) if raw_proxy_url else None,
                 )
+            else:
+                icon = None
 
             footer = embed_models.EmbedFooter(text=footer_payload.get("text"), icon=icon)
+        else:
+            footer = None
 
         if fields_array := payload.get("fields"):
-            fields = []
-            for field_payload in fields_array:
-                field = embed_models.EmbedField(
+            fields = tuple(
+                embed_models.EmbedField(
                     name=field_payload["name"],
                     value=field_payload["value"],
                     inline=field_payload.get("inline", False),
                 )
-                fields.append(field)
+                for field_payload in fields_array
+            )
+        else:
+            fields = None
 
         return embed_models.Embed.from_received_embed(
-            title=title,
-            description=description,
-            url=url,
-            color=color,
-            timestamp=timestamp,
+            title=payload.get("title"),
+            description=payload.get("description"),
+            url=payload.get("url"),
+            color=color_models.Color(payload["color"]) if "color" in payload else None,
+            timestamp=time.iso8601_datetime_string_to_datetime(payload["timestamp"])
+            if "timestamp" in payload
+            else None,
             image=image,
             thumbnail=thumbnail,
             video=video,
@@ -1334,7 +1330,7 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
                 )
             )
 
-        return guild_models.WelcomeScreen(description=payload["description"], channels=channels)
+        return guild_models.WelcomeScreen(description=payload["description"], channels=tuple(channels))
 
     def serialize_welcome_channel(self, welcome_channel: guild_models.WelcomeChannel) -> data_binding.JSONObject:
         payload: data_binding.JSONObject = {

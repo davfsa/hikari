@@ -335,7 +335,7 @@ def to_data_uri(data: bytes, mimetype: typing.Optional[str]) -> str:
     return f"data:{mimetype};base64,{b64}"
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class AsyncReader(typing.AsyncIterable[bytes], abc.ABC):
     """Protocol for reading a resource asynchronously using bit inception.
 
@@ -394,7 +394,7 @@ class AsyncReaderContextManager(abc.ABC, typing.Generic[ReaderImplT]):
             return None
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 @typing.final
 class _NoOpAsyncReaderContextManagerImpl(AsyncReaderContextManager[ReaderImplT]):
     impl: ReaderImplT = attr.field()
@@ -524,7 +524,7 @@ class Resource(typing.Generic[ReaderImplT], abc.ABC):
 ###################
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class WebReader(AsyncReader):
     """Asynchronous reader to use to read data from a web resource."""
 
@@ -756,7 +756,7 @@ class URL(WebResource):
 ########################################
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class FileReader(AsyncReader, abc.ABC):
     """Abstract base for a file reader object.
 
@@ -788,7 +788,7 @@ def _stat(path: pathlib.Path) -> pathlib.Path:
     return path
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 @typing.final
 class _ThreadedFileReaderContextManagerImpl(AsyncReaderContextManager[FileReader]):
     executor: typing.Optional[concurrent.futures.ThreadPoolExecutor] = attr.field()
@@ -820,7 +820,7 @@ class _ThreadedFileReaderContextManagerImpl(AsyncReaderContextManager[FileReader
         await loop.run_in_executor(self.executor, file.close)
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class ThreadedFileReader(FileReader):
     """Asynchronous file reader that reads a resource from local storage.
 
@@ -841,7 +841,7 @@ class ThreadedFileReader(FileReader):
                 break
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 @typing.final
 class _MultiProcessingFileReaderContextManagerImpl(AsyncReaderContextManager[FileReader]):
     executor: concurrent.futures.ProcessPoolExecutor = attr.field()
@@ -869,7 +869,7 @@ def _read_all(path: pathlib.Path) -> bytes:
         return file.read()
 
 
-@attr.define(slots=False, weakref_slot=False)  # Do not slot (pickle)
+@attr.frozen(slots=False, weakref_slot=False)  # Do not slot (pickle)
 class MultiprocessingFileReader(FileReader):
     """Asynchronous file reader that reads a resource from local storage.
 
@@ -989,7 +989,7 @@ class File(Resource[FileReader]):
 ########################################################################
 
 
-@attr.define(weakref_slot=False)
+@attr.frozen(weakref_slot=False)
 class IteratorReader(AsyncReader):
     """Asynchronous file reader that operates on in-memory data."""
 

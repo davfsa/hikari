@@ -30,7 +30,6 @@ import typing
 import attr
 
 from hikari.events import shard_events
-from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import traits
@@ -38,12 +37,11 @@ if typing.TYPE_CHECKING:
     from hikari.interactions import base_interactions
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class InteractionCreateEvent(shard_events.ShardEvent):
     """Event fired when an interaction is created."""
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     """Shard that received this event."""
 
     interaction: base_interactions.PartialInteraction = attr.field(repr=True)

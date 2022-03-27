@@ -47,7 +47,6 @@ import attr
 
 from hikari import channels
 from hikari import snowflakes
-from hikari.internal import attr_extensions
 from hikari.internal import collections
 from hikari.internal import enums
 
@@ -137,8 +136,7 @@ class AuditLogChangeKey(str, enums.Enum):
     """Alias for "COLOR"""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class AuditLogChange:
     """Represents a change made to an audit log entry's target entity."""
 
@@ -196,16 +194,15 @@ class AuditLogEventType(int, enums.Enum):
     STICKER_DELETE = 92
 
 
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class BaseAuditLogEntryInfo(abc.ABC):
     """A base object that all audit log entry info objects will inherit from."""
 
-    app: traits.RESTAware = attr.field(repr=False, eq=False, metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field(repr=False, eq=False)
     """The client application that models may use for procedures."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflakes.Unique):
     """Represents the extra information for overwrite related audit log entries.
 
@@ -223,8 +220,7 @@ class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflakes.Unique):
     """The name of the role this overwrite targets, if it targets a role."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MessagePinEntryInfo(BaseAuditLogEntryInfo):
     """The extra information for message pin related audit log entries.
 
@@ -304,8 +300,7 @@ class MessagePinEntryInfo(BaseAuditLogEntryInfo):
         return await self.app.rest.fetch_message(self.channel_id, self.message_id)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MemberPruneEntryInfo(BaseAuditLogEntryInfo):
     """Extra information attached to guild prune log entries."""
 
@@ -316,8 +311,7 @@ class MemberPruneEntryInfo(BaseAuditLogEntryInfo):
     """The number of members who were removed by this prune."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MessageBulkDeleteEntryInfo(BaseAuditLogEntryInfo):
     """Extra information for the message bulk delete audit entry."""
 
@@ -325,8 +319,7 @@ class MessageBulkDeleteEntryInfo(BaseAuditLogEntryInfo):
     """The amount of messages that were deleted."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
     """Extra information attached to the message delete audit entry."""
 
@@ -368,8 +361,7 @@ class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
         return channel
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MemberDisconnectEntryInfo(BaseAuditLogEntryInfo):
     """Extra information for the voice chat member disconnect entry."""
 
@@ -377,8 +369,7 @@ class MemberDisconnectEntryInfo(BaseAuditLogEntryInfo):
     """The amount of members who were disconnected from voice in this entry."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, weakref_slot=False)
 class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
     """Extra information for the voice chat based member move entry."""
 
@@ -420,14 +411,11 @@ class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
         return channel
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class AuditLogEntry(snowflakes.Unique):
     """Represents an entry in a guild's audit log."""
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -484,8 +472,7 @@ class AuditLogEntry(snowflakes.Unique):
         return await self.app.rest.fetch_user(self.user_id)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=False, kw_only=True, repr=False, weakref_slot=False)
+@attr.frozen(hash=False, kw_only=True, repr=False, weakref_slot=False)
 class AuditLog(typing.Sequence[AuditLogEntry]):
     """Represents a guilds audit log's page."""
 

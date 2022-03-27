@@ -33,7 +33,6 @@ import typing
 import attr
 
 from hikari.api import config
-from hikari.internal import attr_extensions
 from hikari.internal import data_binding
 
 _BASICAUTH_TOKEN_PREFIX: typing.Final[str] = "Basic"  # nosec
@@ -52,7 +51,6 @@ def _ssl_factory(value: typing.Union[bool, ssl_.SSLContext]) -> ssl_.SSLContext:
     return ssl
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, repr=True, weakref_slot=False)
 class BasicAuthHeader:
     """An object that can be set as a producer for a basic auth header."""
@@ -105,7 +103,6 @@ class BasicAuthHeader:
         return self.header
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class ProxySettings(config.ProxySettings):
     """Settings for configuring an HTTP-based proxy."""
@@ -187,7 +184,6 @@ class ProxySettings(config.ProxySettings):
         return {**self.headers, _PROXY_AUTHENTICATION_HEADER: self.auth}
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class HTTPTimeoutSettings:
     """Settings to control HTTP request timeouts."""
@@ -247,7 +243,6 @@ class HTTPTimeoutSettings:
             raise ValueError(f"HTTPTimeoutSettings.{attrib.name} must be None, or a POSITIVE float/int")
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class HTTPSettings(config.HTTPSettings):
     """Settings to control HTTP clients."""
@@ -374,7 +369,6 @@ class HTTPSettings(config.HTTPSettings):
     """
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 class CacheSettings(config.CacheSettings):
     """Settings to control the cache."""

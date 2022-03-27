@@ -55,7 +55,6 @@ import typing
 
 import attr
 
-from hikari.internal import attr_extensions
 from hikari.internal import data_binding
 from hikari.internal import enums
 
@@ -67,7 +66,6 @@ if typing.TYPE_CHECKING:
 
 
 # The standard exceptions are all unsloted so slotting here would be a waste of time.
-@attr_extensions.with_copy
 @attr.define(auto_exc=True, repr=False, init=False, slots=False)
 class HikariError(RuntimeError):
     """Base for an error raised by this API.
@@ -80,7 +78,6 @@ class HikariError(RuntimeError):
 
 
 # The standard warnings are all unsloted so slotting here would be a waste of time.
-@attr_extensions.with_copy
 @attr.define(auto_exc=True, repr=False, init=False, slots=False)
 class HikariWarning(RuntimeWarning):
     """Base for a warning raised by this API.
@@ -92,7 +89,7 @@ class HikariWarning(RuntimeWarning):
     """
 
 
-@attr.define(auto_exc=True, repr=False, slots=False)
+@attr.frozen(auto_exc=True, repr=False, slots=False)
 class HikariInterrupt(KeyboardInterrupt, HikariError):
     """Exception raised when a kill signal is handled internally."""
 

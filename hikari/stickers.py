@@ -39,7 +39,6 @@ import attr
 
 from hikari import snowflakes
 from hikari import urls
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -76,7 +75,7 @@ class StickerFormatType(int, enums.Enum):
     """
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class StickerPack(snowflakes.Unique):
     """Represents a sticker pack on Discord."""
 
@@ -134,8 +133,7 @@ class StickerPack(snowflakes.Unique):
         )
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PartialSticker(snowflakes.Unique):
     """Represents the partial stickers found attached to messages on Discord."""
 
@@ -160,8 +158,7 @@ class PartialSticker(snowflakes.Unique):
         return routes.CDN_STICKER.compile_to_file(urls.CDN_URL, sticker_id=self.id, file_format=ext)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class StandardSticker(PartialSticker):
     """Represents a standard Discord sticker that belongs to a pack."""
 
@@ -181,8 +178,7 @@ class StandardSticker(PartialSticker):
     """A sequence of this sticker's tags."""
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class GuildSticker(PartialSticker):
     """Represents a Discord sticker that belongs to a guild."""
 

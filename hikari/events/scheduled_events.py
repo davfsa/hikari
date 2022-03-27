@@ -40,7 +40,6 @@ import attr
 from hikari import intents
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.internal import attr_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import scheduled_events
@@ -61,13 +60,12 @@ class ScheduledEventEvent(shard_events.ShardEvent, abc.ABC):
         """ID of the scheduled event."""
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_SCHEDULED_EVENTS)
 class ScheduledEventCreateEvent(ScheduledEventEvent):
     """Event fired when a guild scheduled event is created."""
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>.
 
     event: scheduled_events.ScheduledEvent = attr.field()
@@ -84,13 +82,12 @@ class ScheduledEventCreateEvent(ScheduledEventEvent):
         return self.event.id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_SCHEDULED_EVENTS)
 class ScheduledEventDeleteEvent(ScheduledEventEvent):
     """Event fired when a guild scheduled event is deleted."""
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>.
 
     event: scheduled_events.ScheduledEvent = attr.field()
@@ -107,13 +104,12 @@ class ScheduledEventDeleteEvent(ScheduledEventEvent):
         return self.event.id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_SCHEDULED_EVENTS)
 class ScheduledEventUpdateEvent(ScheduledEventEvent):
     """Event fired when a guild scheduled event is updated."""
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>.
 
     event: scheduled_events.ScheduledEvent = attr.field()
@@ -130,16 +126,15 @@ class ScheduledEventUpdateEvent(ScheduledEventEvent):
         return self.event.id
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_SCHEDULED_EVENTS)
 class ScheduledEventUserAddEvent(ScheduledEventEvent):
     """Event fired when a user subscribes to a guild scheduled event."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>.
 
     event_id: snowflakes.Snowflake = attr.field()
@@ -152,16 +147,15 @@ class ScheduledEventUserAddEvent(ScheduledEventEvent):
     """ID of the guild that the scheduled event belongs to."""
 
 
-@attr_extensions.with_copy
 @attr.define(kw_only=True, weakref_slot=False)
 @base_events.requires_intents(intents.Intents.GUILD_SCHEDULED_EVENTS)
 class ScheduledEventUserRemoveEvent(ScheduledEventEvent):
     """Event fired when a user unsubscribes from a guild scheduled event."""
 
-    app: traits.RESTAware = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware = attr.field()
     # <<inherited docstring from Event>>.
 
-    shard: gateway_shard.GatewayShard = attr.field(metadata={attr_extensions.SKIP_DEEP_COPY: True})
+    shard: gateway_shard.GatewayShard = attr.field()
     # <<inherited docstring from ShardEvent>>.
 
     event_id: snowflakes.Snowflake = attr.field()

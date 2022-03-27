@@ -81,7 +81,7 @@ The following types are valid for this:
 """
 
 
-@attr.define(hash=True, weakref_slot=False)
+@attr.frozen(hash=True, weakref_slot=False)
 class ComponentInteraction(base_interactions.MessageResponseMixin[ComponentResponseTypesT]):
     """Represents a component interaction on Discord."""
 

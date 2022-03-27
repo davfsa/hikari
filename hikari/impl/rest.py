@@ -428,7 +428,7 @@ class RESTApp(traits.ExecutorAware):
         return rest_client
 
 
-@attr.define()
+@attr.define(weakref_slot=False)
 class _LiveAttributes:
     """Fields which are only present within `RESTClientImpl` while it's "alive".
 

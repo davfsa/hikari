@@ -34,7 +34,6 @@ import urllib.parse
 import attr
 
 from hikari import files
-from hikari.internal import attr_extensions
 from hikari.internal import data_binding
 
 HASH_SEPARATOR: typing.Final[str] = ";"
@@ -47,9 +46,6 @@ MAJOR_PARAM_COMBOS: typing.Mapping[typing.FrozenSet[str], typing.Callable[[typin
 }
 
 
-# This could be frozen, except attrs' docs advise against this for performance
-# reasons when using slotted classes.
-@attr_extensions.with_copy
 @attr.define(hash=True, weakref_slot=False)
 @typing.final
 class CompiledRoute:
@@ -112,7 +108,6 @@ class CompiledRoute:
         return f"{self.method} {self.compiled_path}"
 
 
-@attr_extensions.with_copy
 @attr.define(hash=True, init=False, weakref_slot=False)
 @typing.final
 class Route:
@@ -182,7 +177,6 @@ def _cdn_valid_formats_converter(values: typing.AbstractSet[str]) -> typing.Froz
     return frozenset(v.lower() for v in values)
 
 
-@attr_extensions.with_copy
 @attr.define(hash=True, weakref_slot=False)
 @typing.final
 class CDNRoute:
@@ -192,10 +186,7 @@ class CDNRoute:
     """Template string for this endpoint."""
 
     valid_formats: typing.AbstractSet[str] = attr.field(
-        converter=_cdn_valid_formats_converter,
-        eq=False,
-        hash=False,
-        repr=False,
+        converter=_cdn_valid_formats_converter, eq=False, hash=False, repr=False
     )
     """Valid file formats for this endpoint."""
 

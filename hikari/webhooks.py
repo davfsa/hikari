@@ -42,7 +42,6 @@ from hikari import channels as channels_
 from hikari import snowflakes
 from hikari import undefined
 from hikari import urls
-from hikari.internal import attr_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 
@@ -519,14 +518,11 @@ class ExecutableWebhook(abc.ABC):
         await self.app.rest.delete_webhook_message(self.webhook_id, token=self.token, message=message)
 
 
-@attr_extensions.with_copy
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class PartialWebhook(snowflakes.Unique):
     """Base class for all webhook implementations."""
 
-    app: traits.RESTAware = attr.field(
-        repr=False, eq=False, hash=False, metadata={attr_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware = attr.field(repr=False, eq=False, hash=False)
     """The client application that models may use for procedures."""
 
     id: snowflakes.Snowflake = attr.field(hash=True, repr=True)
@@ -632,7 +628,7 @@ class PartialWebhook(snowflakes.Unique):
         )
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class IncomingWebhook(PartialWebhook, ExecutableWebhook):
     """Represents an incoming webhook object on Discord.
 
@@ -875,7 +871,7 @@ class IncomingWebhook(PartialWebhook, ExecutableWebhook):
         return webhook
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ChannelFollowerWebhook(PartialWebhook):
     """Represents a channel follower webhook object on Discord."""
 
@@ -1047,7 +1043,7 @@ class ChannelFollowerWebhook(PartialWebhook):
         return webhook
 
 
-@attr.define(hash=True, kw_only=True, weakref_slot=False)
+@attr.frozen(hash=True, kw_only=True, weakref_slot=False)
 class ApplicationWebhook(PartialWebhook):
     """Represents an application webhook object on Discord.
 
