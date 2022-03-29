@@ -516,22 +516,25 @@ class InteractionServer(interaction_server.InteractionServer):
 
         self._close_event = asyncio.Event()
         self._is_closing = False
+
         aio_app = aiohttp.web.Application()
         aio_app.add_routes([aiohttp.web.post("/", self.aiohttp_hook)])
+
         self._server = aiohttp.web_runner.AppRunner(aio_app, handle_signals=enable_signal_handlers, access_log=_LOGGER)
         await self._server.setup()
+
         sites: typing.List[aiohttp.web.BaseSite] = []
 
         if host is not None:
             if isinstance(host, str):
-                host = [host]
+                host = (host,)
 
             for h in host:
                 sites.append(
                     aiohttp.web.TCPSite(
                         self._server,
                         h,
-                        port,
+                        port=port,
                         shutdown_timeout=shutdown_timeout,
                         ssl_context=ssl_context,
                         backlog=backlog,
@@ -540,7 +543,7 @@ class InteractionServer(interaction_server.InteractionServer):
                     )
                 )
 
-        elif path is None and socket is None or port is None:
+        elif path is None and socket is None or port is not None:
             sites.append(
                 aiohttp.web.TCPSite(
                     self._server,

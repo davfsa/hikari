@@ -516,7 +516,7 @@ class GuildPinsUpdateEvent(PinsUpdateEvent, GuildChannelEvent):
             If an internal error occurs on Discord while handling the request.
         """
         channel = await self.app.rest.fetch_channel(self.channel_id)
-        assert isinstance(channel, channels.GuildTextChannel)
+        assert isinstance(channel, channels.TextableGuildChannel)
         return channel
 
 

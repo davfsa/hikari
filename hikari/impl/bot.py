@@ -981,7 +981,7 @@ class GatewayBot(traits.GatewayBotAware):
             raise errors.ComponentStateConflictError("bot is already running")
 
         if shard_ids is not None and shard_count is None:
-            raise TypeError("'shard_ids' must be passed with 'shard_count'")
+            raise TypeError("'shard_count' must be passed with 'shard_ids'")
 
         _validate_activity(activity)
 

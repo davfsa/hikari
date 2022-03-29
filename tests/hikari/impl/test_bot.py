@@ -711,9 +711,40 @@ class TestGatewayBot:
         with pytest.raises(errors.ComponentStateConflictError):
             await bot.start()
 
-    @pytest.mark.skip("TODO")
-    def test_start(self, bot):
-        ...
+    @pytest.mark.asyncio()
+    async def test_start_when_shard_ids_provided_but_not_shard_count(self, bot):
+        with pytest.raises(TypeError, match=r"'shard_ids' must be passed with 'shard_ids'"):
+            await bot.start(shard_ids={})
+
+    # @pytest.mark.asyncio()
+    # async def test_start(self, bot, rest, voice, event_manager, event_factory):
+    #     class MockSessionStartLimit:
+    #         remaining = 1
+    #         reset_at = "now"
+    #         max_concurrency = 1
+    #
+    #     class MockInfo:
+    #         shard_count = 2
+    #         session_start_limit = MockSessionStartLimit()
+    #
+    #     def populate_with_shard(*args, **kwargs):
+    #         bot._shards[len(bot._shards)] = object()
+    #         mock_start_one_shard(*args, **kwargs)
+    #
+    #     stack = contextlib.ExitStack()
+    #     all_of = stack.enter_context(mock.patch.object(aio, "all_of"))
+    #     first_completed = stack.enter_context(mock.patch.object(aio, "first_completed"))
+    #     mock_start_one_shard = mock.Mock()
+    #     start_one_shard = stack.enter_context(
+    #         mock.patch.object(bot_impl.GatewayBot, "_start_one_shard", new=populate_with_shard)
+    #     )
+    #     create_task = stack.enter_context(mock.patch.object(asyncio, "create_task"))
+    #
+    #     rest.fetch_gateway_bot_info.return_value = MockInfo()
+    #     bot._closing_event = mock.Mock()
+    #
+    #     with stack:
+    #         await bot.start(check_for_updates=False)
 
     def test_stream(self, bot):
         event_type = object()

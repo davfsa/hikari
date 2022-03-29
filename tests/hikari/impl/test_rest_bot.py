@@ -162,7 +162,7 @@ class TestRESTBot:
         stack.enter_context(mock.patch.object(interaction_server_impl, "InteractionServer"))
 
         with stack:
-            result = cls("token", "token_type", "6f66646f646f646f6f")
+            result = cls(object(), "token_type", "6f66646f646f646f6f")
 
             interaction_server_impl.InteractionServer.assert_called_once_with(
                 entity_factory=result.entity_factory, public_key=b"ofdododoo", rest_client=result.rest

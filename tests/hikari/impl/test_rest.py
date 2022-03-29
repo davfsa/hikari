@@ -4338,6 +4338,34 @@ class TestRESTClientImplAsync:
         rest_client._request.assert_awaited_once_with(expected_route, json=expected_json, reason="roles are cool")
         rest_client._entity_factory.deserialize_role.assert_called_once_with({"id": "456"}, guild_id=123)
 
+    async def test_edit_role_when_icon_is_None(self, rest_client, file_resource_patch):
+        expected_route = routes.PATCH_GUILD_ROLE.compile(guild=123, role=789)
+        expected_json = {
+            "name": "admin",
+            "permissions": 8,
+            "color": colors.Color.from_int(12345),
+            "hoist": True,
+            "icon": None,
+            "mentionable": False,
+        }
+        rest_client._request = mock.AsyncMock(return_value={"id": "456"})
+
+        returned = await rest_client.edit_role(
+            StubModel(123),
+            StubModel(789),
+            name="admin",
+            permissions=permissions.Permissions.ADMINISTRATOR,
+            color=colors.Color.from_int(12345),
+            hoist=True,
+            icon=None,
+            mentionable=False,
+            reason="roles are cool",
+        )
+        assert returned is rest_client._entity_factory.deserialize_role.return_value
+
+        rest_client._request.assert_awaited_once_with(expected_route, json=expected_json, reason="roles are cool")
+        rest_client._entity_factory.deserialize_role.assert_called_once_with({"id": "456"}, guild_id=123)
+
     async def test_edit_role_when_color_and_colour_specified(self, rest_client):
         with pytest.raises(TypeError, match=r"Can not specify 'color' and 'colour' together."):
             await rest_client.edit_role(

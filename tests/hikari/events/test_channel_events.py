@@ -149,14 +149,22 @@ class TestGuildPinsUpdateEvent:
             app=mock.Mock(), shard=None, channel_id=12343, guild_id=None, last_pin_timestamp=None
         )
 
-    @pytest.mark.parametrize("result", [mock.Mock(spec=channels.GuildTextChannel), None])
+    @pytest.mark.parametrize("result", [mock.Mock(spec=channels.TextableGuildChannel), None])
     def test_get_channel(self, event, result):
         event.app.cache.get_guild_channel.return_value = result
 
-        result = event.get_channel()
+        assert event.get_channel() is result
 
-        assert result is event.app.cache.get_guild_channel.return_value
         event.app.cache.get_guild_channel.assert_called_once_with(event.channel_id)
+
+    @pytest.mark.asyncio()
+    async def test_fetch_channel(self, event):
+        mock_channel = mock.Mock(spec=channels.TextableGuildChannel)
+        event.app.rest.fetch_channel = mock.AsyncMock(return_value=mock_channel)
+
+        assert await event.fetch_channel() is mock_channel
+
+        event.app.rest.fetch_channel.assert_called_once_with(event.channel_id)
 
 
 @pytest.mark.asyncio()

@@ -280,7 +280,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
             token_type=token_type,
         )
 
-        # IntegrationServer
+        # InteractionServer
         self._server = interaction_server_impl.InteractionServer(
             entity_factory=self._entity_factory,
             public_key=public_key,
