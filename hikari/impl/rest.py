@@ -624,9 +624,8 @@ class RESTClientImpl(rest_api.RESTClient):
     @typing.final
     async def close(self) -> None:
         """Close the HTTP client and any open HTTP connections."""
-        live_attributes = self._get_live_attributes()
+        await self._get_live_attributes().close()
         self._live_attributes = None
-        await live_attributes.close()
 
     @typing.final
     def start(self) -> None:

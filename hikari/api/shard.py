@@ -127,11 +127,8 @@ class GatewayShard(abc.ABC):
         """
 
     @abc.abstractmethod
-    async def get_user_id(self) -> snowflakes.Snowflake:
+    def get_user_id(self) -> snowflakes.Snowflake:
         """Return the user ID.
-
-        If the shard has not connected fully yet, this should wait until the ID
-        is set before returning.
 
         Returns
         -------

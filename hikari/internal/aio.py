@@ -126,8 +126,9 @@ async def first_completed(
         If more than one awaitable is completed before entering this call, then
         the first future is always returned.
     """
-    fs = list(map(asyncio.ensure_future, aws))
+    fs = tuple(map(asyncio.ensure_future, aws))
     iterator = asyncio.as_completed(fs, timeout=timeout)
+
     try:
         await next(iterator)
     except asyncio.CancelledError:
@@ -164,10 +165,9 @@ async def all_of(
     Returns
     -------
     typing.Sequence[T_co]
-        The results of each awaitable in the order they were provided invoked
-        in.
+        The results of each awaitable in the order they were invoked in.
     """
-    fs = list(map(asyncio.ensure_future, aws))
+    fs = tuple(map(asyncio.ensure_future, aws))
     gatherer = asyncio.gather(*fs)
 
     try:
@@ -188,9 +188,7 @@ async def all_of(
 
         gatherer.cancel()
         try:
-            # coverage.py will complain that this is not fully covered, as the
-            # "except" block will always be hit. This is intentional.
-            await gatherer  # pragma: no cover
+            await gatherer
         except asyncio.CancelledError:
             pass
 

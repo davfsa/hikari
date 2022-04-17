@@ -30,10 +30,7 @@ import asyncio
 import datetime
 import logging
 import math
-import signal
 import sys
-import threading
-import traceback
 import types
 import typing
 import warnings
@@ -54,6 +51,7 @@ from hikari.impl import rest as rest_impl
 from hikari.impl import shard as shard_impl
 from hikari.impl import voice as voice_impl
 from hikari.internal import aio
+from hikari.internal import signals
 from hikari.internal import time
 from hikari.internal import ux
 
@@ -313,7 +311,6 @@ class GatewayBot(traits.GatewayBotAware):
         "_executor",
         "_http_settings",
         "_intents",
-        "_is_alive",
         "_proxy_settings",
         "_rest",
         "_shards",
@@ -345,9 +342,8 @@ class GatewayBot(traits.GatewayBotAware):
         self.print_banner(banner, allow_color, force_color)
 
         # Settings and state
-        self._closing_event: typing.Optional[asyncio.Event] = None
         self._closed_event: typing.Optional[asyncio.Event] = None
-        self._is_alive = False
+        self._closing_event: typing.Optional[asyncio.Event] = None
         self._executor = executor
         self._http_settings = http_settings if http_settings is not None else config_impl.HTTPSettings()
         self._intents = intents
@@ -450,32 +446,28 @@ class GatewayBot(traits.GatewayBotAware):
 
     @property
     def is_alive(self) -> bool:
-        return self._is_alive
+        return self._closed_event is not None
 
     def _check_if_alive(self) -> None:
-        if not self._is_alive:
+        if not self._closed_event:
             raise errors.ComponentStateConflictError("bot is not running so it cannot be interacted with")
 
     def get_me(self) -> typing.Optional[users_.OwnUser]:
         return self._cache.get_me()
 
     async def close(self) -> None:
-        self._check_if_alive()
-        await self._close()
+        if not self._closed_event or not self._closing_event:
+            raise errors.ComponentStateConflictError("Cannot close an inactive bot")
 
-    async def _close(self) -> None:
-        if self._closed_event:  # Closing is in progress from another call, wait for that to complete.
-            await self._closed_event.wait()
+        if self._closing_event.is_set():
+            await self.join()
             return
 
-        if self._closing_event is None:  # If closing event is None then this is already closed.
-            return
-
-        _LOGGER.debug("bot requested to shutdown")
-        self._closed_event = asyncio.Event()
+        _LOGGER.debug("bot requested to shut down")
         self._closing_event.set()
-        self._closing_event = None
-        dispatch_events = self._is_alive
+
+        await self._event_manager.dispatch(self._event_factory.deserialize_stopping_event())
+        _LOGGER.log(ux.TRACE, "StoppingEvent dispatch completed, now beginning termination")
 
         loop = asyncio.get_running_loop()
 
@@ -493,16 +485,11 @@ class GatewayBot(traits.GatewayBotAware):
                     }
                 )
 
-        if dispatch_events:
-            await self._event_manager.dispatch(self._event_factory.deserialize_stopping_event())
-
-        _LOGGER.log(ux.TRACE, "StoppingEvent dispatch completed, now beginning termination")
-
-        calls = [
+        calls = (
             ("rest", self._rest.close()),
             ("voice handler", self._voice.close()),
             *((f"shard {s.id}", s.close()) for s in self._shards.values()),
-        ]
+        )
 
         for coro in asyncio.as_completed([handle(*pair) for pair in calls]):
             await coro
@@ -510,13 +497,12 @@ class GatewayBot(traits.GatewayBotAware):
         # Clear out cache and shard map
         self._cache.clear()
         self._shards.clear()
-        self._is_alive = False
 
-        if dispatch_events:
-            await self._event_manager.dispatch(self._event_factory.deserialize_stopped_event())
+        await self._event_manager.dispatch(self._event_factory.deserialize_stopped_event())
 
         self._closed_event.set()
         self._closed_event = None
+        self._closing_event = None
 
     def dispatch(self, event: base_events.Event) -> asyncio.Future[typing.Any]:
         """Dispatch an event.
@@ -619,7 +605,7 @@ class GatewayBot(traits.GatewayBotAware):
 
         Returns
         -------
-        typing.Collection[typing.Callable[[EventT], typing.Coroutine[typing.Any, typing.Any, builtins.None]]
+        typing.Collection[typing.Callable[[EventT], typing.Coroutine[typing.Any, typing.Any, builtins.None]]]
             A copy of the collection of listeners for the event. Will return
             an empty collection if nothing is registered.
 
@@ -627,14 +613,11 @@ class GatewayBot(traits.GatewayBotAware):
         """
         return self._event_manager.get_listeners(event_type, polymorphic=polymorphic)
 
-    async def join(self, until_close: bool = True) -> None:
-        self._check_if_alive()
+    async def join(self) -> None:
+        if not self._closed_event:
+            raise errors.ComponentStateConflictError("Cannot wait for an inactive bot to join")
 
-        awaitables: typing.List[typing.Awaitable[typing.Any]] = [s.join() for s in self._shards.values()]
-        if until_close and self._closing_event:  # If closing event is None then this is already closing.
-            awaitables.append(self._closing_event.wait())
-
-        await aio.first_completed(*awaitables)
+        await self._closed_event.wait()
 
     def listen(
         self,
@@ -728,7 +711,7 @@ class GatewayBot(traits.GatewayBotAware):
         large_threshold: int = 250,
         propagate_interrupts: bool = False,
         status: presences.Status = presences.Status.ONLINE,
-        shard_ids: typing.Optional[typing.AbstractSet[int]] = None,
+        shard_ids: typing.Optional[typing.Sequence[int]] = None,
         shard_count: typing.Optional[int] = None,
     ) -> None:
         """Start the bot, wait for all shards to become ready, and then return.
@@ -786,7 +769,7 @@ class GatewayBot(traits.GatewayBotAware):
         ignore_session_start_limit : builtins.bool
             Defaults to `builtins.False`. If `builtins.False`, then attempting
             to start more sessions than you are allowed in a 24 hour window
-            will throw a `hikari.errors.GatewayError` rather than going ahead
+            will throw a `RuntimeError` rather than going ahead
             and hitting the IDENTIFY limit, which may result in your token
             being reset. Setting to `builtins.True` disables this behavior.
         large_threshold : builtins.int
@@ -802,11 +785,13 @@ class GatewayBot(traits.GatewayBotAware):
             determine what kind of interrupt the application received after
             it closes. When `builtins.False`, nothing is raised and the call
             will terminate cleanly and silently where possible instead.
-        shard_ids : typing.Optional[typing.AbstractSet[builtins.int]]
+        shard_ids : typing.Optional[typing.Sequence[builtins.int]]
             The shard IDs to create shards for. If not `builtins.None`, then
             a non-`None` `shard_count` must ALSO be provided. Defaults to
             `builtins.None`, which means the Discord-recommended count is used
             for your application instead.
+
+            Note that the sequence will be de-duplicated.
         shard_count : typing.Optional[builtins.int]
             The number of shards to use in the entire distributed application.
             Defaults to `builtins.None` which results in the count being
@@ -822,14 +807,13 @@ class GatewayBot(traits.GatewayBotAware):
         builtins.TypeError
             If `shard_ids` is passed without `shard_count`.
         """
-        if self._is_alive:
+        if self._closed_event:
             raise errors.ComponentStateConflictError("bot is already running")
 
         if shard_ids is not None and shard_count is None:
             raise TypeError("'shard_ids' must be passed with 'shard_count'")
 
         loop = aio.get_or_make_loop()
-        signals = ("SIGINT", "SIGTERM")
 
         if asyncio_debug:
             loop.set_debug(True)
@@ -841,100 +825,43 @@ class GatewayBot(traits.GatewayBotAware):
             except AttributeError:
                 _LOGGER.log(ux.TRACE, "cannot set coroutine tracking depth for sys, no functionality exists for this")
 
-        # Throwing this in the handler will lead to lots of fun OS specific shenanigans. So, lets just
-        # cache it for later, I guess.
-        interrupt: typing.Optional[errors.HikariInterrupt] = None
-        loop_thread_id = threading.get_native_id()
-
-        def handle_os_interrupt(signum: int, frame: typing.Optional[types.FrameType]) -> None:
-            # If we use a POSIX system, then raising an exception in here works perfectly and shuts the loop down
-            # with an exception, which is good.
-            # Windows, however, is special on this front. On Windows, the exception is caught by whatever was
-            # currently running on the event loop at the time, which is annoying for us, as this could be fired into
-            # the task for an event dispatch, for example, which is a guarded call that is never waited for by design.
-
-            # We can't always safely intercept this either, as Windows does not allow us to use asyncio loop
-            # signal listeners (since Windows doesn't have kernel-level signals, only emulated system calls
-            # for a remote few standard C signal types). Thus, the best solution here is to set the close bit
-            # instead, which will let the bot start to clean itself up as if the user closed it manually via a call
-            # to `bot.close()`.
-            nonlocal interrupt
-            signame = signal.strsignal(signum)
-            assert signame is not None  # Will always be True
-
-            interrupt = errors.HikariInterrupt(signum, signame)
-            # The loop may or may not be running, depending on the state of the application when this occurs.
-            # Signals on POSIX only occur on the main thread usually, too, so we need to ensure this is
-            # threadsafe if we want the user's application to still shut down if on a separate thread.
-            # We log native thread IDs purely for debugging purposes.
-            if _LOGGER.isEnabledFor(ux.TRACE):
-                _LOGGER.log(
-                    ux.TRACE,
-                    "interrupt %s occurred on thread %s, bot on thread %s will be notified to shut down shortly\n"
-                    "Stacktrace for developer sanity:\n%s",
-                    signum,
-                    threading.get_native_id(),
-                    loop_thread_id,
-                    "".join(traceback.format_stack(frame)),
-                )
-
-            asyncio.run_coroutine_threadsafe(self._set_close_flag(signame, signum), loop)
-
-        if enable_signal_handlers is None:
-            # Signal handlers can only be registered on the main thread so we
-            # only default to True if this is the case.
-            enable_signal_handlers = threading.current_thread() is threading.main_thread()
-
-        if enable_signal_handlers:
-            for sig in signals:
-                try:
-                    signum = getattr(signal, sig)
-                    signal.signal(signum, handle_os_interrupt)
-                except AttributeError:
-                    _LOGGER.log(ux.TRACE, "signal %s is not implemented on your platform", sig)
-
         try:
-            loop.run_until_complete(
-                self.start(
-                    activity=activity,
-                    afk=afk,
-                    check_for_updates=check_for_updates,
-                    idle_since=idle_since,
-                    ignore_session_start_limit=ignore_session_start_limit,
-                    large_threshold=large_threshold,
-                    shard_ids=shard_ids,
-                    shard_count=shard_count,
-                    status=status,
+            with signals.handle_interrupts(
+                enabled=enable_signal_handlers,
+                loop=loop,
+                exit_callback=self.close,
+            ):
+                loop.run_until_complete(
+                    self.start(
+                        activity=activity,
+                        afk=afk,
+                        check_for_updates=check_for_updates,
+                        idle_since=idle_since,
+                        ignore_session_start_limit=ignore_session_start_limit,
+                        large_threshold=large_threshold,
+                        shard_ids=shard_ids,
+                        shard_count=shard_count,
+                        status=status,
+                    )
                 )
-            )
 
-            loop.run_until_complete(self.join())
+                loop.run_until_complete(self.join())
+
+        except errors.HikariInterrupt:
+            if propagate_interrupts:
+                raise
 
         finally:
             try:
-                loop.run_until_complete(self._close())
-
                 if close_passed_executor and self._executor is not None:
                     _LOGGER.debug("shutting down executor %s", self._executor)
                     self._executor.shutdown(wait=True)
                     self._executor = None
             finally:
-                if enable_signal_handlers:
-                    for sig in signals:
-                        try:
-                            signum = getattr(signal, sig)
-                            signal.signal(signum, signal.SIG_DFL)
-                        except AttributeError:
-                            # Signal not implemented probably. We should have logged this earlier.
-                            pass
-
                 if close_loop:
                     _destroy_loop(loop)
 
                 _LOGGER.info("successfully terminated")
-
-                if propagate_interrupts and interrupt is not None:
-                    raise interrupt
 
     async def start(
         self,
@@ -945,7 +872,7 @@ class GatewayBot(traits.GatewayBotAware):
         idle_since: typing.Optional[datetime.datetime] = None,
         ignore_session_start_limit: bool = False,
         large_threshold: int = 250,
-        shard_ids: typing.Optional[typing.AbstractSet[int]] = None,
+        shard_ids: typing.Optional[typing.Sequence[int]] = None,
         shard_count: typing.Optional[int] = None,
         status: presences.Status = presences.Status.ONLINE,
     ) -> None:
@@ -968,18 +895,20 @@ class GatewayBot(traits.GatewayBotAware):
         ignore_session_start_limit : builtins.bool
             Defaults to `builtins.False`. If `builtins.False`, then attempting
             to start more sessions than you are allowed in a 24 hour window
-            will throw a `hikari.errors.GatewayError` rather than going ahead
+            will throw a `RuntimeError` rather than going ahead
             and hitting the IDENTIFY limit, which may result in your token
             being reset. Setting to `builtins.True` disables this behavior.
         large_threshold : builtins.int
             Threshold for members in a guild before it is treated as being
             "large" and no longer sending member details in the `GUILD CREATE`
             event. Defaults to `250`.
-        shard_ids : typing.Optional[typing.AbstractSet[builtins.int]]
+        shard_ids : typing.Optional[typing.Sequence[builtins.int]]
             The shard IDs to create shards for. If not `builtins.None`, then
             a non-`None` `shard_count` must ALSO be provided. Defaults to
             `builtins.None`, which means the Discord-recommended count is used
             for your application instead.
+
+            Note that the sequence will be de-duplicated.
         shard_count : typing.Optional[builtins.int]
             The number of shards to use in the entire distributed application.
             Defaults to `builtins.None` which results in the count being
@@ -995,7 +924,7 @@ class GatewayBot(traits.GatewayBotAware):
         builtins.TypeError
             If `shard_ids` is passed without `shard_count`.
         """
-        if self._is_alive:
+        if self._closed_event:
             raise errors.ComponentStateConflictError("bot is already running")
 
         if shard_ids is not None and shard_count is None:
@@ -1004,10 +933,8 @@ class GatewayBot(traits.GatewayBotAware):
         _validate_activity(activity)
 
         start_time = time.monotonic()
-        self._rest.start()
-        self._voice.start()
+        self._closed_event = asyncio.Event()
         self._closing_event = asyncio.Event()
-        self._is_alive = True
 
         if check_for_updates:
             asyncio.create_task(
@@ -1015,13 +942,18 @@ class GatewayBot(traits.GatewayBotAware):
                 name="check for package updates",
             )
 
-        requirements = await self._rest.fetch_gateway_bot_info()
+        self._rest.start()
+        self._voice.start()
+
         await self._event_manager.dispatch(self._event_factory.deserialize_starting_event())
+        requirements = await self._rest.fetch_gateway_bot_info()
 
         if shard_count is None:
             shard_count = requirements.shard_count
         if shard_ids is None:
-            shard_ids = set(range(shard_count))
+            shard_ids = tuple(range(shard_count))
+        else:
+            shard_ids = tuple(dict.fromkeys(shard_ids))
 
         if requirements.session_start_limit.remaining < len(shard_ids) and not ignore_session_start_limit:
             _LOGGER.critical(
@@ -1034,7 +966,7 @@ class GatewayBot(traits.GatewayBotAware):
                 "s" if requirements.session_start_limit.remaining != 1 else "",
                 requirements.session_start_limit.reset_at,
             )
-            raise errors.GatewayError("Attempted to start more sessions than were allowed in the given time-window")
+            raise RuntimeError("Attempted to start more sessions than were allowed in the given time-window")
 
         _LOGGER.info(
             "you can start %s session%s before the next window which starts at %s; planning to start %s session%s... ",
@@ -1045,48 +977,21 @@ class GatewayBot(traits.GatewayBotAware):
             "s" if len(shard_ids) != 1 else "",
         )
 
-        for window_start in range(0, shard_count, requirements.session_start_limit.max_concurrency):
-            window = [
-                candidate_shard_id
-                for candidate_shard_id in range(
-                    window_start, window_start + requirements.session_start_limit.max_concurrency
-                )
-                if candidate_shard_id in shard_ids
-            ]
+        max_concurrency = requirements.session_start_limit.max_concurrency
+        while shard_ids:
+            window = shard_ids[:max_concurrency]
+            shard_ids = shard_ids[max_concurrency:]
 
-            if not window:
-                continue
             if self._shards:
-                close_waiter = asyncio.create_task(self._closing_event.wait())
-                shard_joiners = [s.join() for s in self._shards.values()]
+                _LOGGER.info("the next startup window is in 5 seconds, please wait...")
 
                 try:
-                    # Attempt to wait for all started shards, for 5 seconds, along with the close
-                    # waiter.
-                    # If the close flag is set (i.e. user invoked bot.close), or one or more shards
-                    # die in this time, we shut down immediately.
-                    # If we time out, the joining tasks get discarded and we spin up the next
-                    # block of shards, if applicable.
-                    _LOGGER.info("the next startup window is in 5 seconds, please wait...")
-                    await aio.first_completed(aio.all_of(*shard_joiners, timeout=5), close_waiter)
+                    await asyncio.wait_for(self._closing_event.wait(), timeout=5)
 
-                    if not close_waiter.cancelled():
-                        _LOGGER.info("requested to shut down during startup of shards")
-                    else:
-                        _LOGGER.critical("one or more shards shut down unexpectedly during bot startup")
                     return
-
                 except asyncio.TimeoutError:
-                    # If any shards stopped silently, we should close.
-                    if any(not s.is_alive for s in self._shards.values()):
-                        _LOGGER.warning("one of the shards has been manually shut down (no error), will now shut down")
-                        await self._close()
-                        return
                     # new window starts.
-
-                except Exception as ex:
-                    _LOGGER.critical("an exception occurred in one of the started shards during bot startup: %r", ex)
-                    raise
+                    pass
 
             await aio.all_of(
                 *(
@@ -1096,13 +1001,12 @@ class GatewayBot(traits.GatewayBotAware):
                         idle_since=idle_since,
                         status=status,
                         large_threshold=large_threshold,
-                        shard_id=candidate_shard_id,
+                        shard_id=shard_id,
                         shard_count=shard_count,
                         url=requirements.url,
                         closing_event=self._closing_event,
                     )
-                    for candidate_shard_id in window
-                    if candidate_shard_id in shard_ids
+                    for shard_id in window
                 )
             )
 
@@ -1364,16 +1268,6 @@ class GatewayBot(traits.GatewayBotAware):
             guild=guild, include_presences=include_presences, query=query, limit=limit, users=users, nonce=nonce
         )
 
-    async def _set_close_flag(self, signame: str, signum: int) -> None:
-        # This needs to be a coroutine, as the closing event is not threadsafe, so we have no way to set this
-        # from a Unix system call handler if we are running on a thread that isn't the main application thread
-        # without getting undefined behaviour. We do however have `asyncio.run_coroutine_threadsafe` which can
-        # run a coroutine function on the event loop from a completely different thread, so this is the safest
-        # solution.
-        _LOGGER.debug("received interrupt %s (%s), will start shutting down shortly", signame, signum)
-
-        await self._close()
-
     async def _start_one_shard(
         self,
         activity: typing.Optional[presences.Activity],
@@ -1385,7 +1279,7 @@ class GatewayBot(traits.GatewayBotAware):
         shard_count: int,
         url: str,
         closing_event: asyncio.Event,
-    ) -> shard_impl.GatewayShardImpl:
+    ) -> None:
         new_shard = shard_impl.GatewayShardImpl(
             http_settings=self._http_settings,
             proxy_settings=self._proxy_settings,
@@ -1402,14 +1296,19 @@ class GatewayBot(traits.GatewayBotAware):
             token=self._token,
             url=url,
         )
-        self._shards[shard_id] = new_shard
-
         start = time.monotonic()
         await aio.first_completed(new_shard.start(), closing_event.wait())
         end = time.monotonic()
 
+        if closing_event.is_set():
+            if new_shard.is_alive:
+                await new_shard.close()
+
+            return
+
         if new_shard.is_alive:
             _LOGGER.debug("shard %s started successfully in %.1fms", shard_id, (end - start) * 1_000)
-            return new_shard
+            self._shards[shard_id] = new_shard
+            return
 
-        raise errors.GatewayError(f"shard {shard_id} shut down immediately when starting")
+        raise RuntimeError(f"shard {shard_id} shut down immediately when starting")

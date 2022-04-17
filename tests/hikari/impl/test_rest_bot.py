@@ -34,6 +34,7 @@ from hikari.impl import interaction_server as interaction_server_impl
 from hikari.impl import rest as rest_impl
 from hikari.impl import rest_bot as rest_bot_impl
 from hikari.internal import aio
+from hikari.internal import signals
 from hikari.internal import ux
 from tests.hikari import hikari_test_helpers
 
@@ -162,7 +163,7 @@ class TestRESTBot:
         stack.enter_context(mock.patch.object(interaction_server_impl, "InteractionServer"))
 
         with stack:
-            result = cls("token", "token_type", "6f66646f646f646f6f")
+            result = cls(object(), "token_type", "6f66646f646f646f6f")
 
             interaction_server_impl.InteractionServer.assert_called_once_with(
                 entity_factory=result.entity_factory, public_key=b"ofdododoo", rest_client=result.rest
@@ -301,30 +302,39 @@ class TestRESTBot:
         mock_rest_bot.join = mock.AsyncMock()
 
         with mock.patch.object(ux, "check_for_updates") as check_for_updates:
-            mock_rest_bot.run(
-                asyncio_debug=False,
-                backlog=321,
-                check_for_updates=False,
-                close_loop=False,
-                close_passed_executor=False,
-                coroutine_tracking_depth=32123,
-                enable_signal_handlers=True,
-                host="192.168.1.102",
-                path="pathathath",
-                port=4554,
-                reuse_address=True,
-                reuse_port=False,
-                shutdown_timeout=534.534,
-                socket=mock_socket,
-                ssl_context=mock_context,
-            )
+            with mock.patch.object(
+                signals, "handle_interrupts", return_value=hikari_test_helpers.ContextManagerMock()
+            ) as handle_interrupts:
+                mock_rest_bot.run(
+                    asyncio_debug=False,
+                    backlog=321,
+                    check_for_updates=False,
+                    close_loop=False,
+                    close_passed_executor=False,
+                    coroutine_tracking_depth=32123,
+                    enable_signal_handlers=True,
+                    propagate_interrupts=True,
+                    host="192.168.1.102",
+                    path="pathathath",
+                    port=4554,
+                    reuse_address=True,
+                    reuse_port=False,
+                    shutdown_timeout=534.534,
+                    socket=mock_socket,
+                    ssl_context=mock_context,
+                )
 
-            check_for_updates.assert_not_called()
+        check_for_updates.assert_not_called()
+        handle_interrupts.assert_called_once_with(
+            enabled=True,
+            loop=asyncio.get_event_loop_policy().get_event_loop(),
+            exit_callback=mock_rest_bot.close,
+        )
+        handle_interrupts.return_value.assert_used_once()
 
         mock_rest_bot.start.assert_awaited_once_with(
             backlog=321,
             check_for_updates=False,
-            enable_signal_handlers=True,
             host="192.168.1.102",
             path="pathathath",
             port=4554,
@@ -345,6 +355,29 @@ class TestRESTBot:
             mock_rest_bot.run(asyncio_debug=True)
 
         get_or_make_loop.return_value.set_debug.assert_called_once_with(True)
+
+    def test_run_when_interrupt_with_propagate_interrupts(self, mock_rest_bot):
+        mock_rest_bot.start = mock.Mock()
+        mock_rest_bot.join = mock.Mock()
+
+        stack = contextlib.ExitStack()
+        stack.enter_context(mock.patch.object(aio, "get_or_make_loop"))
+        stack.enter_context(mock.patch.object(signals, "handle_interrupts", side_effect=errors.HikariInterrupt(1, "t")))
+        stack.enter_context(pytest.raises(errors.HikariInterrupt))
+
+        with stack:
+            mock_rest_bot.run(close_loop=False, propagate_interrupts=True)
+
+    def test_run_when_interrupt_with_no_propagate_interrupts(self, mock_rest_bot):
+        mock_rest_bot.start = mock.Mock()
+        mock_rest_bot.join = mock.Mock()
+
+        stack = contextlib.ExitStack()
+        stack.enter_context(mock.patch.object(aio, "get_or_make_loop"))
+        stack.enter_context(mock.patch.object(signals, "handle_interrupts", side_effect=errors.HikariInterrupt(1, "t")))
+
+        with stack:
+            mock_rest_bot.run(close_loop=False, propagate_interrupts=False)
 
     def test_run_with_coroutine_tracking_depth(self, mock_rest_bot):
         mock_rest_bot.start = mock.Mock()
@@ -427,7 +460,6 @@ class TestRESTBot:
             await mock_rest_bot.start(
                 backlog=34123,
                 check_for_updates=False,
-                enable_signal_handlers=False,
                 host="hostostosot",
                 port=123123123,
                 path="patpatpapt",
@@ -442,7 +474,6 @@ class TestRESTBot:
 
         mock_interaction_server.start.assert_awaited_once_with(
             backlog=34123,
-            enable_signal_handlers=False,
             host="hostostosot",
             port=123123123,
             path="patpatpapt",
@@ -465,7 +496,6 @@ class TestRESTBot:
             await mock_rest_bot.start(
                 backlog=34123,
                 check_for_updates=True,
-                enable_signal_handlers=False,
                 host="hostostosot",
                 port=123123123,
                 path="patpatpapt",
