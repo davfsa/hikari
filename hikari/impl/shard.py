@@ -499,6 +499,10 @@ class GatewayShardImpl(shard.GatewayShard):
 
     @property
     def is_alive(self) -> bool:
+        return self._keep_alive_task is not None
+
+    @property
+    def is_connected(self) -> bool:
         return self._ws is not None and self._handshake_event is not None and self._handshake_event.is_set()
 
     @property
@@ -525,9 +529,10 @@ class GatewayShardImpl(shard.GatewayShard):
         self._chunking_rate_limit.close()
         self._total_rate_limit.close()
         self._is_closing = False
+        self._logger.info("shard shutdown successfully")
 
     def get_user_id(self) -> snowflakes.Snowflake:
-        self._check_if_alive()
+        self._check_if_connected()
         assert self._user_id is not None, "user_id was not known, this is probably a bug"
         return self._user_id
 
@@ -542,10 +547,10 @@ class GatewayShardImpl(shard.GatewayShard):
         assert self._ws is not None
         await self._ws.send_json(data)
 
-    def _check_if_alive(self) -> None:
-        if not self.is_alive:
+    def _check_if_connected(self) -> None:
+        if not self.is_connected:
             raise errors.ComponentStateConflictError(
-                f"shard {self._shard_id} is not started so it cannot be interacted with"
+                f"shard {self._shard_id} is not connected so it cannot be interacted with"
             )
 
     async def request_guild_members(
@@ -558,7 +563,7 @@ class GatewayShardImpl(shard.GatewayShard):
         users: undefined.UndefinedOr[snowflakes.SnowflakeishSequence[users_.User]] = undefined.UNDEFINED,
         nonce: undefined.UndefinedOr[str] = undefined.UNDEFINED,
     ) -> None:
-        self._check_if_alive()
+        self._check_if_connected()
         if not query and not limit and not self._intents & intents_.Intents.GUILD_MEMBERS:
             raise errors.MissingIntentError(intents_.Intents.GUILD_MEMBERS)
 
@@ -618,7 +623,7 @@ class GatewayShardImpl(shard.GatewayShard):
         activity: undefined.UndefinedNoneOr[presences.Activity] = undefined.UNDEFINED,
         status: undefined.UndefinedOr[presences.Status] = undefined.UNDEFINED,
     ) -> None:
-        self._check_if_alive()
+        self._check_if_connected()
         presence_payload = self._serialize_and_store_presence_payload(
             idle_since=idle_since,
             afk=afk,
@@ -635,7 +640,7 @@ class GatewayShardImpl(shard.GatewayShard):
         self_mute: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
         self_deaf: undefined.UndefinedOr[bool] = undefined.UNDEFINED,
     ) -> None:
-        self._check_if_alive()
+        self._check_if_connected()
 
         payload = data_binding.JSONObjectBuilder()
         payload.put_snowflake("guild_id", guild)
@@ -863,7 +868,7 @@ class GatewayShardImpl(shard.GatewayShard):
             except asyncio.CancelledError:
                 self._logger.debug("shard has been requested to shutdown")
                 self._is_closing = True
-                raise
+                return
 
             except Exception as ex:
                 self._logger.error("encountered some unhandled error", exc_info=ex)

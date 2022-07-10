@@ -73,58 +73,6 @@ if typing.TYPE_CHECKING:
 _LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari.bot")
 
 
-async def _gather(coros: typing.Iterator[typing.Awaitable[typing.Any]]) -> None:
-    # Calling asyncio.gather outside of a running event loop isn't safe and
-    # will lead to RuntimeErrors in later versions of python, so this call is
-    # kept within a coroutine function.
-    await asyncio.gather(*coros)
-
-
-def _destroy_loop(loop: asyncio.AbstractEventLoop) -> None:
-    async def murder(future: asyncio.Future[typing.Any]) -> None:
-        # These include _GatheringFuture which must be awaited if the children
-        # throw an asyncio.CancelledError, otherwise it will spam logs with warnings
-        # about exceptions not being retrieved before GC.
-        try:
-            _LOGGER.log(ux.TRACE, "killing %s", future)
-            future.cancel()
-            await future
-        except asyncio.CancelledError:
-            pass
-        except Exception as ex:
-            loop.call_exception_handler(
-                {
-                    "message": "Future raised unexpected exception after requesting cancellation",
-                    "exception": ex,
-                    "future": future,
-                }
-            )
-
-    remaining_tasks = [t for t in asyncio.all_tasks(loop) if not t.done()]
-
-    if remaining_tasks:
-        _LOGGER.debug("terminating %s remaining tasks forcefully", len(remaining_tasks))
-        loop.run_until_complete(_gather((murder(task) for task in remaining_tasks)))
-    else:
-        _LOGGER.debug("No remaining tasks exist, good job!")
-
-    if sys.version_info >= (3, 9):
-        _LOGGER.debug("shutting down default executor")
-        try:
-            # This seems to raise a NotImplementedError when running with uvloop.
-            loop.run_until_complete(loop.shutdown_default_executor())
-        except NotImplementedError:
-            pass
-
-    _LOGGER.debug("shutting down asyncgens")
-    loop.run_until_complete(loop.shutdown_asyncgens())
-
-    _LOGGER.debug("closing event loop")
-    loop.close()
-    # Closed loops cannot be re-used so it should also be un-set.
-    asyncio.set_event_loop(None)
-
-
 def _validate_activity(activity: undefined.UndefinedNoneOr[presences.Activity]) -> None:
     # This seems to cause confusion for a lot of people, so lets add some warnings into the mix.
 
@@ -463,7 +411,7 @@ class GatewayBot(traits.GatewayBotAware):
             await self.join()
             return
 
-        _LOGGER.debug("bot requested to shut down")
+        _LOGGER.info("bot requested to shut down")
         self._closing_event.set()
 
         await self._event_manager.dispatch(self._event_factory.deserialize_stopping_event())
@@ -479,7 +427,7 @@ class GatewayBot(traits.GatewayBotAware):
             except Exception as ex:
                 loop.call_exception_handler(
                     {
-                        "message": f"{name} raised an exception during shutdown",
+                        "message": f"{name} raised an exception during shut down",
                         "future": future,
                         "exception": ex,
                     }
@@ -502,6 +450,8 @@ class GatewayBot(traits.GatewayBotAware):
         self._closed_event.set()
         self._closed_event = None
         self._closing_event = None
+
+        _LOGGER.info("bot shut down successfully")
 
     def dispatch(self, event: base_events.Event) -> asyncio.Future[typing.Any]:
         """Dispatch an event.
@@ -616,7 +566,7 @@ class GatewayBot(traits.GatewayBotAware):
         if not self._closed_event:
             raise errors.ComponentStateConflictError("Cannot wait for an inactive bot to join")
 
-        await self._closed_event.wait()
+        await aio.first_completed(self._closed_event.wait(), *(s.join() for s in self._shards.values()))
 
     def listen(
         self,
@@ -739,7 +689,7 @@ class GatewayBot(traits.GatewayBotAware):
         close_loop : builtins.bool
             Defaults to `builtins.True`. If `builtins.True`, then once the bot
             enters a state where all components have shut down permanently
-            during application shutdown, then all asyncgens and background tasks
+            during application shut down, then all asyncgens and background tasks
             will be destroyed, and the event loop will be shut down.
 
             This will wait until all `hikari`-owned `aiohttp` connectors have
@@ -825,11 +775,7 @@ class GatewayBot(traits.GatewayBotAware):
                 _LOGGER.log(ux.TRACE, "cannot set coroutine tracking depth for sys, no functionality exists for this")
 
         try:
-            with signals.handle_interrupts(
-                enabled=enable_signal_handlers,
-                loop=loop,
-                exit_callback=self.close,
-            ):
+            with signals.handle_interrupts(enabled=enable_signal_handlers, loop=loop):
                 loop.run_until_complete(
                     self.start(
                         activity=activity,
@@ -851,16 +797,21 @@ class GatewayBot(traits.GatewayBotAware):
                 raise
 
         finally:
-            try:
-                if close_passed_executor and self._executor is not None:
-                    _LOGGER.debug("shutting down executor %s", self._executor)
-                    self._executor.shutdown(wait=True)
-                    self._executor = None
-            finally:
-                if close_loop:
-                    _destroy_loop(loop)
+            if self._closing_event:
+                if self._closing_event.is_set():
+                    loop.run_until_complete(self._closing_event.wait())
+                else:
+                    loop.run_until_complete(self.close())
 
-                _LOGGER.info("successfully terminated")
+            if close_passed_executor and self._executor is not None:
+                _LOGGER.debug("shutting down executor %s", self._executor)
+                self._executor.shutdown(wait=True)
+                self._executor = None
+
+            if close_loop:
+                aio.destroy_loop(loop, _LOGGER)
+
+            _LOGGER.info("successfully terminated")
 
     async def start(
         self,
@@ -985,14 +936,20 @@ class GatewayBot(traits.GatewayBotAware):
                 _LOGGER.info("the next startup window is in 5 seconds, please wait...")
 
                 try:
-                    await asyncio.wait_for(self._closing_event.wait(), timeout=5)
+                    await aio.first_completed(
+                        self._closing_event.wait(), *(shard.join() for shard in self._shards.values()), timeout=5
+                    )
 
-                    return
+                    if self._closing_event.is_set():
+                        return
+
+                    _LOGGER.critical("one or more shards closed while starting; shutting down")
+                    raise RuntimeError("Shard(s) closed while starting")
                 except asyncio.TimeoutError:
                     # new window starts.
                     pass
 
-            await aio.all_of(
+            gather = asyncio.gather(
                 *(
                     self._start_one_shard(
                         activity=activity,
@@ -1003,11 +960,15 @@ class GatewayBot(traits.GatewayBotAware):
                         shard_id=shard_id,
                         shard_count=shard_count,
                         url=requirements.url,
-                        closing_event=self._closing_event,
                     )
                     for shard_id in window
                 )
             )
+
+            await aio.first_completed(self._closing_event.wait(), gather)
+
+            if self._closing_event.is_set():
+                return
 
         await self._event_manager.dispatch(self._event_factory.deserialize_started_event())
 
@@ -1277,7 +1238,6 @@ class GatewayBot(traits.GatewayBotAware):
         shard_id: int,
         shard_count: int,
         url: str,
-        closing_event: asyncio.Event,
     ) -> None:
         new_shard = shard_impl.GatewayShardImpl(
             http_settings=self._http_settings,
@@ -1295,19 +1255,20 @@ class GatewayBot(traits.GatewayBotAware):
             token=self._token,
             url=url,
         )
-        start = time.monotonic()
-        await aio.first_completed(new_shard.start(), closing_event.wait())
-        end = time.monotonic()
+        try:
+            start = time.monotonic()
+            await new_shard.start()
+            end = time.monotonic()
 
-        if closing_event.is_set():
+            if new_shard.is_alive:
+                _LOGGER.debug("shard %s started successfully in %.1fms", shard_id, (end - start) * 1_000)
+                self._shards[shard_id] = new_shard
+                return
+
+            raise RuntimeError(f"shard {shard_id} shut down immediately when starting")
+
+        except Exception:
             if new_shard.is_alive:
                 await new_shard.close()
 
-            return
-
-        if new_shard.is_alive:
-            _LOGGER.debug("shard %s started successfully in %.1fms", shard_id, (end - start) * 1_000)
-            self._shards[shard_id] = new_shard
-            return
-
-        raise RuntimeError(f"shard {shard_id} shut down immediately when starting")
+            raise

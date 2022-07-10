@@ -357,13 +357,14 @@ class InteractionServer(interaction_server.InteractionServer):
             return
 
         self._is_closing = True
-        # This shutdown then cleanup ordering matters.
+        # This shut down then cleanup ordering matters.
         await self._server.shutdown()
         await self._server.cleanup()
-        self._close_event.set()
-        self._close_event = None
         self._server = None
         self._application_fetch_lock = None
+        self._close_event.set()
+        self._close_event = None
+        self._is_closing = False
 
     async def join(self) -> None:
         """Wait for the process to halt before continuing."""
@@ -487,7 +488,7 @@ class InteractionServer(interaction_server.InteractionServer):
         socket : typing.Optional[socket.socket]
             A pre-existing socket object to accept connections on.
         shutdown_timeout : builtins.float
-            A delay to wait for graceful server shutdown before forcefully
+            A delay to wait for graceful server shut down before forcefully
             disconnecting all open client sockets. This defaults to 60 seconds.
         ssl_context : typing.Optional[ssl.SSLContext]
             SSL context for HTTPS servers.

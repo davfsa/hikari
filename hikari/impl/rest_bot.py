@@ -366,13 +366,16 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
             await self.join()
             return
 
-        _LOGGER.debug("bot requested to shut down")
+        _LOGGER.info("bot requested to shut down")
 
         self._is_closing = True
         await self._server.close()
         await self._rest.close()
         self._close_event.set()
         self._close_event = None
+        self._is_closing = False
+
+        _LOGGER.info("bot shut down successfully")
 
     async def join(self) -> None:
         if not self._close_event:
@@ -418,7 +421,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
         close_loop : builtins.bool
             Defaults to `builtins.True`. If `builtins.True`, then once the bot
             enters a state where all components have shut down permanently
-            during application shutdown, then all asyncgens and background tasks
+            during application shut down, then all asyncgens and background tasks
             will be destroyed, and the event loop will be shut down.
 
             This will wait until all `hikari`-owned `aiohttp` connectors have
@@ -463,7 +466,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
         socket : typing.Optional[socket.socket]
             A pre-existing socket object to accept connections on.
         shutdown_timeout : builtins.float
-            A delay to wait for graceful server shutdown before forcefully
+            A delay to wait for graceful server shut down before forcefully
             disconnecting all open client sockets. This defaults to 60 seconds.
         ssl_context : typing.Optional[ssl.SSLContext]
             SSL context for HTTPS servers.
@@ -483,11 +486,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
                 _LOGGER.log(ux.TRACE, "cannot set coroutine tracking depth for sys, no functionality exists for this")
 
         try:
-            with signals.handle_interrupts(
-                enabled=enable_signal_handlers,
-                loop=loop,
-                exit_callback=self.close,
-            ):
+            with signals.handle_interrupts(enabled=enable_signal_handlers, loop=loop):
                 loop.run_until_complete(
                     self.start(
                         backlog=backlog,
@@ -509,13 +508,21 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
                 raise
 
         finally:
+            if self._close_event:
+                if self._is_closing:
+                    loop.run_until_complete(self._close_event.wait())
+                else:
+                    loop.run_until_complete(self.close())
+
             if close_passed_executor and self._executor:
                 _LOGGER.debug("shutting down executor %s", self._executor)
                 self._executor.shutdown(wait=True)
                 self._executor = None
 
             if close_loop:
-                loop.close()
+                aio.destroy_loop(loop, _LOGGER)
+
+            _LOGGER.info("successfully terminated")
 
     async def start(
         self,
@@ -555,7 +562,7 @@ class RESTBot(traits.RESTBotAware, interaction_server_.InteractionServer):
         socket : typing.Optional[socket.socket]
             A pre-existing socket object to accept connections on.
         shutdown_timeout : builtins.float
-            A delay to wait for graceful server shutdown before forcefully
+            A delay to wait for graceful server shut down before forcefully
             disconnecting all open client sockets. This defaults to 60 seconds.
         ssl_context : typing.Optional[ssl.SSLContext]
             SSL context for HTTPS servers.

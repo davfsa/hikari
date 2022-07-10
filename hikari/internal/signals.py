@@ -44,9 +44,7 @@ _LOGGER: typing.Final[logging.Logger] = logging.getLogger("hikari.signals")
 
 @contextlib.contextmanager
 def handle_interrupts(
-    enabled: typing.Optional[bool],
-    loop: asyncio.AbstractEventLoop,
-    exit_callback: typing.Callable[[], typing.Coroutine[typing.Any, typing.Any, None]],
+    enabled: typing.Optional[bool], loop: asyncio.AbstractEventLoop
 ) -> typing.Generator[None, None, None]:
     """Context manager which cleanly exits on signal interrupts.
 
@@ -58,11 +56,7 @@ def handle_interrupts(
         If set to `None`, then it will be enabled or not based on whether the running
         thread is the main one or not.
     loop : asyncio.AbstractEventLoop
-        The event loop to run the callback in.
-    exit_callback : typing.Callable[[], typing.Coroutine[typing.Any, typing.Any, None]]
-        The async callback to call when abruptly exiting the context manager.
-
-        This could be due to an exception or a signal interrupt.
+        The event loop the interrupt will be raised in.
     """
     if enabled is None:
         enabled = threading.current_thread() is threading.main_thread()
@@ -73,16 +67,8 @@ def handle_interrupts(
         return
 
     loop_thread_id = threading.get_native_id()
-    interrupt: typing.Optional[errors.HikariInterrupt] = None
-    exit_callback_called = False
 
     def interrupt_handler(signum: int, frame: typing.Optional[types.FrameType]) -> None:
-        signame = signal.strsignal(signum)
-        assert signame is not None  # Will always be True
-
-        nonlocal interrupt, exit_callback_called
-        interrupt = errors.HikariInterrupt(signum, signame)
-
         # The loop may or may not be running, depending on the state of the application when this occurs.
         # Signals on POSIX only occur on the main thread usually, too, so we need to ensure this is
         # threadsafe.
@@ -98,9 +84,15 @@ def handle_interrupts(
                 "".join(traceback.format_stack(frame)),
             )
 
-        if not exit_callback_called:
-            asyncio.run_coroutine_threadsafe(exit_callback(), loop)
-            exit_callback_called = True
+        signame = signal.strsignal(signum)
+        assert signame is not None  # Will always be True
+
+        interrupt = errors.HikariInterrupt(signum, signame)
+
+        async def raise_error() -> typing.NoReturn:
+            raise interrupt
+
+        asyncio.run_coroutine_threadsafe(raise_error(), loop)
 
     for sig in _INTERRUPT_SIGNALS:
         try:
@@ -112,13 +104,6 @@ def handle_interrupts(
     try:
         yield
 
-    except Exception:
-        if not exit_callback_called:
-            loop.run_until_complete(exit_callback())
-            exit_callback_called = True
-
-        raise
-
     finally:
         for sig in _INTERRUPT_SIGNALS:
             try:
@@ -127,6 +112,3 @@ def handle_interrupts(
             except AttributeError:
                 # Signal not implemented. We already logged this earlier.
                 pass
-
-        if interrupt:
-            raise interrupt

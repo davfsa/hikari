@@ -31,14 +31,18 @@ __all__: typing.Sequence[str] = (
     "is_async_iterable",
     "first_completed",
     "all_of",
+    "destroy_loop",
 )
 
 import asyncio
 import inspect
+import sys
 import typing
 
 if typing.TYPE_CHECKING:
     # typing_extensions is a dependency of mypy, and pyright vendors it.
+    import logging
+
     from typing_extensions import TypeGuard
 
 T_co = typing.TypeVar("T_co", covariant=True)
@@ -215,3 +219,66 @@ def get_or_make_loop() -> asyncio.AbstractEventLoop:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     return loop
+
+
+async def _gather(coros: typing.Iterator[typing.Awaitable[typing.Any]]) -> None:
+    # Calling asyncio.gather outside of a running event loop isn't safe and
+    # will lead to RuntimeErrors in later versions of python, so this call is
+    # kept within a coroutine function.
+    await asyncio.gather(*coros)
+
+
+def destroy_loop(loop: asyncio.AbstractEventLoop, logger: logging.Logger) -> None:
+    """Destroy the passed loop.
+
+    Parameters
+    ----------
+    loop : asyncio.AbstractEventLoop
+        The loop to destroy
+    logger : logging.Logger
+        The logger to use for logging
+    """
+
+    async def murder(future: asyncio.Future[typing.Any]) -> None:
+        # These include _GatheringFuture which must be awaited if the children
+        # throw an asyncio.CancelledError, otherwise it will spam logs with warnings
+        # about exceptions not being retrieved before GC.
+        try:
+            logger.debug("killing %s", future)
+            future.cancel()
+            await future
+        except asyncio.CancelledError:
+            pass
+        except Exception as ex:
+            loop.call_exception_handler(
+                {
+                    "message": "Future raised unexpected exception after requesting cancellation",
+                    "exception": ex,
+                    "future": future,
+                }
+            )
+
+    remaining_tasks = tuple(t for t in asyncio.all_tasks(loop) if not t.done())
+
+    if remaining_tasks:
+        logger.debug("terminating %s remaining tasks forcefully", len(remaining_tasks))
+        loop.run_until_complete(_gather((murder(task) for task in remaining_tasks)))
+    else:
+        logger.debug("No remaining tasks exist, good job!")
+
+    if sys.version_info >= (3, 9):
+        logger.debug("shutting down default executor")
+        try:
+            # This seems to raise a NotImplementedError when running with uvloop.
+            loop.run_until_complete(loop.shutdown_default_executor())
+        except NotImplementedError:
+            pass
+
+    logger.debug("shutting down asyncgens")
+    loop.run_until_complete(loop.shutdown_asyncgens())
+
+    logger.debug("closing event loop")
+    loop.close()
+
+    # Closed loops cannot be re-used so it should also be un-set.
+    asyncio.set_event_loop(None)

@@ -137,7 +137,7 @@ def create_client_session(
         The connector to use.
     connector_owner : builtins.bool
         If `builtins.True`, then the client session will close the
-        connector on shutdown. Otherwise, you must do it manually.
+        connector on shut down. Otherwise, you must do it manually.
     http_settings : hikari.config.HTTPSettings
         HTTP settings to use.
     raise_for_status : builtins.bool

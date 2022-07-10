@@ -107,7 +107,18 @@ class GatewayShard(abc.ABC):
     @property
     @abc.abstractmethod
     def is_alive(self) -> bool:
-        """Return `builtins.True` if the shard is alive and connected.
+        """Return `builtins.True` if the shard is alive.
+
+        Returns
+        -------
+        builtins.bool
+            `builtins.True` if alive, or `builtins.False` if not.
+        """
+
+    @property
+    @abc.abstractmethod
+    def is_connected(self) -> bool:
+        """Return `builtins.True` if the shard is connected.
 
         Returns
         -------
