@@ -4564,7 +4564,6 @@ class TestEntityFactoryImpl:
 
     @pytest.fixture()
     def modal_interaction_payload(self, interaction_member_payload, message_payload):
-        # taken from ddocs
         return {
             "version": 1,
             "type": 5,
@@ -4613,9 +4612,9 @@ class TestEntityFactoryImpl:
         short_action_row = interaction.components[0]
         assert isinstance(short_action_row, modal_interactions.ModalActionRowComponent)
         short_text_input = short_action_row.components[0]
-        assert isinstance(short_text_input, modal_interactions.InteractionTextInput)
+        assert isinstance(short_text_input, modal_interactions.TextInputComponent)
         assert short_text_input.value == "Wumpus"
-        assert short_text_input.type == modal_interactions.ModalComponentType.TEXT_INPUT
+        assert short_text_input.type == message_models.ComponentType.TEXT_INPUT
         assert short_text_input.custom_id == "name"
 
     def test_deserialize_modal_interaction_with_user(

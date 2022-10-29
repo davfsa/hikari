@@ -1548,7 +1548,7 @@ class TestTextInput:
         ).build()
 
         assert result == {
-            "type": modal_interactions.ModalComponentType.TEXT_INPUT,
+            "type": messages.ComponentType.TEXT_INPUT,
             "style": 1,
             "custom_id": "o2o2o2",
             "label": "label",
@@ -1570,7 +1570,7 @@ class TestTextInput:
         )
 
         assert result == {
-            "type": modal_interactions.ModalComponentType.TEXT_INPUT,
+            "type": messages.ComponentType.TEXT_INPUT,
             "style": 1,
             "custom_id": "o2o2o2",
             "label": "label",

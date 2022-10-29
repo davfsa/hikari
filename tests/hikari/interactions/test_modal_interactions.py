@@ -23,6 +23,7 @@ import mock
 import pytest
 
 from hikari import channels
+from hikari import messages
 from hikari import snowflakes
 from hikari import traits
 from hikari.impl import special_endpoints
@@ -56,8 +57,8 @@ class TestModalInteraction:
             app_permissions=543123,
             components=special_endpoints.ActionRowBuilder(
                 components=[
-                    modal_interactions.InteractionTextInput(
-                        type=modal_interactions.ModalComponentType.TEXT_INPUT, custom_id="le id", value="le value"
+                    modal_interactions.TextInputComponent(
+                        type=messages.ComponentType.TEXT_INPUT, custom_id="le id", value="le value"
                     )
                 ],
             ),
