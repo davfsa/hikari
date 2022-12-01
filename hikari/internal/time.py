@@ -63,44 +63,47 @@ References
 * [Discord API documentation - Snowflakes](https://discord.com/developers/docs/reference#snowflakes)
 """
 
+ISO8601ParserT = typing.Callable[[str], datetime.datetime]
+"""Parse an ISO-8601-like datestring into a datetime.
+
+Parameters
+----------
+datetime_str : builtins.str
+    The date string to parse.
+
+Returns
+-------
+datetime.datetime
+    The corresponding date time.
+"""
+
 
 # Default to the standard lib parser, that isn't really ISO compliant but seems
 # to work for what we need.
 def slow_iso8601_datetime_string_to_datetime(datetime_str: str) -> datetime.datetime:
-    """Parse an ISO-8601-like datestring into a datetime.
-
-    Parameters
-    ----------
-    datetime_str : builtins.str
-        The date string to parse.
-
-    Returns
-    -------
-    datetime.datetime
-        The corresponding date time.
-    """
+    """Pure python implementation of `ISO8601ParserT`"""
     if datetime_str.endswith(("z", "Z")):
         # Python's parser cannot handle zulu time, it isn't a proper ISO-8601 compliant parser.
         datetime_str = datetime_str[:-1] + "+00:00"
     return datetime.datetime.fromisoformat(datetime_str)
 
 
-fast_iso8601_datetime_string_to_datetime: typing.Optional[typing.Callable[[str], datetime.datetime]]
+fast_iso8601_datetime_string_to_datetime: typing.Optional[ISO8601ParserT]
 try:
     # CISO8601 is around 600x faster than modules like dateutil, which is
     # going to be noticeable on big bots where you are parsing hundreds of
     # thousands of "joined_at" fields on users on startup.
-    import ciso8601
+    import ciso8601 as _ciso8601
 
     # Discord appears to actually use RFC-3339, which isn't a true ISO-8601 implementation,
     # but somewhat of a subset with some edge cases.
     # See https://tools.ietf.org/html/rfc3339#section-5.6
-    fast_iso8601_datetime_string_to_datetime = ciso8601.parse_rfc3339
+    fast_iso8601_datetime_string_to_datetime = _ciso8601.parse_rfc3339
 
 except ImportError:
     fast_iso8601_datetime_string_to_datetime = None
 
-iso8601_datetime_string_to_datetime: typing.Callable[[str], datetime.datetime] = (
+iso8601_datetime_string_to_datetime: typing.Final[ISO8601ParserT] = (
     fast_iso8601_datetime_string_to_datetime or slow_iso8601_datetime_string_to_datetime
 )
 

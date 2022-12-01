@@ -847,12 +847,10 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
 
     def deserialize_permission_overwrite(self, payload: data_binding.JSONObject) -> channel_models.PermissionOverwrite:
         return channel_models.PermissionOverwrite(
-            # PermissionOverwrite's init has converters set for these fields which will handle casting
             id=payload["id"],
-            type=payload["type"],
-            # Permissions still have to be cast to int before they can be cast to Permission typing wise.
-            allow=int(payload["allow"]),
-            deny=int(payload["deny"]),
+            type=channel_models.PermissionOverwriteType(int(payload["type"])),
+            allow=permission_models.Permissions(int(payload["allow"])),
+            deny=permission_models.Permissions(int(payload["deny"])),
         )
 
     def serialize_permission_overwrite(self, overwrite: channel_models.PermissionOverwrite) -> data_binding.JSONObject:

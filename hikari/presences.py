@@ -313,7 +313,7 @@ class Activity:
     url: typing.Optional[str] = attr.field(default=None, repr=False)
     """The activity URL. Only valid for `STREAMING` activities."""
 
-    type: typing.Union[ActivityType, int] = attr.field(converter=ActivityType, default=ActivityType.PLAYING)
+    type: typing.Union[ActivityType, int] = attr.field(default=ActivityType.PLAYING)
     """The activity type."""
 
     def __str__(self) -> str:

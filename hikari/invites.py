@@ -124,7 +124,7 @@ class InviteGuild(guilds.PartialGuild):
     """The guild's description.
 
     This is only present if certain `features` are set in this guild.
-    Otherwise, this will always be `builtins.None`. For all other purposes, it is `builtins.None`.
+    Otherwise, this will always be `builtins.None`.
     """
 
     verification_level: typing.Union[guilds.GuildVerificationLevel, int] = attr.field(eq=False, hash=False, repr=False)

@@ -21,6 +21,7 @@
 # SOFTWARE.
 import os
 import re
+import sys
 import types
 
 import setuptools
@@ -52,6 +53,28 @@ def parse_requirements_file(path):
         return [d for d in dependencies if not d.startswith("#")]
 
 
+# Change the default to 0 when out of experimental phase
+if bool(os.getenv("NO_HIKARI_EXTENSIONS", 1)) or "--always-extensions" in sys.argv:
+    # People won't see this unless something goes wrong, when pip will dump this to the console
+    print("########################################")
+    print("# Performing accelerated build (mypyc) #")
+    print("########################################")
+    print()
+
+    ext_modules = [
+        setuptools.Extension("hikari.impl.rate_limits", ["hikari/impl/rate_limits.py"]),
+    ]
+
+    # ext_modules = mypyc_build.mypycify(["-p", "hikari", "--config", "pyproject.toml"])
+
+else:
+    print("################################")
+    print("# Performing pure python build #")
+    print("################################")
+    print()
+
+    ext_modules = []
+
 metadata = parse_meta()
 
 setuptools.setup(
@@ -73,6 +96,7 @@ setuptools.setup(
         "speedups": parse_requirements_file("speedup-requirements.txt"),
         "server": parse_requirements_file("server-requirements.txt"),
     },
+    ext_modules=ext_modules,
     test_suite="tests",
     include_package_data=True,
     zip_safe=False,

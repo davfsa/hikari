@@ -24,6 +24,7 @@
 from __future__ import annotations
 
 import os
+import pathlib
 import platform
 import sys
 
@@ -32,14 +33,15 @@ from hikari import _about
 
 def main() -> None:
     """Print package info and exit."""
-    path = os.path.abspath(os.path.dirname(_about.__file__))
-    sha1 = _about.__git_sha1__[:8]
-    version = _about.__version__
-    py_impl = platform.python_implementation()
-    py_ver = platform.python_version()
-    py_compiler = platform.python_compiler()
+    path: str = os.path.abspath(os.path.dirname(_about.__file__))
+    sha1: str = _about.__git_sha1__[:8]
+    version: str = _about.__version__
+    py_impl: str = platform.python_implementation()
+    py_ver: str = platform.python_version()
+    py_compiler: str = platform.python_compiler()
+    compiled: bool = pathlib.Path(__file__).suffix in (".pyd", ".so")
 
-    sys.stderr.write(f"hikari ({version}) [{sha1}]\n")
+    sys.stderr.write(f"hikari ({version}; compiled = {compiled}) [{sha1}]\n")
     sys.stderr.write(f"located at {path}\n")
     sys.stderr.write(f"{py_impl} {py_ver} {py_compiler}\n")
     sys.stderr.write(" ".join(frag.strip() for frag in platform.uname() if frag and frag.strip()) + "\n")
