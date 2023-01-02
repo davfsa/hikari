@@ -407,13 +407,13 @@ class EventManagerBase(event_manager_.EventManager):
                 )
 
     def consume_raw_event(
-        self, event_name: str, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+        self, event_name: str, shard: gateway_shard.GatewayShard, seq: int, payload: data_binding.JSONObject
     ) -> None:
         if self._enabled_for_event(shard_events.ShardPayloadEvent):
             payload_event = self._event_factory.deserialize_shard_payload_event(shard, payload, name=event_name)
             self.dispatch(payload_event)
         consumer = self._consumers[event_name.lower()]
-        asyncio.create_task(self._handle_dispatch(consumer, shard, payload), name=f"dispatch {event_name}")
+        asyncio.create_task(self._handle_dispatch(consumer, shard, payload), name=f"dispatch {seq} {event_name}")
 
     # Yes, this is not generic. The reason for this is MyPy complains about
     # using ABCs that are not concrete in generic types passed to functions.

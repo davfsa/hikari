@@ -727,7 +727,7 @@ class GatewayShardImpl(shard.GatewayShard):
                     self._handshake_event.set()
 
                 try:
-                    self._event_manager.consume_raw_event(name, self, data)
+                    self._event_manager.consume_raw_event(name, self, self._seq, data)
                 except LookupError:
                     self._logger.debug("ignoring unknown event %s:\n    %r", name, data)
 
