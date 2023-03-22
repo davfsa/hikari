@@ -24,7 +24,12 @@
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("generate_error_response", "create_client_session")
+__all__: typing.Sequence[str] = (
+    "generate_error_response",
+    "stringify_http_message",
+    "create_tcp_connector",
+    "create_client_session",
+)
 
 import http
 import typing
@@ -74,6 +79,22 @@ async def generate_error_response(response: aiohttp.ClientResponse) -> errors.HT
         return errors.InternalServerError(real_url, status, response.headers, raw_body)
     else:
         return errors.HTTPResponseError(real_url, status, response.headers, raw_body)
+
+
+_AUTHORIZATION_HEADER: typing.Final[str] = "Authorization"
+
+
+def stringify_http_message(headers: data_binding.Headers, body: typing.Any) -> str:
+    string = "\n".join(
+        f"    {name}: {value}" if name != _AUTHORIZATION_HEADER else f"    {name}: **REDACTED TOKEN**"
+        for name, value in headers.items()
+    )
+
+    if body is not None:
+        string += "\n\n    "
+        string += body.decode("ascii") if isinstance(body, bytes) else str(body)
+
+    return string
 
 
 def create_tcp_connector(

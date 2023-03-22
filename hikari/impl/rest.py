@@ -452,19 +452,6 @@ class RESTApp(traits.ExecutorAware):
         return rest_client
 
 
-def _stringify_http_message(headers: data_binding.Headers, body: typing.Any) -> str:
-    string = "\n".join(
-        f"    {name}: {value}" if name != _AUTHORIZATION_HEADER else f"    {name}: **REDACTED TOKEN**"
-        for name, value in headers.items()
-    )
-
-    if body is not None:
-        string += "\n\n    "
-        string += body.decode("ascii") if isinstance(body, bytes) else str(body)
-
-    return string
-
-
 def _transform_emoji_to_url_format(
     emoji: typing.Union[str, emojis.Emoji],
     emoji_id: undefined.UndefinedOr[snowflakes.SnowflakeishOr[emojis.CustomEmoji]],
@@ -802,7 +789,7 @@ class RESTClientImpl(rest_api.RESTClient):
                         uuid,
                         compiled_route.method,
                         url,
-                        _stringify_http_message(headers, json),
+                        net.stringify_http_message(headers, json),
                     )
                     start = time.monotonic()
 
@@ -828,7 +815,7 @@ class RESTClientImpl(rest_api.RESTClient):
                         response.status,
                         response.reason,
                         time_taken,
-                        _stringify_http_message(response.headers, await response.read()),
+                        net.stringify_http_message(response.headers, await response.read()),
                     )
 
                 # Ensure we are not rate limited, and update rate limiting headers where appropriate.

@@ -40,6 +40,9 @@ from hikari.api import interaction_server
 from hikari.api import special_endpoints
 from hikari.interactions import base_interactions
 from hikari.internal import data_binding
+from hikari.internal import net
+from hikari.internal import time
+from hikari.internal import ux
 
 if typing.TYPE_CHECKING:
     import concurrent.futures
@@ -306,12 +309,14 @@ class InteractionServer(interaction_server.InteractionServer):
                 charset=_UTF_8_CHARSET,
             )
 
+        headers = request.headers
+
         try:
-            signature_header = bytes.fromhex(request.headers[_X_SIGNATURE_ED25519_HEADER])
-            timestamp_header = request.headers[_X_SIGNATURE_TIMESTAMP_HEADER].encode()
+            signature_header = bytes.fromhex(headers[_X_SIGNATURE_ED25519_HEADER])
+            timestamp_header = headers[_X_SIGNATURE_TIMESTAMP_HEADER].encode()
 
         except (KeyError, ValueError):
-            user_agent = request.headers.get(_USER_AGENT_KEY, "NONE")
+            user_agent = headers.get(_USER_AGENT_KEY, "NONE")
             _LOGGER.debug("Received a request with a missing or invalid signature header (UA %r)", user_agent)
             return aiohttp.web.Response(
                 status=_BAD_REQUEST_STATUS,
@@ -333,7 +338,7 @@ class InteractionServer(interaction_server.InteractionServer):
             )
 
         if not body:
-            user_agent = request.headers.get(_USER_AGENT_KEY, "NONE")
+            user_agent = headers.get(_USER_AGENT_KEY, "NONE")
             _LOGGER.debug("Received a body-less request (UA %r)", user_agent)
             return aiohttp.web.Response(
                 status=_BAD_REQUEST_STATUS,
@@ -342,7 +347,16 @@ class InteractionServer(interaction_server.InteractionServer):
                 charset=_UTF_8_CHARSET,
             )
 
+        trace_logging_enabled = _LOGGER.isEnabledFor(ux.TRACE)
+
+        if trace_logging_enabled:
+            uuid = time.uuid()
+            _LOGGER.log(ux.TRACE, "%s \n%s", uuid, net.stringify_http_message(headers, body))
+
         response = await self.on_interaction(body=body, signature=signature_header, timestamp=timestamp_header)
+
+        if trace_logging_enabled:
+            _LOGGER.log(ux.TRACE, "%s \n%s", uuid, net.stringify_http_message(headers, response.payload))
 
         if response.files:
             multipart = aiohttp.MultipartWriter(subtype="form-data")
