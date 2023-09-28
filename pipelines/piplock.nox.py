@@ -19,21 +19,26 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+import pathlib
+
 from pipelines import config
 from pipelines import nox
 
-IGNORED_WORDS = ["ro", "falsy", "ws"]
+VERSION_REQUIREMENT = "3.9,<3.12"
 
 
 @nox.session()
-def codespell(session: nox.Session) -> None:
-    """Run codespell to check for spelling mistakes."""
-    nox.install_dev_requirements(session, "codespell")
-    session.run(
-        "codespell",
-        "--builtin",
-        "clear,rare,code",
-        "--ignore-words-list",
-        ",".join(IGNORED_WORDS),
-        *config.FULL_REFORMATTING_PATHS,
-    )
+def generate_locks(session: nox.Session) -> None:
+    """Generate lock files for the dev-requirements."""
+    nox.install_dev_requirements(session, "piplock")
+
+    for path in pathlib.Path(config.DEV_REQUIREMENTS_DIRECTORY).glob("*.in"):
+        session.run(
+            "pip-compile-cross-platform",
+            str(path),
+            "-o",  # --output-file
+            str(path.with_suffix(".txt")),
+            "--min-python-version",
+            VERSION_REQUIREMENT,
+        )
