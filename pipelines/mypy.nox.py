@@ -35,15 +35,8 @@ STUBGEN_GENERATE = [
 @nox.session()
 def mypy(session: nox.Session) -> None:
     """Perform static type analysis on Python source code using mypy."""
-    session.install(
-        "-r",
-        "requirements.txt",
-        "-r",
-        "speedup-requirements.txt",
-        "-r",
-        "server-requirements.txt",
-        *nox.dev_requirements("mypy", "formatting"),
-    )
+    session.install("-r", "requirements.txt", "-r", "speedup-requirements.txt", "-r", "server-requirements.txt")
+    nox.install_dev_requirements(session, "mypy", "formatting")
 
     _generate_stubs(session)
 
@@ -54,7 +47,7 @@ def mypy(session: nox.Session) -> None:
 @nox.session()
 def generate_stubs(session: nox.Session) -> None:
     """Generate the stubs for the package."""
-    session.install(*nox.dev_requirements("mypy", "formatting"))
+    nox.install_dev_requirements(session, "mypy", "formatting")
     _generate_stubs(session)
 
 

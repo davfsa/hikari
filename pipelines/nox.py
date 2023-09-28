@@ -44,10 +44,10 @@ def session(**kwargs: _typing.Any) -> _typing.Callable[[_NoxCallbackSig], _NoxCa
     return decorator
 
 
-def dev_requirements(*dependencies: str) -> _typing.Sequence[str]:
+def install_dev_requirements(session_: Session, *dependencies: str):
     args = []
 
     for dep in dependencies:
         args.extend(("-r", _os.path.join(_pipelines_config.DEV_REQUIREMENTS_DIRECTORY, f"{dep}.txt")))
 
-    return args
+    session_.install(*args)

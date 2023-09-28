@@ -66,7 +66,8 @@ def pytest_all_features(session: nox.Session) -> None:
 def _pytest(
     session: nox.Session, *, extra_install: typing.Sequence[str] = (), python_flags: typing.Sequence[str] = ()
 ) -> None:
-    session.install("-r", "requirements.txt", *extra_install, *nox.dev_requirements("pytest"))
+    session.install("-r", "requirements.txt", *extra_install)
+    nox.install_dev_requirements(session, "pytest")
 
     if "--skip-coverage" in session.posargs:
         session.posargs.remove("--skip-coverage")
