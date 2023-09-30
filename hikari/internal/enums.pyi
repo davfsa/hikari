@@ -42,7 +42,12 @@ from typing import Union as __Union
 
 from typing_extensions import Self as __Self
 
-Enum = __enum.Enum
+class Enum(__enum.Enum):
+    # Implementation is not a property, but we dont want it to be edited
+    @property
+    def _unknown_(self) -> bool: ...
+    @property
+    def is_unknown(self) -> bool: ...
 
 class Flag(__enum.IntFlag):
     def all(self, *flags: __Self) -> bool: ...

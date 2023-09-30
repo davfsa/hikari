@@ -147,7 +147,16 @@ _Enum = NotImplemented
 class _EnumMeta(type):
     def __call__(cls, value: typing.Any) -> typing.Any:
         """Cast a value to the enum, returning the raw value that was passed if value not found."""
-        return cls._value_to_member_map_.get(value, value)
+        member = cls._value_to_member_map_.get(value)
+
+        if not member:
+            # Create a dummy UNKNOWN member
+            member = cls.__new__(cls, value)
+            member._name_ = "UNKNOWN"
+            member._value_ = value
+            member._unknown_ = True
+
+        return member
 
     def __getitem__(cls, name: str) -> typing.Any:
         if member := getattr(cls, name, None):
@@ -212,6 +221,7 @@ class _EnumMeta(type):
                 member = cls.__new__(cls, value)
                 member._name_ = name
                 member._value_ = value
+                member._unknown_ = False
                 setattr(cls, name, member)
 
             name_to_member[name] = member
@@ -326,6 +336,7 @@ class Enum(metaclass=_EnumMeta):
     __enumtype__: typing.ClassVar[typing.Type[Enum]]
     _name_: str
     _value_: typing.Any
+    _unknown_: bool
 
     @property
     def name(self) -> str:
@@ -338,8 +349,20 @@ class Enum(metaclass=_EnumMeta):
         """Return the value of the enum member."""
         return self._value_
 
+    @property
+    def is_unknown(self) -> bool:
+        """Returns whether the member is unknown.
+
+        Unknown members are those constructed by being cast into the enum
+        but not belonging to it.
+        """
+        return self._unknown_
+
     def __repr__(self) -> str:
-        return f"<{type(self).__name__}.{self._name_}: {self._value_!r}>"
+        if not self._unknown_:
+            return f"<{type(self).__name__}.{self._name_}: {self._value_!r}>"
+
+        return f"<unknown member of {type(self).__name__}: {self._value_!r}>"
 
     def __str__(self) -> str:
         return self._name_
