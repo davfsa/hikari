@@ -43,11 +43,10 @@ __all__: typing.Sequence[str] = (
 import abc
 import typing
 
-import attrs
+import msgspec
 
 from hikari import channels
 from hikari import snowflakes
-from hikari.internal import attrs_extensions
 from hikari.internal import collections
 from hikari.internal import enums
 
@@ -61,7 +60,6 @@ if typing.TYPE_CHECKING:
     from hikari import webhooks as webhooks_
 
 
-@typing.final
 class AuditLogChangeKey(str, enums.Enum):
     """Commonly known and documented keys for audit log change objects.
 
@@ -273,22 +271,19 @@ class AuditLogChangeKey(str, enums.Enum):
     """Alias for `COLOR`."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
-class AuditLogChange:
+class AuditLogChange(msgspec.Struct, kw_only=True, frozen=True):
     """Represents a change made to an audit log entry's target entity."""
 
-    new_value: typing.Optional[typing.Any] = attrs.field(repr=True)
+    new_value: typing.Optional[typing.Any]
     """The new value of the key, if something was added or changed."""
 
-    old_value: typing.Optional[typing.Any] = attrs.field(repr=True)
+    old_value: typing.Optional[typing.Any]
     """The old value of the key, if something was removed or changed."""
 
-    key: typing.Union[AuditLogChangeKey, str] = attrs.field(repr=True)
+    key: AuditLogChangeKey
     """The name of the audit log change's key."""
 
 
-@typing.final
 class AuditLogEventType(int, enums.Enum):
     """The type of event that occurred."""
 
@@ -341,16 +336,13 @@ class AuditLogEventType(int, enums.Enum):
     CREATOR_MONETIZATION_TERMS_ACCEPTED = 151
 
 
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
-class BaseAuditLogEntryInfo(abc.ABC):
+class BaseAuditLogEntryInfo(msgspec.Struct, abc.ABC, kw_only=True, frozen=True):
     """A base object that all audit log entry info objects will inherit from."""
 
-    app: traits.RESTAware = attrs.field(repr=False, eq=False, metadata={attrs_extensions.SKIP_DEEP_COPY: True})
+    app: traits.RESTAware
     """Client application that models may use for procedures."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflakes.Unique):
     """Represents the extra information for overwrite related audit log entries.
 
@@ -358,28 +350,26 @@ class ChannelOverwriteEntryInfo(BaseAuditLogEntryInfo, snowflakes.Unique):
     entries.
     """
 
-    id: snowflakes.Snowflake = attrs.field(hash=True, repr=True)
+    id: snowflakes.Snowflake
     """The ID of this entity."""
 
-    type: typing.Union[channels.PermissionOverwriteType, str] = attrs.field(repr=True)
+    type: channels.PermissionOverwriteType
     """The type of entity this overwrite targets."""
 
-    role_name: typing.Optional[str] = attrs.field(repr=True)
+    role_name: typing.Optional[str]
     """The name of the role this overwrite targets, if it targets a role."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MessagePinEntryInfo(BaseAuditLogEntryInfo):
     """The extra information for message pin related audit log entries.
 
     Will be attached to the message pin and message unpin audit log entries.
     """
 
-    channel_id: snowflakes.Snowflake = attrs.field(repr=True)
+    channel_id: snowflakes.Snowflake
     """The ID of the text based channel where a pinned message is being targeted."""
 
-    message_id: snowflakes.Snowflake = attrs.field(repr=True)
+    message_id: snowflakes.Snowflake
     """The ID of the message that's being pinned or unpinned."""
 
     async def fetch_channel(self) -> channels.TextableChannel:
@@ -433,33 +423,27 @@ class MessagePinEntryInfo(BaseAuditLogEntryInfo):
         return await self.app.rest.fetch_message(self.channel_id, self.message_id)
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MemberPruneEntryInfo(BaseAuditLogEntryInfo):
     """Extra information attached to guild prune log entries."""
 
-    delete_member_days: datetime.timedelta = attrs.field(repr=True)
+    delete_member_days: datetime.timedelta
     """The timedelta of how many days members were pruned for inactivity based on."""
 
-    members_removed: int = attrs.field(repr=True)
+    members_removed: int
     """The number of members who were removed by this prune."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MessageBulkDeleteEntryInfo(BaseAuditLogEntryInfo):
     """Extra information for the message bulk delete audit entry."""
 
-    count: int = attrs.field(repr=True)
+    count: int
     """The amount of messages that were deleted."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
     """Extra information attached to the message delete audit entry."""
 
-    channel_id: snowflakes.Snowflake = attrs.field(repr=True)
+    channel_id: snowflakes.Snowflake
     """The ID of guild text based channel where these message(s) were deleted."""
 
     async def fetch_channel(self) -> channels.TextableGuildChannel:
@@ -489,21 +473,17 @@ class MessageDeleteEntryInfo(MessageBulkDeleteEntryInfo):
         return channel
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MemberDisconnectEntryInfo(BaseAuditLogEntryInfo):
     """Extra information for the voice chat member disconnect entry."""
 
-    count: int = attrs.field(repr=True)
+    count: int
     """The amount of members who were disconnected from voice in this entry."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
 class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
     """Extra information for the voice chat based member move entry."""
 
-    channel_id: snowflakes.Snowflake = attrs.field(repr=True)
+    channel_id: snowflakes.Snowflake
     """The channel that the member(s) have been moved to."""
 
     async def fetch_channel(self) -> channels.GuildVoiceChannel:
@@ -533,38 +513,34 @@ class MemberMoveEntryInfo(MemberDisconnectEntryInfo):
         return channel
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class AuditLogEntry(snowflakes.Unique):
     """Represents an entry in a guild's audit log."""
 
-    app: traits.RESTAware = attrs.field(
-        repr=False, eq=False, hash=False, metadata={attrs_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware
     """Client application that models may use for procedures."""
 
-    id: snowflakes.Snowflake = attrs.field(hash=True, repr=True)
+    id: snowflakes.Snowflake
     """The ID of this entity."""
 
-    guild_id: snowflakes.Snowflake = attrs.field(eq=False, hash=False, repr=True)
+    guild_id: snowflakes.Snowflake
     """ID of the guild this audit log entry is for."""
 
-    target_id: typing.Optional[snowflakes.Snowflake] = attrs.field(eq=False, hash=False, repr=True)
+    target_id: typing.Optional[snowflakes.Snowflake]
     """The ID of the entity affected by this change, if applicable."""
 
-    changes: typing.Sequence[AuditLogChange] = attrs.field(eq=False, hash=False, repr=False)
+    changes: typing.Sequence[AuditLogChange]
     """A sequence of the changes made to `AuditLogEntry.target_id`."""
 
-    user_id: typing.Optional[snowflakes.Snowflake] = attrs.field(eq=False, hash=False, repr=True)
+    user_id: typing.Optional[snowflakes.Snowflake]
     """The ID of the user who made this change."""
 
-    action_type: typing.Union[AuditLogEventType, int] = attrs.field(eq=False, hash=False, repr=True)
+    action_type: AuditLogEventType
     """The type of action this entry represents."""
 
-    options: typing.Optional[BaseAuditLogEntryInfo] = attrs.field(eq=False, hash=False, repr=False)
+    options: typing.Optional[BaseAuditLogEntryInfo]
     """Extra information about this entry. Only be provided for certain `event_type`."""
 
-    reason: typing.Optional[str] = attrs.field(eq=False, hash=False, repr=False)
+    reason: typing.Optional[str]
     """The reason for this change, if set (between 0-512 characters)."""
 
     async def fetch_user(self) -> typing.Optional[users_.User]:
@@ -592,24 +568,22 @@ class AuditLogEntry(snowflakes.Unique):
         return await self.app.rest.fetch_user(self.user_id)
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, repr=False, weakref_slot=False)
 class AuditLog(typing.Sequence[AuditLogEntry]):
     """Represents a guilds audit log's page."""
 
-    entries: typing.Mapping[snowflakes.Snowflake, AuditLogEntry] = attrs.field(repr=False)
+    entries: typing.Mapping[snowflakes.Snowflake, AuditLogEntry]
     """A mapping of snowflake IDs to the audit log's entries."""
 
-    integrations: typing.Mapping[snowflakes.Snowflake, guilds.PartialIntegration] = attrs.field(repr=False)
+    integrations: typing.Mapping[snowflakes.Snowflake, guilds.PartialIntegration]
     """A mapping of the partial objects of integrations found in this audit log."""
 
-    threads: typing.Mapping[snowflakes.Snowflake, channels.GuildThreadChannel] = attrs.field(repr=False)
+    threads: typing.Mapping[snowflakes.Snowflake, channels.GuildThreadChannel]
     """A mapping of the objects of threads found in this audit log."""
 
-    users: typing.Mapping[snowflakes.Snowflake, users_.User] = attrs.field(repr=False)
+    users: typing.Mapping[snowflakes.Snowflake, users_.User]
     """A mapping of the objects of users found in this audit log."""
 
-    webhooks: typing.Mapping[snowflakes.Snowflake, webhooks_.PartialWebhook] = attrs.field(repr=False)
+    webhooks: typing.Mapping[snowflakes.Snowflake, webhooks_.PartialWebhook]
     """A mapping of the objects of webhooks found in this audit log."""
 
     @typing.overload

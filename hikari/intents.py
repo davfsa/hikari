@@ -31,7 +31,6 @@ import typing
 from hikari.internal import enums
 
 
-@typing.final
 class Intents(enums.Flag):
     """Represents an intent on the gateway.
 

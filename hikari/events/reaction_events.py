@@ -45,13 +45,10 @@ __all__: typing.Sequence[str] = (
 import abc
 import typing
 
-import attrs
-
 from hikari import emojis
 from hikari import intents
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.internal import attrs_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import guilds

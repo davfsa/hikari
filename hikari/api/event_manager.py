@@ -204,27 +204,27 @@ class EventManager(abc.ABC):
 
         .. code-block:: python
 
-            import attrs
-
             from hikari.traits import RESTAware
             from hikari.events.base_events import Event
             from hikari.users import User
             from hikari.snowflakes import Snowflake
 
-            @attrs.define()
+            # Event is of type msgspec.Struct, so you can just
+            # define the attributes with the correct type and it
+            # will just work!
             class EveryoneMentionedEvent(Event):
-                app: RESTAware = attrs.field()
+                app: RESTAware
 
-                author: User = attrs.field()
+                author: User
                 '''The user who mentioned everyone.'''
 
-                content: str = attrs.field()
+                content: str
                 '''The message that was sent.'''
 
-                message_id: Snowflake = attrs.field()
+                message_id: Snowflake
                 '''The message ID.'''
 
-                channel_id: Snowflake = attrs.field()
+                channel_id: Snowflake
                 '''The channel ID.'''
 
         We can then dispatch our event as we see fit.

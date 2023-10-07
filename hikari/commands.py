@@ -38,13 +38,12 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-import attrs
+import msgspec
 
 from hikari import permissions
 from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
-from hikari.internal import attrs_extensions
 from hikari.internal import enums
 
 if typing.TYPE_CHECKING:
@@ -66,7 +65,6 @@ class CommandType(int, enums.Enum):
     """A message-based command."""
 
 
-@typing.final
 class OptionType(int, enums.Enum):
     """The type of a command option."""
 
@@ -110,32 +108,26 @@ class OptionType(int, enums.Enum):
     """Denotes a command option where the value will be an attachment."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
-class CommandChoice:
+class CommandChoice(msgspec.Struct, kw_only=True, frozen=True):
     """Represents the choices set for an application command's argument."""
 
-    name: str = attrs.field(repr=True)
+    name: str
     """The choice's name (inclusively between 1-100 characters)."""
 
-    name_localizations: typing.Mapping[typing.Union[locales.Locale, str], str] = attrs.field(
-        eq=False, factory=dict, hash=False, repr=False
-    )
+    name_localizations: typing.Mapping[locales.Locale, str] = {}
     """A mapping of name localizations for this command choice."""
 
-    value: typing.Union[str, int, float] = attrs.field(repr=True)
+    value: typing.Union[str, int, float]
     """Value of the choice (up to 100 characters if a string)."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=False, kw_only=True, weakref_slot=False)
-class CommandOption:
+class CommandOption(msgspec.Struct, kw_only=True, frozen=True):
     """Represents an application command's argument."""
 
-    type: typing.Union[OptionType, int] = attrs.field(repr=True)
+    type: OptionType
     """The type of command option this is."""
 
-    name: str = attrs.field(repr=True)
+    name: str
     r"""The command option's name.
 
     .. note::
@@ -143,17 +135,17 @@ class CommandOption:
         lowercase.
     """
 
-    description: str = attrs.field(repr=False)
+    description: str
     """The command option's description.
 
     .. note::
         This will be inclusively between 1-100 characters in length.
     """
 
-    is_required: bool = attrs.field(default=False, repr=False)
+    is_required: bool = False
     """Whether this command option is required."""
 
-    choices: typing.Optional[typing.Sequence[CommandChoice]] = attrs.field(default=None, repr=False)
+    choices: typing.Optional[typing.Sequence[CommandChoice]] = None
     """A sequence of up to (and including) 25 choices for this command.
 
     This will be `None` if the input values for this option aren't
@@ -161,75 +153,67 @@ class CommandOption:
     option.
     """
 
-    options: typing.Optional[typing.Sequence[CommandOption]] = attrs.field(default=None, repr=False)
+    options: typing.Optional[typing.Sequence[CommandOption]] = None
     """Sequence of up to (and including) 25 of the options for this command option."""
 
-    channel_types: typing.Optional[typing.Sequence[typing.Union[channels.ChannelType, int]]] = attrs.field(
-        default=None, repr=False
-    )
+    channel_types: typing.Optional[typing.Sequence[channels.ChannelType]] = None
     """The channel types that this option will accept.
 
     If `None`, then all channel types will be accepted.
     """
 
-    autocomplete: bool = attrs.field(default=False, repr=False)
+    autocomplete: bool = False
     """Whether this option has autocomplete."""
 
-    min_value: typing.Union[int, float, None] = attrs.field(default=None, repr=False)
+    min_value: typing.Union[int, float, None] = None
     """The minimum value permitted (inclusive).
 
     This will be `int` if the type of the option is `hikari.commands.OptionType.INTEGER`
     and `float` if the type is `hikari.commands.OptionType.FLOAT`.
     """
 
-    max_value: typing.Union[int, float, None] = attrs.field(default=None, repr=False)
+    max_value: typing.Union[int, float, None] = None
     """The maximum value permitted (inclusive).
 
     This will be `int` if the type of the option is `hikari.commands.OptionType.INTEGER`
     and `float` if the type is `hikari.commands.OptionType.FLOAT`.
     """
 
-    name_localizations: typing.Mapping[typing.Union[locales.Locale, str], str] = attrs.field(
-        eq=False, factory=dict, hash=False, repr=False
-    )
+    name_localizations: typing.Mapping[locales.Locale, str] = {}
     """A mapping of name localizations for this option."""
 
-    description_localizations: typing.Mapping[typing.Union[locales.Locale, str], str] = attrs.field(
-        eq=False, factory=dict, hash=False, repr=False
-    )
+    description_localizations: typing.Mapping[locales.Locale, str] = {}
     """A mapping of description localizations for this option."""
 
-    min_length: typing.Optional[int] = attrs.field(default=None, repr=False)
+    min_length: typing.Optional[int] = None
     """The minimum length permitted (inclusive).
 
     This is only valid for `hikari.commands.OptionType.STRING`, otherwise it will be `None`.
     """
 
-    max_length: typing.Optional[int] = attrs.field(default=None, repr=False)
+    max_length: typing.Optional[int] = None
     """The maximum length permitted (inclusive).
 
     This is only valid for `hikari.commands.OptionType.STRING`, otherwise it will be `None`.
     """
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class PartialCommand(snowflakes.Unique):
     """Represents any application command on Discord."""
 
-    app: traits.RESTAware = attrs.field(eq=False, hash=False, repr=False)
+    app: traits.RESTAware
     """Client application that models may use for procedures."""
 
-    id: snowflakes.Snowflake = attrs.field(hash=True, repr=True)
+    id: snowflakes.Snowflake
     # <<inherited docstring from Unique>>.
 
-    type: CommandType = attrs.field(hash=True, repr=True)
+    type: CommandType
     """The type of a command."""
 
-    application_id: snowflakes.Snowflake = attrs.field(eq=False, hash=False, repr=True)
+    application_id: snowflakes.Snowflake
     """ID of the application this command belongs to."""
 
-    name: str = attrs.field(eq=False, hash=False, repr=True)
+    name: str
     r"""The command's name.
 
     .. note::
@@ -237,30 +221,28 @@ class PartialCommand(snowflakes.Unique):
         lowercase.
     """
 
-    default_member_permissions: permissions.Permissions = attrs.field(eq=False, hash=False, repr=True)
+    default_member_permissions: permissions.Permissions
     """Member permissions necessary to utilize this command by default.
 
     This excludes administrators of the guild and overwrites.
     """
 
-    is_dm_enabled: bool = attrs.field(eq=False, hash=False, repr=True)
+    is_dm_enabled: bool
     """Whether this command is enabled in DMs with the bot."""
 
-    is_nsfw: bool = attrs.field(eq=False, hash=False, repr=True)
+    is_nsfw: bool
     """Whether this command is age-restricted."""
 
-    guild_id: typing.Optional[snowflakes.Snowflake] = attrs.field(eq=False, hash=False, repr=False)
+    guild_id: typing.Optional[snowflakes.Snowflake]
     """ID of the guild this command is in.
 
     This will be `None` if this is a global command.
     """
 
-    version: snowflakes.Snowflake = attrs.field(eq=False, hash=False, repr=True)
+    version: snowflakes.Snowflake
     """Auto-incrementing version identifier updated during substantial record changes."""
 
-    name_localizations: typing.Mapping[typing.Union[locales.Locale, str], str] = attrs.field(
-        eq=False, hash=False, repr=False
-    )
+    name_localizations: typing.Mapping[locales.Locale, str]
     """A mapping of name localizations for this command."""
 
     async def fetch_self(self) -> PartialCommand:
@@ -435,12 +417,10 @@ class PartialCommand(snowflakes.Unique):
         )
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class SlashCommand(PartialCommand):
     """Represents a slash command on Discord."""
 
-    description: str = attrs.field(eq=False, hash=False, repr=False)
+    description: str
     """The command's description.
 
     None if this command is not a slash command.
@@ -449,17 +429,13 @@ class SlashCommand(PartialCommand):
         This will be inclusively between 1-100 characters in length.
     """
 
-    description_localizations: typing.Mapping[typing.Union[locales.Locale, str], str] = attrs.field(
-        eq=False, hash=False, repr=False
-    )
+    description_localizations: typing.Mapping[locales.Locale, str]
     """A set of description localizations for this command."""
 
-    options: typing.Optional[typing.Sequence[CommandOption]] = attrs.field(eq=False, hash=False, repr=False)
+    options: typing.Optional[typing.Sequence[CommandOption]]
     """Sequence of up to (and including) 25 of the options for this command."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class ContextMenuCommand(PartialCommand):
     """Represents a context menu command on Discord."""
 
@@ -477,12 +453,10 @@ class CommandPermissionType(int, enums.Enum):
     """A command permission which toggles access in a specific channel."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(kw_only=True, weakref_slot=False)
-class CommandPermission:
+class CommandPermission(msgspec.Struct, kw_only=True, frozen=True):
     """Representation of a permission which enables or disables a command for a user or role."""
 
-    id: snowflakes.Snowflake = attrs.field(converter=snowflakes.Snowflake)
+    id: snowflakes.Snowflake
     """ID of the role or user this permission changes the permission's state for.
 
     There are some special constants for this field:
@@ -491,19 +465,17 @@ class CommandPermission:
     * If equals to (`guild_id` - 1), then it applies to all channels in a guild.
     """
 
-    type: typing.Union[CommandPermissionType, int] = attrs.field(converter=CommandPermissionType)
+    type: CommandPermissionType
     """The entity this permission overrides the command's state for."""
 
-    has_access: bool = attrs.field()
+    has_access: bool
     """Whether this permission marks the target entity as having access to the command."""
 
 
-@attrs_extensions.with_copy
-@attrs.define(kw_only=True, weakref_slot=False)
-class GuildCommandPermissions:
+class GuildCommandPermissions(msgspec.Struct, kw_only=True, frozen=True):
     """Representation of the permissions set for a command within a guild."""
 
-    id: snowflakes.Snowflake = attrs.field()
+    id: snowflakes.Snowflake
     """ID of the entity these permissions apply to.
 
     This may be the ID of a specific command or the application ID. When this is equal
@@ -511,14 +483,14 @@ class GuildCommandPermissions:
     explicit overwrites.
     """
 
-    application_id: snowflakes.Snowflake = attrs.field()
+    application_id: snowflakes.Snowflake
     """ID of the application the relevant command belongs to."""
 
-    command_id: snowflakes.Snowflake = attrs.field()
+    command_id: snowflakes.Snowflake
     """ID of the command these permissions are for."""
 
-    guild_id: snowflakes.Snowflake = attrs.field()
+    guild_id: snowflakes.Snowflake
     """ID of the guild these permissions are in."""
 
-    permissions: typing.Sequence[CommandPermission] = attrs.field()
+    permissions: typing.Sequence[CommandPermission]
     """Sequence of up to (and including) 100 of the command permissions set in this guild."""

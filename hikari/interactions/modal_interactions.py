@@ -28,8 +28,6 @@ __all__: typing.List[str] = ["ModalResponseTypesT", "ModalInteraction", "ModalIn
 
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import guilds
 from hikari import messages
@@ -37,7 +35,6 @@ from hikari import permissions
 from hikari import snowflakes
 from hikari import traits
 from hikari.interactions import base_interactions
-from hikari.internal import attrs_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import components as components_

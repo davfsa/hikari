@@ -28,9 +28,6 @@ __all__: typing.Sequence[str] = ("GatewayBotInfo", "SessionStartLimit")
 
 import typing
 
-import attrs
-
-from hikari.internal import attrs_extensions
 from hikari.internal import time
 
 if typing.TYPE_CHECKING:

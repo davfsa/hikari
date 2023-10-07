@@ -30,8 +30,6 @@ import datetime
 import logging
 import typing
 
-import attrs
-
 from hikari import applications as application_models
 from hikari import audit_logs as audit_log_models
 from hikari import channels as channel_models
@@ -63,7 +61,6 @@ from hikari.interactions import base_interactions
 from hikari.interactions import command_interactions
 from hikari.interactions import component_interactions
 from hikari.interactions import modal_interactions
-from hikari.internal import attrs_extensions
 from hikari.internal import data_binding
 from hikari.internal import time
 

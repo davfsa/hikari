@@ -36,8 +36,6 @@ import typing
 import warnings
 import weakref
 
-import attrs
-
 from hikari import errors
 from hikari import iterators
 from hikari.api import config

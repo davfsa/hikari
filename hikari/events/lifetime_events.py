@@ -32,10 +32,7 @@ __all__: typing.Sequence[str] = ("StartingEvent", "StartedEvent", "StoppingEvent
 
 import typing
 
-import attrs
-
 from hikari.events import base_events
-from hikari.internal import attrs_extensions
 
 if typing.TYPE_CHECKING:
     from hikari import traits

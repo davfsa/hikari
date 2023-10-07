@@ -40,14 +40,11 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import guilds
 from hikari import snowflakes
 from hikari import undefined
 from hikari import webhooks
-from hikari.internal import attrs_extensions
 from hikari.internal import enums
 
 if typing.TYPE_CHECKING:

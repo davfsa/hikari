@@ -50,8 +50,6 @@ import copy
 import datetime
 import typing
 
-import attrs
-
 from hikari import embeds as embeds_
 from hikari import emojis
 from hikari import guilds
@@ -63,7 +61,6 @@ from hikari import stickers as stickers_
 from hikari import undefined
 from hikari import voices
 from hikari.api import cache
-from hikari.internal import attrs_extensions
 from hikari.internal import collections
 
 if typing.TYPE_CHECKING:

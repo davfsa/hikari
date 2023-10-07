@@ -27,8 +27,6 @@ __all__: typing.Sequence[str] = ("ComponentInteraction", "COMPONENT_RESPONSE_TYP
 
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import traits
 from hikari.interactions import base_interactions

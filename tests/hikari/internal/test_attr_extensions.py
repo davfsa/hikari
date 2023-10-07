@@ -22,10 +22,7 @@
 import contextlib
 import copy as stdlib_copy
 
-import attrs
 import mock
-
-from hikari.internal import attrs_extensions
 
 
 def test_invalidate_shallow_copy_cache():

@@ -31,10 +31,7 @@ import re
 import typing
 import urllib.parse
 
-import attrs
-
 from hikari import files
-from hikari.internal import attrs_extensions
 from hikari.internal import data_binding
 
 HASH_SEPARATOR: typing.Final[str] = ";"

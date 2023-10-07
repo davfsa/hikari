@@ -30,12 +30,9 @@ import abc
 import re
 import typing
 
-import attrs
-
 from hikari import files
 from hikari import snowflakes
 from hikari import urls
-from hikari.internal import attrs_extensions
 from hikari.internal import routes
 
 # import unicodedata

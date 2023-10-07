@@ -28,10 +28,6 @@ __all__: typing.Sequence[str] = ("VoiceRegion", "VoiceState")
 
 import typing
 
-import attrs
-
-from hikari.internal import attrs_extensions
-
 if typing.TYPE_CHECKING:
     import datetime
 

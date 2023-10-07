@@ -51,8 +51,6 @@ __all__: typing.Sequence[str] = (
 import asyncio
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import commands
 from hikari import components as component_models
@@ -66,7 +64,6 @@ from hikari import snowflakes
 from hikari import undefined
 from hikari.api import special_endpoints
 from hikari.interactions import base_interactions
-from hikari.internal import attrs_extensions
 from hikari.internal import data_binding
 from hikari.internal import mentions
 from hikari.internal import routes

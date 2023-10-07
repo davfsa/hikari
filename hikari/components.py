@@ -46,14 +46,13 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-import attrs
+import msgspec
 
 from hikari import channels
 from hikari import emojis
 from hikari.internal import enums
 
 
-@typing.final
 class ComponentType(int, enums.Enum):
     """Types of components found within Discord."""
 
@@ -128,7 +127,6 @@ class ComponentType(int, enums.Enum):
     """
 
 
-@typing.final
 class ButtonStyle(int, enums.Enum):
     """Enum of the available button styles.
 
@@ -157,7 +155,6 @@ class ButtonStyle(int, enums.Enum):
     """
 
 
-@typing.final
 class TextInputStyle(int, enums.Enum):
     """A text input style."""
 
@@ -168,22 +165,20 @@ class TextInputStyle(int, enums.Enum):
     """Intended for much longer inputs."""
 
 
-@attrs.define(kw_only=True, weakref_slot=False)
-class PartialComponent:
+class PartialComponent(msgspec.Struct, kw_only=True, frozen=True):
     """Base class for all component entities."""
 
-    type: typing.Union[ComponentType, int] = attrs.field()
+    type: ComponentType
     """The type of component this is."""
 
 
 AllowedComponentsT = typing.TypeVar("AllowedComponentsT", bound="PartialComponent")
 
 
-@attrs.define(weakref_slot=False)
 class ActionRowComponent(typing.Generic[AllowedComponentsT], PartialComponent):
     """Represents a row of components."""
 
-    components: typing.Sequence[AllowedComponentsT] = attrs.field()
+    components: typing.Sequence[AllowedComponentsT]
     """Sequence of the components contained within this row."""
 
     @typing.overload
@@ -206,20 +201,19 @@ class ActionRowComponent(typing.Generic[AllowedComponentsT], PartialComponent):
         return len(self.components)
 
 
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class ButtonComponent(PartialComponent):
     """Represents a button component."""
 
-    style: typing.Union[ButtonStyle, int] = attrs.field(eq=False)
+    style: ButtonStyle
     """The button's style."""
 
-    label: typing.Optional[str] = attrs.field(eq=False)
+    label: typing.Optional[str]
     """Text label which appears on the button."""
 
-    emoji: typing.Optional[emojis.Emoji] = attrs.field(eq=False)
+    emoji: typing.Optional[emojis.Emoji]
     """Custom or unicode emoji which appears on the button."""
 
-    custom_id: typing.Optional[str] = attrs.field(hash=True)
+    custom_id: typing.Optional[str]
     """Developer defined identifier for this button (will be <= 100 characters).
 
     .. note::
@@ -231,86 +225,99 @@ class ButtonComponent(PartialComponent):
         * `ButtonStyle.DANGER`
     """
 
-    url: typing.Optional[str] = attrs.field(eq=False)
+    url: typing.Optional[str]
     """Url for `ButtonStyle.LINK` style buttons."""
 
-    is_disabled: bool = attrs.field(eq=False)
+    is_disabled: bool
     """Whether the button is disabled."""
 
+    def __hash__(self) -> int:
+        return hash(self.custom_id)
 
-@attrs.define(kw_only=True, weakref_slot=False)
-class SelectMenuOption:
+    def __eq__(self, other: typing.Any) -> bool:
+        return type(self) is type(other) and self.custom_id == other.custom_id
+
+
+class SelectMenuOption(msgspec.Struct, kw_only=True, frozen=True):
     """Represents an option for a `SelectMenuComponent`."""
 
-    label: str = attrs.field()
+    label: str
     """User-facing name of the option, max 100 characters."""
 
-    value: str = attrs.field()
+    value: str
     """Dev-defined value of the option, max 100 characters."""
 
-    description: typing.Optional[str] = attrs.field()
+    description: typing.Optional[str]
     """Optional description of the option, max 100 characters."""
 
-    emoji: typing.Optional[emojis.Emoji] = attrs.field(eq=False)
-    """Custom or unicode emoji which appears on the button."""
+    emoji: typing.Optional[emojis.Emoji]
+    """Custom or unicode emoji which appears on the option."""
 
-    is_default: bool = attrs.field()
+    is_default: bool
     """Whether this option will be selected by default."""
 
 
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class SelectMenuComponent(PartialComponent):
     """Represents a select menu component."""
 
-    custom_id: str = attrs.field(hash=True)
+    custom_id: str
     """Developer defined identifier for this menu (will be <= 100 characters)."""
 
-    placeholder: typing.Optional[str] = attrs.field(eq=False)
+    placeholder: typing.Optional[str]
     """Custom placeholder text shown if nothing is selected, max 100 characters."""
 
-    min_values: int = attrs.field(eq=False)
+    min_values: int
     """The minimum amount of options which must be chosen for this menu.
 
     This will be greater than or equal to 0 and will be less than or equal to
     `SelectMenuComponent.max_values`.
     """
 
-    max_values: int = attrs.field(eq=False)
+    max_values: int
     """The minimum amount of options which can be chosen for this menu.
 
     This will be less than or equal to 25 and will be greater than or equal to
     `SelectMenuComponent.min_values`.
     """
 
-    is_disabled: bool = attrs.field(eq=False)
+    is_disabled: bool
     """Whether the select menu is disabled."""
 
+    def __hash__(self) -> int:
+        return hash(self.custom_id)
 
-@attrs.define(kw_only=True, weakref_slot=False)
+    def __eq__(self, other: typing.Any) -> bool:
+        return type(self) is type(other) and self.custom_id == other.custom_id
+
+
 class TextSelectMenuComponent(SelectMenuComponent):
     """Represents a text select menu component."""
 
-    options: typing.Sequence[SelectMenuOption] = attrs.field(eq=False)
+    options: typing.Sequence[SelectMenuOption]
     """Sequence of up to 25 of the options set for this menu."""
 
 
-@attrs.define(kw_only=True, weakref_slot=False)
 class ChannelSelectMenuComponent(SelectMenuComponent):
     """Represents a channel select menu component."""
 
-    channel_types: typing.Sequence[typing.Union[int, channels.ChannelType]] = attrs.field(eq=False)
+    channel_types: typing.Sequence[typing.Union[int, channels.ChannelType]]
     """The valid channel types for this menu."""
 
 
-@attrs.define(kw_only=True, weakref_slot=False)
 class TextInputComponent(PartialComponent):
     """Represents a text input component."""
 
-    custom_id: str = attrs.field(repr=True)
+    custom_id: str
     """Developer set custom ID used for identifying interactions with this modal."""
 
-    value: str = attrs.field(repr=True)
+    value: str
     """Value provided for this text input."""
+
+    def __hash__(self) -> int:
+        return hash(self.custom_id)
+
+    def __eq__(self, other: typing.Any) -> bool:
+        return type(self) is type(other) and self.custom_id == other.custom_id
 
 
 SelectMenuTypesT = typing.Union[

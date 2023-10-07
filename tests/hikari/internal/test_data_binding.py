@@ -22,7 +22,6 @@
 import typing
 
 import aiohttp
-import attrs
 import mock
 import multidict
 import pytest

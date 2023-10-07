@@ -35,15 +35,12 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import commands
 from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
 from hikari.interactions import base_interactions
-from hikari.internal import attrs_extensions
 
 if typing.TYPE_CHECKING:
     from typing_extensions import Self

@@ -1,4 +1,4 @@
 aiohttp~=3.8
-attrs~=23.1
+msgspec~=0.18
 colorlog~=6.7
 multidict~=6.0

@@ -37,10 +37,7 @@ import base64
 import ssl as ssl_
 import typing
 
-import attrs
-
 from hikari.api import config
-from hikari.internal import attrs_extensions
 from hikari.internal import data_binding
 
 _BASICAUTH_TOKEN_PREFIX: typing.Final[str] = "Basic"  # nosec

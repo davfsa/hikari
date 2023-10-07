@@ -503,7 +503,7 @@ class GatewayBot(traits.GatewayBotAware):
 
         .. code-block:: python
 
-            import attrs
+
 
             from hikari.traits import RESTAware
             from hikari.events.base_events import Event

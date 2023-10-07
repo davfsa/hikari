@@ -36,11 +36,8 @@ __all__: typing.Sequence[str] = (
 
 import typing
 
-import attrs
-
 from hikari import snowflakes
 from hikari import urls
-from hikari.internal import attrs_extensions
 from hikari.internal import enums
 from hikari.internal import routes
 

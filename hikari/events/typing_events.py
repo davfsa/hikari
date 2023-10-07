@@ -28,15 +28,12 @@ __all__: typing.Sequence[str] = ("TypingEvent", "GuildTypingEvent", "DMTypingEve
 import abc
 import typing
 
-import attrs
-
 from hikari import channels
 from hikari import intents
 from hikari import traits
 from hikari.api import special_endpoints
 from hikari.events import base_events
 from hikari.events import shard_events
-from hikari.internal import attrs_extensions
 
 if typing.TYPE_CHECKING:
     import datetime

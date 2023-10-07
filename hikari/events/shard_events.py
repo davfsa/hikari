@@ -38,10 +38,7 @@ __all__: typing.Sequence[str] = (
 import abc
 import typing
 
-import attrs
-
 from hikari.events import base_events
-from hikari.internal import attrs_extensions
 from hikari.internal import collections
 
 if typing.TYPE_CHECKING:

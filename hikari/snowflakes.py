@@ -39,6 +39,8 @@ __all__: typing.Sequence[str] = (
 import abc
 import typing
 
+import msgspec
+
 from hikari.internal import time
 
 if typing.TYPE_CHECKING:
@@ -101,7 +103,7 @@ class Snowflake(int):
         )
 
 
-class Unique(abc.ABC):
+class Unique(msgspec.Struct, abc.ABC, kw_only=True, frozen=True):
     """Mixin for a class that enforces uniqueness by a snowflake ID."""
 
     __slots__: typing.Sequence[str] = ()
