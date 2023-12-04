@@ -572,6 +572,10 @@ class TestEventManagerBase:
 
     @pytest.mark.asyncio()
     async def test_handle_dispatch_handles_exceptions(self, event_manager, event_loop):
+        mock_task = mock.Mock()
+        # On Python 3.12+ Asyncio uses this to get the task's context if set to call the
+        # error handler in. We want to avoid for this test for simplicity.
+        mock_task.get_context.return_value = None
         event_manager._enabled_for_consumer = mock.Mock(return_value=True)
         exc = Exception("aaaa!")
         consumer = mock.Mock(callback=mock.AsyncMock(side_effect=exc))
@@ -580,12 +584,12 @@ class TestEventManagerBase:
         shard = object()
         pl = {"i like": "cats"}
 
-        with mock.patch.object(asyncio, "current_task") as current_task:
+        with mock.patch.object(asyncio, "current_task", return_value=mock_task):
             await event_manager._handle_dispatch(consumer, shard, pl)
 
         error_handler.assert_called_once_with(
             event_loop,
-            {"exception": exc, "message": "Exception occurred in raw event dispatch conduit", "task": current_task()},
+            {"exception": exc, "message": "Exception occurred in raw event dispatch conduit", "task": mock_task},
         )
 
     @pytest.mark.asyncio()
@@ -600,6 +604,18 @@ class TestEventManagerBase:
 
         consumer.callback.assert_not_called()
         error_handler.assert_not_called()
+
+    def test_subscribe_when_class_call(self, event_manager):
+        class Foo:
+            async def __call__(self) -> None:
+                ...
+
+        foo = Foo()
+        event_manager._check_event = mock.Mock()
+
+        event_manager.subscribe(member_events.MemberCreateEvent, foo)
+
+        assert event_manager._listeners[member_events.MemberCreateEvent] == [foo]
 
     def test_subscribe_when_callback_is_not_coroutine(self, event_manager):
         def test():

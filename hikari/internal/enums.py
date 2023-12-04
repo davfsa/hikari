@@ -147,16 +147,7 @@ _Enum = NotImplemented
 class _EnumMeta(type):
     def __call__(cls, value: typing.Any) -> typing.Any:
         """Cast a value to the enum, returning the raw value that was passed if value not found."""
-        member = cls._value_to_member_map_.get(value)
-
-        if not member:
-            # Create a dummy UNKNOWN member
-            member = cls.__new__(cls, value)
-            member._name_ = "UNKNOWN"
-            member._value_ = value
-            member._unknown_ = True
-
-        return member
+        return cls._value_to_member_map_.get(value, value)
 
     def __getitem__(cls, name: str) -> typing.Any:
         if member := getattr(cls, name, None):
@@ -212,20 +203,21 @@ class _EnumMeta(type):
 
         for name, value in namespace.names_to_values.items():
             member = new_namespace.get(name)
-            if not isinstance(member, _DeprecatedAlias):
-                # Patching the member init call is around 100ns faster per call than
-                # using the default type.__call__ which would make us do the lookup
-                # in cls.__new__. Reason for this is that python will also always
-                # invoke cls.__init__ if we do this, so we end up with two function
-                # calls.
-                member = cls.__new__(cls, value)
-                member._name_ = name
-                member._value_ = value
-                member._unknown_ = False
-                setattr(cls, name, member)
+            if isinstance(member, _DeprecatedAlias):
+                continue
+
+            # Patching the member init call is around 100ns faster per call than
+            # using the default type.__call__ which would make us do the lookup
+            # in cls.__new__. Reason for this is that python will also always
+            # invoke cls.__init__ if we do this, so we end up with two function
+            # calls.
+            member = cls.__new__(cls, value)
+            member._name_ = name
+            member._value_ = value
+            setattr(cls, name, member)
 
             name_to_member[name] = member
-            value_to_member.setdefault(value, member)
+            value_to_member[value] = member
             member_names.append(name)
 
         return cls
@@ -336,7 +328,6 @@ class Enum(metaclass=_EnumMeta):
     __enumtype__: typing.ClassVar[typing.Type[Enum]]
     _name_: str
     _value_: typing.Any
-    _unknown_: bool
 
     @property
     def name(self) -> str:
@@ -349,20 +340,8 @@ class Enum(metaclass=_EnumMeta):
         """Return the value of the enum member."""
         return self._value_
 
-    @property
-    def is_unknown(self) -> bool:
-        """Returns whether the member is unknown.
-
-        Unknown members are those constructed by being cast into the enum
-        but not belonging to it.
-        """
-        return self._unknown_
-
     def __repr__(self) -> str:
-        if not self._unknown_:
-            return f"<{type(self).__name__}.{self._name_}: {self._value_!r}>"
-
-        return f"<unknown member of {type(self).__name__}: {self._value_!r}>"
+        return f"<{type(self).__name__}.{self._name_}: {self._value_!r}>"
 
     def __str__(self) -> str:
         return self._name_
@@ -494,23 +473,25 @@ class _FlagMeta(type):
 
         for name, value in namespace.names_to_values.items():
             member = new_namespace.get(name)
-            if not isinstance(member, _DeprecatedAlias):
-                # Patching the member init call is around 100ns faster per call than
-                # using the default type.__call__ which would make us do the lookup
-                # in cls.__new__. Reason for this is that python will also always
-                # invoke cls.__init__ if we do this, so we end up with two function
-                # calls.
-                member = cls.__new__(cls, value)
-                member._name_ = name
-                member._value_ = value
-                setattr(cls, name, member)
+            if isinstance(member, _DeprecatedAlias):
+                continue
 
-                if not (value & value - 1):
-                    powers_of_2_map[value] = member
+            # Patching the member init call is around 100ns faster per call than
+            # using the default type.__call__ which would make us do the lookup
+            # in cls.__new__. Reason for this is that python will also always
+            # invoke cls.__init__ if we do this, so we end up with two function
+            # calls.
+            member = cls.__new__(cls, value)
+            member._name_ = name
+            member._value_ = value
+            setattr(cls, name, member)
 
             name_to_member[name] = member
-            value_to_member.setdefault(value, member)
+            value_to_member[value] = member
             member_names.append(name)
+
+            if not (value & value - 1):
+                powers_of_2_map[value] = member
 
         all_bits = functools.reduce(operator.or_, value_to_member.keys())
         all_bits_member = cls.__new__(cls, all_bits)
@@ -588,18 +569,18 @@ class Flag(metaclass=_FlagMeta):
     -----------------------------
     * `e1 & e2` :
         Bitwise `AND` operation. Will return a member that contains all flags
-        that are common between both oprands on the values. This also works with
-        one of the oprands being an `int`eger. You may instead use
+        that are common between both operands on the values. This also works with
+        one of the operands being an `int`eger. You may instead use
         the `intersection` method.
     * `e1 | e2` :
         Bitwise `OR` operation. Will return a member that contains all flags
-        that appear on at least one of the oprands. This also works with
-        one of the oprands being an `int`eger. You may instead use
+        that appear on at least one of the operands. This also works with
+        one of the operands being an `int`eger. You may instead use
         the `union` method.
     * `e1 ^ e2` :
         Bitwise `XOR` operation. Will return a member that contains all flags
-        that only appear on at least one and at most one of the oprands.
-        This also works with one of the oprands being an `int`eger.
+        that only appear on at least one and at most one of the operands.
+        This also works with one of the operands being an `int`eger.
         You may instead use the `symmetric_difference` method.
     * `~e` :
         Return the inverse of this value. This is equivalent to disabling all

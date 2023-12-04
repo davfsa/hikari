@@ -1,2 +1,2 @@
-aiohttp[speedups]~=3.8
+aiohttp[speedups]~=3.9
 ciso8601~=2.3
