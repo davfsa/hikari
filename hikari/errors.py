@@ -53,9 +53,6 @@ import http
 import json
 import typing
 
-import attrs
-
-from hikari.internal import attrs_extensions
 from hikari.internal import data_binding
 from hikari.internal import enums
 
@@ -67,8 +64,6 @@ if typing.TYPE_CHECKING:
 
 
 # The standard exceptions are all unslotted so slotting here would be a waste of time.
-@attrs_extensions.with_copy
-@attrs.define(auto_exc=True, repr=False, init=False, slots=False)
 class HikariError(RuntimeError):
     """Base for an error raised by this API.
 
@@ -80,8 +75,6 @@ class HikariError(RuntimeError):
 
 
 # The standard warnings are all unslotted so slotting here would be a waste of time.
-@attrs_extensions.with_copy
-@attrs.define(auto_exc=True, repr=False, init=False, slots=False)
 class HikariWarning(RuntimeWarning):
     """Base for a warning raised by this API.
 
@@ -92,21 +85,24 @@ class HikariWarning(RuntimeWarning):
     """
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class HikariInterrupt(KeyboardInterrupt, HikariError):
     """Exception raised when a kill signal is handled internally."""
 
-    signum: int = attrs.field()
+    signum: int
     """The signal number that was raised."""
 
-    signame: str = attrs.field()
+    signame: str
     """The signal name that was raised."""
+
+    def __init__(self, *, signum: int, signame: str) -> None:
+        super().__init__()
+        self.signum = signum
+        self.signame = signame
 
     def __str__(self) -> str:
         return f"Signal {self.signum} ({self.signame}) received"
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class ComponentStateConflictError(HikariError):
     """Exception thrown when an action cannot be executed in the component's current state.
 
@@ -114,30 +110,40 @@ class ComponentStateConflictError(HikariError):
     running or haven't been started yet.
     """
 
-    reason: str = attrs.field()
+    reason: str
     """A string to explain the issue."""
+
+    def __init__(self, *, reason: str) -> None:
+        super().__init__()
+        self.reason = reason
 
     def __str__(self) -> str:
         return self.reason
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class UnrecognisedEntityError(HikariError):
     """An exception thrown when an unrecognised entity is found."""
 
-    reason: str = attrs.field()
+    reason: str
     """A string to explain the issue."""
+
+    def __init__(self, *, reason: str) -> None:
+        super().__init__()
+        self.reason = reason
 
     def __str__(self) -> str:
         return self.reason
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class GatewayError(HikariError):
     """A base exception type for anything that can be thrown by the Gateway."""
 
-    reason: str = attrs.field()
+    reason: str
     """A string to explain the issue."""
+
+    def __init__(self, *, reason: str) -> None:
+        super().__init__()
+        self.reason = reason
 
     def __str__(self) -> str:
         return self.reason
@@ -176,7 +182,6 @@ class ShardCloseCode(int, enums.Enum):
         return (self.value // 1000) == 1
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class GatewayConnectionError(GatewayError):
     """An exception thrown if a connection issue occurs."""
 
@@ -184,14 +189,13 @@ class GatewayConnectionError(GatewayError):
         return f"Failed to connect to server: {self.reason!r}"
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class GatewayServerClosedConnectionError(GatewayError):
     """An exception raised when the server closes the connection."""
 
-    code: typing.Union[ShardCloseCode, int, None] = attrs.field(default=None)
+    code: typing.Union[ShardCloseCode, int]
     """Return the close code that was received, if there is one."""
 
-    can_reconnect: bool = attrs.field(default=False)
+    can_reconnect: bool
     """Return `True` if we can recover from this closure.
 
     If `True`, it will try to reconnect after this is raised rather
@@ -200,43 +204,65 @@ class GatewayServerClosedConnectionError(GatewayError):
     user.
     """
 
+    def __init__(self, *, reason: str, code: typing.Union[ShardCloseCode, int], can_reconnect: bool) -> None:
+        super().__init__(reason=reason)
+        self.code = code
+        self.can_reconnect = can_reconnect
+
     def __str__(self) -> str:
         return f"Server closed connection with code {self.code} ({self.reason})"
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class HTTPError(HikariError):
     """Base exception raised if an HTTP error occurs while making a request."""
 
-    message: str = attrs.field()
+    message: str
     """The error message."""
 
+    def __init__(self, *, message: str) -> None:
+        super().__init__()
+        self.message = message
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
+
 class HTTPResponseError(HTTPError):
     """Base exception for an erroneous HTTP response."""
 
-    url: str = attrs.field()
+    url: str
     """The URL that produced this error message."""
 
-    status: typing.Union[http.HTTPStatus, int] = attrs.field()
+    status: typing.Union[http.HTTPStatus, int]
     """The HTTP status code for the response.
 
     This will be `int` if it's outside the range of status codes in the HTTP
     specification (e.g. one of Cloudflare's non-standard status codes).
     """
 
-    headers: data_binding.Headers = attrs.field()
+    headers: data_binding.Headers
     """The headers received in the error response."""
 
-    raw_body: typing.Any = attrs.field()
+    raw_body: typing.Any
     """The response body."""
 
-    message: str = attrs.field(default="")
-    """The error message."""
-
-    code: int = attrs.field(default=0)
+    code: int
     """The error code."""
+
+    def __init__(
+        self,
+        *,
+        url: str,
+        status: typing.Union[http.HTTPStatus, int],
+        headers: data_binding.Headers,
+        raw_body: typing.Any,
+        code: int = 0,
+        message: str = "",
+    ) -> None:
+        super().__init__(message=message)
+        self.url = url
+        self.status = status
+        self.headers = headers
+        self.raw_body = raw_body
+        self.message = message
+        self.code = code
 
     def __str__(self) -> str:
         if isinstance(self.status, http.HTTPStatus):
@@ -264,7 +290,6 @@ class HTTPResponseError(HTTPError):
         return f"{name_value}:{code_str} '{body[:200]}{'...' if chomped else ''}' for {self.url}"
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class ClientHTTPResponseError(HTTPResponseError):
     """Base exception for an erroneous HTTP response that is a client error.
 
@@ -292,14 +317,10 @@ def _dump_errors(obj: data_binding.JSONObject, obj_string: str = "") -> str:
     return string
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class BadRequestError(ClientHTTPResponseError):
     """Raised when you send an invalid request somehow."""
 
-    status: http.HTTPStatus = attrs.field(default=http.HTTPStatus.BAD_REQUEST, init=False)
-    """The HTTP status code for the response."""
-
-    errors: typing.Optional[typing.Mapping[str, data_binding.JSONObject]] = attrs.field(default=None, kw_only=True)
+    errors: typing.Optional[typing.Mapping[str, data_binding.JSONObject]]
     """Dict of top level field names to field specific error paths.
 
     For more information, this error format is loosely defined at
@@ -307,7 +328,23 @@ class BadRequestError(ClientHTTPResponseError):
     returned for 50035 errors.
     """
 
-    _cached_str: str = attrs.field(default=None, init=False)
+    _cached_str: typing.Optional[str]
+
+    def __init__(
+        self,
+        *,
+        url: str,
+        headers: data_binding.Headers,
+        raw_body: typing.Any,
+        code: int = 0,
+        message: str = "",
+        errors: typing.Optional[typing.Mapping[str, data_binding.JSONObject]] = None,
+    ) -> None:
+        super().__init__(
+            url=url, headers=headers, raw_body=raw_body, status=http.HTTPStatus.BAD_REQUEST, code=code, message=message
+        )
+        self.errors = errors
+        self._cached_str = None
 
     def __str__(self) -> str:
         if self._cached_str:
@@ -327,15 +364,17 @@ class BadRequestError(ClientHTTPResponseError):
         return value
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class UnauthorizedError(ClientHTTPResponseError):
     """Raised when you are not authorized to access a specific resource."""
 
-    status: http.HTTPStatus = attrs.field(default=http.HTTPStatus.UNAUTHORIZED, init=False)
-    """The HTTP status code for the response."""
+    def __init__(
+        self, *, url: str, headers: data_binding.Headers, raw_body: typing.Any, code: int = 0, message: str = ""
+    ) -> None:
+        super().__init__(
+            url=url, headers=headers, raw_body=raw_body, status=http.HTTPStatus.UNAUTHORIZED, code=code, message=message
+        )
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class ForbiddenError(ClientHTTPResponseError):
     """Raised when you are not allowed to access a specific resource.
 
@@ -344,19 +383,25 @@ class ForbiddenError(ClientHTTPResponseError):
     to use a specific endpoint.
     """
 
-    status: http.HTTPStatus = attrs.field(default=http.HTTPStatus.FORBIDDEN, init=False)
-    """The HTTP status code for the response."""
+    def __init__(
+        self, *, url: str, headers: data_binding.Headers, raw_body: typing.Any, code: int = 0, message: str = ""
+    ) -> None:
+        super().__init__(
+            url=url, headers=headers, raw_body=raw_body, status=http.HTTPStatus.FORBIDDEN, code=code, message=message
+        )
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class NotFoundError(ClientHTTPResponseError):
     """Raised when something is not found."""
 
-    status: http.HTTPStatus = attrs.field(default=http.HTTPStatus.NOT_FOUND, init=False)
-    """The HTTP status code for the response."""
+    def __init__(
+        self, *, url: str, headers: data_binding.Headers, raw_body: typing.Any, code: int = 0, message: str = ""
+    ) -> None:
+        super().__init__(
+            url=url, headers=headers, raw_body=raw_body, status=http.HTTPStatus.NOT_FOUND, code=code, message=message
+        )
 
 
-@attrs.define(auto_exc=True, kw_only=True, repr=False, slots=False)
 class RateLimitTooLongError(HTTPError):
     """Internal error raised if the wait for a rate limit is too long.
 
@@ -369,37 +414,50 @@ class RateLimitTooLongError(HTTPError):
     will also have this rate limit.
     """
 
-    route: routes.CompiledRoute = attrs.field()
+    route: routes.CompiledRoute
     """The route that produced this error."""
 
-    is_global: bool = attrs.field()
+    is_global: bool
     """Whether the ratelimit is global."""
 
-    retry_after: float = attrs.field()
+    retry_after: float
     """How many seconds to wait before you can retry this specific request."""
 
-    max_retry_after: float = attrs.field()
+    max_retry_after: float
     """How long the client is allowed to wait for at a maximum before raising."""
 
-    reset_at: float = attrs.field()
+    reset_at: float
     """UNIX timestamp of when this limit will be lifted."""
 
-    limit: typing.Optional[int] = attrs.field()
+    limit: typing.Optional[int]
     """The maximum number of calls per window for this rate limit, if known."""
 
-    period: typing.Optional[float] = attrs.field()
+    period: typing.Optional[float]
     """How long the rate limit window lasts for from start to end, if known."""
 
-    message: str = attrs.field(init=False)
-    """The error message."""
-
-    @message.default
-    def _(self) -> str:
-        return (
-            "The request has been rejected, as you would be waiting for more than "
-            f"the max retry-after ({self.max_retry_after}) on route '{self.route}' "
-            f"[is_global={self.is_global}]"
+    def __init__(
+        self,
+        *,
+        route: routes.CompiledRoute,
+        is_global: bool,
+        retry_after: float,
+        max_retry_after: float,
+        reset_at: float,
+        limit: typing.Optional[int],
+        period: typing.Optional[float],
+    ) -> None:
+        super().__init__(
+            message=f"The request has been rejected, as you would be waiting for more than "
+            f"the max retry-after ({max_retry_after}) on route '{route}' "
+            f"[is_global={is_global}]"
         )
+        self.route = route
+        self.is_global = is_global
+        self.retry_after = retry_after
+        self.max_retry_after = max_retry_after
+        self.reset_at = reset_at
+        self.limit = limit
+        self.period = period
 
     # This may support other types of limits in the future, this currently
     # exists to be self-documenting to the user and for future compatibility
@@ -416,7 +474,6 @@ class RateLimitTooLongError(HTTPError):
         return self.message
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class InternalServerError(HTTPResponseError):
     """Base exception for an erroneous HTTP response that is a server error.
 
@@ -425,7 +482,6 @@ class InternalServerError(HTTPResponseError):
     """
 
 
-@attrs.define(auto_exc=True, repr=False, init=False, slots=False)
 class MissingIntentWarning(HikariWarning):
     """Warning raised when subscribing to an event that cannot be fired.
 
@@ -433,7 +489,6 @@ class MissingIntentWarning(HikariWarning):
     """
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class BulkDeleteError(HikariError):
     """Exception raised when a bulk delete fails midway through a call.
 
@@ -441,19 +496,21 @@ class BulkDeleteError(HikariError):
     and will have a cause containing the initial exception.
     """
 
-    deleted_messages: snowflakes.SnowflakeishSequence[messages.PartialMessage] = attrs.field()
+    deleted_messages: snowflakes.SnowflakeishSequence[messages.PartialMessage]
     """Any message objects that were deleted before an exception occurred."""
+
+    def __init__(self, *, deleted_messages: snowflakes.SnowflakeishSequence[messages.PartialMessage]) -> None:
+        super().__init__()
+        self.deleted_messages = deleted_messages
 
     def __str__(self) -> str:
         return f"Error encountered when bulk deleting messages ({len(self.deleted_messages)} messages deleted)"
 
 
-@attrs.define(auto_exc=True, repr=False, init=False, slots=False)
 class VoiceError(HikariError):
     """Error raised when a problem occurs with the voice subsystem."""
 
 
-@attrs.define(auto_exc=True, repr=False, slots=False)
 class MissingIntentError(HikariError, ValueError):
     """Error raised when you try to perform an action without an intent.
 
@@ -461,8 +518,12 @@ class MissingIntentError(HikariError, ValueError):
     unavailable due to certain intents being disabled.
     """
 
-    intents: intents_.Intents = attrs.field()
+    intents: intents_.Intents
     """The combination of intents that are missing."""
+
+    def __init__(self, *, intents: intents_.Intents) -> None:
+        super().__init__()
+        self.deleted_messages = intents
 
     def __str__(self) -> str:
         return "You are missing the following intent(s): " + ", ".join(map(str, self.intents.split()))
