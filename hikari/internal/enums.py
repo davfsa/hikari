@@ -146,8 +146,14 @@ _Enum = NotImplemented
 
 class _EnumMeta(type):
     def __call__(cls, value: typing.Any) -> typing.Any:
-        """Cast a value to the enum, returning the raw value that was passed if value not found."""
-        return cls._value_to_member_map_.get(value, value)
+        """Cast a value to the enum.
+
+        Raises `ValueError` if item not found.
+        """
+        if member := cls._value_to_member_map_.get(value):
+            return member
+
+        raise ValueError(value)
 
     def __getitem__(cls, name: str) -> typing.Any:
         if member := getattr(cls, name, None):

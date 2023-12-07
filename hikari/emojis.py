@@ -234,8 +234,6 @@ class UnicodeEmoji(str, Emoji):
         return cls(string)
 
 
-@attrs_extensions.with_copy
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class CustomEmoji(snowflakes.Unique, Emoji):
     """Represents a custom emoji.
 
@@ -260,13 +258,13 @@ class CustomEmoji(snowflakes.Unique, Emoji):
         <https://github.com/discord/discord-api-docs/issues/1614#issuecomment-628548913>
     """
 
-    id: snowflakes.Snowflake = attrs.field(hash=True, repr=True)
+    id: snowflakes.Snowflake
     """The ID of this entity."""
 
-    name: str = attrs.field(eq=False, hash=False, repr=True)
+    name: str
     """The name of the emoji."""
 
-    is_animated: bool = attrs.field(eq=False, hash=False, repr=True)
+    is_animated: bool
     """Whether the emoji is animated."""
 
     def __str__(self) -> str:
@@ -322,7 +320,6 @@ class CustomEmoji(snowflakes.Unique, Emoji):
         raise ValueError("Expected an emoji mention")
 
 
-@attrs.define(hash=True, kw_only=True, weakref_slot=False)
 class KnownCustomEmoji(CustomEmoji):
     """Represents an emoji that is known from a guild the bot is in.
 
@@ -330,21 +327,19 @@ class KnownCustomEmoji(CustomEmoji):
     _are_ part of. As a result, it contains a lot more information with it.
     """
 
-    app: traits.RESTAware = attrs.field(
-        repr=False, eq=False, hash=False, metadata={attrs_extensions.SKIP_DEEP_COPY: True}
-    )
+    app: traits.RESTAware
     """Client application that models may use for procedures."""
 
-    guild_id: snowflakes.Snowflake = attrs.field(eq=False, hash=False, repr=False)
+    guild_id: snowflakes.Snowflake
     """The ID of the guild this emoji belongs to."""
 
-    role_ids: typing.Sequence[snowflakes.Snowflake] = attrs.field(eq=False, hash=False, repr=False)
+    role_ids: typing.Sequence[snowflakes.Snowflake]
     """The IDs of the roles that are whitelisted to use this emoji.
 
     If this is empty then any user can use this emoji regardless of their roles.
     """
 
-    user: typing.Optional[users.User] = attrs.field(eq=False, hash=False, repr=False)
+    user: typing.Optional[users.User]
     """The user that created the emoji.
 
     .. note::
@@ -352,13 +347,13 @@ class KnownCustomEmoji(CustomEmoji):
         permission in the server the emoji is from.
     """
 
-    is_colons_required: bool = attrs.field(eq=False, hash=False, repr=False)
+    is_colons_required: bool
     """Whether this emoji must be wrapped in colons."""
 
-    is_managed: bool = attrs.field(eq=False, hash=False, repr=False)
+    is_managed: bool
     """Whether the emoji is managed by an integration."""
 
-    is_available: bool = attrs.field(eq=False, hash=False, repr=False)
+    is_available: bool
     """Whether this emoji can currently be used.
 
     May be `False` due to a loss of Sever Boosts on the emoji's guild.
