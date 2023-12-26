@@ -4,12 +4,9 @@
 #
 #    pip-compile-cross-platform dev-requirements/pyright.in --output-file dev-requirements/pyright.txt --min-python-version 3.9,<=3.12
 #
-nodeenv==1.8.0 ; python_version >= "3.9" and python_full_version <= "3.12.0" \
+nodeenv==1.8.0 \
     --hash=sha256:d51e0c37e64fbf47d017feac3145cdbb58836d7eee8c6f6d3b6880c5456227d2 \
     --hash=sha256:df865724bb3c3adc86b3876fa209771517b0cfe596beff01a92700e0e8be4cec
-pyright==1.1.329 ; python_version >= "3.9" and python_full_version <= "3.12.0" \
-    --hash=sha256:5baf82ff5ecb8c8b3ac400e8536348efbde0b94a09d83d5b440c0d143fd151a8 \
-    --hash=sha256:c16f88a7ac14ddd0513e62fec56d69c37e3c6b412161ad16aa23a9c7e3dabaf4
-setuptools==68.2.2 ; python_version >= "3.9" and python_full_version <= "3.12.0" \
-    --hash=sha256:4ac1475276d2f1c48684874089fefcd83bd7162ddaafb81fac866ba0db282a87 \
-    --hash=sha256:b454a35605876da60632df1a60f736524eb73cc47bbc9f3f1ef1b644de74fd2a
+pyright==1.1.343 \
+    --hash=sha256:75a0d24e8227328198bdfa1f4904ce66b78c2bacf49c269d9e6e3b174b026225 \
+    --hash=sha256:871e122d74003e8e5fddb17867220b06ee892de61fa967ca7ca031acdc176738
