@@ -1,0 +1,119 @@
+site_name: hikari
+site_url: https://docs.hikari-py.dev/
+site_dir: public/docs
+
+repo_url: https://github.com/hikari-py/hikari/
+repo_name: hikari-py/hikari
+edit_uri: blob/master/docs/
+
+watch: [ hikari, README.md, CHANGELOG.md ]
+copyright: © 2021-present davfsa
+
+theme:
+  name: material
+  logo: https://hikari-py.dev/logo.png
+  favicon: https://hikari-py.dev/logo.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+  features:
+    - content.code.annotate
+    - navigation.top
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes
+    - search.share
+    - search.suggest
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  # MathJax
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: "#"
+  - markdown_include.include:
+      base_path: .
+
+  # Python Markdown Extensions
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_pages.py
+  - literate-nav:
+      nav_file: summary.md
+  - mkdocstrings:
+      enabled: !ENV [ENABLE_MKDOCSTRINGS, true]
+      enable_inventory: true
+      handlers:
+        python:
+          import:
+            - https://docs.python.org/3/objects.inv
+            - https://docs.aiohttp.org/en/stable/objects.inv
+            - https://www.attrs.org/en/stable/objects.inv
+            - https://multidict.readthedocs.io/en/stable/objects.inv
+            - https://yarl.readthedocs.io/en/stable/objects.inv
+          options:
+            filters: ["!^_"]
+            docstring_style: numpy
+            inherited_members: true
+            merge_init_into_class: true
+            separate_signature: true
+            docstring_section_style: spacy
+            show_signature_annotations: true
+            show_source: false
+            show_root_toc_entry: false
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            line_length: 70
+            extensions:
+              - griffe_inherited_docstrings

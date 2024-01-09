@@ -101,7 +101,7 @@ class EmbedResourceWithProxy(EmbedResource):
     proxy_resource: typing.Optional[files.Resource[files.AsyncReader]] = attrs.field(default=None, repr=False)
     """The proxied version of the resource, or `None` if not present.
 
-    .. note::
+    !!! note
         This field cannot be set by bots or webhooks while sending an embed
         and will be ignored during serialization. Expect this to be
         populated on any received embed attached to a message event.
@@ -141,7 +141,7 @@ class EmbedImage(EmbedResourceWithProxy):
     height: typing.Optional[int] = attrs.field(default=None, repr=False)
     """The height of the image, if present and known, otherwise `None`.
 
-    .. note::
+    !!! note
         This field cannot be set by bots or webhooks while sending an embed and
         will be ignored during serialization. Expect this to be populated on
         any received embed attached to a message event.
@@ -150,7 +150,7 @@ class EmbedImage(EmbedResourceWithProxy):
     width: typing.Optional[int] = attrs.field(default=None, repr=False)
     """The width of the image, if present and known, otherwise `None`.
 
-    .. note::
+    !!! note
         This field cannot be set by bots or webhooks while sending an embed and
         will be ignored during serialization. Expect this to be populated on
         any received embed attached to a message event.
@@ -161,7 +161,7 @@ class EmbedImage(EmbedResourceWithProxy):
 class EmbedVideo(EmbedResourceWithProxy):
     """Represents an embed video.
 
-    .. note::
+    !!! note
         This object cannot be set by bots or webhooks while sending an embed and
         will be ignored during serialization. Expect this to be populated on
         any received embed attached to a message event with a video attached.
@@ -182,7 +182,7 @@ class EmbedVideo(EmbedResourceWithProxy):
 class EmbedProvider:
     """Represents an embed provider.
 
-    .. note::
+    !!! note
         This object cannot be set by bots or webhooks while sending an embed and
         will be ignored during serialization. Expect this to be populated on
         any received embed attached to a message event provided by an external
@@ -289,7 +289,7 @@ class Embed:
     ) -> Embed:
         """Generate an embed from the given attributes.
 
-        .. warning::
+        !!! warning
             **This function is for internal use only!**
         """
         # Create an empty instance without the overhead of invoking the regular
@@ -416,7 +416,7 @@ class Embed:
 
         This will be `None` if not set.
 
-        .. warning::
+        !!! warning
             Setting a non-timezone-aware datetime will result in a warning
             being raised. This is done due to potential confusion caused by
             Discord requiring a UTC timestamp for this field. Any non-timezone
@@ -427,15 +427,15 @@ class Embed:
             To generate a timezone aware timestamp, use one of the following
             snippets:
 
-            .. code-block:: python
+            ```py
+            # Use UTC.
+            >>> datetime.datetime.now(tz=datetime.timezone.utc)
+            datetime.datetime(2020, 6, 5, 18, 29, 56, 424744, tzinfo=datetime.timezone.utc)
 
-                # Use UTC.
-                >>> datetime.datetime.now(tz=datetime.timezone.utc)
-                datetime.datetime(2020, 6, 5, 18, 29, 56, 424744, tzinfo=datetime.timezone.utc)
-
-                # Use your current timezone.
-                >>> datetime.datetime.now().astimezone()
-                datetime.datetime(2020, 7, 7, 8, 57, 9, 775328, tzinfo=..., 'BST'))
+            # Use your current timezone.
+            >>> datetime.datetime.now().astimezone()
+            datetime.datetime(2020, 7, 7, 8, 57, 9, 775328, tzinfo=..., 'BST'))
+            ```
 
             By specifying a timezone, Hikari can automatically adjust the given
             time to UTC without you needing to think about it.
@@ -444,30 +444,31 @@ class Embed:
             one by specifying a timezone. Hikari will detect any difference in
             timezone if the timestamp is non timezone-naive and fix it for you:
 
-            .. code-block:: python
+            ```py
+            # I am British, and it is June, so we are in daylight saving
+            # (UTC+1 or GMT+1, specifically).
+            >>> import datetime
 
-                # I am British, and it is June, so we are in daylight saving
-                # (UTC+1 or GMT+1, specifically).
-                >>> import datetime
+            # This is timezone naive, notice no timezone in the repr that
+            # gets printed. This is no good to us, as Discord will interpret it
+            # as being in the future!
+            >>> datetime.datetime.now()
+            datetime.datetime(2020, 6, 5, 19, 29, 48, 281716)
 
-                # This is timezone naive, notice no timezone in the repr that
-                # gets printed. This is no good to us, as Discord will interpret it
-                # as being in the future!
-                >>> datetime.datetime.now()
-                datetime.datetime(2020, 6, 5, 19, 29, 48, 281716)
+            # Instead, this is a timezone-aware timestamp, and we can use this
+            # correctly. This will always return the current time in UTC.
+            >>> datetime.datetime.now(tz=datetime.timezone.utc)
+            datetime.datetime(2020, 6, 5, 18, 29, 56, 424744, tzinfo=datetime.timezone.utc)
 
-                # Instead, this is a timezone-aware timestamp, and we can use this
-                # correctly. This will always return the current time in UTC.
-                >>> datetime.datetime.now(tz=datetime.timezone.utc)
-                datetime.datetime(2020, 6, 5, 18, 29, 56, 424744, tzinfo=datetime.timezone.utc)
+            # We could instead use a custom timezone. Since the timezone is
+            # explicitly specified, Hikari will convert it to UTC for you when
+            # you send the embed.
+            >>> ...
+            ```
 
-                # We could instead use a custom timezone. Since the timezone is
-                # explicitly specified, Hikari will convert it to UTC for you when
-                # you send the embed.
-                >>> ...
-
-            A library on PyPI called [tzlocal](...) also exists that may be useful
-            to you if you need to get your local timezone for any reason:
+            A library on PyPI called [tzlocal](https://pypi.org/project/tzlocal/)
+            also exists that may be useful to you if you need to get your local
+            timezone for any reason:
 
             .. code-block:: python
 
@@ -545,7 +546,7 @@ class Embed:
 
         Will be `None` if not set.
 
-        .. note::
+        !!! note
             Use `set_image` to update this value.
         """
         return self._image
@@ -556,7 +557,7 @@ class Embed:
 
         Will be `None` if not set.
 
-        .. note::
+        !!! note
             Use `set_thumbnail` to update this value.
         """
         return self._thumbnail
@@ -567,7 +568,7 @@ class Embed:
 
         Will be `None` if not set.
 
-        .. note::
+        !!! note
             This object cannot be set by bots or webhooks while sending an embed
             and will be ignored during serialization. Expect this to be
             populated on any received embed attached to a message event with a
@@ -581,7 +582,7 @@ class Embed:
 
         Will be `None` if not set.
 
-        .. note::
+        !!! note
             This object cannot be set by bots or webhooks while sending an embed
             and will be ignored during serialization. Expect this to be
             populated on any received embed attached to a message event with a
@@ -595,7 +596,7 @@ class Embed:
 
         Will be `None` if not set.
 
-        .. note::
+        !!! note
             Use `set_author` to update this value.
         """
         return self._author
@@ -604,7 +605,7 @@ class Embed:
     def fields(self) -> typing.Sequence[EmbedField]:
         """Return the sequence of fields in the embed.
 
-        .. note::
+        !!! note
             Use `add_field` to add a new field, `edit_field` to edit an existing
             field, or `remove_field` to remove a field.
         """

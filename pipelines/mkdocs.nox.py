@@ -21,38 +21,27 @@
 # SOFTWARE.
 """Website pages generation."""
 import contextlib
-import functools
 import http.server
 import logging
-import os
-import socket
 import threading
+import socket
 import webbrowser
 
-from pipelines import config
 from pipelines import nox
+from pipelines import config
 
 
-@nox.session()
-def sphinx(session: nox.Session):
-    """Generate docs using sphinx."""
-    if "--no-refs" in session.posargs:
-        session.env["SKIP_REFERENCE_DOCS"] = "1"
+@nox.session(reuse_venv=True)
+def mkdocs(session: nox.Session) -> None:
+    """Start an HTTP server for any generated pages in `/public/docs/dirhtml`."""
+    session.install("-e", ".", *nox.dev_requirements("formatting", "mkdocs"))
 
-    if not os.path.exists(config.ARTIFACT_DIRECTORY):
-        os.mkdir(config.ARTIFACT_DIRECTORY)
-
-    session.install("-e", ".", *nox.dev_requirements("sphinx"))
-
-    session.run(
-        "sphinx-build", "-M", "dirhtml", config.DOCUMENTATION_DIRECTORY, os.path.join(config.ARTIFACT_DIRECTORY, "docs")
-    )
+    session.run("mkdocs", "build", "-d", config.DOCUMENTATION_OUTPUT_PATH)
 
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        directory = os.path.join(config.ARTIFACT_DIRECTORY, "docs", "dirhtml")
-        super().__init__(directory=directory, *args, **kwargs)
+        super().__init__(directory=config.DOCUMENTATION_OUTPUT_PATH, *args, **kwargs)
 
     def end_headers(self):
         self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")

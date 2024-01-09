@@ -3,4 +3,4 @@ hide:
   - navigation
 ---
 
-{!README.md!}
+{!CHANGELOG.md!}
