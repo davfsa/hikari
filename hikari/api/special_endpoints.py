@@ -121,7 +121,7 @@ class GuildBuilder(abc.ABC):
     and detailed.
 
     !!! note
-        If you call [add_role][], the default roles provided by Discord will
+        If you call [hikari.api.special_endpoints.GuildBuilder.add_role][], the default roles provided by Discord will
         be created. This also applies to the `add_` functions for
         text channels/voice channels/categories.
 
@@ -561,7 +561,7 @@ class InteractionDeferredBuilder(InteractionResponseBuilder, abc.ABC):
         !!! note
             As of writing the only message flags which can be set here are
             [hikari.messages.MessageFlag.EPHEMERAL][], [hikari.messages.MessageFlag.SUPPRESS_NOTIFICATIONS][]
-            and [hikari.messages.MessageFlag.SUPRESS_EMBEDS][].
+            and [hikari.messages.MessageFlag.SUPPRESS_EMBEDS][].
         """
 
     @abc.abstractmethod
@@ -571,7 +571,7 @@ class InteractionDeferredBuilder(InteractionResponseBuilder, abc.ABC):
         !!! note
             As of writing, the only message flags which can be set are [hikari.messages.MessageFlag.EPHEMERAL][]
             [hikari.messages.MessageFlag.SUPPRESS_NOTIFICATIONS][] and
-            [hikari.messages.MessageFlag.SUPRESS_EMBEDS][].
+            [hikari.messages.MessageFlag.SUPPRESS_EMBEDS][].
 
         Parameters
         ----------
@@ -707,7 +707,7 @@ class InteractionMessageBuilder(InteractionResponseBuilder, abc.ABC):
             As of writing the only message flags which can be set here are
             [hikari.messages.MessageFlag.EPHEMERAL][],
             [hikari.messages.MessageFlag.SUPPRESS_NOTIFICATIONS][]
-            and [hikari.messages.MessageFlag.SUPRESS_EMBEDS][].
+            and [hikari.messages.MessageFlag.SUPPRESS_EMBEDS][].
         """
 
     @property
@@ -1612,7 +1612,7 @@ class SelectMenuBuilder(ComponentBuilder, abc.ABC):
         """Minimum number of options which must be chosen.
 
         Defaults to 1.
-        Must be less than or equal to [SelectMenuBuilder.max_values][] and greater
+        Must be less than or equal to [hikari.api.special_endpoints.SelectMenuBuilder.max_values][] and greater
         than or equal to 0.
         """
 
@@ -1622,7 +1622,7 @@ class SelectMenuBuilder(ComponentBuilder, abc.ABC):
         """Maximum number of options which can be chosen.
 
         Defaults to 1.
-        Must be greater than or equal to [SelectMenuBuilder.min_values][] and
+        Must be greater than or equal to [hikari.api.special_endpoints.SelectMenuBuilder.min_values][] and
         less than or equal to 25.
         """
 
@@ -1678,7 +1678,7 @@ class SelectMenuBuilder(ComponentBuilder, abc.ABC):
 
         !!! note
             This defaults to 1 if not set and must be greater than or equal to 0
-            and less than or equal to [SelectMenuBuilder.max_values][].
+            and less than or equal to [hikari.api.special_endpoints.SelectMenuBuilder.max_values][].
 
         Parameters
         ----------
@@ -1697,7 +1697,7 @@ class SelectMenuBuilder(ComponentBuilder, abc.ABC):
 
         !!! note
             This defaults to 1 if not set and must be less than or equal to 25
-            and greater than or equal to [SelectMenuBuilder.min_values][].
+            and greater than or equal to [hikari.api.special_endpoints.SelectMenuBuilder.min_values][].
 
         Parameters
         ----------
@@ -2187,9 +2187,9 @@ class MessageActionRowBuilder(ComponentBuilder, abc.ABC):
         TextSelectMenuBuilder
             The text select menu builder.
 
-            [TextSelectMenuBuilder.add_option][] should be called to add
+            [hikari.api.special_endpoints.TextSelectMenuBuilder.add_option][] should be called to add
             options to the returned builder then
-            [TextSelectMenuBuilder.parent][] can be used to return to this
+            [hikari.api.special_endpoints.TextSelectMenuBuilder.parent][] can be used to return to this
             action row while chaining calls.
 
         Raises

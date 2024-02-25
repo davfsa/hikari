@@ -169,8 +169,8 @@ def ensure_resource(url_or_resource: Resourceish, /) -> Resource[AsyncReader]:
     Parameters
     ----------
     url_or_resource : Resourceish
-        The item to convert. If a [Resource][] is passed, it is
-        simply returned again. Anything else is converted to a [Resource][] first.
+        The item to convert. If a [hikari.files.Resource][] is passed, it is
+        simply returned again. Anything else is converted to a [hikari.files.Resource][] first.
 
     Returns
     -------
@@ -668,7 +668,7 @@ class WebResource(Resource[WebReader], abc.ABC):
     The logic for identifying this resource is left to each implementation
     to define.
 
-    For a usable concrete implementation, use [URL][] instead.
+    For a usable concrete implementation, use [hikari.files.URL][] instead.
 
         Some components may choose to not upload this resource directly and
         instead simply refer to the URL as needed. The main place this will
@@ -1145,7 +1145,7 @@ class Bytes(Resource[IteratorReader]):
         Returns
         -------
         Bytes
-            The parsed data URI as a [Bytes][] object.
+            The parsed data URI as a [hikari.files.Bytes][] object.
 
         Raises
         ------

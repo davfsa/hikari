@@ -64,7 +64,7 @@ to respond.
 
 
 class Response(typing.Protocol):
-    """Protocol of the data returned by [InteractionServer.on_interaction][].
+    """Protocol of the data returned by [hikari.api.interaction_server.InteractionServer.on_interaction][].
 
     This is used to instruct lower-level REST server logic on how it should
     respond.

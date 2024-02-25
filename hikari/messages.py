@@ -389,7 +389,7 @@ class PartialMessage(snowflakes.Unique):
     """A message representation containing partially populated information.
 
     This contains arbitrary fields that may be updated in a
-    [MessageUpdateEvent][], but for all other purposes should be treated as
+    [hikari.events.message_events.MessageUpdateEvent][], but for all other purposes should be treated as
     being optionally specified.
 
     !!! warning
@@ -555,9 +555,9 @@ class PartialMessage(snowflakes.Unique):
     referenced_message: undefined.UndefinedNoneOr[PartialMessage] = attrs.field(hash=False, eq=False, repr=False)
     """The message that was replied to.
 
-    If `type` is [MessageType.REPLY][] and [hikari.undefined.UNDEFINED][], Discord's
+    If `type` is [hikari.messages.MessageType.REPLY][] and [hikari.undefined.UNDEFINED][], Discord's
     backend didn't attempt to fetch the message, so the status is unknown. If
-    `type` is [MessageType.REPLY][] and [None][], the message was deleted.
+    `type` is [hikari.messages.MessageType.REPLY][] and [None][], the message was deleted.
     """
 
     interaction: undefined.UndefinedNoneOr[MessageInteraction] = attrs.field(hash=False, eq=False, repr=False)
@@ -679,7 +679,7 @@ class PartialMessage(snowflakes.Unique):
             Object or ID of the guild this message is in or [None][]
             to generate a DM message link.
 
-            This parameter is necessary since [PartialMessage.guild_id][]
+            This parameter is necessary since [hikari.messages.PartialMessage.guild_id][]
             isn't returned by the REST API regardless of whether the message
             is in a DM or not.
 
