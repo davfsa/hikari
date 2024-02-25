@@ -250,7 +250,7 @@ class Cache(abc.ABC):
     def get_unavailable_guild(
         self, guild: snowflakes.SnowflakeishOr[guilds.PartialGuild], /
     ) -> typing.Optional[guilds.GatewayGuild]:
-        """Get the object of a unavailable guild from the cache.
+        """Get the object of an unavailable guild from the cache.
 
         !!! note
             Unlike [Cache.get_available_guild][], the objects returned by this
