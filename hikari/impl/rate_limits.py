@@ -187,7 +187,7 @@ class ManualRateLimiter(BurstRateLimiter):
         """Perform the throttling rate limiter logic.
 
         Iterates repeatedly while the queue is not empty, adhering to any
-        rate limits that occur in the mean time.
+        rate limits that occur in the meantime.
 
         !!! note
             This will invoke [ManualRateLimiter.unlock_later][] as a scheduled
