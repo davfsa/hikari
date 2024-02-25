@@ -108,7 +108,7 @@ easily begin to re-ratelimit itself if needed. Once the task is complete, it
 tidies itself up and disposes of itself. This task will complete once the queue
 becomes empty.
 
-The result of [hikari.impl.buckets.RESTBucketManager.acquire][] is an async
+The result of [hikari.impl.buckets.RESTBucketManager.acquire_bucket][] is an async
 context manager that must be acquired during the entirety of the request and
 released once it is done (in reality, it is just a
 [hikari.impl.buckets.RESTBucket][], but we want the ratelimit update to be
