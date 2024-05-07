@@ -22,12 +22,76 @@
 requires = ["wheel", "setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.black]
+########
+# RUFF #
+########
+[tool.ruff]
 line-length = 120
-include = ".*pyi?$"
-skip-magic-trailing-comma = true
-target-version = ["py38"]
+target-version = "py38"
 
+[tool.ruff.lint]
+# See https://docs.astral.sh/ruff/rules/ for more insightful explanations
+select = [
+    "F", "E", "W", "C90", "I", "N", "UP", "YTT", "ANN", "ASYNC", "S", "BLE", "FBT", "B", "A", "COM", "C4",
+    "DTZ", "T10", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "Q", "RSE", "RET", "SLF", "SIM",
+    "TID", "TCH", "ARG", "ERA", "PGH", "PL", "TRY", "FLY", "PERF", "FURB", "LOG", "RUF", "EM",
+    # D - disable temporarily
+    # FIX, TD
+]
+ignore = [
+    "ANN101",
+    "ANN102",
+    "D107",
+    "D104",
+    "D203", # D211 is preffered
+    "D213", # D212 is preffered
+    "COM812", # Conflicts with ruff formatting
+    "PLW1514", # Conflicts with ruff formatting
+    "ISC001", # Conflicts with ruff formatting
+    "S101", # Used for performant typechecks
+]
+exclude = [ "tests/*", "scripts/*", "setup.py", "pipelines/*"]
+pyupgrade.keep-runtime-typing = true
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN001", "ANN201", "S105", "S106", "UP026", "PLR2004", "N802"]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+force-single-line = true
+split-on-trailing-comma = false
+
+[tool.ruff.format]
+line-ending = "lf"
+skip-magic-trailing-comma = true
+
+##########
+# PYTEST #
+##########
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+xfail_strict = true
+norecursedirs = [
+    "docs",
+    "*.egg-info",
+    ".git",
+    "tasks",
+    ".nox",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    "public",
+    "ci",
+]
+filterwarnings = [
+    "error", # Treat warnings as errors
+    "ignore:.*assertions not in test modules or plugins will be ignored .*:pytest.PytestConfigWarning",
+]
+required_plugins = ["pytest-asyncio"]
+
+############
+# COVERAGE #
+############
 [tool.coverage.run]
 relative_files = true
 parallel = true
@@ -60,46 +124,9 @@ exclude_lines = [
     "^\\s*if not typing.TYPE_CHECKING:$",
 ]
 
-[tool.pyright]
-include = ["hikari", "examples"]
-exclude = ["examples/simple_dashboard.py", "**/__init__.py", "hikari/internal/enums.py", "hikari/internal/fast_protocol.py"]
-pythonVersion = "3.8"
-typeCheckingMode = "strict"
-
-reportUnnecessaryTypeIgnoreComment = "error"
-reportMissingTypeStubs = "none"
-reportImportCycles = "none" # Doesn't account for TYPE_CHECKING
-reportIncompatibleMethodOverride = "none"  # This relies on ordering for keyword-only arguments
-reportOverlappingOverload = "none" # Type-Vars in last overloads may interfere
-reportIncompatibleVariableOverride = "none" # Cannot overwrite abstract properties using attrs
-
-# Attrs validators will always be unknown
-# https://github.com/python-attrs/attrs/issues/795
-reportUnknownMemberType = "warning"
-reportUntypedFunctionDecorator = "warning"
-reportOptionalMemberAccess = "warning"
-
-[tool.pytest.ini_options]
-asyncio_mode = "strict"
-xfail_strict = true
-norecursedirs = [
-    "docs",
-    "*.egg-info",
-    ".git",
-    "tasks",
-    ".nox",
-    ".pytest_cache",
-    ".venv",
-    "venv",
-    "public",
-    "ci",
-]
-filterwarnings = [
-    "error", # Treat warnings as errors
-    "ignore:.*assertions not in test modules or plugins will be ignored .*:pytest.PytestConfigWarning",
-]
-required_plugins = ["pytest-asyncio"]
-
+#############
+# TOWNCRIER #
+#############
 [tool.towncrier]
 package = "hikari"
 package_dir = "hikari"
@@ -117,11 +144,9 @@ type = [
     { name = "Documentation Improvements",  directory = "documentation", showcontent = true },
 ]
 
-[tool.isort]
-profile = "black"
-force_single_line = true
-skip_glob = "**/__init__.pyi"
-
+########
+# MYPY #
+########
 [tool.mypy]
 # general settings
 strict = true
@@ -165,3 +190,25 @@ exclude-classes = """
     ^hikari\\.internal\\.enums:(Enum|Flag|_EnumMeta|_FlagMeta)$
 )
 """
+
+###########
+# PYRIGHT #
+###########
+[tool.pyright]
+include = ["hikari", "examples"]
+exclude = ["examples/simple_dashboard.py", "**/__init__.py", "hikari/internal/enums.py", "hikari/internal/fast_protocol.py"]
+pythonVersion = "3.8"
+typeCheckingMode = "strict"
+
+reportUnnecessaryTypeIgnoreComment = "error"
+reportMissingTypeStubs = "none"
+reportImportCycles = "none" # Doesn't account for TYPE_CHECKING
+reportIncompatibleMethodOverride = "none"  # This relies on ordering for keyword-only arguments
+reportOverlappingOverload = "none" # Type-Vars in last overloads may interfere
+reportIncompatibleVariableOverride = "none" # Cannot overwrite abstract properties using attrs
+
+# Attrs validators will always be unknown
+# https://github.com/python-attrs/attrs/issues/795
+reportUnknownMemberType = "warning"
+reportUntypedFunctionDecorator = "warning"
+reportOptionalMemberAccess = "warning"

@@ -591,10 +591,7 @@ class User(PartialUser, abc.ABC):
             return None
 
         if ext is None:
-            if self.avatar_hash.startswith("a_"):
-                ext = "gif"
-            else:
-                ext = "png"
+            ext = "gif" if self.avatar_hash.startswith("a_") else "png"
 
         return routes.CDN_USER_AVATAR.compile_to_file(
             urls.CDN_URL, user_id=self.id, hash=self.avatar_hash, size=size, file_format=ext
