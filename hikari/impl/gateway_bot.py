@@ -1284,6 +1284,7 @@ class GatewayBot(traits.GatewayBotAware):
             shard_count=shard_count,
             token=self._token,
             url=url,
+            compression=None,
         )
         try:
             start = time.monotonic()
