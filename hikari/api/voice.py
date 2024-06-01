@@ -143,7 +143,7 @@ class VoiceConnection(abc.ABC):
     for example.
     """
 
-    __slots__: typing.Sequence[str] = ()
+    __slots__: typing.Sequence[str] = ("_channel_id", "_guild_id", "_shard_id")
 
     @classmethod
     @abc.abstractmethod
@@ -152,7 +152,6 @@ class VoiceConnection(abc.ABC):
         channel_id: snowflakes.Snowflake,
         endpoint: str,
         guild_id: snowflakes.Snowflake,
-        on_close: typing.Callable[[Self], typing.Awaitable[None]],
         owner: VoiceComponent,
         session_id: str,
         shard_id: int,
@@ -173,9 +172,6 @@ class VoiceConnection(abc.ABC):
             provide the wrong information four years later).
         guild_id
             The guild ID that the websocket should connect to.
-        on_close
-            A shutdown hook to invoke when closing a connection to ensure the
-            connection is unregistered from the voice component safely.
         owner
             The component that made this connection object.
         session_id
@@ -197,38 +193,29 @@ class VoiceConnection(abc.ABC):
             The type of this connection object.
         """
 
+    def __init__(self, channel_id: snowflakes.Snowflake, guild_id: snowflakes.Snowflake, shard_id: int) -> None:
+        self._channel_id = channel_id
+        self._guild_id = guild_id
+        self._shard_id = shard_id
+
     @property
-    @abc.abstractmethod
     def channel_id(self) -> snowflakes.Snowflake:
         """ID of the voice channel this voice connection is in."""
+        return self._channel_id
 
     @property
-    @abc.abstractmethod
     def guild_id(self) -> snowflakes.Snowflake:
         """ID of the guild this voice connection is in."""
+        return self._guild_id
 
     @property
-    @abc.abstractmethod
-    def is_alive(self) -> bool:
-        """Whether the connection is alive."""
-
-    @property
-    @abc.abstractmethod
     def shard_id(self) -> int:
         """ID of the shard that requested the connection."""
-
-    @property
-    @abc.abstractmethod
-    def owner(self) -> VoiceComponent:
-        """Return the component that is managing this connection."""
+        return self._shard_id
 
     @abc.abstractmethod
     async def disconnect(self) -> None:
         """Signal the process to shut down."""
-
-    @abc.abstractmethod
-    async def join(self) -> None:
-        """Wait for the process to halt before continuing."""
 
     @abc.abstractmethod
     async def notify(self, event: voice_events.VoiceEvent) -> None:

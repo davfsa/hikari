@@ -61,18 +61,19 @@ class VoiceComponentImpl(voice.VoiceComponent):
         "_is_alive",
         "_is_closing",
         "_voice_listener",
+        "_own_user_id",
     )
 
-    _connections: typing.Dict[snowflakes.Snowflake, voice.VoiceConnection]
     connections: typing.Mapping[snowflakes.Snowflake, voice.VoiceConnection]
 
     def __init__(self, app: traits.GatewayBotAware) -> None:
         self._app = app
-        self._connections = {}
+        self._connections: typing.Dict[snowflakes.Snowflake, voice.VoiceConnection] = {}
         self.connections = types.MappingProxyType(self._connections)
         self._is_alive = False
         self._is_closing = False
         self._voice_listener = False
+        self._own_user_id = None
 
     @property
     def is_alive(self) -> bool:
@@ -92,15 +93,10 @@ class VoiceComponentImpl(voice.VoiceComponent):
         if guild_id not in self._connections:
             raise errors.VoiceError("This application doesn't have any active voice connection in this server")
 
-        conn = self._connections[guild_id]
-        # We rely on the assumption that _on_connection_close will be called here rather than explicitly
-        # to remove the connection from self._connections.
-        await conn.disconnect()
+        await self._close_connection(self._connections[guild_id])
 
     async def _disconnect_all(self) -> None:
-        # We rely on the assumption that _on_connection_close will be called here rather than explicitly
-        # emptying self._connections.
-        await asyncio.gather(*(c.disconnect() for c in self._connections.values()))
+        await asyncio.gather(*(self._close_connection(c) for c in self._connections.values()))
 
     async def disconnect_all(self) -> None:
         self._check_if_alive()
@@ -138,15 +134,20 @@ class VoiceComponentImpl(voice.VoiceComponent):
         deaf: bool = False,
         mute: bool = False,
         timeout: typing.Optional[int] = 5,
+        disconnect_existing: bool = False,
         **kwargs: typing.Any,
     ) -> _VoiceConnectionT:
         self._check_if_alive()
         guild_id = snowflakes.Snowflake(guild)
 
         if guild_id in self._connections:
-            raise errors.VoiceError(
-                "Already in a voice channel for that guild. Disconnect before attempting to connect again"
-            )
+            if not disconnect_existing:
+                raise errors.VoiceError(
+                    "Already in a voice channel for that guild. Disconnect before attempting to connect again"
+                )
+
+            # Close existing connection
+            await self._close_connection(self._connections[guild_id])
 
         shard_id = snowflakes.calculate_shard_id(self._app, guild_id)
         try:
@@ -156,10 +157,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
                 f"Cannot connect to shard {shard_id} as it is not present in this application"
             ) from None
 
-        user = self._app.cache.get_me()
-        if not user:
-            user = await self._app.rest.fetch_my_user()
-
+        user_id = shard.get_user_id()
         _LOGGER.log(ux.TRACE, "attempting to connect to voice channel %s in %s via shard %s", channel, guild, shard_id)
 
         await shard.update_voice_state(guild, channel, self_deaf=deaf, self_mute=mute)
@@ -178,7 +176,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
                 self._app.event_manager.wait_for(
                     voice_events.VoiceStateUpdateEvent,
                     timeout=timeout,
-                    predicate=self._init_state_update_predicate(guild_id, user.id),
+                    predicate=self._init_state_update_predicate(guild_id, user_id),
                 ),
                 # Server update:
                 self._app.event_manager.wait_for(
@@ -190,7 +188,7 @@ class VoiceComponentImpl(voice.VoiceComponent):
         except asyncio.TimeoutError as e:
             raise errors.VoiceError(f"Could not connect to voice channel {channel} in guild {guild}.") from e
 
-        # We will never receive the first endpoint as [`None`][]
+        # We will never receive the first endpoint as None
         assert server_event.endpoint is not None
 
         _LOGGER.debug(
@@ -208,12 +206,11 @@ class VoiceComponentImpl(voice.VoiceComponent):
                 channel_id=snowflakes.Snowflake(channel),
                 endpoint=server_event.endpoint,
                 guild_id=guild_id,
-                on_close=self._on_connection_close,
                 owner=self,
                 session_id=state_event.state.session_id,
                 shard_id=shard_id,
                 token=server_event.token,
-                user_id=user.id,
+                user_id=user_id,
                 **kwargs,
             )
         except Exception:
@@ -250,31 +247,25 @@ class VoiceComponentImpl(voice.VoiceComponent):
 
         return predicate
 
-    async def _on_connection_close(self, connection: voice.VoiceConnection) -> None:
-        try:
-            del self._connections[connection.guild_id]
+    async def _close_connection(self, connection: voice.VoiceConnection) -> None:
+        await connection.disconnect()
 
-            if not self._connections:
-                self._app.event_manager.unsubscribe(voice_events.VoiceEvent, self._on_voice_event)
-                self._voice_listener = False
+        del self._connections[connection.guild_id]
 
-            # Leave the voice channel explicitly, otherwise we will just appear to
-            # not leave properly.
-            await self._app.shards[connection.shard_id].update_voice_state(guild=connection.guild_id, channel=None)
+        if not self._connections:
+            self._app.event_manager.unsubscribe(voice_events.VoiceEvent, self._on_voice_event)
+            self._voice_listener = False
 
-            _LOGGER.debug(
-                "successfully unregistered voice connection %s to guild %s and left voice channel %s",
-                connection,
-                connection.guild_id,
-                connection.channel_id,
-            )
+        # Leave the voice channel explicitly, otherwise we will just appear to
+        # not leave properly.
+        await self._app.shards[connection.shard_id].update_voice_state(guild=connection.guild_id, channel=None)
 
-        except KeyError:
-            _LOGGER.warning(
-                "ignored closure of phantom unregistered voice connection %s to guild %s. Perhaps this is a bug?",
-                connection,
-                connection.guild_id,
-            )
+        _LOGGER.debug(
+            "successfully unregistered voice connection %s to guild %s and left voice channel %s",
+            connection,
+            connection.guild_id,
+            connection.channel_id,
+        )
 
     async def _on_voice_event(self, event: voice_events.VoiceEvent) -> None:
         if event.guild_id in self._connections:

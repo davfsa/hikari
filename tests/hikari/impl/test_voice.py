@@ -347,7 +347,7 @@ class TestVoiceComponentImpl:
             voice_client._connections[123] = mock_connection
             expected_connections[123] = mock_connection
 
-        await voice_client._on_connection_close(mock.Mock(guild_id=65234123, shard_id=69))
+        await voice_client._close_connection(mock.Mock(guild_id=65234123, shard_id=69))
 
         if more_connections:
             mock_app.event_manager.unsubscribe.assert_not_called()
@@ -388,7 +388,7 @@ class TestVoiceComponentImpl:
         connections = {123132: object(), 65234234: object()}
         voice_client._connections = connections.copy()
 
-        await voice_client._on_connection_close(mock.Mock(guild_id=-1))
+        await voice_client._close_connection(mock.Mock(guild_id=-1))
 
         assert voice_client._connections == connections
 
