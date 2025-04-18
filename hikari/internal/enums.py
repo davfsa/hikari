@@ -18,7 +18,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-# FIXME: Rewrite
 """Implementation of parts of Python's [`enum`][] protocol to be more performant."""
 
 from __future__ import annotations
@@ -33,10 +32,11 @@ from hikari.internal import typing_extensions
 if typing.TYPE_CHECKING:
     from typing_extensions import Self
 
+_MAX_CACHED_MEMBERS: typing.Final[int] = 1 << 12
+
+Enum = Flag = NotImplemented
 
 class _EnumMeta(enum.EnumMeta):
-    """Metaclass for hikari's enums."""
-
     # TODO: Remove in the future when we use msgspec structs
     #       or we find a way to make sure that (typing wise)
     #       that the correct type will be passed to enums and flags
@@ -49,7 +49,8 @@ class _EnumMeta(enum.EnumMeta):
         bases: tuple[type[typing.Any], ...],
         namespace: dict[str, typing.Any],
     ) -> Self:
-        if cls_name in {"Enum", "Flag"}:
+        # The first two that will be created will be the base classes.
+        if Enum is NotImplemented or Flag is NotImplemented:
             # We are creating the base classes, so continue normally
             return super().__new__(mcls, cls_name, bases, namespace)
 
@@ -65,19 +66,10 @@ class _EnumMeta(enum.EnumMeta):
 
         obj = super().__new__(mcls, cls_name, bases, namespace)
 
-        # Run some assurances on the enum members
-        for member in obj.__members__.values():
-            # Test: Values are hashable
-            try:
-                hash(member._value_)
-            except TypeError:
-                msg = f"Cannot have unhashable values in this enum type ({member._name_}: {member._value_!r})"
-                raise TypeError(msg) from None
-
-            # Test: Values are of the correct type
-            if not isinstance(member._value_, member._member_type_):
-                msg = f"Expected {member._member_type_} for {member._name_}, got {type(member._value_)} instead"
-                raise TypeError(msg) from None
+        # Ensure there are no unhashable values in the enum.
+        if len(obj._unhashable_values_) != 0:
+            msg = f"Cannot have unhashable values in this enum type ({', '.join(obj._unhashable_values_)})"
+            raise TypeError(msg)
 
         # CPython will place a str that we dont want it if its not present in the namespace, but
         # we want to replace it with str's __str__ if we do not define one ourselves.
@@ -101,19 +93,10 @@ class Enum(enum.Enum, metaclass=_EnumMeta):
     @classmethod
     @typing_extensions.override
     def _missing_(cls: type[Self], value: object) -> Self:
-        if not isinstance(value, cls._member_type_):
-            raise TypeError(f"value must be a `{cls._member_type_}`")
-
         pseudo_member = cls._member_type_.__new__(cls, value)
         pseudo_member._name_ = "UNKNOWN"
         pseudo_member._value_ = value
         return pseudo_member
-
-class _FlagMeta(_EnumMeta):
-    # FIXME: This is mostly a syntactic sugar to default Flag() to Flag.NONE
-    #        Should we keep it?
-    def __call__(cls: type[Self], value: int = 0) -> Self:
-        return super().__call__(value)
 
 def _name_resolver(members: dict[int, Flag], value: int) -> typing.Generator[str, typing.Any, None]:
     bit = 1
@@ -133,6 +116,27 @@ def _name_resolver(members: dict[int, Flag], value: int) -> typing.Generator[str
         yield f"UNKNOWN 0x{value:x}"
     elif remaining:
         yield hex(remaining)
+
+class _FlagMeta(_EnumMeta):
+    # FIXME: This is mostly a syntactic sugar to default Flag() to Flag.NONE
+    #        Should we keep it?
+    def __call__(cls: type[Self], value: int = 0) -> Self:
+        return super().__call__(value)
+
+    def __new__(
+        mcls: type[Self],
+        cls_name: str,
+        bases: tuple[type[typing.Any], ...],
+        namespace: dict[str, typing.Any],
+    ) -> Self:
+        # To use for caching composite members
+        #
+        # This is kinda hacky, but its the only way to bypass the
+        # __setitem__ that the enum implementation binds to
+        dict.__setitem__(namespace, "_temp_members_", {})
+
+        return super().__new__(mcls, cls_name, bases, namespace)
+
 
 @enum.unique
 class Flag(enum.IntFlag, metaclass=_FlagMeta):
@@ -239,19 +243,37 @@ class Flag(enum.IntFlag, metaclass=_FlagMeta):
 
     __slots__: typing.Sequence[str] = ()
 
-    _name_: str
+    _name_: str | None
     _value_: int
+    _all_bits_: int
     _value2member_map_: dict[int, Flag]
+    _temp_members_: dict[int, Flag]
 
     @classmethod
     def _missing_(cls, value: int) -> Self:
-        name = "|".join(_name_resolver(cls._value2member_map_, value))
+        if value < 0:
+            value = cls._all_bits_ - ~value
 
-        member = super()._missing_(value)
-        member._name_ = name
+        try:
+            return cls._temp_members_[value]
 
-        return member
+        except KeyError:
+            pseudo_member = int.__new__(cls, value)
+            pseudo_member._name_ = None
+            pseudo_member._value_ = value
 
+            if len(cls._temp_members_) >= _MAX_CACHED_MEMBERS:
+                cls._temp_members_.popitem()
+
+            cls._temp_members_[value] = pseudo_member
+            return pseudo_member
+
+    @property
+    def name(self) -> str:
+        """Return the name of the flag combination as a [`str`][]."""
+        if self._name_ is None:
+            self._name_ = "|".join(_name_resolver(self._value2member_map_, self._value_))
+        return self._name_
 
     def all(self, *flags: int) -> bool:
         """Check if all of the given flags are part of this value.
@@ -385,7 +407,8 @@ class Flag(enum.IntFlag, metaclass=_FlagMeta):
 
     @typing_extensions.override
     def __str__(self) -> str:
-        return self._name_
+        # Note: It is important to use `.name` here instead of `._name_`, as it might be None
+        return self.name
 
     __contains__ = is_subset
     __rand__ = __and__ = intersection
