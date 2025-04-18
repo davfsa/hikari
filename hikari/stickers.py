@@ -47,7 +47,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class StickerType(enums.IntEnum):
+class StickerType(int, enums.Enum):
     """The sticker type."""
 
     STANDARD = 1
@@ -58,7 +58,7 @@ class StickerType(enums.IntEnum):
 
 
 @typing.final
-class StickerFormatType(enums.IntEnum):
+class StickerFormatType(int, enums.Enum):
     """The formats types of a sticker's asset."""
 
     PNG = 1

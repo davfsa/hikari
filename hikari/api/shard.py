@@ -42,7 +42,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class GatewayDataFormat(enums.StrEnum):
+class GatewayDataFormat(str, enums.Enum):
     """Format of inbound gateway payloads."""
 
     JSON = "json"
@@ -52,7 +52,7 @@ class GatewayDataFormat(enums.StrEnum):
 
 
 @typing.final
-class GatewayCompression(enums.StrEnum):
+class GatewayCompression(str, enums.Enum):
     """Types of gateway compression that may be supported."""
 
     TRANSPORT_ZLIB_STREAM = "transport_zlib_stream"

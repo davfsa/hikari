@@ -95,7 +95,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class ChannelType(enums.IntEnum):
+class ChannelType(int, enums.Enum):
     """The known channel types that are exposed to us by the API."""
 
     GUILD_TEXT = 0
@@ -161,7 +161,7 @@ class ChannelFlag(enums.Flag):
 
 
 @typing.final
-class VideoQualityMode(enums.IntEnum):
+class VideoQualityMode(int, enums.Enum):
     """The camera quality of the voice chat."""
 
     AUTO = 1
@@ -271,7 +271,7 @@ class ChannelFollow:
 
 
 @typing.final
-class PermissionOverwriteType(enums.IntEnum):
+class PermissionOverwriteType(int, enums.Enum):
     """The type of entity a Permission Overwrite targets."""
 
     ROLE = 0
@@ -1400,7 +1400,7 @@ class GuildStageChannel(PermissibleGuildChannel, TextableGuildChannel):
 
 
 @typing.final
-class ForumSortOrderType(enums.IntEnum):
+class ForumSortOrderType(int, enums.Enum):
     """The sort order for forum channels."""
 
     LATEST_ACTIVITY = 0
@@ -1411,7 +1411,7 @@ class ForumSortOrderType(enums.IntEnum):
 
 
 @typing.final
-class ForumLayoutType(enums.IntEnum):
+class ForumLayoutType(int, enums.Enum):
     """The layout type for forum channels."""
 
     NOT_SET = 0

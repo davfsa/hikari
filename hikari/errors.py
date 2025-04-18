@@ -148,7 +148,7 @@ class GatewayError(HikariError):
 
 
 @typing.final
-class ShardCloseCode(enums.IntEnum):
+class ShardCloseCode(int, enums.Enum):
     """Reasons for a shard connection closure."""
 
     NORMAL_CLOSURE = 1_000

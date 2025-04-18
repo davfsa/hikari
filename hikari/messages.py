@@ -66,7 +66,7 @@ _T = typing.TypeVar("_T")
 
 
 @typing.final
-class MessageType(enums.IntEnum):
+class MessageType(int, enums.Enum):
     """The type of a message."""
 
     DEFAULT = 0
@@ -190,7 +190,7 @@ class MessageFlag(enums.Flag):
 
 
 @typing.final
-class MessageActivityType(enums.IntEnum):
+class MessageActivityType(int, enums.Enum):
     """The type of a rich presence message activity."""
 
     NONE = 0

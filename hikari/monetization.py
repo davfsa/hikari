@@ -36,7 +36,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class SKUType(enums.IntEnum):
+class SKUType(int, enums.Enum):
     """Represents the type of an entitlement."""
 
     SUBSCRIPTION = 5
@@ -70,7 +70,7 @@ class SKUFlags(enums.Flag):
 
 
 @typing.final
-class EntitlementType(enums.IntEnum):
+class EntitlementType(int, enums.Enum):
     """Represents the type of an entitlement."""
 
     APPLICATION_SUBSCRIPTION = 8
@@ -78,7 +78,7 @@ class EntitlementType(enums.IntEnum):
 
 
 @typing.final
-class EntitlementOwnerType(enums.IntEnum):
+class EntitlementOwnerType(int, enums.Enum):
     """Represents the type of an entitlement owner."""
 
     GUILD = 1

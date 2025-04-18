@@ -85,7 +85,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class GuildExplicitContentFilterLevel(enums.IntEnum):
+class GuildExplicitContentFilterLevel(int, enums.Enum):
     """Represents the explicit content filter setting for a guild."""
 
     DISABLED = 0
@@ -99,7 +99,7 @@ class GuildExplicitContentFilterLevel(enums.IntEnum):
 
 
 @typing.final
-class GuildFeature(enums.StrEnum):
+class GuildFeature(str, enums.Enum):
     """Features that a guild can provide."""
 
     ANIMATED_ICON = "ANIMATED_ICON"
@@ -192,7 +192,7 @@ class GuildFeature(enums.StrEnum):
 
 
 @typing.final
-class GuildMessageNotificationsLevel(enums.IntEnum):
+class GuildMessageNotificationsLevel(int, enums.Enum):
     """Represents the default notification level for new messages in a guild."""
 
     ALL_MESSAGES = 0
@@ -203,7 +203,7 @@ class GuildMessageNotificationsLevel(enums.IntEnum):
 
 
 @typing.final
-class GuildMFALevel(enums.IntEnum):
+class GuildMFALevel(int, enums.Enum):
     """Represents the multi-factor authorization requirement for a guild."""
 
     NONE = 0
@@ -214,7 +214,7 @@ class GuildMFALevel(enums.IntEnum):
 
 
 @typing.final
-class GuildPremiumTier(enums.IntEnum):
+class GuildPremiumTier(int, enums.Enum):
     """Tier for Discord Nitro boosting in a guild."""
 
     NONE = 0
@@ -251,7 +251,7 @@ class GuildSystemChannelFlag(enums.Flag):
 
 
 @typing.final
-class GuildVerificationLevel(enums.IntEnum):
+class GuildVerificationLevel(int, enums.Enum):
     """Represents the level of verification of a guild."""
 
     NONE = 0
@@ -271,7 +271,7 @@ class GuildVerificationLevel(enums.IntEnum):
 
 
 @typing.final
-class GuildNSFWLevel(enums.IntEnum):
+class GuildNSFWLevel(int, enums.Enum):
     """Represents the NSFW level of a guild."""
 
     DEFAULT = 0
@@ -1247,7 +1247,7 @@ class Role(PartialRole):
 
 
 @typing.final
-class IntegrationType(enums.StrEnum):
+class IntegrationType(str, enums.Enum):
     """The integration type."""
 
     TWITCH = "twitch"
@@ -1264,7 +1264,7 @@ class IntegrationType(enums.StrEnum):
 
 
 @typing.final
-class IntegrationExpireBehaviour(enums.IntEnum):
+class IntegrationExpireBehaviour(int, enums.Enum):
     """Behavior for expiring integration subscribers."""
 
     REMOVE_ROLE = 0

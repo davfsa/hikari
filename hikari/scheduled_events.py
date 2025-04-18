@@ -52,14 +52,14 @@ if typing.TYPE_CHECKING:
     from hikari import users
 
 
-class EventPrivacyLevel(enums.IntEnum):
+class EventPrivacyLevel(int, enums.Enum):
     """Enum of the possible scheduled event privacy levels."""
 
     GUILD_ONLY = 2
     """The scheduled event is only available to guild members."""
 
 
-class ScheduledEventType(enums.IntEnum):
+class ScheduledEventType(int, enums.Enum):
     """Enum of the scheduled event types."""
 
     STAGE_INSTANCE = 1
@@ -72,7 +72,7 @@ class ScheduledEventType(enums.IntEnum):
     """A scheduled event which takes part outside of Discord."""
 
 
-class ScheduledEventStatus(enums.IntEnum):
+class ScheduledEventStatus(int, enums.Enum):
     """Enum of the scheduled event statuses."""
 
     SCHEDULED = 1

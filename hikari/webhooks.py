@@ -57,7 +57,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class WebhookType(enums.IntEnum):
+class WebhookType(int, enums.Enum):
     """Types of webhook."""
 
     INCOMING = 1

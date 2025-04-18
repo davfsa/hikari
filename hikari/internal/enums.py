@@ -18,11 +18,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+# FIXME: Rewrite
 """Implementation of parts of Python's [`enum`][] protocol to be more performant."""
 
 from __future__ import annotations
 
-__all__: typing.Sequence[str] = ("Flag", "IntEnum", "StrEnum")
+__all__: typing.Sequence[str] = ("Flag", "Enum")
 
 import enum
 import typing
@@ -33,47 +34,109 @@ if typing.TYPE_CHECKING:
     from typing_extensions import Self
 
 
+class _EnumMeta(enum.EnumMeta):
+    """Metaclass for hikari's enums."""
+
+    # TODO: Remove in the future when we use msgspec structs
+    #       or we find a way to make sure that (typing wise)
+    #       that the correct type will be passed to enums and flags
+    def __call__(cls: type[Self], value: object) -> Self:
+        return cls.__new__(cls, cls._member_type_(value))
+
+    def __new__(
+        mcls: type[Self],
+        cls_name: str,
+        bases: tuple[type[typing.Any], ...],
+        namespace: dict[str, typing.Any],
+    ) -> Self:
+        if cls_name in {"Enum", "Flag"}:
+            # We are creating the base classes, so continue normally
+            return super().__new__(mcls, cls_name, bases, namespace)
+
+        # Ensure proper usage by passing 2 bases
+        if Flag in bases:
+            if len(bases) != 1:
+                msg = "Expected exactly one base class for a flag"
+                raise TypeError(msg)
+        else:
+            if len(bases) != 2:
+                msg = "Expected exactly two base classes for an enum"
+                raise TypeError(msg)
+
+        obj = super().__new__(mcls, cls_name, bases, namespace)
+
+        # Run some assurances on the enum members
+        for member in obj.__members__.values():
+            # Test: Values are hashable
+            try:
+                hash(member._value_)
+            except TypeError:
+                msg = f"Cannot have unhashable values in this enum type ({member._name_}: {member._value_!r})"
+                raise TypeError(msg) from None
+
+            # Test: Values are of the correct type
+            if not isinstance(member._value_, member._member_type_):
+                msg = f"Expected {member._member_type_} for {member._name_}, got {type(member._value_)} instead"
+                raise TypeError(msg) from None
+
+        # CPython will place a str that we dont want it if its not present in the namespace, but
+        # we want to replace it with str's __str__ if we do not define one ourselves.
+        if issubclass(obj, str) and "__str__" not in namespace:
+            obj.__str__ = str.__str__
+
+        return obj
+
+    def __iter__(cls) -> typing.Iterator[Enum]:
+        yield from cls._member_map_.values()
+
+    def __repr__(cls) -> str:
+        return f"<enum {cls.__name__}>"
+
+    __str__ = __repr__
+
 @enum.unique
-class StrEnum(enum.StrEnum):
-    """Extension of [`enum.StrEnum`][] to suite hikari's needs.
-
-    It implements a `_missing_` classmethod to handle deserializing
-    unknown members.
-    """
-
-    __slots__: typing.Sequence[str] = ()
-
-    @classmethod
-    def _missing_(cls: type[Self], value: str) -> Self:
-        pseudo_member = str.__new__(cls, value)
-        pseudo_member._name_ = "UNKNOWN"
-        pseudo_member._value_ = value
-        return pseudo_member
-
-
-@enum.unique
-class IntEnum(enum.IntEnum):
-    """Extension of [`enum.IntEnum`][] to suite hikari's needs.
-
-    It implements a `_missing_` classmethod to handle deserializing
-    unknown members.
-    """
-
-    __slots__: typing.Sequence[str] = ()
+class Enum(enum.Enum, metaclass=_EnumMeta):
+    """Extension of [`enum.Enum`][] to suite hikari's needs."""
 
     @classmethod
     @typing_extensions.override
     def _missing_(cls: type[Self], value: object) -> Self:
-        assert isinstance(value, int)
-        pseudo_member = int.__new__(cls, value)
+        if not isinstance(value, cls._member_type_):
+            raise TypeError(f"value must be a `{cls._member_type_}`")
+
+        pseudo_member = cls._member_type_.__new__(cls, value)
         pseudo_member._name_ = "UNKNOWN"
         pseudo_member._value_ = value
         return pseudo_member
 
+class _FlagMeta(_EnumMeta):
+    # FIXME: This is mostly a syntactic sugar to default Flag() to Flag.NONE
+    #        Should we keep it?
+    def __call__(cls: type[Self], value: int = 0) -> Self:
+        return super().__call__(value)
+
+def _name_resolver(members: dict[int, Flag], value: int) -> typing.Generator[str, typing.Any, None]:
+    bit = 1
+    has_yielded = False
+    remaining = value
+    while bit <= value:
+        # Use ._value_ to prevent overhead of making new members each time.
+        # Also let's my testing logic for the cache size be more accurate.
+        member = members.get(bit)
+        if member and member._value_ & remaining == member._value_:
+            remaining ^= member._value_
+            yield member.name
+            has_yielded = True
+        bit <<= 1
+
+    if not has_yielded:
+        yield f"UNKNOWN 0x{value:x}"
+    elif remaining:
+        yield hex(remaining)
 
 @enum.unique
-class Flag(enum.IntFlag):
-    """Extension [`enum.Flag`][] implementation.
+class Flag(enum.IntFlag, metaclass=_FlagMeta):
+    """Extension [`enum.Flag`][] implementation to suite hikari's needs.
 
     In simple terms, a flag is a set of wrapped constant [`int`][]
     values that can be combined in any combination to make a special value.
@@ -174,8 +237,21 @@ class Flag(enum.IntFlag):
     member's __value__.
     """
 
+    __slots__: typing.Sequence[str] = ()
+
     _name_: str
     _value_: int
+    _value2member_map_: dict[int, Flag]
+
+    @classmethod
+    def _missing_(cls, value: int) -> Self:
+        name = "|".join(_name_resolver(cls._value2member_map_, value))
+
+        member = super()._missing_(value)
+        member._name_ = name
+
+        return member
+
 
     def all(self, *flags: int) -> bool:
         """Check if all of the given flags are part of this value.

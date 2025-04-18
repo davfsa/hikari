@@ -113,7 +113,7 @@ class UserFlag(enums.Flag):
 
 
 @typing.final
-class PremiumType(enums.IntEnum):
+class PremiumType(int, enums.Enum):
     """The types of Nitro."""
 
     NONE = 0

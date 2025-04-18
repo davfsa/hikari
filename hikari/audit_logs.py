@@ -60,7 +60,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class AuditLogChangeKey(enums.StrEnum):
+class AuditLogChangeKey(str, enums.Enum):
     """Commonly known and documented keys for audit log change objects.
 
     Others may exist. These should be expected to default to the raw string
@@ -290,7 +290,7 @@ class AuditLogChange:
 
 
 @typing.final
-class AuditLogEventType(enums.IntEnum):
+class AuditLogEventType(int, enums.Enum):
     """The type of event that occurred."""
 
     GUILD_UPDATE = 1
