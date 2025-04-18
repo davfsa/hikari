@@ -58,7 +58,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class ActivityType(int, enums.Enum):
+class ActivityType(enums.IntEnum):
     """The activity type."""
 
     PLAYING = 0
@@ -363,7 +363,7 @@ class RichActivity(Activity):
 
 
 @typing.final
-class Status(str, enums.Enum):
+class Status(enums.StrEnum):
     """The status of a member."""
 
     ONLINE = "online"

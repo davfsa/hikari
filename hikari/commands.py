@@ -53,7 +53,7 @@ if typing.TYPE_CHECKING:
     from hikari import locales
 
 
-class CommandType(int, enums.Enum):
+class CommandType(enums.IntEnum):
     """The type of a command."""
 
     SLASH = 1
@@ -67,7 +67,7 @@ class CommandType(int, enums.Enum):
 
 
 @typing.final
-class OptionType(int, enums.Enum):
+class OptionType(enums.IntEnum):
     """The type of a command option."""
 
     SUB_COMMAND = 1
@@ -463,7 +463,7 @@ class ContextMenuCommand(PartialCommand):
     """Represents a context menu command on Discord."""
 
 
-class CommandPermissionType(int, enums.Enum):
+class CommandPermissionType(enums.IntEnum):
     """The type of entity a command permission targets."""
 
     ROLE = 1

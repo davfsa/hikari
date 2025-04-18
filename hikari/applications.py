@@ -107,7 +107,7 @@ class ApplicationFlags(enums.Flag):
 
 
 @typing.final
-class OAuth2Scope(str, enums.Enum):
+class OAuth2Scope(enums.StrEnum):
     """OAuth2 Scopes that Discord allows.
 
     These are categories of permissions for applications using the OAuth2 API
@@ -248,7 +248,7 @@ class OAuth2Scope(str, enums.Enum):
 
 
 @typing.final
-class ConnectionVisibility(int, enums.Enum):
+class ConnectionVisibility(enums.IntEnum):
     """Describes who can see a connection with a third party account."""
 
     NONE = 0
@@ -343,7 +343,7 @@ class OwnApplicationRoleConnection:
 
 
 @typing.final
-class TeamMembershipState(int, enums.Enum):
+class TeamMembershipState(enums.IntEnum):
     """Represents the state of a user's team membership."""
 
     INVITED = 1
@@ -814,7 +814,7 @@ class OAuth2ImplicitToken(PartialOAuth2Token):
 
 
 @typing.final
-class TokenType(str, enums.Enum):
+class TokenType(enums.StrEnum):
     """Token types used within Hikari clients."""
 
     BOT = "Bot"
@@ -828,7 +828,7 @@ class TokenType(str, enums.Enum):
 
 
 @typing.final
-class ApplicationRoleConnectionMetadataRecordType(int, enums.Enum):
+class ApplicationRoleConnectionMetadataRecordType(enums.IntEnum):
     """Represents possible application role connection metadata record types."""
 
     INTEGER_LESS_THAN_OR_EQUAL = 1
@@ -905,7 +905,7 @@ class OAuth2InstallParameters:
 
 
 @typing.final
-class ApplicationIntegrationType(int, enums.Enum):
+class ApplicationIntegrationType(enums.IntEnum):
     """Where an application can be installed."""
 
     GUILD_INSTALL = 0
@@ -916,7 +916,7 @@ class ApplicationIntegrationType(int, enums.Enum):
 
 
 @typing.final
-class ApplicationContextType(int, enums.Enum):
+class ApplicationContextType(enums.IntEnum):
     """The context in which to install the application."""
 
     GUILD = 0

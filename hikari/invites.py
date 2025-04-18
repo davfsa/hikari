@@ -48,7 +48,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class TargetType(int, enums.Enum):
+class TargetType(enums.IntEnum):
     """The target of the invite."""
 
     STREAM = 1

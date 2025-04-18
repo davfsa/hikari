@@ -54,7 +54,7 @@ if typing.TYPE_CHECKING:
 
 
 @typing.final
-class ComponentType(int, enums.Enum):
+class ComponentType(enums.IntEnum):
     """Types of components found within Discord."""
 
     ACTION_ROW = 1
@@ -129,7 +129,7 @@ class ComponentType(int, enums.Enum):
 
 
 @typing.final
-class ButtonStyle(int, enums.Enum):
+class ButtonStyle(enums.IntEnum):
     """Enum of the available button styles.
 
     More information, such as how these look, can be found at
@@ -158,7 +158,7 @@ class ButtonStyle(int, enums.Enum):
 
 
 @typing.final
-class TextInputStyle(int, enums.Enum):
+class TextInputStyle(enums.IntEnum):
     """A text input style."""
 
     SHORT = 1

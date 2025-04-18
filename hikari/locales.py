@@ -30,7 +30,7 @@ from hikari.internal import enums
 
 
 @typing.final
-class Locale(str, enums.Enum):
+class Locale(enums.StrEnum):
     """Possible user/guild locales."""
 
     ID = "id"

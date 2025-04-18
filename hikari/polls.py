@@ -88,7 +88,7 @@ class PollAnswerCount:
     """Whether the current user voted for this answer."""
 
 
-class PollLayoutType(int, enums.Enum):
+class PollLayoutType(enums.IntEnum):
     """Layout of a poll."""
 
     DEFAULT = 1

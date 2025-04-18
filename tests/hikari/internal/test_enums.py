@@ -32,98 +32,35 @@ from hikari.internal import enums
 
 
 class TestEnum:
-    @mock.patch.object(enums, "_Enum", new=NotImplemented)
-    def test_init_first_enum_type_populates_Enum(self):
-        class Enum(metaclass=enums._EnumMeta):
-            pass
-
-        assert enums._Enum is Enum
-
-    @mock.patch.object(enums, "_Enum", new=NotImplemented)
-    def test_init_first_enum_type_with_wrong_name_and_no_bases_raises_TypeError(self):
-        with pytest.raises(TypeError):
-
-            class Potato(metaclass=enums._EnumMeta):
-                pass
-
-        assert enums._Enum is NotImplemented
-
-    def test_init_second_enum_type_with_no_bases_does_not_change_Enum_attribute_and_raises_TypeError(self):
-        expect = enums._Enum
-
-        with pytest.raises(TypeError):
-
-            class Enum(metaclass=enums._EnumMeta):
-                pass
-
-        assert enums._Enum is expect
-
-    @pytest.mark.parametrize(
-        ("args", "kwargs"),
-        [([str], {"metaclass": enums._EnumMeta}), ([enums.Enum], {"metaclass": enums._EnumMeta}), ([enums.Enum], {})],
-    )
-    def test_init_enum_type_with_one_base_is_TypeError(self, args, kwargs):
-        with pytest.raises(TypeError):
-
-            class Enum(*args, **kwargs):
-                pass
-
-    @pytest.mark.parametrize(
-        ("args", "kwargs"), [([enums.Enum, str], {"metaclass": enums._EnumMeta}), ([enums.Enum, str], {})]
-    )
-    def test_init_enum_type_with_bases_in_wrong_order_is_TypeError(self, args, kwargs):
-        with pytest.raises(TypeError):
-
-            class Enum(*args, **kwargs):
-                pass
-
-    def test_init_with_more_than_2_types(self):
-        with pytest.raises(TypeError):
-
-            class Enum(enums.Enum, str, int):
-                pass
-
-    def test_init_with_less_than_2_types(self):
-        with pytest.raises(TypeError):
-
-            class Enum(enums.Enum):
-                pass
-
-    def test_init_enum_type_default_docstring_set(self):
-        class Enum(str, enums.Enum):
-            pass
-
-        assert Enum.__doc__ == "An enumeration."
-
     def test_init_enum_type_disallows_objects_that_are_not_instances_of_the_first_base(self):
         with pytest.raises(TypeError):
 
-            class Enum(str, enums.Enum):
+            class Enum(enums.StrEnum):
                 foo = 1
 
     def test_init_enum_type_allows_any_object_if_it_has_a_dunder_name(self):
-        class Enum(str, enums.Enum):
+        class Enum(enums.StrEnum):
             __foo__ = 1
             __bar = 2
 
         assert Enum is not None
 
     def test_init_enum_type_allows_any_object_if_it_has_a_sunder_name(self):
-        class Enum(str, enums.Enum):
+        class Enum(enums.StrEnum):
             _foo_ = 1
             _bar = 2
 
         assert Enum is not None
 
     def test_init_enum_type_allows_methods(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             def foo(self):
                 return "foo"
 
         assert Enum.foo(12) == "foo"
 
     def test_init_enum_type_allows_classmethods(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             @classmethod
             def foo(cls):
                 assert cls is Enum
@@ -132,7 +69,7 @@ class TestEnum:
         assert Enum.foo() == "foo"
 
     def test_init_enum_type_allows_staticmethods(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             @staticmethod
             def foo():
                 return "foo"
@@ -140,7 +77,7 @@ class TestEnum:
         assert Enum.foo() == "foo"
 
     def test_init_enum_type_allows_descriptors(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             @property
             def foo(self):
                 return "foo"
@@ -148,7 +85,7 @@ class TestEnum:
         assert isinstance(Enum.foo, property)
 
     def test_init_enum_type_maps_names_in_members(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -178,25 +115,25 @@ class TestEnum:
     def test_init_with_invalid_name(self):
         with pytest.raises(TypeError):
 
-            class Enum(int, enums.Enum):
+            class Enum(enums.IntFlag):
                 mro = 420
 
     def test_init_with_unhashable_value(self):
         with mock.patch.object(builtins, "hash", side_effect=TypeError):
             with pytest.raises(TypeError):
 
-                class Enum(int, enums.Enum):
+                class Enum(enums.IntFlag):
                     test = 420
 
     def test_init_with_duplicate(self):
         with pytest.raises(TypeError):
 
-            class Enum(int, enums.Enum):
+            class Enum(enums.IntFlag):
                 test = 123
                 test = 321
 
     def test_call_when_member(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -206,7 +143,7 @@ class TestEnum:
         assert type(returned) is Enum
 
     def test_call_when_not_member(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -216,7 +153,7 @@ class TestEnum:
         assert type(returned) is not Enum
 
     def test_getitem(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -226,7 +163,7 @@ class TestEnum:
         assert type(returned) is Enum
 
     def test_contains(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -235,7 +172,7 @@ class TestEnum:
         assert 100 not in Enum
 
     def test_name(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -243,7 +180,7 @@ class TestEnum:
         assert Enum.foo.name == "foo"
 
     def test_iter(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -255,7 +192,7 @@ class TestEnum:
         assert a == [Enum.foo, Enum.bar, Enum.baz]
 
     def test_repr(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -264,7 +201,7 @@ class TestEnum:
         assert repr(Enum.foo) == "<Enum.foo: 9>"
 
     def test_str(self):
-        class Enum(int, enums.Enum):
+        class Enum(enums.IntFlag):
             foo = 9
             bar = 18
             baz = 27
@@ -273,7 +210,7 @@ class TestEnum:
         assert str(Enum.foo) == "foo"
 
     def test_can_overwrite_method(self):
-        class TestEnum1(str, enums.Enum):
+        class TestEnum1(enums.StrEnum):
             FOO = "foo"
 
             def __str__(self) -> str:
@@ -292,7 +229,7 @@ class TestEnum:
         assert result == value
 
     def test_allows_overriding_methods(self):
-        class TestEnum(int, enums.Enum):
+        class TestEnum(enums.IntFlag):
             BAR = 2222
 
             def __int__(self):
@@ -1278,31 +1215,3 @@ class TestIntFlag:
                 return 855555
 
         assert int(TestFlag.FOO | TestFlag.BAR) == 855555
-
-
-def test_deprecated():
-    with mock.patch.object(deprecation, "check_if_past_removal"):
-
-        class Enum(int, enums.Enum):
-            OK_VALUE = 1
-            DEPRECATED = enums.deprecated(OK_VALUE, removal_version="4.0.0")
-
-        with mock.patch.object(warnings, "warn") as warn:
-            assert Enum.DEPRECATED == Enum.OK_VALUE
-            warn.assert_called_once()
-            warn.reset_mock()
-
-            assert Enum["DEPRECATED"] == Enum.OK_VALUE
-            warn.assert_called_once()
-            warn.reset_mock()
-
-            assert Enum.DEPRECATED.value == Enum.OK_VALUE.value
-            warn.assert_called_once()
-            warn.reset_mock()
-
-            # Ensure we didn't break any other attributes
-            assert Enum(1) == Enum.OK_VALUE
-            warn.assert_not_called()
-
-            Enum.OK_VALUE
-            warn.assert_not_called()

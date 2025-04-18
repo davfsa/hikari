@@ -36,7 +36,7 @@ from hikari.internal import enums
 
 
 @typing.final
-class StageInstancePrivacyLevel(int, enums.Enum):
+class StageInstancePrivacyLevel(enums.IntEnum):
     """The privacy level of a stage instance."""
 
     PUBLIC = 1

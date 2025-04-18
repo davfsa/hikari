@@ -68,7 +68,7 @@ _CommandResponseTypesT = typing.TypeVar("_CommandResponseTypesT", bound=int)
 
 
 @typing.final
-class InteractionType(int, enums.Enum):
+class InteractionType(enums.IntEnum):
     """The type of an interaction."""
 
     # PING isn't here as it should be handled as internal detail of the REST
@@ -87,7 +87,7 @@ class InteractionType(int, enums.Enum):
 
 
 @typing.final
-class ResponseType(int, enums.Enum):
+class ResponseType(enums.IntEnum):
     """The type of an interaction response."""
 
     # PONG isn't here as it should be handled as internal detail of the REST
