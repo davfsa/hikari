@@ -229,7 +229,7 @@ class Color(int):
         `1A2B3C`
         """
         components = self.rgb
-        return "".join(hex(c)[2:].zfill(2) for c in components).upper()
+        return "".join(f"{c:x}".zfill(2) for c in components).upper()
 
     @property
     def is_web_safe(self) -> bool:
@@ -518,7 +518,7 @@ class Color(int):
                 return cls.from_tuple_string(value)
 
             is_start_hash_or_hex_literal = value.casefold().startswith(("#", "0x"))
-            is_hex_digits = all(c in string.hexdigits for c in value) and len(value) in (3, 6)
+            is_hex_digits = all(c in string.hexdigits for c in value) and len(value) in {3, 6}
             if is_start_hash_or_hex_literal or is_hex_digits:
                 return cls.from_hex_code(value)
 

@@ -32,8 +32,7 @@ HikariIntFlag = None
 
 
 def build_enums() -> None:
-    global PyIntFlag  # noqa: PLW0603
-    global HikariIntFlag  # noqa: PLW0603
+    global PyIntFlag, HikariIntFlag  # noqa: PLW0603
 
     class PyIntFlag(py_enum.IntFlag):
         a = 1

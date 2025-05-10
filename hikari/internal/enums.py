@@ -24,6 +24,7 @@ from __future__ import annotations
 
 __all__: typing.Sequence[str] = ("Enum", "Flag", "deprecated")
 
+import collections
 import functools
 import operator
 import sys
@@ -73,7 +74,7 @@ class deprecated:  # noqa: N801 - Class should use CapWords
         self.removal_version = removal_version
 
 
-class _EnumNamespace(dict[str, _T]):
+class _EnumNamespace(collections.UserDict[str, _T]):
     __slots__: typing.Sequence[str] = ("base", "names_to_values", "values_to_names")
 
     def __init__(self, base: type[typing.Any]) -> None:
@@ -237,7 +238,7 @@ class _EnumMeta(type):
 
         try:
             # Fails if Enum is not defined. We check this in `__new__` properly.
-            base, enum_type = bases
+            base, _enum_type = bases
 
             if isinstance(base, _EnumMeta):
                 msg = "First base to an enum must be the type to combine with, not _EnumMeta"

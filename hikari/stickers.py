@@ -266,7 +266,7 @@ class PartialSticker(snowflakes.Unique):
                 msg = "This asset is a GIF, which is not available as APNG."
                 raise TypeError(msg)
         elif sticker_format == StickerFormatType.APNG:
-            if file_format in ("AWEBP", "GIF"):
+            if file_format in {"AWEBP", "GIF"}:
                 msg = "This asset is an APNG, which is not available as AWEBP or GIF."
                 raise TypeError(msg)
         elif sticker_format == StickerFormatType.PNG:

@@ -241,7 +241,8 @@ class _GatewayTransport:
             assert isinstance(message.data, str)
             return message.data.encode()
 
-        self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
+        self._handle_other_message(message)
+        return None
 
     async def _receive_and_check_zlib(self) -> bytes:
         message = await self._ws.receive()
@@ -267,7 +268,8 @@ class _GatewayTransport:
 
             return self._zlib.decompress(buff)
 
-        self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
+        self._handle_other_message(message)
+        return None
 
     @classmethod
     async def connect(

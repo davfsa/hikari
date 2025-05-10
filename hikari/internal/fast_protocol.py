@@ -63,7 +63,7 @@ class _FastProtocolChecking(type(typing.Protocol)):
             attributes.update(annot for annot in namespace.get("__annotations__", {}) if not _check_if_ignored(annot))
 
             for base in bases:
-                if base in (typing.Protocol, _Protocol):
+                if base in {typing.Protocol, _Protocol}:
                     continue
 
                 if _Protocol not in base.__bases__:

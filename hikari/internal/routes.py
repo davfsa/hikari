@@ -25,6 +25,7 @@ from __future__ import annotations
 __all__: typing.Sequence[str] = ("CDNRoute", "CompiledRoute", "Route")
 
 import math
+import operator
 import re
 import typing
 import urllib.parse
@@ -40,10 +41,10 @@ from hikari.internal import typing_extensions
 HASH_SEPARATOR: typing.Final[str] = ";"
 PARAM_REGEX: typing.Final[typing.Pattern[str]] = re.compile(r"{(\w+)}")
 MAJOR_PARAM_COMBOS: typing.Mapping[frozenset[str], typing.Callable[[typing.Mapping[str, str]], str]] = {
-    frozenset(("channel",)): lambda d: d["channel"],
-    frozenset(("guild",)): lambda d: d["guild"],
+    frozenset(("channel",)): operator.itemgetter("channel"),
+    frozenset(("guild",)): operator.itemgetter("guild"),
     frozenset(("webhook", "token")): lambda d: d["webhook"] + ":" + d["token"],
-    frozenset(("webhook",)): lambda d: d["webhook"],
+    frozenset(("webhook",)): operator.itemgetter("webhook"),
 }
 
 

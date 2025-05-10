@@ -366,7 +366,7 @@ def supports_color(*, allow_color: bool, force_color: bool) -> bool:  # noqa: PL
     if clicolor == "0":
         # https://bixense.com/clicolors/
         return False
-    if os.environ.get("COLORTERM", "").casefold() in ("truecolor", "24bit"):
+    if os.environ.get("COLORTERM", "").casefold() in {"truecolor", "24bit"}:
         # Seems to be used by Gnome Terminal, and Tmpod will beat me if I don't add it.
         # https://gist.github.com/XVilka/8346728#true-color-detection
         return True

@@ -9,6 +9,7 @@ line-ending = "lf"
 skip-magic-trailing-comma = true
 
 [lint]
+preview = true
 # https://docs.astral.sh/ruff/rules/
 select = ["ALL"]
 ignore = [

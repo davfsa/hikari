@@ -36,6 +36,7 @@ __all__: typing.Sequence[str] = (
     "default_json_loads",
 )
 
+import collections
 import datetime
 import typing
 
@@ -243,7 +244,7 @@ class StringMapBuilder(multidict.MultiDict[str]):
 
 
 @typing.final
-class JSONObjectBuilder(dict[str, JSONish]):
+class JSONObjectBuilder(collections.UserDict[str, JSONish]):
     """Helper class used to quickly build JSON objects from various values.
 
     If provided with any values that are [`hikari.undefined.UNDEFINED`][],

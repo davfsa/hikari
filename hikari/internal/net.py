@@ -46,8 +46,7 @@ async def generate_error_response(response: aiohttp.ClientResponse) -> errors.HT
     try:
         json_body = data_binding.default_json_loads(await response.read())
         assert isinstance(json_body, dict)
-        args.append(json_body.get("message", ""))
-        args.append(json_body.get("code", 0))
+        args.extend((json_body.get("message", ""), json_body.get("code", 0)))
         raw_error_array: data_binding.JSONObject | None = json_body.get("errors")
     except ValueError:
         raw_error_array = None
