@@ -447,7 +447,7 @@ class GatewayShardImpl(shard.GatewayShard):
     def __init__(
         self,
         *,
-        compression: str | None = shard.GatewayCompression.TRANSPORT_ZLIB_STREAM,
+        compression: str | None = None,
         initial_activity: presences.Activity | None = None,
         initial_idle_since: datetime.datetime | None = None,
         initial_is_afk: bool = False,
