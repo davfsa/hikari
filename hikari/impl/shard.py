@@ -31,9 +31,9 @@ import platform
 import sys
 import typing
 import urllib.parse
-import zlib
 
 import aiohttp
+import zstandard
 
 from hikari import _about as about
 from hikari import errors
@@ -160,7 +160,7 @@ class _GatewayTransport:
         self._exit_stack = exit_stack
         self._sent_close = False
         self._ws = ws
-        self._zlib = zlib.decompressobj()
+        self._zlib = zstandard.ZstdDecompressor().decompressobj()
         self._loads = loads
         self._dumps = dumps
 
@@ -190,6 +190,7 @@ class _GatewayTransport:
             # https://docs.aiohttp.org/en/stable/client_advanced.html#graceful-shutdown
             await asyncio.sleep(0.25)
 
+    @profile
     async def receive_json(self) -> data_binding.JSONObject:
         pl = await self._receive_and_check()
         if self._logger.isEnabledFor(ux.TRACE):
@@ -247,12 +248,13 @@ class _GatewayTransport:
     async def _receive_and_check_zlib(self) -> bytes:
         message = await self._ws.receive()
 
+        return self._zlib.decompress(message.data)
+
         if message.type == aiohttp.WSMsgType.BINARY:
             if message.data.endswith(_ZLIB_SYNC_FLUSH):
                 # Hot and fast path: we already have the full message
                 # in a single frame
                 out = self._zlib.decompress(message.data)
-                self._zlib = self._zlib.copy()
                 return out
 
             # Cold and slow path: we need to keep receiving frames to complete
@@ -269,7 +271,6 @@ class _GatewayTransport:
                 self._handle_other_message(message)
 
             out = self._zlib.decompress(buff)
-            self._zlib = self._zlib.copy()
             return out
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
@@ -829,7 +830,7 @@ class GatewayShardImpl(shard.GatewayShard):
         query["encoding"] = "json"
 
         if self._transport_compression:
-            query["compress"] = "zlib-stream"
+            query["compress"] = "zstd-stream"
 
         url = urllib.parse.urlunparse(
             (url_parts.scheme, url_parts.netloc, url_parts.path, url_parts.params, urllib.parse.urlencode(query), "")
