@@ -250,7 +250,9 @@ class _GatewayTransport:
             if message.data.endswith(_ZLIB_SUFFIX):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                return self._zlib.decompress(message.data)
+                message = self._zlib.decompress(message.data)
+                self._logger.info(self._zlib.unused_data)
+                return message
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
@@ -265,7 +267,9 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            return self._zlib.decompress(buff)
+            message = self._zlib.decompress(buff)
+            self._logger.info(self._zlib.unused_data)
+            return message
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
