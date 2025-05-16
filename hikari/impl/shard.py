@@ -140,6 +140,7 @@ class _GatewayTransport:
         "_receive_and_check",
         "_sent_close",
         "_ws",
+        "_zlib",
     )
 
     def __init__(
@@ -158,6 +159,7 @@ class _GatewayTransport:
         self._exit_stack = exit_stack
         self._sent_close = False
         self._ws = ws
+        self._zlib = zlib.decompressobj()
         self._loads = loads
         self._dumps = dumps
 
@@ -248,7 +250,17 @@ class _GatewayTransport:
             if message.data.endswith(_ZLIB_SUFFIX):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                return zlib.decompress(message.data)
+                start = time.monotonic_ns()
+                message = zlib.decompress(message.data)
+                total = time.monotonic_ns() - start
+                self._logger.debug("decompressing zlib frame frame took %s ms", total)
+
+                start = time.monotonic_ns()
+                message = zlib.decompress(message.data)
+                total = time.monotonic_ns() - start
+                self._logger.debug("decompressing zlib frame with decompressor took %s ms", total)
+
+                return message
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
@@ -263,7 +275,16 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            return zlib.decompress(buff)
+            start = time.monotonic_ns()
+            message = zlib.decompress(buff)
+            total = time.monotonic_ns() - start
+            self._logger.debug("decompressing buffered zlib frame frame took %s ms", total)
+
+            start = time.monotonic_ns()
+            message = zlib.decompress(buff)
+            total = time.monotonic_ns() - start
+            self._logger.debug("decompressing buffered zlib frame with decompressor took %s ms", total)
+            return message
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
