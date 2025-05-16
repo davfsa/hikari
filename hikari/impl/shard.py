@@ -98,7 +98,8 @@ _TOTAL_RATELIMIT: typing.Final[tuple[float, int]] = (60.0, 120)
 # to get around (leaving 3 slots for it).
 _NON_PRIORITY_RATELIMIT: typing.Final[tuple[float, int]] = (60.0, 117)
 # Used to identify the end of a ZLIB payload
-_ZLIB_SUFFIX: typing.Final[bytes] = b"\x00\x00\xff\xff"
+_ZLIB_SYNC_FLUSH: typing.Final[bytes] = b"\x00\x00\xff\xff"
+_ZLIB_FULL_FLUSH: typing.Final[bytes] = b"\x00\x00\x00\xff\xff"
 # Close codes which don't invalidate the current session.
 _RECONNECTABLE_CLOSE_CODES: frozenset[errors.ShardCloseCode] = frozenset(
     (
@@ -247,26 +248,21 @@ class _GatewayTransport:
         message = await self._ws.receive()
 
         if message.type == aiohttp.WSMsgType.BINARY:
-            if message.data.endswith(_ZLIB_SUFFIX):
+            if message.data.endswith(_ZLIB_SYNC_FLUSH):
                 # Hot and fast path: we already have the full message
                 # in a single frame
                 start = time.monotonic_ns()
-                message = zlib.decompress(message.data)
-                total = time.monotonic_ns() - start
-                self._logger.debug("decompressing zlib frame frame took %s ms", total)
+                output = self._zlib.decompress(message.data + _ZLIB_FULL_FLUSH)
+                total = (time.monotonic_ns() - start) / 1000
+                self._logger.info("decompressing zlib frame with decompressor took %s us", total)
 
-                start = time.monotonic_ns()
-                message = zlib.decompress(message.data)
-                total = time.monotonic_ns() - start
-                self._logger.debug("decompressing zlib frame with decompressor took %s ms", total)
-
-                return message
+                return output
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
             buff = bytearray(message.data)
 
-            while not buff.endswith(_ZLIB_SUFFIX):
+            while not buff.endswith(_ZLIB_SYNC_FLUSH):
                 message = await self._ws.receive()
 
                 if message.type == aiohttp.WSMsgType.BINARY:
@@ -276,15 +272,10 @@ class _GatewayTransport:
                 self._handle_other_message(message)
 
             start = time.monotonic_ns()
-            message = zlib.decompress(buff)
-            total = time.monotonic_ns() - start
-            self._logger.debug("decompressing buffered zlib frame frame took %s ms", total)
-
-            start = time.monotonic_ns()
-            message = zlib.decompress(buff)
-            total = time.monotonic_ns() - start
-            self._logger.debug("decompressing buffered zlib frame with decompressor took %s ms", total)
-            return message
+            output = self._zlib.decompress(buff + _ZLIB_FULL_FLUSH)
+            total = (time.monotonic_ns() - start) / 1000
+            self._logger.info("decompressing buffered zlib frame with decompressor took %s ms", total)
+            return output
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
