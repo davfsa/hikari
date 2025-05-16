@@ -253,7 +253,10 @@ class _GatewayTransport:
             if message.data.endswith(_ZLIB_SYNC_FLUSH):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                return self._zlib.decompress(buff)
+                out = self._zlib.decompress(buff)
+                self._logger.info("size of compressor is %d", sys.getsizeof(self._zlib))
+                del buff
+                return out
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
@@ -266,7 +269,10 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            return self._zlib.decompress(buff)
+            out = self._zlib.decompress(buff)
+            self._logger.info("size of compressor is %d", sys.getsizeof(self._zlib))
+            del buff
+            return out
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
