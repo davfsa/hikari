@@ -252,7 +252,7 @@ class _GatewayTransport:
                 # Hot and fast path: we already have the full message
                 # in a single frame
                 out = self._zlib.decompress(message.data)
-                self._zlib.flush()
+                self._zlib = self._zlib.copy()
                 return out
 
             # Cold and slow path: we need to keep receiving frames to complete
@@ -269,7 +269,7 @@ class _GatewayTransport:
                 self._handle_other_message(message)
 
             out = self._zlib.decompress(buff)
-            self._zlib.flush()
+            self._zlib = self._zlib.copy()
             return out
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
