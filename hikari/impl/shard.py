@@ -246,18 +246,18 @@ class _GatewayTransport:
 
     async def _receive_and_check_zlib(self) -> bytes:
         message = await self._ws.receive()
-        buff = bytearray()
 
         if message.type == aiohttp.WSMsgType.BINARY:
-            buff.extend(message.data)
-
             if message.data.endswith(_ZLIB_SYNC_FLUSH):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                return self._zlib.decompress(buff)
+                out = self._zlib.decompress(message.data)
+                self._zlib.flush()
+                return out
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
+            buff = bytearray(message.data)
 
             while not buff.endswith(_ZLIB_SYNC_FLUSH):
                 message = await self._ws.receive()
@@ -268,7 +268,9 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            return self._zlib.decompress(buff)
+            out = self._zlib.decompress(buff)
+            self._zlib.flush()
+            return out
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
