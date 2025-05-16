@@ -140,7 +140,6 @@ class _GatewayTransport:
         "_receive_and_check",
         "_sent_close",
         "_ws",
-        "_zlib",
     )
 
     def __init__(
@@ -159,7 +158,6 @@ class _GatewayTransport:
         self._exit_stack = exit_stack
         self._sent_close = False
         self._ws = ws
-        self._zlib = zlib.decompressobj()
         self._loads = loads
         self._dumps = dumps
 
@@ -250,9 +248,7 @@ class _GatewayTransport:
             if message.data.endswith(_ZLIB_SUFFIX):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                message = self._zlib.decompress(message.data)
-                self._logger.info(self._zlib.unused_data)
-                return message
+                return zlib.decompress(message.data)
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
@@ -267,9 +263,7 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            message = self._zlib.decompress(buff)
-            self._logger.info(self._zlib.unused_data)
-            return message
+            return zlib.decompress(buff)
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
