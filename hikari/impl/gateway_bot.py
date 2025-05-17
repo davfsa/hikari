@@ -293,6 +293,7 @@ class GatewayBot(traits.GatewayBotAware):
         "_cache",
         "_closed_event",
         "_closing_event",
+        "_compression",
         "_dumps",
         "_entity_factory",
         "_event_factory",
