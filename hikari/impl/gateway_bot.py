@@ -32,8 +32,6 @@ import types
 import typing
 import warnings
 
-from api import GatewayCompression
-
 from hikari import applications
 from hikari import errors
 from hikari import intents as intents_
@@ -41,6 +39,7 @@ from hikari import presences
 from hikari import snowflakes
 from hikari import traits
 from hikari import undefined
+from hikari.api import shard as shard_api
 from hikari.impl import cache as cache_impl
 from hikari.impl import config as config_impl
 from hikari.impl import entity_factory as entity_factory_impl
@@ -1300,7 +1299,7 @@ class GatewayBot(traits.GatewayBotAware):
         url: str,
     ) -> None:
         new_shard = shard_impl.GatewayShardImpl(
-            compression=GatewayCompression.TRANSPORT_ZLIB_STREAM if self._compression else None,
+            compression=shard_api.GatewayCompression.TRANSPORT_ZLIB_STREAM if self._compression else None,
             http_settings=self._http_settings,
             proxy_settings=self._proxy_settings,
             event_manager=self._event_manager,
