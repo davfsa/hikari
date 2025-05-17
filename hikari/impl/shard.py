@@ -197,10 +197,7 @@ class _GatewayTransport:
             filtered = self._log_filterer(pl)
             self._logger.log(ux.TRACE, "received payload with size %s\n    %s", len(pl), filtered)
 
-        copied = copy.copy(pl)
-        del pl
-        val = json.loads(copied)
-        del copied
+        val = json.loads(bytearray(pl))
         assert isinstance(val, dict)
         return val
 
