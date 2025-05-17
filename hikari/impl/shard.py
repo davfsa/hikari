@@ -26,7 +26,6 @@ __all__: typing.Sequence[str] = ("GatewayShardImpl",)
 
 import asyncio
 import contextlib
-import copy
 import json
 import logging
 import platform
@@ -887,7 +886,7 @@ class GatewayShardImpl(shard.GatewayShard):
                     _OP: _IDENTIFY,
                     _D: {
                         "token": self._token,
-                        "compress": False,
+                        "compress": True,
                         "large_threshold": self._large_threshold,
                         "properties": {
                             "os": f"{platform.system()} {platform.architecture()[0]}",
