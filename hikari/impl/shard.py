@@ -196,7 +196,7 @@ class _GatewayTransport:
             filtered = self._log_filterer(pl)
             self._logger.log(ux.TRACE, "received payload with size %s\n    %s", len(pl), filtered)
 
-        val = json.loads(bytearray(pl))
+        val = json.loads(pl.decode("utf-8"))
         assert isinstance(val, dict)
         return val
 
@@ -886,7 +886,7 @@ class GatewayShardImpl(shard.GatewayShard):
                     _OP: _IDENTIFY,
                     _D: {
                         "token": self._token,
-                        "compress": True,
+                        "compress": False,
                         "large_threshold": self._large_threshold,
                         "properties": {
                             "os": f"{platform.system()} {platform.architecture()[0]}",
