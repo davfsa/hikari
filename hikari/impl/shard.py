@@ -26,6 +26,7 @@ __all__: typing.Sequence[str] = ("GatewayShardImpl",)
 
 import asyncio
 import contextlib
+import json
 import logging
 import platform
 import sys
@@ -195,7 +196,7 @@ class _GatewayTransport:
             filtered = self._log_filterer(pl)
             self._logger.log(ux.TRACE, "received payload with size %s\n    %s", len(pl), filtered)
 
-        val = self._loads(pl)
+        val = json.loads(pl)
         assert isinstance(val, dict)
         return val
 
@@ -234,23 +235,23 @@ class _GatewayTransport:
         reason = f"{message.data!r} [extra={message.extra!r}, type={message.type}]"
         raise errors.GatewayTransportError(reason) from self._ws.exception()
 
-    async def _receive_and_check_text(self) -> bytes:
+    async def _receive_and_check_text(self) -> str:
         message = await self._ws.receive()
 
         if message.type == aiohttp.WSMsgType.TEXT:
             assert isinstance(message.data, str)
-            return message.data.encode()
+            return message.data
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 
-    async def _receive_and_check_zlib(self) -> bytes:
+    async def _receive_and_check_zlib(self) -> str:
         message = await self._ws.receive()
 
         if message.type == aiohttp.WSMsgType.BINARY:
             if message.data.endswith(_ZLIB_SUFFIX):
                 # Hot and fast path: we already have the full message
                 # in a single frame
-                return self._zlib.decompress(message.data)
+                return self._zlib.decompress(message.data).decode()
 
             # Cold and slow path: we need to keep receiving frames to complete
             # the whole message. Only then do we create a buffer
@@ -265,7 +266,7 @@ class _GatewayTransport:
 
                 self._handle_other_message(message)
 
-            return self._zlib.decompress(buff)
+            return self._zlib.decompress(message.data).decode()
 
         self._handle_other_message(message)  # noqa: RET503 - Missing `return None`
 

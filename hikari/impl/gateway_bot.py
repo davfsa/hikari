@@ -32,6 +32,8 @@ import types
 import typing
 import warnings
 
+from api import GatewayCompression
+
 from hikari import applications
 from hikari import errors
 from hikari import intents as intents_
@@ -312,6 +314,7 @@ class GatewayBot(traits.GatewayBotAware):
         self,
         token: str,
         *,
+        compression: bool = True,
         allow_color: bool = True,
         banner: str | None = "hikari",
         suppress_optimization_warning: bool = False,
@@ -344,6 +347,7 @@ class GatewayBot(traits.GatewayBotAware):
         self._token = token.strip()
         self._dumps = dumps
         self._loads = loads
+        self._compression = compression
 
         # Caching
         cache_settings = cache_settings if cache_settings is not None else config_impl.CacheSettings()
@@ -1296,6 +1300,7 @@ class GatewayBot(traits.GatewayBotAware):
         url: str,
     ) -> None:
         new_shard = shard_impl.GatewayShardImpl(
+            compression=GatewayCompression.TRANSPORT_ZLIB_STREAM if self._compression else None,
             http_settings=self._http_settings,
             proxy_settings=self._proxy_settings,
             event_manager=self._event_manager,
