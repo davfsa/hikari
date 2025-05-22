@@ -24,6 +24,7 @@ import asyncio
 import contextlib
 import gc
 import sys
+
 import typing
 import warnings
 import weakref
@@ -577,6 +578,15 @@ class TestEventManagerBase:
                 "task": mock_task,
             },
         )
+
+    def test_dispatch_deprecated_behavior(self, event_manager):
+        event = mock.Mock(base_events.Event, dispatches=mock.Mock(return_value=()))
+
+        with (
+            mock.patch.object(asyncio, "create_task", return_value=mock.Mock()),
+            mock.patch.object(asyncio, "gather", return_value=mock.Mock()) as patched_gather,
+        ):
+            assert event_manager.dispatch(event) is patched_gather.return_value
 
     def test_subscribe_when_class_call(self, event_manager):
         class Foo:

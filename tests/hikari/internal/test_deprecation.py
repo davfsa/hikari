@@ -34,7 +34,7 @@ class TestWarnDeprecated:
         with mock.patch.object(hikari_about, "__version__", "2.0.1"):
             with mock.patch.object(warnings, "warn") as warn:
                 deprecation.warn_deprecated(
-                    "testing", removal_version="2.0.2", additional_info="Some info!", stack_level=100
+                    "testing", breaking_version="2.0.2", additional_info="Some info!", stack_level=100
                 )
 
         warn.assert_called_once_with(
@@ -46,4 +46,4 @@ class TestWarnDeprecated:
     def test_when_past_removal(self):
         with mock.patch.object(hikari_about, "__version__", "2.0.2"):
             with pytest.raises(DeprecationWarning):
-                deprecation.warn_deprecated("testing", removal_version="2.0.2", additional_info="Some info!")
+                deprecation.warn_deprecated("testing", breaking_version="2.0.2", additional_info="Some info!")

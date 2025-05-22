@@ -57,7 +57,7 @@ class _DeprecatedAlias(typing.Generic[_T]):
         from hikari.internal import deprecation
 
         deprecation.warn_deprecated(
-            self._name, removal_version=self._removal_version, additional_info=f"Use '{self._alias}' instead."
+            self._name, breaking_version=self._removal_version, additional_info=f"Use '{self._alias}' instead."
         )
 
         return owner_enum[self._alias]

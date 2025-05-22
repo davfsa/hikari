@@ -66,7 +66,14 @@ def check_if_past_removal(what: str, /, *, removal_version: str) -> None:
 
 
 def warn_deprecated(
-    what: str, /, *, removal_version: str, additional_info: str, stack_level: int = 3, quote: bool = True
+    what: str,
+    /,
+    *,
+    breaking_version: str,
+    additional_info: str,
+    action: typing.Literal["removed", "changed"] = "removed",
+    stack_level: int = 3,
+    quote: bool = True,
 ) -> None:
     """Issue a deprecation warning.
 
@@ -76,8 +83,10 @@ def warn_deprecated(
     ----------
     what
         What is being deprecated.
-    removal_version
-        The version it will be removed in.
+    breaking_version
+        The version in which the breaking change will take place.
+    action
+        The action that is being taken. This will be one of `removed` or `changed`.
     additional_info
         Additional information on the deprecation for the user.
     stack_level
@@ -93,10 +102,10 @@ def warn_deprecated(
     if quote:
         what = repr(what)
 
-    check_if_past_removal(what, removal_version=removal_version)
+    check_if_past_removal(what, removal_version=breaking_version)
 
     warnings.warn(
-        f"{what} is deprecated and will be removed in `{removal_version}`. {additional_info}",
+        f"{what} is deprecated and will be {action} in `{breaking_version}`. {additional_info}",
         category=DeprecationWarning,
         stacklevel=stack_level,
     )

@@ -42,6 +42,7 @@ from hikari.api import config
 from hikari.api import event_manager as event_manager_
 from hikari.events import base_events
 from hikari.events import shard_events
+from hikari.internal import deprecation
 from hikari.internal import fast_protocol
 from hikari.internal import reflect
 from hikari.internal import typing_extensions
@@ -556,11 +557,26 @@ class EventManagerBase(event_manager_.EventManager):
 
     @typing.overload
     def dispatch(
-        self, event: base_events.Event, *, return_tasks: bool = False
+        self, event: base_events.Event, *, return_tasks: bool | None = None
     ) -> asyncio.Future[typing.Any] | None: ...
 
     @typing_extensions.override
-    def dispatch(self, event: base_events.Event, *, return_tasks: bool = False) -> asyncio.Future[typing.Any] | None:
+    def dispatch(
+        self, event: base_events.Event, *, return_tasks: bool | None = None
+    ) -> asyncio.Future[typing.Any] | None:
+        if return_tasks is None:
+            deprecation.warn_deprecated(
+                "'dispatch' default return type",
+                breaking_version="2.4.0",
+                action="changed",
+                additional_info=(
+                    "The default behaviour will change to not return the created tasks. "
+                    "Pass `return_tasks=True` to keep the old behaviour."
+                ),
+                quote=False,
+            )
+            return_tasks = True
+
         tasks: list[asyncio.Task[None]] = []
 
         for cls in event.dispatches():

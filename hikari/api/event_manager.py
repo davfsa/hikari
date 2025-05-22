@@ -194,11 +194,13 @@ class EventManager(abc.ABC):
 
     @typing.overload
     def dispatch(
-        self, event: base_events.Event, *, return_tasks: bool = False
+        self, event: base_events.Event, *, return_tasks: bool | None = None
     ) -> asyncio.Future[typing.Any] | None: ...
 
     @abc.abstractmethod
-    def dispatch(self, event: base_events.Event, *, return_tasks: bool = False) -> asyncio.Future[typing.Any] | None:
+    def dispatch(
+        self, event: base_events.Event, *, return_tasks: bool | None = None
+    ) -> asyncio.Future[typing.Any] | None:
         """Dispatch an event.
 
         Parameters
