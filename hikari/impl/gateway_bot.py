@@ -305,6 +305,7 @@ class GatewayBot(traits.GatewayBotAware):
         "_shards",
         "_token",
         "_voice",
+        "_shard_tasks"
         "shards",
     )
 
@@ -344,6 +345,7 @@ class GatewayBot(traits.GatewayBotAware):
         self._token = token.strip()
         self._dumps = dumps
         self._loads = loads
+        self._shard_tasks = []
 
         # Caching
         cache_settings = cache_settings if cache_settings is not None else config_impl.CacheSettings()
@@ -634,7 +636,7 @@ class GatewayBot(traits.GatewayBotAware):
             msg = "Cannot wait for an inactive bot to join"
             raise errors.ComponentStateConflictError(msg)
 
-        await aio.first_completed(self._closed_event.wait(), *(s.join() for s in self._shards.values()))
+        await aio.first_completed(self._closed_event.wait(), *self._shard_tasks)
 
     def listen(
         self, *event_types: type[base_events.EventT]
@@ -1026,7 +1028,7 @@ class GatewayBot(traits.GatewayBotAware):
                 try:
                     await aio.first_completed(
                         self._closing_event.wait(),
-                        *(shard.join() for shard in self._shards.values()),
+                        *self._shard_tasks,
                         timeout=startup_window_delay,
                     )
 
@@ -1056,7 +1058,7 @@ class GatewayBot(traits.GatewayBotAware):
                 )
             )
 
-            await aio.first_completed(self._closing_event.wait(), gather)
+            await aio.first_completed(gather, self._closing_event.wait())
 
         await self._event_manager.dispatch(self._event_factory.deserialize_started_event(), return_tasks=True)
 
@@ -1366,3 +1368,4 @@ class GatewayBot(traits.GatewayBotAware):
 
         _LOGGER.debug("shard %s started successfully in %.1fms", shard_id, (end - start) * 1_000)
         self._shards[shard_id] = new_shard
+        self._shard_tasks.append(asyncio.create_task(new_shard.join()))
