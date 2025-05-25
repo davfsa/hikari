@@ -305,7 +305,7 @@ class GatewayBot(traits.GatewayBotAware):
         "_shards",
         "_token",
         "_voice",
-        "_shard_tasks"
+        "_shard_tasks",
         "shards",
     )
 
