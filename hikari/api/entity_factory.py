@@ -44,6 +44,7 @@ if typing.TYPE_CHECKING:
     from hikari import monetization as entitlement_models
     from hikari import polls as poll_models
     from hikari import presences as presence_models
+    from hikari import ratelimited_metadata
     from hikari import scheduled_events as scheduled_events_models
     from hikari import sessions as gateway_models
     from hikari import snowflakes
@@ -2147,4 +2148,27 @@ class EntityFactory(abc.ABC):
         -------
         hikari.auto_mod.AutoModRule
             The deserialized auto-moderation rule object.
+        """
+
+    #########################
+    # RATE-LIMITED METADATA #
+    #########################
+
+    @abc.abstractmethod
+    def deserialize_ratelimited_metadata(
+        self, payload: data_binding.JSONObject, *, opcode: int
+    ) -> ratelimited_metadata.RateLimitedMetadata:
+        """Parse a raw payload from Discord into an rate-limited metadata object.
+
+        Parameters
+        ----------
+        payload
+            The JSON payload to deserialize.
+        opcode
+            The opcode the metadata is for.
+
+        Returns
+        -------
+        hikari.rate_limited_metadata.RateLimitedMetadata
+            The deserialized rate_limited_metadata object.
         """

@@ -139,6 +139,11 @@ class EventManagerImpl(event_manager_base.EventManagerBase):
         """See https://discord.com/developers/docs/topics/gateway-events#resumed for more info."""
         self.dispatch(self._event_factory.deserialize_resumed_event(shard))
 
+    @event_manager_base.filtered(shard_events.ShardRateLimitedEvent)
+    def on_rate_limited(self, shard: gateway_shard.GatewayShard, data: data_binding.JSONObject) -> None:
+        """See https://discord.com/developers/docs/events/gateway-events#rate-limited for more info."""
+        self.dispatch(self._event_factory.deserialize_ratelimited_event(shard, data))
+
     @event_manager_base.filtered(application_events.ApplicationCommandPermissionsUpdateEvent)
     def on_application_command_permissions_update(
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject

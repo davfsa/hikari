@@ -933,6 +933,19 @@ class EventFactoryImpl(event_factory.EventFactory):
         return shard_events.ShardResumedEvent(app=self._app, shard=shard)
 
     @typing_extensions.override
+    def deserialize_ratelimited_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -> shard_events.ShardRateLimitedEvent:
+        opcode = payload["opcode"]
+        return shard_events.ShardRateLimitedEvent(
+            app=self._app,
+            shard=shard,
+            opcode=opcode,
+            retry_after=payload["retry_after"],
+            metadata=self._app.entity_factory.deserialize_ratelimited_metadata(payload["meta"], opcode=opcode),
+        )
+
+    @typing_extensions.override
     def deserialize_guild_member_chunk_event(
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
     ) -> shard_events.MemberChunkEvent:

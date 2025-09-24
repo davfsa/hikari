@@ -47,6 +47,7 @@ if typing.TYPE_CHECKING:
     from hikari import applications
     from hikari import guilds
     from hikari import presences as presences_
+    from hikari import ratelimited_metadata
     from hikari import snowflakes
     from hikari import traits
     from hikari import users
@@ -170,6 +171,27 @@ class ShardResumedEvent(ShardStateEvent):
 
     shard: gateway_shard.GatewayShard = attrs.field(metadata={attrs_extensions.SKIP_DEEP_COPY: True})
     # <<docstring inherited from ShardEvent>>.
+
+
+@attrs_extensions.with_copy
+@attrs.define(kw_only=True, weakref_slot=False)
+class ShardRateLimitedEvent(ShardEvent):
+    """Event fired when rate limited on an opcode."""
+
+    app: traits.RESTAware = attrs.field(metadata={attrs_extensions.SKIP_DEEP_COPY: True})
+    # <<inherited docstring from Event>>.
+
+    shard: gateway_shard.GatewayShard = attrs.field(metadata={attrs_extensions.SKIP_DEEP_COPY: True})
+    # <<docstring inherited from ShardEvent>>.
+
+    opcode: int = attrs.field()
+    """The opcode being rate limited on."""
+
+    retry_after: float = attrs.field()
+    """When the request can be made again (in seconds)."""
+
+    metadata: ratelimited_metadata.RateLimitedMetadata = attrs.field()
+    """The associated metadata."""
 
 
 @attrs_extensions.with_copy

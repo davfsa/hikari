@@ -1260,6 +1260,25 @@ class EventFactory(abc.ABC):
         """
 
     @abc.abstractmethod
+    def deserialize_ratelimited_event(
+        self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
+    ) -> shard_events.ShardRateLimitedEvent:
+        """Build a shard rate limited event object.
+
+        Parameters
+        ----------
+        shard
+            The shard that emitted this event.
+        payload
+            The dict payload to parse.
+
+        Returns
+        -------
+        hikari.events.shard_events.ShardRateLimitedEvent
+            The built shard rate limited event object.
+        """
+
+    @abc.abstractmethod
     def deserialize_guild_member_chunk_event(
         self, shard: gateway_shard.GatewayShard, payload: data_binding.JSONObject
     ) -> shard_events.MemberChunkEvent:

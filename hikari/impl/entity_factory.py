@@ -49,6 +49,7 @@ from hikari import monetization as monetization_models
 from hikari import permissions as permission_models
 from hikari import polls as poll_models
 from hikari import presences as presence_models
+from hikari import ratelimited_metadata
 from hikari import scheduled_events as scheduled_events_models
 from hikari import sessions as gateway_models
 from hikari import snowflakes
@@ -4710,4 +4711,21 @@ class EntityFactoryImpl(entity_factory.EntityFactory):
             is_enabled=payload["enabled"],
             exempt_channel_ids=[snowflakes.Snowflake(id_) for id_ in payload["exempt_channels"]],
             exempt_role_ids=[snowflakes.Snowflake(id_) for id_ in payload["exempt_roles"]],
+        )
+
+    #########################
+    # RATE-LIMITED METADATA #
+    #########################
+
+    @typing_extensions.override
+    def deserialize_ratelimited_metadata(
+        self, payload: data_binding.JSONObject, *, opcode: int
+    ) -> ratelimited_metadata.RateLimitedMetadata:
+        if opcode != 8:
+            _LOGGER.debug("Unrecognised ratelimited metadata for opcode %s", opcode)
+            msg = f"Unrecognised ratelimited metadata for opcode {opcode}"
+            raise errors.UnrecognisedEntityError(msg)
+
+        return ratelimited_metadata.RequestGuildMembersRateLimitedMetadata(
+            guild_id=payload["guild_id"], nonce=payload["nonce"]
         )
